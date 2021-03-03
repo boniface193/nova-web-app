@@ -160,8 +160,8 @@ export default {
     items: [
       {
         title: "Inventory",
-        icon: require("../../assets/images/shopping-cart.svg"),
-        icons: false,
+        icon: "mdi-cart",
+        icons: true,
         routes: "/inventory",
       },
       {
@@ -178,8 +178,8 @@ export default {
       },
       {
         title: "Settings",
-        icon: require("../../assets/images/settings.svg"),
-        icons: false,
+        icon: "mdi-cog",
+        icons: true,
         routes: "/settings",
       },
     ],
