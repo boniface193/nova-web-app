@@ -215,8 +215,10 @@ export default {
     validateForm(formNum) {
       this.$refs[`form${formNum}`].validate();
       if (this.$refs[`form${formNum}`].validate()) {
-        if (formNum == 2 && this.acceptTerms) {
-          this.submit();
+        if (formNum == 2) {
+          if(this.acceptTerms){
+             this.submit();
+          }
         } else if (formNum == 1) {
           this.loading1 = true;
           this.$store
