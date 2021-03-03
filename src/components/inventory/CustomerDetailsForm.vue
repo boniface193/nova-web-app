@@ -72,11 +72,10 @@
         <v-text-field
           color="primary"
           placeholder="Street address"
-          v-model="getAddress.address"
+          v-model="address"
           :rules="addressRules"
           ref="autocomplete"
           id="autocomplete"
-         
           @keyup.enter="submitCustomerDetails"
           required
         >
@@ -126,6 +125,7 @@ export default {
       name: "",
       phoneNumber: "",
       email: "",
+      address: "",
       lat: "",
       lng: "",
       validAddress: false,
@@ -145,43 +145,42 @@ export default {
       addressRules: [
         //verifies phone number satisfies the requirement
         (v) => !!v || "Address is required",
-        () => this.validAddress || "Select a valid Address"
+        () => this.validAddress || "Select a valid Address",
       ],
     };
   },
   mounted() {
-    
     this.autocomplete = new window.google.maps.places.Autocomplete(
       document.getElementById("autocomplete"),
       {
         bounds: new window.google.maps.LatLngBounds(
           new window.google.maps.LatLng(6.5244, 3.3792)
         ),
-        types: ['establishment'],
-        componentRestrictions: {'country': ['NG']},
-        fields: ['place_id', 'geometry', 'name']
+        types: ["establishment"],
+        componentRestrictions: { country: ["NG"] },
+        fields: ["place_id", "geometry", "name"],
       }
     );
 
-    this.autocomplete.addListener('place_changed', this.onPlaceChanged);
+    this.autocomplete.addListener("place_changed", this.onPlaceChanged);
   },
   computed: {
-    getAddress(){
+    getAddress() {
       return {
-        address: ""
-      }
-    }
+        address: "",
+      };
+    },
   },
   methods: {
-    onPlaceChanged(){
+    onPlaceChanged() {
       let place = this.autocomplete.getPlace();
-      if(!place.geometry){
+      if (!place.geometry) {
         // User did not select a prediction; reset the input field
         this.validAddress = false;
-      }else {
+      } else {
         //Display details about the valid place
+        this.address = place.name;
         this.validAddress = true;
-        this.getAddress.address = place.name;
         this.lat = place.geometry.location.lat();
         this.lng = place.geometry.location.lng();
       }
@@ -204,7 +203,7 @@ export default {
               email: this.email,
               phone: this.phoneNumber,
               location: {
-                address: this.getAddress.address,
+                address: this.address,
                 lat: this.lat,
                 lng: this.lng,
               },

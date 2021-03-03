@@ -33,6 +33,8 @@
             ><span style="font-weight: 600; color: black"
               >{{ productDetails.quantity }} Available</span
             >
+            <span class="mx-2">|</span>
+            <span><span>Minimum order quantity:</span> 1</span>
           </p>
           <p class="mb-4">
             <span class="primary--text mr-2"
@@ -122,7 +124,7 @@
             </div>
             <p class="mb-5">
               <span class="mr-2" style="font-weight: 600">
-                profit (&#8358;): </span
+                profit (&#8358;) <span class="primary--text" style="font-weight:300">(Inclusive of 7.5% VAT): </span> </span
               ><span class="secondary--text">{{
                 numberWithCommas(computedPrices.yourProfit)
               }}</span>
