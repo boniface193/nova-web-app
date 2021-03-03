@@ -142,8 +142,7 @@
 
        <v-checkbox
         v-model="acceptTerms"
-        label="By clicking continue, you are agreeing to our terms of service and our
-        disclaimer"
+        label="By clicking continue, you are agreeing to our terms of service and privacy policy"
         class="mt-5"
       ></v-checkbox>
 
