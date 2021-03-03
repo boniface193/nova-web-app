@@ -9,7 +9,7 @@
       <div class="mx-7 mt-8 d-flex justify-center">
         <v-row style="position: absolute; width: 90%">
           <!-- current sales -->
-          <v-col cols="12" sm="4" md="" lg="" class="pr-0">
+          <v-col cols="6" sm="4" md="" lg="" class="pr-0">
             <v-card
               v-if="currentLoading"
               class="shadow-sm elevation-0 px-2"
@@ -71,7 +71,7 @@
           <!-- current sale -->
 
           <!-- payment total revenue -->
-          <v-col cols="12" sm="4" md="" lg="" class="pr-0">
+          <v-col cols="6" sm="4" md="" lg="" class="pr-0">
             <v-card
               v-if="payment"
               class="shadow-sm elevation-0 px-2"
@@ -135,7 +135,7 @@
           <!-- payment total Revenue -->
 
           <!-- sale point -->
-          <v-col cols="12" sm="4" md="" lg="" class="pr-0">
+          <v-col cols="6" sm="4" md="" lg="" class="pr-0">
             <v-card
               v-if="sellLoading"
               class="shadow-sm elevation-0 px-2"
@@ -196,7 +196,7 @@
           <!-- end of sale point -->
 
           <!-- sallers rank-->
-          <v-col cols="12" sm="4" md="" lg="" class="pr-0">
+          <v-col cols="6" sm="4" md="" lg="" class="pr-0">
             <v-card
               v-if="rankLoading"
               class="shadow-sm elevation-0 px-2"
