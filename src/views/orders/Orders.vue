@@ -8,7 +8,10 @@
       <!-- search filter -->
       <v-row class="d-flex justify-end">
         <v-col cols="10" lg="5" md="5">
-          <Search placeholder="Order Number or Product Name" @search="getSearchValue" />
+          <Search
+            placeholder="Order Number or Product Name"
+            @search="getSearchValue"
+          />
         </v-col>
         <v-col cols="2" lg="1" md="1" class="px-0">
           <BasicFilter
@@ -37,7 +40,7 @@
       <p class="text-center mt-8">{{ empty }}</p>
       <v-row>
         <v-col sm="4" v-for="orders in ordersItems" :key="orders.id">
-          <v-card outlined class="rounded-lg pa-5 mb-3" width="300">
+          <v-card outlined class="rounded-lg pa-5 mb-3" height="100%">
             <step-progress
               :steps="['Processing', 'Shipped', 'Delivered']"
               :current-step="
@@ -47,7 +50,7 @@
                   : 3
               "
               :line-thickness="lineThickness"
-              active-color="#5064CC"
+              active-color="#029B97"
               :active-thickness="activeThickness"
               :passive-thickness="passiveThickness"
               passive-color="#5E5E5E1A"
@@ -55,7 +58,16 @@
             <v-row class="mt-12">
               <v-col cols="5" class="py-0">
                 <div class="text-center">
+                  <v-progress-circular
+                    v-if="loadImage"
+                    color="primary"
+                    class="text-center"
+                    indeterminate
+                    size="20"
+                    width="2"
+                  ></v-progress-circular>
                   <v-img
+                    v-if="!loadImage"
                     :src="orders.product_image_url"
                     class="image-bgColor"
                     width="100%"
@@ -136,6 +148,7 @@ export default {
   },
   data() {
     return {
+      loadImage: true,
       isLoading: true,
       empty: "",
       deliveryStatus: "",
@@ -170,6 +183,12 @@ export default {
   created() {
     this.$store.dispatch("orders/getOrders").then((e) => {
       this.isLoading = false;
+      e.forEach((i) => {
+        if (i.product_image_url) {
+          this.loadImage = false;
+        }
+      });
+
       if (e.length < 1) {
         this.empty = "No Item Found";
       }
@@ -228,7 +247,10 @@ export default {
 
     // set current page
     setCurentPage() {
-      this.$store.commit("orders/setPageDetails", this.getCurrentPage.currentPage)
+      this.$store.commit(
+        "orders/setPageDetails",
+        this.getCurrentPage.currentPage
+      );
       // this.$store.commit("orders/setPage", this.getCurrentPage.currentPage);
       // this.getOrders === true ? this.getSearchValue() : "";
     },
@@ -251,6 +273,7 @@ export default {
 .image-bgColor {
   background-color: #f3f5ff;
   border-radius: 10px;
+  // height: 80px;
 }
 .order-item-font {
   color: #2b2b2b;
