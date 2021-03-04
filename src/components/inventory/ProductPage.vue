@@ -424,7 +424,7 @@ export default {
   z-index: 3;
   .link {
     background: #f3f5ff;
-    color: #758bfc;
+    color: #029B97;
     text-align: center;
     border-radius: 12px;
     display: flex;
@@ -437,7 +437,7 @@ export default {
     .copy-btn {
       cursor: pointer;
       &:hover {
-        color: #758bfc;
+        color: #03a09b;
       }
     }
     .copy-status {
@@ -453,7 +453,7 @@ export default {
 }
 .add-btn {
   border-radius: 50%;
-  background: #758bfc;
+  background: #029B97;
   width: 25px;
   height: 25px;
   display: flex;
@@ -469,7 +469,7 @@ export default {
   height: 25px;
   display: flex;
   align-items: center;
-  color: #758bfc;
+  color: #029B97;
   justify-content: center;
   cursor: pointer;
 }

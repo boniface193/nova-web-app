@@ -56,7 +56,7 @@ const ifAuthenticated = (to, from, next) => {
   if (store.getters["onboarding/tokenIsPresent"] === true) {
     store.dispatch("onboarding/getUserProfile").then((response) => {
       const profile = response.data.data;
-      if (profile.email_verified) {
+      if (profile.email_verified === true) {
         if (profile.status) {
           store.commit("onboarding/setTokenExpired");
           if (store.getters["onboarding/tokenExpired"] === false) {
@@ -68,9 +68,10 @@ const ifAuthenticated = (to, from, next) => {
           }
         } else {
           store.commit("onboarding/loggedIn", false);
-          next({ name: "SuspensionPage" })
+          next({ name: "SuspensionPage" });
         }
       } else {
+        console.log(666)
         next({
           name: 'Emailverification', params: {
             email: profile.email,
@@ -91,7 +92,8 @@ const ifAuthenticated = (to, from, next) => {
 
 // redirect when a user is already logged in
 const AlreadyLogin = (to, from, next) => {
-  if (localStorage.getItem("accessToken")) {
+  store.commit("onboarding/tokenIsPresent");
+  if (store.getters["onboarding/tokenIsPresent"] === true) {
     next({ name: 'InventoryHome' })
   } else {
     next();

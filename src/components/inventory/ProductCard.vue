@@ -13,20 +13,25 @@
         </div>
       </div>
       <div class="card-bottom">
-        <h5 class="mb-1" style="color: black">{{ product.name }}</h5>
-        <p class="secondary--text mb-2" style="font-size: 11px">
+        <h4 class="mb-0 mb-sm-1 product-name" style="color: black">
+          {{ product.name }}
+        </h4>
+        <p class="secondary--text mb-0 mb-sm-1 total_price">
           &#8358;{{ product.total_price_label }}
         </p>
-        <p class="mb-0 minMaxProfit" style="color: #5064cc">
+        <p
+          class="mb-0 mb-sm-1 minMaxProfit"
+          style="color: #029b97; font-size: 12px"
+        >
           &#8358;{{ product.min_profit_short }} - &#8358;{{
             product.max_profit_short
           }}
         </p>
-        <p class="secondary--text" style="font-size: 10px">
+        <p class="secondary--text mb-3" style="font-size: 10px">
           Recommended profit
         </p>
 
-        <div class="add-btn">+</div>
+        <v-btn class="primary sell-now">Sell</v-btn>
       </div>
       <p class="points">{{ product.points }}pts</p>
     </router-link>
@@ -40,17 +45,17 @@ export default {
 </script>
 <style lang="scss" scoped>
 .card-container {
-  min-width: 18%;
-  min-height: 255px;
+  min-width: 200px;
+  min-height: 340px;
   position: relative;
-  margin: auto 1%;
+  margin: auto 5px;
   cursor: pointer;
   &:hover {
-    transform: scale(1.05);
+    transform: scale(1.02);
   }
   .card-top {
-    width: 80%;
-    height: 143px;
+    width: 85%;
+    height: 190px;
     background: #f3f5ff;
     border-radius: 12px;
     z-index: 2;
@@ -63,43 +68,35 @@ export default {
     align-items: center;
     .image-container {
       width: 100%;
-      height: 110px;
+      height: 130px;
       margin: auto;
       text-align: center;
       img {
-        width: 80%;
+        width: 85%;
         height: 100%;
       }
     }
   }
   .card-bottom {
     width: 100%;
-    height: 180px;
-    padding: 80px 12px 12px 12px;
+    height: 250px;
+    padding: 110px 7.5% 12px 7.5%;
     bottom: 0;
     background: #fff;
     border-radius: 12px;
-    margin: -50px auto 0px auto;
+    margin: 0px auto 0px auto;
     position: absolute;
     z-index: 1;
     box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
-    .add-btn {
-      width: 35px;
-      height: 35px;
-      display: flex;
-      align-items: center;
-      border-radius: 50%;
-      background: #5064cc;
-      position: absolute;
-      justify-content: center;
-      right: 10px;
-      bottom: 25px;
-      font-size: 25px;
-      color: #fff;
-      cursor: pointer;
-      &:hover {
-        background: #758bfc;
-      }
+    .v-btn:not(.v-btn--round).v-size--default {
+      height: 25px;
+      min-width: 100%;
+      padding: 0 16px;
+    }
+    .product-name {
+      height: 22px;
+      overflow-y: hidden;
+      word-break: break-all;
     }
   }
   .points {
@@ -114,41 +111,31 @@ export default {
     border-radius: 8px;
   }
 }
-@media (max-width: 1150px) {
+@media (max-width: 650px) {
   .card-container {
-    min-width: 22.5%;
-    margin: auto 1%;
-  }
-}
-@media (max-width: 750px) {
-  .card-container {
-    min-width: 30%;
-    margin: auto 1.5%;
+    min-width: 48.4%;
+    margin: auto 0.8%;
+    min-height: 240px;
     &:hover {
       transform: scale(1);
     }
-  }
-}
-@media (max-width: 550px) {
-  .card-container {
-    min-width: 48%;
-    margin: auto 1%;
     .card-top {
+      height: 150px;
       .image-container {
+        height: 120px;
         img {
           width: 85%;
         }
       }
     }
     .card-bottom {
-      .add-btn {
-        right: 5px;
-        bottom: 30px;
-        width: 30px;
-        height: 30px;
+      padding-top: 95px;
+      height: 180px;
+      .product-name {
+        font-size: 12px;
       }
-      .minMaxProfit {
-        font-size: 14px;
+      .sell-now {
+        display: none !important;
       }
     }
   }

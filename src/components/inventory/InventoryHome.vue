@@ -1,18 +1,18 @@
 <template>
-  <div class="px-4 px-md-10">
+  <div class="px-2 px-md-7">
     <div class="d-flex align-center" style="justify-content: flex-end">
       <div class="search-container">
         <SearchProduct />
       </div>
 
-      <FilterProducts />
+      <FilterProducts class="ml-1"/>
     </div>
     <CategoryList class="mt-6" />
 
-    <div class="pt-12 pb-5" v-show="products.length !== 0 && !inventoryLoader">
-      <div class="products-container">
+    <div class="pt-12 pb-5 products-container" v-show="products.length !== 0 && !inventoryLoader">
+      <div class="d-flex flex-wrap">
         <ProductCard
-          class="mb-7"
+          class="mb-5"
           v-for="product in products"
           :key="product.id"
           :product="product"
@@ -205,8 +205,8 @@ export default {
 </script>
 <style lang="scss" scoped>
 .products-container {
-  display: flex;
-  flex-wrap: wrap;
+  width: 1050px;
+  margin: auto;
 }
 .search-container {
   width: 400px;
@@ -214,6 +214,26 @@ export default {
 .status-img {
   width: 140px;
   .v-image {
+    width: 100%;
+  }
+}
+@media (max-width: 1300px) {
+  .products-container {
+    width: 840px;
+  }
+}
+@media (max-width: 860px) {
+  .products-container {
+    width: 630px;
+  }
+}
+@media (max-width: 650px) {
+  .products-container {
+    width: 400px;
+  }
+}
+@media (max-width: 410px) {
+  .products-container {
     width: 100%;
   }
 }

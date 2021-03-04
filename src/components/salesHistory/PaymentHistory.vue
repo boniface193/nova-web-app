@@ -18,7 +18,7 @@
       <div class="pt-10 pb-5" v-show="!fetchingData">
         <div class="">
           <v-row>
-            <v-col sm="4" md="6" v-for="item in settlementList" :key="item.id">
+            <v-col sm="4" md="6" v-for="item in paymentHistory" :key="item.id">
               <v-card outlined class="rounded-lg py-3">
                 <v-row>
                   <v-col cols="5">
@@ -72,7 +72,7 @@
         </div>
         <div
           class="text-center"
-          v-show="settlementList.length == 0 && !fetchingData"
+          v-show="paymentHistory.length == 0 && !fetchingData"
         >
           <p>No Payment History Available</p>
         </div>
@@ -115,7 +115,7 @@ export default {
   data: function () {
     return {
       fetchingData: false,
-      settlementList: [],
+      paymentHistory: [],
       dialog: false,
       dialogMessage: "",
       statusImage: null,
@@ -125,24 +125,24 @@ export default {
     this.fetchingData = true;
     if (this.$store.getters["settings/profile"].name === "") {
       this.$store.dispatch("settings/getUserProfile").then(() => {
-        this.getSettlementHistory();
+        this.getPaymentHistory();
       });
     } else {
-      this.getSettlementHistory();
+      this.getPaymentHistory();
     }
   },
   methods: {
-    getSettlementHistory() {
+    getPaymentHistory() {
       let sellerId = this.$store.getters["settings/profile"].id;
       axios
-        .get(`${sellerId}/settlements`, {
+        .get(`payouts/${sellerId}/history`, {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
           },
         })
         .then((response) => {
           this.fetchingData = false;
-          this.settlementList = response.data.data;
+          this.paymentHistory = response.data.data;
         })
         .catch((error) => {
           this.fetchingData = false;

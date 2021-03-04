@@ -25,7 +25,7 @@
         v-model="email"
         :rules="emailRules"
         type="email"
-        label="Email or Phone number"
+        label="Email"
         color="primary"
         required
         @keyup.enter="validateEmail()"

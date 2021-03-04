@@ -13,7 +13,7 @@
       <a
         :href="
           '//' +
-          `api.whatsapp.com/send?text=''&phone=${pageDetails.orderDetails.customer.phone}`
+          `api.whatsapp.com/send?text=Hello my name is ${pageDetails.orderDetails.customer.name}, I would like to find out more about your product&phone=${pageDetails.orderDetails.customer.phone}`
         "
         target="_blank"
         style="text-decoration: none"
@@ -48,17 +48,18 @@
       </p>
     </div>
     <div class="btn-container">
+       <v-checkbox
+        v-model="acceptTerms"
+        label="By clicking continue, you are agreeing to our terms of service and our
+        disclaimer"
+        class="mt-7"
+      ></v-checkbox>
       <v-btn
-        class="primary mt-7 mb-3"
+        class="primary mb-3"
         @click="gotoDeliveryPage"
         :disabled="!acceptTerms"
         >Continue</v-btn
       >
-      <v-checkbox
-        v-model="acceptTerms"
-        label="By clicking continue, you are agreeing to our terms of service and our
-        disclaimer"
-      ></v-checkbox>
     </div>
   </div>
 </template>
@@ -125,7 +126,7 @@ export default {
 }
 .add-btn {
   border-radius: 50%;
-  background: #758bfc;
+  background: #029B97;
   width: 25px;
   height: 25px;
   display: flex;
@@ -141,7 +142,7 @@ export default {
   height: 25px;
   display: flex;
   align-items: center;
-  color: #758bfc;
+  color: #029B97;
   justify-content: center;
   cursor: pointer;
 }

@@ -44,7 +44,6 @@ export default new Vuex.Store({
       Object.keys(state).forEach(key => {
         Object.assign(state[key], copyState[key]);
       })
-      console.log(state)
     }
   }
 });

@@ -19,7 +19,7 @@
         v-model="email"
         :rules="emailRules"
         type="email"
-        label="Email or phoneNumber"
+        label="Email"
         color="primary"
         required
         @keyup.enter="$refs.input2.focus"
@@ -112,7 +112,7 @@ export default {
         })
         .then((response) => {
           if (response.data.message === "Login successful.") {
-            this.$router.push({ name: "InventoryHome" });
+            this.$router.push({ path: "/inventory" });
           }
         })
         .catch((error) => {

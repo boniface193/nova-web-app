@@ -56,15 +56,15 @@ z-index: -0.8;
 //   content: none;
 // }
 .progressbar li.active{
-    color: #5064CC;
+    color: #029B97;
 
 }
 .progressbar li.active::before{
-    border-color: #5064CC;
-    background-color: #5064CC;
+    border-color: #029B97;
+    background-color: #029B97;
 }
 .progressbar li.active + li::after{
-    background-color: #5064CC;
+    background-color: #029B97;
 }
 // .progressbar li.active + li::before{
 //     border-color: #5064CC;
