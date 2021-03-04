@@ -11,7 +11,12 @@
       <v-row>
         <v-col offset-lg="3" offset-md="3" offset-sm="3">
           <!-- card -->
-          <div class="center" v-for="items in rewards.data" :key="items.id" v-show="showing">
+          <div
+            class="center"
+            v-for="items in rewards.data"
+            :key="items.id"
+            v-show="showing"
+          >
             <div class="overlay pa-8">
               <div class="card-title text-left">Reward Debit Balance</div>
               <div class="card-point mt-7 text-left">
@@ -198,8 +203,12 @@
               >
             </div>
           </div>
+        </v-card>
+      </Modal>
 
-          <div v-if="alert" class="pt-9 px-8 text-center">
+      <Modal :dialog="Showdialog" width="300">
+        <v-card class="rounded-lg">
+          <div v-show="successful == true" class="pt-9 px-8 text-center">
             <span class="mt-8 body-text">
               {{ alert }}
             </span>
@@ -209,7 +218,7 @@
                 class="mx-3"
                 dark
                 color="primary"
-                @click.native="closeModal"
+                @click.native="closeNredirect"
                 >Ok</v-btn
               >
             </div>
@@ -232,10 +241,12 @@ export default {
     return {
       tab: null,
       dialog: false,
+      Showdialog: false,
       filteredArray: {},
       rewardHistory: {},
       isLoading: true,
       alert: "",
+      successful: false,
       image: true,
       showing: false,
     };
@@ -251,7 +262,7 @@ export default {
       this.rewardHistory = e;
       this.isLoading = false;
     });
-    this.setimeout()
+    this.setimeout();
   },
 
   methods: {
@@ -273,25 +284,27 @@ export default {
         .dispatch("reward/redeemReward")
         .then((res) => {
           this.alert = res.message;
+          this.successful = true;
+          this.Showdialog = true;
           // redirect to dashboard
-          location.href = "/dashboard";
+          // location.href = "/dashboard";
         })
         .catch((err) => {
           this.alert = err.message;
-          location.href = "/dashboard";
         });
-      this.closeModal();
     },
     onLoad() {
       this.isLoading ? (this.isLoading = false) : (this.isLoading = true);
     },
 
-    setimeout(){
+    setimeout() {
       setTimeout(() => {
-        this.showing = true
-      }, 2000)
+        this.showing = true;
+      }, 2000);
+    },
+    closeNredirect(){
+      location.href = "/dashboard";
     }
-
   },
 };
 </script>

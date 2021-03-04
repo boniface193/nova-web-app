@@ -133,7 +133,6 @@ const actions = {
                 }
             }).then((response) => {
                 context.commit('setDashboard', response.data.data)
-                console.log(response.data.data)
                 resolve(response.data.data)
             })
                 .catch((error) => {
@@ -150,7 +149,6 @@ const mutations = {
     filterRange(state, dateRange) {
         state.dateRange = dateRange
     },
-    // setUserRef: (state, data) => state.profile = data
 
 
 };

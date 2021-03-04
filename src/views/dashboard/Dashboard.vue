@@ -309,7 +309,6 @@ export default {
       this.sellLoading = false;
     })
     .catch((error) => {
-      console.log("errors", error)
       if (error.status === 401 || error.status === 403) {
             localStorage.removeItem("accessToken");
             window.location.href = "/signin";
@@ -326,7 +325,6 @@ export default {
       this.rankLoading = false;
     })
         .catch((error) => {
-      console.log("errors", error)
       if (error.status === 401 || error.status === 403) {
             localStorage.removeItem("accessToken");
             window.location.href = "/signin";
@@ -343,7 +341,6 @@ export default {
       this.currentLoading = false;
     })
         .catch((error) => {
-      console.log("errors", error)
       if (error.status === 401 || error.status === 403) {
             localStorage.removeItem("accessToken");
             window.location.href = "/signin";
@@ -355,7 +352,6 @@ export default {
         this.$store
           .dispatch("dashboard/getTotalRevenue", { id: this.userInfo.id })
           .then((res) => {
-            console.log("payment if", res);
             this.totalRevenue = res.total_revenue;
             this.settled = res.settled;
             this.awaitingSettlement = res.awaiting_settlement;
@@ -367,7 +363,6 @@ export default {
       this.$store
         .dispatch("dashboard/getTotalRevenue", { id: this.userInfo.id })
         .then((res) => {
-          console.log("payment else", res);
           this.totalRevenue = res.total_revenue;
           this.settled = res.settled;
           this.awaitingSettlement = res.awaiting_settlement;
