@@ -1,13 +1,13 @@
 <template>
-  <div>
+  <div style="margin-top:-40px">
     <div class="primary pb-12 py-12">
-      <div class="mx-7">
+      <div class="px-2 px-md-7">
         <Calender class="float-right" autoApply @updateDate="dateValue" />
         <div class="welcome-text">Hello,</div>
         <div class="welcome-text-sm">{{ userInfo.name }}</div>
       </div>
       <div class="mx-7 mt-8 d-flex justify-center">
-        <v-row style="position: absolute; width: 90%">
+        <v-row class="row-properties">
           <!-- current sales -->
           <v-col cols="6" sm="4" md="" lg="" class="pr-0">
             <v-card
@@ -401,6 +401,15 @@ export default {
   letter-spacing: 0.8px;
   font-size: 16px;
   color: #ffffff;
+}
+.row-properties{
+  position: absolute;
+  width: 70%
+}
+@media (max-width:500px){
+  .row-properties{
+    width: 85%;
+  }
 }
 .round-img-bg-danger {
   background: #ffecec 0% 0% no-repeat padding-box;

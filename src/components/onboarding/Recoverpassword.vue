@@ -2,7 +2,9 @@
   <div class="recoverpassword-container">
     <!-- app logo -->
     <router-link to="/" class="d-flex dark--text app-logo">
-      N<v-img src="@/assets/images/fire.svg" max-width="35"></v-img>VA
+      <div class="nova-logo d-flex align-center justify-center mx-auto my-5">
+        <img src="@/assets/images/primary-logo.png" />
+      </div>
     </router-link>
 
     <h3>Reset password</h3>
@@ -98,9 +100,7 @@ export default {
         //verifies password satisfies the requirement
         (v) => !!v || "Password is required",
         (v) =>
-          /^(?=.*[A-Za-z])(?=.*\d).{8,}$/.test(
-            v
-          ) ||
+          /^(?=.*[A-Za-z])(?=.*\d).{8,}$/.test(v) ||
           "Password must contain a minimum of 8 character, at least one uppercase, one lowercase, one number",
       ],
       confirmPasswordRules: [
@@ -126,7 +126,7 @@ export default {
           password: this.createPassword,
           password_confirmation: this.confirmPassword,
           otp: this.$route.params.otp,
-          type: "seller"
+          type: "seller",
         })
         .then((response) => {
           this.loading = false;
@@ -161,14 +161,11 @@ export default {
 .recoverpassword-container {
   width: 100%;
   text-align: center;
-  .app-logo {
-    font-size: 40px;
-    font-weight: bold;
-    color: #000000;
-    align-items: baseline;
-    text-decoration: none;
+  .nova-logo {
     width: 120px;
-    margin: 20px auto;
+    img {
+      width: 100%;
+    }
   }
   .form-container {
     width: 90%;

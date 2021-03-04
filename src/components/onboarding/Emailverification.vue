@@ -8,8 +8,12 @@
 
       <div class="description">
         <!-- app logo -->
-        <router-link to="/" class="d-flex dark--text app-logo">
-          N<v-img src="@/assets/images/fire.svg" max-width="35"></v-img>VA
+        <router-link to="/" class="d-flex dark--text">
+          <div
+            class="nova-logo d-flex align-center justify-center mx-auto my-5"
+          >
+            <img src="@/assets/images/primary-logo.png" />
+          </div>
         </router-link>
 
         <h3 class="my-5">Verify your Email Address</h3>
@@ -127,7 +131,7 @@ export default {
           .dispatch("onboarding/verifyEmail", {
             otp: this.code,
             email: this.$route.params.email,
-            type: "seller"
+            type: "seller",
           })
           .then((response) => {
             this.loading = false;
@@ -162,7 +166,7 @@ export default {
       this.$store
         .dispatch("onboarding/resendEmailOTP", {
           email: this.$route.params.email,
-          type: "seller"
+          type: "seller",
         })
         .then((response) => {
           if (response.data.message === "An OTP has been sent to your email.") {
@@ -210,14 +214,11 @@ export default {
     width: 90%;
     margin: auto;
   }
-  .app-logo {
-    font-size: 40px;
-    font-weight: bold;
-    color: #000000;
-    align-items: baseline;
-    text-decoration: none;
+  .nova-logo {
     width: 120px;
-    margin: 20px auto;
+    img {
+      width: 100%;
+    }
   }
   .form-container {
     width: 90%;

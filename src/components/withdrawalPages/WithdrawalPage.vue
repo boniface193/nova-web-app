@@ -1,5 +1,5 @@
 <template>
-  <div class="pt-10">
+  <div class="pt-10 px-2 px-md-7">
     <div v-show="!pageLoader">
       <router-view :accountDetails="accountDetails" />
     </div>

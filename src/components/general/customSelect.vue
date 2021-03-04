@@ -139,6 +139,7 @@ export default {
       padding: 12px 0px;
       border-top-left-radius: 10px;
       border-top-right-radius: 10px;
+      width: 100% !important;
     }
     .search-bar {
       width: 90%;

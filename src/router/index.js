@@ -30,7 +30,7 @@ import ProfilePage from "@/components/settings/ProfilePage.vue";
 import Profile from "@/components/settings/Profile.vue";
 import Privacy from '@/components/settings/Privacy.vue';
 // withdrawal 
-import WithdrawalPage from "@/views/dashboard/WithdrawalPage.vue";
+import WithdrawalPage from "@/components/withdrawalPages/WithdrawalPage.vue";
 import WithdrawFund from "@/components/withdrawalPages/WithdrawFund.vue";
 import AddBankDetails from "@/components/withdrawalPages/AddBankDetails.vue";
 import EditBankDetails from '@/components/withdrawalPages/EditBankDetails.vue';

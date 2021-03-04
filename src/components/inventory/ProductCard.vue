@@ -32,6 +32,7 @@
         </p>
 
         <v-btn class="primary sell-now">Sell</v-btn>
+        <span class="primary sell-now-secondary">Sell</span>
       </div>
       <p class="points">{{ product.points }}pts</p>
     </router-link>
@@ -93,6 +94,9 @@ export default {
       min-width: 100%;
       padding: 0 16px;
     }
+    .sell-now-secondary {
+      display: none;
+    }
     .product-name {
       height: 22px;
       overflow-y: hidden;
@@ -133,6 +137,21 @@ export default {
       height: 180px;
       .product-name {
         font-size: 12px;
+      }
+      .sell-now-secondary {
+        display: block;
+        position: absolute;
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        color: white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 12px;
+        position: absolute;
+        bottom: 25px;
+        right: 15px;
       }
       .sell-now {
         display: none !important;
