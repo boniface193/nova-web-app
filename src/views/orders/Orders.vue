@@ -273,7 +273,6 @@ export default {
 .image-bgColor {
   background-color: #f3f5ff;
   border-radius: 10px;
-  // height: 80px;
 }
 .order-item-font {
   color: #2b2b2b;
