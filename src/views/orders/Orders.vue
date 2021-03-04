@@ -37,7 +37,7 @@
       <p class="text-center mt-8">{{ empty }}</p>
       <v-row>
         <v-col sm="4" v-for="orders in ordersItems" :key="orders.id">
-          <v-card outlined class="rounded-lg pa-5 mb-3">
+          <v-card outlined class="rounded-lg pa-5 mb-3" width="300">
             <step-progress
               :steps="['Processing', 'Shipped', 'Delivered']"
               :current-step="

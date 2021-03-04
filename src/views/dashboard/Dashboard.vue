@@ -170,7 +170,7 @@
                     class="rounded-pill pa-7 text-center round-img-bg-primary"
                   ></div>
                 </div>
-                <div class="card-header">₦{{ cSales }}</div>
+                <div class="card-header">{{ cSales }}</div>
                 <div class="card-sale">Sales Points</div>
                 <div
                   class="card-success"
@@ -231,7 +231,7 @@
                     class="rounded-pill pa-7 text-center round-img-bg-warning"
                   ></div>
                 </div>
-                <div class="card-header">₦{{ pRank }}</div>
+                <div class="card-header">{{ pRank }}</div>
                 <div class="card-sale">on leaderboard</div>
                 <div
                   class="card-success"
@@ -307,6 +307,13 @@ export default {
       this.cSales = resObj.curentSale;
       this.diffSales = resObj.difference;
       this.sellLoading = false;
+    })
+    .catch((error) => {
+      console.log("errors", error)
+      if (error.status === 401 || error.status === 403) {
+            localStorage.removeItem("accessToken");
+            window.location.href = "/signin";
+          }
     });
 
     this.$store.dispatch("dashboard/getSellerRank").then((res) => {
@@ -317,7 +324,14 @@ export default {
       this.pRank = resObj.curentSale;
       this.diffRank = resObj.difference;
       this.rankLoading = false;
-    });
+    })
+        .catch((error) => {
+      console.log("errors", error)
+      if (error.status === 401 || error.status === 403) {
+            localStorage.removeItem("accessToken");
+            window.location.href = "/signin";
+          }
+    });;
 
     this.$store.dispatch("dashboard/getSellerTotalSale").then((res) => {
       let resObj = {
@@ -327,7 +341,15 @@ export default {
       this.curentSale = resObj.difference;
       this.diffCurrentSales = resObj.curentSale;
       this.currentLoading = false;
-    });
+    })
+        .catch((error) => {
+      console.log("errors", error)
+      if (error.status === 401 || error.status === 403) {
+            localStorage.removeItem("accessToken");
+            window.location.href = "/signin";
+          }
+    });;
+
     if (this.userInfo.id === "") {
       this.$store.dispatch("settings/getUserProfile").then(() => {
         this.$store
@@ -354,6 +376,7 @@ export default {
         });
     }
   },
+
   methods: {
     dateValue(value) {
       this.$store.commit("dashboard/filterRange", {
@@ -363,7 +386,7 @@ export default {
       this.$store.dispatch("dashboard/searchSellerPoint");
       this.$store.dispatch("dashboard/searchSellerRank");
       this.$store.dispatch("dashboard/searchSellerTotalSales");
-      this.$store.dispatch("dashboard/getTotalRevenue");
+      this.$store.dispatch("dashboard/getTotalRevenue", { id: this.userInfo.id });
     },
   },
 };
