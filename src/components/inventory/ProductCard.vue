@@ -13,11 +13,16 @@
         </div>
       </div>
       <div class="card-bottom">
-        <h4 class="mb-0  mb-sm-1 product-name" style="color: black">{{ product.name }}</h4>
+        <h4 class="mb-0 mb-sm-1 product-name" style="color: black">
+          {{ product.name }}
+        </h4>
         <p class="secondary--text mb-0 mb-sm-1 total_price">
           &#8358;{{ product.total_price_label }}
         </p>
-        <p class="mb-0  mb-sm-1 minMaxProfit" style="color: #029b97; font-size: 12px">
+        <p
+          class="mb-0 mb-sm-1 minMaxProfit"
+          style="color: #029b97; font-size: 12px"
+        >
           &#8358;{{ product.min_profit_short }} - &#8358;{{
             product.max_profit_short
           }}
@@ -26,7 +31,7 @@
           Recommended profit
         </p>
 
-        <v-btn class="primary sell-now">Sell now</v-btn>
+        <v-btn class="primary sell-now">Sell</v-btn>
       </div>
       <p class="points">{{ product.points }}pts</p>
     </router-link>
@@ -88,6 +93,11 @@ export default {
       min-width: 100%;
       padding: 0 16px;
     }
+    .product-name {
+      height: 22px;
+      overflow-y: hidden;
+      word-break: break-all;
+    }
   }
   .points {
     background: #ffba00;
@@ -106,7 +116,7 @@ export default {
     min-width: 48.4%;
     margin: auto 0.8%;
     min-height: 240px;
-     &:hover {
+    &:hover {
       transform: scale(1);
     }
     .card-top {
@@ -121,10 +131,10 @@ export default {
     .card-bottom {
       padding-top: 95px;
       height: 180px;
-      .product-name{
+      .product-name {
         font-size: 12px;
       }
-      .sell-now{
+      .sell-now {
         display: none !important;
       }
     }
