@@ -29,7 +29,7 @@ const actions = {
             })
                 .catch((error) => {
                     context.commit('error', error)
-                    reject(error)
+                    reject(error.response)
                 })
         })
     },
@@ -47,7 +47,7 @@ const actions = {
                 resolve(response.data.data)
             }).catch((error) => {
                 context.commit('error', error)
-                reject(error)
+                reject(error.response)
             })
         })
     },
@@ -64,7 +64,7 @@ const actions = {
             })
                 .catch((error) => {
                     context.commit('error', error)
-                    reject(error)
+                    reject(error.response)
                 })
         })
     },
@@ -83,7 +83,7 @@ const actions = {
                 resolve(response.data.data)
             }).catch((error) => {
                 context.commit('error', error)
-                reject(error)
+                reject(error.response)
             })
         })
     },
@@ -100,7 +100,7 @@ const actions = {
             })
                 .catch((error) => {
                     context.commit('error', error)
-                    reject(error)
+                    reject(error.response)
                 })
         })
     },
@@ -118,7 +118,7 @@ const actions = {
                 resolve(response.data.data)
             }).catch((error) => {
                 context.commit('error', error)
-                reject(error)
+                reject(error.response)
             })
         })
     },
@@ -138,7 +138,7 @@ const actions = {
             })
                 .catch((error) => {
                     context.commit('error', error)
-                    reject(error)
+                    reject(error.response)
                 })
         })
     },
