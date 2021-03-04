@@ -242,7 +242,7 @@ div.step-progress__step span {
 
 .position-abs {
   position: absolute !important;
-  color: #5064cc;
+  color: #029B97;
   font-size: 20px !important;
   opacity: 0.5;
 }

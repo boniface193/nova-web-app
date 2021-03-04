@@ -68,7 +68,7 @@
       </div>
       <!-- Address field -->
       <div class="mb-5 input-field">
-        <p class="mb-1">Address*</p>
+        <p class="mb-1">Address* <span class="primary--text">(Delivery location in lagos)</span></p>
         <v-text-field
           color="primary"
           placeholder="Street address"

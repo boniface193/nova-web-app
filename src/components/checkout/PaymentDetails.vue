@@ -2,11 +2,11 @@
   <div>
     <div class="payment-page pb-8 px-8">
       <div class="d-flex align-baseline justify-space-between">
-        <h2>Address Details</h2>
+        <h3>Address Details</h3>
         <!-- change address -->
         <p
           class="primary--text"
-          style="font-size: 14px; cursor: Pointer"
+          style="font-size: 12px; cursor: Pointer"
           @click="openEditAddressModal"
         >
           Change Address
@@ -27,7 +27,7 @@
           <v-radio-group v-model="radioGroup" class="mt-1">
             <v-radio
               class="primary--text mb-0"
-              :label="`Express Delivery (₦${pageDetails.orderDetails.delivery_fee_label})`"
+              :label="`Express Delivery (₦${deliveryFee})`"
               value="express"
             ></v-radio>
             <span class="ml-8 mb-4 primary--text"
@@ -68,12 +68,12 @@
           </div> -->
           <div class="d-flex align-center justify-space-between mb-2">
             <p class="secondary--text mb-0">Shipping fee</p>
-            <h4>&#8358;{{ pageDetails.orderDetails.delivery_fee_label }}</h4>
+            <h4>&#8358;{{ deliveryFee }}</h4>
           </div>
           <div class="d-flex align-center justify-space-between mb-2 mt-2">
             <h3 class="mb-0">Total</h3>
             <h3 class="primary--text">
-              &#8358;{{ pageDetails.orderDetails.total_price_label }}
+              &#8358;{{ totalPrice }}
             </h3>
           </div>
           <!-- payment btn -->
@@ -125,7 +125,7 @@
             <v-text-field
               color="primary"
               placeholder="Street address"
-              v-model="getAddress.address"
+              v-model="address"
               :rules="addressRules"
               ref="autocomplete"
               id="autocomplete"
@@ -166,6 +166,8 @@ export default {
       processingLoader: false,
       editLoader: false,
       deliveryLocation: this.orderDetails.delivery_location.address,
+      deliveryFee: this.orderDetails.delivery_fee_label,
+      totalPrice: this.orderDetails.total_price_label,
       paymentDetails: {
         amount: "",
         customer: {
@@ -176,6 +178,7 @@ export default {
       },
       lat: "",
       lng: "",
+      address: "",
       validAddress: false,
       autocomplete: "",
       addressRules: [
@@ -222,11 +225,6 @@ export default {
       return {
         productDetails: this.productDetails,
         orderDetails: this.orderDetails,
-      };
-    },
-    getAddress() {
-      return {
-        address: "",
       };
     },
   },
@@ -306,7 +304,7 @@ export default {
           .dispatch("orders/editOrderAddress", {
             customer: {
               location: {
-                address: this.getAddress.address,
+                address: this.address,
                 lat: this.lat,
                 lng: this.lng,
               },
@@ -316,7 +314,9 @@ export default {
           .then((response) => {
             this.editLoader = false;
             this.editAddressDialog = false;
-            this.deliveryLocation = response.data.data.delivery_location.address
+            this.deliveryLocation = response.data.data.delivery_location.address;
+            this.deliveryFee = response.data.data.delivery_fee_label;
+            this.totalPrice = response.data.data.total_price_label
           })
           .catch((error) => {
             this.dialog = true;
@@ -338,7 +338,7 @@ export default {
       } else {
         //Display details about the valid place
         this.validAddress = true;
-        this.getAddress.address = place.name;
+        this.address = place.name;
         this.lat = place.geometry.location.lat();
         this.lng = place.geometry.location.lng();
       }
@@ -361,7 +361,7 @@ export default {
   padding: 8px 0px;
   cursor: pointer;
   color: white;
-  background: #5064cc;
+  background: #029B97;
   border-radius: 5px;
   margin-top: 20px;
   display: none;

@@ -19,7 +19,7 @@
         v-model="email"
         :rules="emailRules"
         type="email"
-        label="Email or phoneNumber"
+        label="Email"
         color="primary"
         required
         @keyup.enter="$refs.input2.focus"

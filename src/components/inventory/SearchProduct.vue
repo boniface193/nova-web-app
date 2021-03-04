@@ -2,7 +2,7 @@
   <div>
     <SearchBar
       placeholder="Search Inventory"
-      bgColor="#F3F5FF"
+      bgColor="#DDF8F7"
       borderColor="transparent"
       @search="setSearchValue"
     />

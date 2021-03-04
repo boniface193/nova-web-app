@@ -333,7 +333,7 @@ export default {
     bottom: 25px;
     right: 0;
     cursor: pointer;
-    color: #5064cc;
+    color: #029B97;
     background: white;
     padding: 5px 0px 0px 5px;
   }

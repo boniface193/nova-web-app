@@ -30,7 +30,7 @@
             <customSelect
               width="100%"
               height="57px"
-              caretColor="#5064cc"
+              caretColor="#029B97"
               placeholder="Select bank"
               :searchBar="true"
               :items="bankList"

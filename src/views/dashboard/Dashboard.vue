@@ -57,7 +57,7 @@
                 </div>
                 <div class="card-history my-2">
                   <router-link
-                    :to="{ name: 'reward' }"
+                    :to="{ name: 'SettlementHistory' }"
                     style="text-decoration: none"
                   >
                     Settlement history<v-icon size="12" class="primary--text"
@@ -182,7 +182,7 @@
                 </div>
                 <div class="card-history my-2">
                   <router-link
-                    :to="{ name: 'SettlementHistory' }"
+                    :to="{ name: 'reward' }"
                     style="text-decoration: none"
                   >
                     Claim reward<v-icon size="12" class="primary--text"
