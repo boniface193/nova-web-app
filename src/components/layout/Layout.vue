@@ -83,7 +83,7 @@
         v-model="drawer"
       >
         <v-container class="mx-5 my-10 d-flex">
-          <div class="d-flex nova-logo">
+          <div class="d-flex nova-logo align-center">
             N<span
               ><v-img
                 src="@/assets/images/fire.svg"
@@ -106,11 +106,11 @@
               link
               router
               :to="item.routes"
+              :class="{ activeColor: $route.path === item.routes }"
             >
               <v-list-item-content class="mx-5">
                 <v-list-item-title
                   class="text-size-md"
-                  :class="{ activeColor: item.routes }"
                 >
                   <v-img
                     v-if="!item.icons"
@@ -234,6 +234,9 @@ export default {
 .v-list-item--link::before {
   background-color: transparent;
   z-index: 1;
+}
+.activeColor {
+  background: #DDEFEF !important;
 }
 
 .text-size-md {
