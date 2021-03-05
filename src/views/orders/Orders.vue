@@ -6,26 +6,31 @@
         <span class="font-weight-bold">{{ ordersItems.length }}</span> orders.
       </p>
       <!-- search filter -->
-      <v-row class="d-flex justify-end">
-        <v-col cols="10" lg="5" md="5">
-          <Search placeholder="Order Number or Product Name" @search="getSearchValue" />
-        </v-col>
-        <v-col cols="2" lg="1" md="1" class="px-0">
-          <BasicFilter
-            :price="filterParameters.price"
-            toolTipText="Filter products"
-            headerName="Filter Orders"
-            @filterOption="filterTable"
-            @resetFilter="resetFilter"
+      <div class="d-flex align-center" style="justify-content: flex-end">
+        <div class="search-container">
+          <Search
+            placeholder="Order Number or Product Name"
+            bgColor="#DDF8F7"
+            borderColor="transparent"
+            @search="getSearchValue"
           />
-        </v-col>
-      </v-row>
+        </div>
+
+        <BasicFilter
+          :price="filterParameters.price"
+          toolTipText="Filter products"
+          headerName="Filter Orders"
+          @filterOption="filterTable"
+          @resetFilter="resetFilter"
+          class="ml-1"
+        />
+      </div>
 
       <!-- card item -->
       <div v-if="isLoading" class="text-center my-8">
         <!-- this image time loader is calculated by the loader to triger the load time -->
         <v-progress-circular
-          color="primary"
+          color="#029B97"
           class="text-center"
           indeterminate
           size="20"
@@ -47,7 +52,7 @@
                   : 3
               "
               :line-thickness="lineThickness"
-              active-color="#5064CC"
+              active-color="#FFA500"
               :active-thickness="activeThickness"
               :passive-thickness="passiveThickness"
               passive-color="#5E5E5E1A"
@@ -228,7 +233,10 @@ export default {
 
     // set current page
     setCurentPage() {
-      this.$store.commit("orders/setPageDetails", this.getCurrentPage.currentPage)
+      this.$store.commit(
+        "orders/setPageDetails",
+        this.getCurrentPage.currentPage
+      );
       // this.$store.commit("orders/setPage", this.getCurrentPage.currentPage);
       // this.getOrders === true ? this.getSearchValue() : "";
     },
@@ -258,7 +266,7 @@ export default {
   font-size: 12px;
 }
 .order-no-blue {
-  color: #5064cc;
+  color: #029B97;
   font-size: 11px;
   font-family: "Product Sans Bold" !important;
 }
@@ -313,9 +321,17 @@ div.step-progress__step span {
 
 .position-abs {
   position: absolute !important;
-  color: #5064cc;
+  color: #029B97;
   font-size: 20px !important;
   opacity: 0.5;
+}
+.search-container {
+  width: 400px;
+}
+@media (max-width: 500px) {
+  .search-container {
+    width: -webkit-fill-available;
+  }
 }
 </style>
 

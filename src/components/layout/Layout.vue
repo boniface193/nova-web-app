@@ -1,5 +1,5 @@
 <template>
-  <div style="margin: auto; max-width: 1800px">
+  <div>
     <v-card elevation="0">
       <!-- User dashboard layout -->
       <!-- navbar -->
@@ -49,7 +49,7 @@
       >
         <v-container>
           <v-icon
-            class="float-left mt-6 mr-5"
+            class="float-left mr-5"
             size="20"
             v-if="!drawer"
             @click.stop="drawer = !drawer"
@@ -57,8 +57,8 @@
             mdi-segment</v-icon
           >
 
-          <div class="header">
-            N<img src="@/assets/images/fire.svg" width="15px" height="15px" />VA
+          <div class="nova-logo d-flex align-center">
+            <img src="@/assets/images/primary-logo.png" />
           </div>
         </v-container>
       </div>
@@ -82,17 +82,11 @@
         width="250"
         v-model="drawer"
       >
-        <v-container class="mx-5 my-10 d-flex">
-          <div class="d-flex nova-logo align-center">
-            N<span
-              ><v-img
-                src="@/assets/images/fire.svg"
-                width="20px"
-                class="mx-1"
-              ></v-img></span
-            >VA
+        <v-container class="mx-5 my-10 d-flex align-center justify-space-between">
+          <div class="nova-logo d-flex align-center">
+            <img src="@/assets/images/primary-logo.png" />
           </div>
-          <v-spacer></v-spacer>
+
           <v-icon color="primary" size="32" class="mr-6" @click="closeDrawer"
             >mdi-close</v-icon
           >
@@ -220,15 +214,10 @@ export default {
 @import url("https://fonts.googleapis.com/css2?family=Kumbh&family=Montserrat&family=Poppins&family=Roboto&family=Product+Sans&display=swap");
 
 .nova-logo {
-  text-align: left;
-  font-family: "Product Sans";
-  line-height: 25px;
-  font-size: 29px;
-  font-weight: normal;
-  font-variant: normal;
-  font-style: normal;
-  letter-spacing: 3px;
-  color: #060607;
+  width: 100px;
+  img{
+    width: 100%;
+  }
 }
 
 .v-list-item--link::before {

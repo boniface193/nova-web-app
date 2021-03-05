@@ -1,9 +1,9 @@
 <template>
-  <div>
+  <div class="d-flex">
     <Layout />
-    <v-main>
+    <div>
       <router-view />
-    </v-main>
+    </div>
   </div>
 </template>
 

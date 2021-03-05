@@ -48,7 +48,7 @@ export default {
   display: flex;
   .category {
     border: 1px solid #bebebe;
-    border-radius: 12px;
+    border-radius: 8px;
     font-size: 12px;
     height: 40px;
     display: flex;
