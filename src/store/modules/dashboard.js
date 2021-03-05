@@ -29,7 +29,7 @@ const actions = {
             })
                 .catch((error) => {
                     context.commit('error', error)
-                    reject(error)
+                    reject(error.response)
                 })
         })
     },
@@ -47,7 +47,7 @@ const actions = {
                 resolve(response.data.data)
             }).catch((error) => {
                 context.commit('error', error)
-                reject(error)
+                reject(error.response)
             })
         })
     },
@@ -64,7 +64,7 @@ const actions = {
             })
                 .catch((error) => {
                     context.commit('error', error)
-                    reject(error)
+                    reject(error.response)
                 })
         })
     },
@@ -83,7 +83,7 @@ const actions = {
                 resolve(response.data.data)
             }).catch((error) => {
                 context.commit('error', error)
-                reject(error)
+                reject(error.response)
             })
         })
     },
@@ -100,7 +100,7 @@ const actions = {
             })
                 .catch((error) => {
                     context.commit('error', error)
-                    reject(error)
+                    reject(error.response)
                 })
         })
     },
@@ -118,7 +118,7 @@ const actions = {
                 resolve(response.data.data)
             }).catch((error) => {
                 context.commit('error', error)
-                reject(error)
+                reject(error.response)
             })
         })
     },
@@ -133,12 +133,11 @@ const actions = {
                 }
             }).then((response) => {
                 context.commit('setDashboard', response.data.data)
-                console.log(response.data.data)
                 resolve(response.data.data)
             })
                 .catch((error) => {
                     context.commit('error', error)
-                    reject(error)
+                    reject(error.response)
                 })
         })
     },
@@ -150,7 +149,6 @@ const mutations = {
     filterRange(state, dateRange) {
         state.dateRange = dateRange
     },
-    // setUserRef: (state, data) => state.profile = data
 
 
 };

@@ -1,15 +1,15 @@
 <template>
-  <div>
+  <div style="margin-top:-40px">
     <div class="primary pb-12 py-12">
-      <div class="mx-7">
+      <div class="px-2 px-md-7">
         <Calender class="float-right" autoApply @updateDate="dateValue" />
         <div class="welcome-text">Hello,</div>
         <div class="welcome-text-sm">{{ userInfo.name }}</div>
       </div>
       <div class="mx-7 mt-8 d-flex justify-center">
-        <v-row style="position: absolute; width: 90%">
+        <v-row class="row-properties">
           <!-- current sales -->
-          <v-col cols="12" sm="4" md="" lg="" class="pr-0">
+          <v-col cols="6" sm="4" md="" lg="" class="pr-0">
             <v-card
               v-if="currentLoading"
               class="shadow-sm elevation-0 px-2"
@@ -71,7 +71,7 @@
           <!-- current sale -->
 
           <!-- payment total revenue -->
-          <v-col cols="12" sm="4" md="" lg="" class="pr-0">
+          <v-col cols="6" sm="4" md="" lg="" class="pr-0">
             <v-card
               v-if="payment"
               class="shadow-sm elevation-0 px-2"
@@ -135,7 +135,7 @@
           <!-- payment total Revenue -->
 
           <!-- sale point -->
-          <v-col cols="12" sm="4" md="" lg="" class="pr-0">
+          <v-col cols="6" sm="4" md="" lg="" class="pr-0">
             <v-card
               v-if="sellLoading"
               class="shadow-sm elevation-0 px-2"
@@ -170,7 +170,7 @@
                     class="rounded-pill pa-7 text-center round-img-bg-primary"
                   ></div>
                 </div>
-                <div class="card-header">₦{{ cSales }}</div>
+                <div class="card-header">{{ cSales }}</div>
                 <div class="card-sale">Sales Points</div>
                 <div
                   class="card-success"
@@ -196,7 +196,7 @@
           <!-- end of sale point -->
 
           <!-- sallers rank-->
-          <v-col cols="12" sm="4" md="" lg="" class="pr-0">
+          <v-col cols="6" sm="4" md="" lg="" class="pr-0">
             <v-card
               v-if="rankLoading"
               class="shadow-sm elevation-0 px-2"
@@ -231,7 +231,7 @@
                     class="rounded-pill pa-7 text-center round-img-bg-warning"
                   ></div>
                 </div>
-                <div class="card-header">₦{{ pRank }}</div>
+                <div class="card-header">{{ pRank }}</div>
                 <div class="card-sale">on leaderboard</div>
                 <div
                   class="card-success"
@@ -307,6 +307,12 @@ export default {
       this.cSales = resObj.curentSale;
       this.diffSales = resObj.difference;
       this.sellLoading = false;
+    })
+    .catch((error) => {
+      if (error.status === 401 || error.status === 403) {
+            localStorage.removeItem("accessToken");
+            window.location.href = "/signin";
+          }
     });
 
     this.$store.dispatch("dashboard/getSellerRank").then((res) => {
@@ -317,7 +323,13 @@ export default {
       this.pRank = resObj.curentSale;
       this.diffRank = resObj.difference;
       this.rankLoading = false;
-    });
+    })
+        .catch((error) => {
+      if (error.status === 401 || error.status === 403) {
+            localStorage.removeItem("accessToken");
+            window.location.href = "/signin";
+          }
+    });;
 
     this.$store.dispatch("dashboard/getSellerTotalSale").then((res) => {
       let resObj = {
@@ -327,13 +339,19 @@ export default {
       this.curentSale = resObj.difference;
       this.diffCurrentSales = resObj.curentSale;
       this.currentLoading = false;
-    });
+    })
+        .catch((error) => {
+      if (error.status === 401 || error.status === 403) {
+            localStorage.removeItem("accessToken");
+            window.location.href = "/signin";
+          }
+    });;
+
     if (this.userInfo.id === "") {
       this.$store.dispatch("settings/getUserProfile").then(() => {
         this.$store
           .dispatch("dashboard/getTotalRevenue", { id: this.userInfo.id })
           .then((res) => {
-            console.log("payment if", res);
             this.totalRevenue = res.total_revenue;
             this.settled = res.settled;
             this.awaitingSettlement = res.awaiting_settlement;
@@ -345,7 +363,6 @@ export default {
       this.$store
         .dispatch("dashboard/getTotalRevenue", { id: this.userInfo.id })
         .then((res) => {
-          console.log("payment else", res);
           this.totalRevenue = res.total_revenue;
           this.settled = res.settled;
           this.awaitingSettlement = res.awaiting_settlement;
@@ -354,6 +371,7 @@ export default {
         });
     }
   },
+
   methods: {
     dateValue(value) {
       this.$store.commit("dashboard/filterRange", {
@@ -363,7 +381,7 @@ export default {
       this.$store.dispatch("dashboard/searchSellerPoint");
       this.$store.dispatch("dashboard/searchSellerRank");
       this.$store.dispatch("dashboard/searchSellerTotalSales");
-      this.$store.dispatch("dashboard/getTotalRevenue");
+      this.$store.dispatch("dashboard/getTotalRevenue", { id: this.userInfo.id });
     },
   },
 };
@@ -383,6 +401,15 @@ export default {
   letter-spacing: 0.8px;
   font-size: 16px;
   color: #ffffff;
+}
+.row-properties{
+  position: absolute;
+  width: 70%
+}
+@media (max-width:500px){
+  .row-properties{
+    width: 85%;
+  }
 }
 .round-img-bg-danger {
   background: #ffecec 0% 0% no-repeat padding-box;

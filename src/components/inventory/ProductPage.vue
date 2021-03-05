@@ -1,5 +1,5 @@
 <template>
-  <div style="background: #fafafa; height: 100%" class="pt-6">
+  <div style="background: #fafafa; height: 100%; margin-top:-40px" class="pt-sm-10 pt-16">
     <div v-show="!loader">
       <!-- go to previous page -->
       <router-link

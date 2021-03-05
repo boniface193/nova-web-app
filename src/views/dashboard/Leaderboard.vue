@@ -2,7 +2,7 @@
   <div>
     <v-container>
       <div class="mx-5">
-        <div class="chOder my-9">
+        <div class="chOder" style="margin:0">
           <router-link :to="{ path: '/dashboard' }">
             <v-icon class="float-left">mdi-chevron-left</v-icon>
           </router-link>

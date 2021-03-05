@@ -42,7 +42,7 @@
       <p class="text-center mt-8">{{ empty }}</p>
       <v-row>
         <v-col sm="4" v-for="orders in ordersItems" :key="orders.id">
-          <v-card outlined class="rounded-lg pa-5 mb-3">
+          <v-card outlined class="rounded-lg pa-5 mb-3" height="100%">
             <step-progress
               :steps="['Processing', 'Shipped', 'Delivered']"
               :current-step="
@@ -60,7 +60,16 @@
             <v-row class="mt-12">
               <v-col cols="5" class="py-0">
                 <div class="text-center">
+                  <v-progress-circular
+                    v-if="loadImage"
+                    color="primary"
+                    class="text-center"
+                    indeterminate
+                    size="20"
+                    width="2"
+                  ></v-progress-circular>
                   <v-img
+                    v-if="!loadImage"
                     :src="orders.product_image_url"
                     class="image-bgColor"
                     width="100%"
@@ -141,6 +150,7 @@ export default {
   },
   data() {
     return {
+      loadImage: true,
       isLoading: true,
       empty: "",
       deliveryStatus: "",
@@ -175,6 +185,12 @@ export default {
   created() {
     this.$store.dispatch("orders/getOrders").then((e) => {
       this.isLoading = false;
+      e.forEach((i) => {
+        if (i.product_image_url) {
+          this.loadImage = false;
+        }
+      });
+
       if (e.length < 1) {
         this.empty = "No Item Found";
       }

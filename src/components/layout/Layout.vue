@@ -154,8 +154,8 @@ export default {
     items: [
       {
         title: "Inventory",
-        icon: require("../../assets/images/shopping-cart.svg"),
-        icons: false,
+        icon: "mdi-cart",
+        icons: true,
         routes: "/inventory",
       },
       {
@@ -172,8 +172,8 @@ export default {
       },
       {
         title: "Settings",
-        icon: require("../../assets/images/settings.svg"),
-        icons: false,
+        icon: "mdi-cog",
+        icons: true,
         routes: "/settings",
       },
     ],
@@ -208,7 +208,7 @@ export default {
     },
   },
 };
-</script>
+</script> 
 
 <style lang="scss" scoped>
 @import url("https://fonts.googleapis.com/css2?family=Kumbh&family=Montserrat&family=Poppins&family=Roboto&family=Product+Sans&display=swap");

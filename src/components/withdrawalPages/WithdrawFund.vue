@@ -1,5 +1,5 @@
 <template>
-  <div class="px-4">
+  <div>
     <div class="withdraw-container">
       <div
         class="d-flex align-center justify-center mb-8"

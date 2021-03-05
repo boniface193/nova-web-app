@@ -2,7 +2,9 @@
   <div class="signin-container">
     <!-- app logo -->
     <router-link to="/" class="d-flex dark--text app-logo">
-      N<v-img src="@/assets/images/fire.svg" max-width="35"></v-img>VA
+      <div class="nova-logo d-flex align-center justify-center mx-auto my-5">
+        <img src="@/assets/images/primary-logo.png" />
+      </div>
     </router-link>
     <h3>Login into your Account</h3>
 
@@ -108,7 +110,7 @@ export default {
         .dispatch("onboarding/signIn", {
           email: this.email,
           password: this.password,
-          type: "seller"
+          type: "seller",
         })
         .then((response) => {
           if (response.data.message === "Login successful.") {
@@ -133,14 +135,11 @@ export default {
   width: 100%;
   text-align: center;
   padding-top: 30px;
-  .app-logo {
-    font-size: 40px;
-    font-weight: bold;
-    color: #000000;
-    align-items: baseline;
-    text-decoration: none;
+  .nova-logo {
     width: 120px;
-    margin: 20px auto;
+    img {
+      width: 100%;
+    }
   }
   .form-container {
     width: 90%;

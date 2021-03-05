@@ -1,7 +1,7 @@
 <template>
   <div>
     <!-- user profile -->
-    <v-row class="px-4">
+    <v-row class="px-2 px-md-7">
       <v-col class="col-12 col-md-5 pt-9 text-center">
         <div
           class="d-flex align-center justify-center"
