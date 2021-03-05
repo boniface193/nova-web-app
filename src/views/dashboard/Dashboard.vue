@@ -171,7 +171,7 @@
                   ></div>
                 </div>
                 <div class="card-header">{{ cSales }}</div>
-                <div class="card-sale">Sales Points</div>
+                <div class="card-sale">Life Time Sales Points</div>
                 <div
                   class="card-success"
                   :class="{
@@ -302,18 +302,12 @@ export default {
     this.$store.dispatch("dashboard/getSellerPoint").then((res) => {
       let resObj = {
         difference: res.diff.toString(),
-        curentSale: res.current_sales.toString(),
+        curentSale: res.current_sales_label.toString(),
       };
       this.cSales = resObj.curentSale;
       this.diffSales = resObj.difference;
       this.sellLoading = false;
     })
-    .catch((error) => {
-      if (error.status === 401 || error.status === 403) {
-            localStorage.removeItem("accessToken");
-            window.location.href = "/signin";
-          }
-    });
 
     this.$store.dispatch("dashboard/getSellerRank").then((res) => {
       let resObj = {
@@ -324,12 +318,6 @@ export default {
       this.diffRank = resObj.difference;
       this.rankLoading = false;
     })
-        .catch((error) => {
-      if (error.status === 401 || error.status === 403) {
-            localStorage.removeItem("accessToken");
-            window.location.href = "/signin";
-          }
-    });;
 
     this.$store.dispatch("dashboard/getSellerTotalSale").then((res) => {
       let resObj = {
@@ -340,22 +328,16 @@ export default {
       this.diffCurrentSales = resObj.curentSale;
       this.currentLoading = false;
     })
-        .catch((error) => {
-      if (error.status === 401 || error.status === 403) {
-            localStorage.removeItem("accessToken");
-            window.location.href = "/signin";
-          }
-    });;
 
     if (this.userInfo.id === "") {
       this.$store.dispatch("settings/getUserProfile").then(() => {
         this.$store
           .dispatch("dashboard/getTotalRevenue", { id: this.userInfo.id })
           .then((res) => {
-            this.totalRevenue = res.total_revenue;
-            this.settled = res.settled;
-            this.awaitingSettlement = res.awaiting_settlement;
-            this.availableBalance = res.available_balance;
+            this.totalRevenue = res.total_revenue_label;
+            this.settled = res.settled_label;
+            this.awaitingSettlement = res.awaiting_settlement_label;
+            this.availableBalance = res.available_balance_label;
             this.payment = false
           });
       });
@@ -363,10 +345,10 @@ export default {
       this.$store
         .dispatch("dashboard/getTotalRevenue", { id: this.userInfo.id })
         .then((res) => {
-          this.totalRevenue = res.total_revenue;
-          this.settled = res.settled;
-          this.awaitingSettlement = res.awaiting_settlement;
-          this.availableBalance = res.available_balance;
+          this.totalRevenue = res.total_revenue_label;
+          this.settled = res.settled_label;
+          this.awaitingSettlement = res.awaiting_settlement_label;
+          this.availableBalance = res.available_balance_label;
           this.payment = false
         });
     }
