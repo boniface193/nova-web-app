@@ -76,6 +76,7 @@ export default {
       position: absolute;
       display: flex;
       align-items: flex-end;
+      top: 20px;
       .nova-logo {
         width: 100px;
         display: flex;
