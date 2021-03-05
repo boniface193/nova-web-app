@@ -21,8 +21,8 @@
           >
         </v-app-bar-nav-icon>
         <div
-          class="nova-logo d-flex baseline"
-          v-if="this.$route.path !== '/dashboard'"
+          class="nova-logo"
+          v-show="this.$route.path !== '/dashboard'"
         >
           <img src="@/assets/images/primary-logo.png" />
         </div>
