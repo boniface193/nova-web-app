@@ -176,7 +176,7 @@ export default {
     margin-left: 0px;
     min-width: 100%;
     width: 100%;
-    position: absolute;
+    position: fixed;
     &::before {
       opacity: 0.46;
       background-color: #212121;
