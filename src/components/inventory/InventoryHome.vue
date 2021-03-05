@@ -240,7 +240,7 @@ export default {
 @media (max-width: 500px) {
   .search-container {
     max-width: -webkit-fill-available;
-    width: -webkit-fill-available;
+    width: 305px;
     min-width: 300px;
   }
 }
