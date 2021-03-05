@@ -170,15 +170,16 @@
                     class="rounded-pill pa-7 text-center round-img-bg-primary"
                   ></div>
                 </div>
-                <div class="card-header">{{ cSales }}</div>
-                <div class="card-sale">Life Time Sales Points</div>
+                <div class="card-header">{{ diffSales }}</div>
+                <div class="card-sale">Lifetime Sales Points</div>
                 <div
                   class="card-success"
                   :class="{
-                    'card-error': diffSales == 0 || diffSales.includes('-'),
+                    'card-error': cSales == 0 || cSales.includes('-'),
                   }"
                 >
                   {{ diffSales }}
+                  <span class="awaiting">( available points )</span> 
                 </div>
                 <div class="card-history my-2">
                   <router-link
@@ -354,7 +355,12 @@ export default {
           .then((res) => {
             this.totalRevenue = res.total_revenue_label;
             this.settled = res.settled;
-            this.awaitingSettlement = res.awaiting_settlement;
+            let awaitingSettle = res.awaiting_settlement_label
+            if (awaitingSettle.includes("00000") || awaitingSettle.includes("000")) {
+            
+            
+            console.log(awaitingSettle);
+            }
             this.availableBalance = res.available_balance;
             this.payment = false
           });
