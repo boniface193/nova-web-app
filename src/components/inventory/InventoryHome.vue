@@ -1,5 +1,5 @@
 <template>
-  <div class="px-2 px-md-7">
+  <div class="px-2 px-md-7 pt-6 pt-md-0">
     <div class="d-flex align-center" style="justify-content: flex-end">
       <div class="search-container">
         <SearchProduct />

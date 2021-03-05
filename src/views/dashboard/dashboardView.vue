@@ -27,7 +27,7 @@
           <img src="@/assets/images/primary-logo.png" />
         </div>
       </div>
-      <div class="pt-sm-10 pt-16" style="height: 100%">
+      <div class="pt-10" style="height: 100%">
         <router-view />
       </div>
     </div>

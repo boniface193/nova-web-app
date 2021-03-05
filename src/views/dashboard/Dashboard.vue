@@ -1,6 +1,6 @@
 <template>
   <div class="dashboard-container">
-    <div class="primary pb-12 py-16">
+    <div class="primary py-16">
       <div class="px-2 px-md-7">
         <Calender class="float-right" autoApply @updateDate="dateValue" />
         <div class="welcome-text">Hello,</div>
