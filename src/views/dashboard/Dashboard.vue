@@ -2,7 +2,7 @@
   <div class="dashboard-container">
     <div class="primary py-16">
       <div class="px-2 px-md-7">
-        <Calender class="float-right" autoApply @updateDate="dateValue" />
+        <!-- <Calender class="float-right" autoApply @updateDate="dateValue" /> -->
         <div class="welcome-text">Hello,</div>
         <div class="welcome-text-sm">{{ userInfo.name }}</div>
       </div>
@@ -263,11 +263,11 @@
 
 <script>
 import moment from "moment";
-import Calender from "@/components/general/calender.vue";
+//import Calender from "@/components/general/calender.vue";
 import { mapGetters } from "vuex";
 export default {
   components: {
-    Calender,
+    //Calender,
     // Layout,
   },
   data() {

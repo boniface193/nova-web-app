@@ -135,7 +135,7 @@ export default {
     getSettlementHistory() {
       let sellerId = this.$store.getters["settings/profile"].id;
       axios
-        .get(`${sellerId}/settlements?status=settled`, {
+        .get(`${sellerId}/settlements`, {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
           },
