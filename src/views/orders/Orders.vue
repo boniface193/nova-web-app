@@ -110,7 +110,7 @@
                 <div class="order-item-font">
                   Price (NGN):
                   <span class="order-no-grey">{{
-                    orders.product_price_label
+                    orders.subtotal_label
                   }}</span>
                 </div>
               </v-col>
