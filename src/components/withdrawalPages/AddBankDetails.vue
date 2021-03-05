@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="px-3 bank-container" v-show="!pageLoader">
+    <div class="bank-container" v-show="!pageLoader">
       <div
         class="d-flex align-center justify-center mb-8"
         style="position: relative"

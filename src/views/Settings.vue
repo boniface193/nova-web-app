@@ -1,7 +1,7 @@
 <template>
-    <div class="pt-8">
+    <div class="pt-6 pt-md-3">
         <!-- title -->
-        <h2 class="ml-4">Settings</h2>
+        <h2 class="ml-2 ml-md-7">Settings</h2>
         <!-- pages -->
         <router-view />
     </div>

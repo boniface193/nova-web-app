@@ -1,5 +1,5 @@
 <template>
-  <div class="px-4 pt-5 customer-details">
+  <div class="px-2 px-md-7 customer-details">
     <div
       class="d-flex align-center justify-center mb-8"
       style="position: relative"
@@ -68,7 +68,7 @@
       </div>
       <!-- Address field -->
       <div class="mb-5 input-field">
-        <p class="mb-1">Address* <span class="primary--text">(Delivery location in lagos)</span></p>
+        <p class="mb-1">Address* <span class="primary--text">(Delivery within lagos only)</span></p>
         <v-text-field
           color="primary"
           placeholder="Street address"

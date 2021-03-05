@@ -89,7 +89,24 @@ const actions = {
                     reject(error);
                 })
         })
-    }
+    },
+    getRevenueDetails(context, data) {
+        // let dateRange = (state.dateRange.endDate !== null) ? `date_between=${state.dateRange.startDate},${state.dateRange.endDate}` : ""
+        return new Promise((resolve, reject) => {
+            axios.get(`/metrics/${data.sellerId}/total-revenue`, {
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+                },
+            })
+                .then((response) => {
+                    resolve(response)
+                })
+                .catch((error) => {
+                    context.commit("doNothing");
+                    reject(error)
+                });
+        })
+    },
 };
 
 //updates the different state properties

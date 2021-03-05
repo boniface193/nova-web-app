@@ -1,5 +1,5 @@
 <template>
-  <div class="px-4">
+  <div>
     <div class="withdraw-container">
       <div
         class="d-flex align-center justify-center mb-8"
@@ -23,7 +23,13 @@
         <div class="account-details-container">
           <div class="d-flex justify-space-between align-center my-5">
             <p class="secondary--text mb-0">Your balance:</p>
-            <h3>&#8358;70,000.00</h3>
+            <h3 v-show="!fetchingBalance">&#8358;{{revenueDetails.available_balance}}</h3>
+            <span v-show="fetchingBalance">
+                <v-progress-circular
+                  indeterminate
+                  color="primary"
+                ></v-progress-circular>
+              </span>
           </div>
           <div class="d-flex justify-space-between align-baseline my-5">
             <p class="secondary--text mb-0">To:</p>
@@ -100,7 +106,19 @@ export default {
       dialog: false,
       statusImage: null,
       withdrawLoader: false,
+      fetchingBalance: false,
+      revenueDetails: {},
     };
+  },
+  created() {
+    this.fetchingBalance = true;
+    if (this.$store.getters["settings/profile"].name === "") {
+      this.$store.dispatch("settings/getUserProfile").then(() => {
+        this.getRevenueDetails();
+      });
+    } else {
+      this.getRevenueDetails();
+    }
   },
   computed: {
     ...mapGetters({
@@ -127,6 +145,27 @@ export default {
         .catch((error) => {
           this.withdrawLoader = false;
           this.dialog = true;
+          this.statusImage = failedImage;
+          if (error.response) {
+            this.dialogMessage = error.response.data.message;
+          } else {
+            this.dialogMessage = "No internet Connection!";
+          }
+        });
+    },
+    // fetch revenue details
+    getRevenueDetails() {
+      this.$store
+        .dispatch("bankService/getRevenueDetails", {
+          sellerId: this.userInfo.id,
+        })
+        .then((response) => {
+          this.revenueDetails = response.data.data;
+          this.fetchingBalance  = false;
+        })
+        .catch((error) => {
+          this.dialog = true;
+          this.fetchingBalance  = false;
           this.statusImage = failedImage;
           if (error.response) {
             this.dialogMessage = error.response.data.message;

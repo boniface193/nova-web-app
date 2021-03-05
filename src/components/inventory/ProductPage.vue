@@ -1,5 +1,5 @@
 <template>
-  <div style="background: #fafafa; height: 100%" class="pt-6">
+  <div style="background: #fafafa; min-height: 100%; margin-top:-40px" class="pt-sm-10 pt-16 ">
     <div v-show="!loader">
       <!-- go to previous page -->
       <router-link
@@ -15,7 +15,7 @@
       </router-link>
 
       <v-row>
-        <v-col class="col-12 col-md-6 pt-md-15 px-5">
+        <v-col class="col-12 col-md-6 pt-md-15 px-5 pb-5">
           <!-- image section -->
           <div class="image-container pa-10">
             <img :src="productDetails.image" alt="" />

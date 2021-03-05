@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="pt-10 px-5">
+    <div class="px-2 px-md-7">
       <!-- title section  -->
       <div
         class="d-flex align-center justify-center mb-8"
@@ -135,7 +135,7 @@ export default {
     getSettlementHistory() {
       let sellerId = this.$store.getters["settings/profile"].id;
       axios
-        .get(`${sellerId}/settlements?status=settled`, {
+        .get(`${sellerId}/settlements`, {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
           },
