@@ -1,6 +1,6 @@
 <template>
-  <div style="margin-top:-40px">
-    <div class="primary pb-12 py-12">
+  <div class="dashboard-container">
+    <div class="primary py-16">
       <div class="px-2 px-md-7">
         <Calender class="float-right" autoApply @updateDate="dateValue" />
         <div class="welcome-text">Hello,</div>
@@ -388,6 +388,9 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.dashboard-container{
+  margin-top: -40px !important;
+}
 .welcome-text {
   font-family: "Product Sans Medium";
   font-weight: normal;
