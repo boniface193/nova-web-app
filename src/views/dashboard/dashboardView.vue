@@ -3,7 +3,7 @@
     <Sidebar :drawer="drawer" @closeDrawer="closeDrawer" />
     <div class="page-content" :class="{ 'add-margin': drawer }">
       <div
-        class="page-content-header px-5"
+        class="page-content-header px-2 px-md-7"
         v-if="
           !drawer &&
           (this.$route.path == '/dashboard' ||
@@ -14,7 +14,7 @@
       >
         <v-app-bar-nav-icon @click.stop="drawer = !drawer">
           <v-icon
-            size="19"
+            size="25"
             :class="{ 'white--text': this.$route.path == '/dashboard' }"
           >
             mdi-segment</v-icon
@@ -68,6 +68,7 @@ export default {
   display: flex;
   position: absolute;
   width: 100%;
+  height: 100%;
   .page-content {
     width: -webkit-fill-available;
     transition: 0.5s ease;
@@ -76,7 +77,9 @@ export default {
       display: flex;
       align-items: flex-end;
       .nova-logo {
-        width: 70px;
+        width: 100px;
+        display: flex;
+        align-items: center;
         img {
           width: 100%;
         }
