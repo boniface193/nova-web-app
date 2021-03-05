@@ -8,7 +8,7 @@
           !drawer &&
           (this.$route.path == '/dashboard' ||
             this.$route.name == 'InventoryHome' ||
-            this.$route.path == '/settings' ||
+            this.$route.name == 'ProfilePage' ||
             this.$route.path == '/orders')
         "
       >

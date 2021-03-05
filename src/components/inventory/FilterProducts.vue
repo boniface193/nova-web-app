@@ -8,10 +8,10 @@
       @resetFilter="resetFilter"
     />
     <!-- do not remove -->
-    <div style="visibility: hidden">.</div>
+   
 
     <!--------------------------- modal for dialog messages ------------------------------>
-    <modal :dialog="dialog" width="400">
+    <Modal :dialog="dialog" width="400">
       <div class="white pa-3 pb-10 text-center dialog">
         <div class="d-flex justify-end">
           <v-icon class="error--text close-btn" @click="dialog = false"
@@ -25,19 +25,19 @@
 
         <h4>{{ dialogMessage }}</h4>
       </div>
-    </modal>
+    </Modal>
   </div>
 </template>
 <script>
 import BasicFilter from "@/components/general/BasicFilter.vue";
-import modal from "@/components/modal.vue";
+import Modal from "@/components/modal.vue";
 import failedImage from "@/assets/images/failed-img.svg";
 import { mapState } from "vuex";
 export default {
   name: "FilterProducts",
   components: {
     BasicFilter,
-    modal,
+    Modal,
   },
   data: function () {
     return {
@@ -117,6 +117,9 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
+.row{
+  margin: 0px !important;
+}
 .status-img {
   width: 140px;
   .v-image {
