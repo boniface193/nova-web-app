@@ -302,12 +302,18 @@ export default {
     this.$store.dispatch("dashboard/getSellerPoint").then((res) => {
       let resObj = {
         difference: res.diff.toString(),
-        curentSale: res.current_sales_label.toString(),
+        curentSale: res.current_sales.toString(),
       };
       this.cSales = resObj.curentSale;
       this.diffSales = resObj.difference;
       this.sellLoading = false;
     })
+    .catch((error) => {
+      if (error.status === 401 || error.status === 403) {
+            localStorage.removeItem("accessToken");
+            window.location.href = "/signin";
+          }
+    });
 
     this.$store.dispatch("dashboard/getSellerRank").then((res) => {
       let resObj = {
@@ -318,16 +324,28 @@ export default {
       this.diffRank = resObj.difference;
       this.rankLoading = false;
     })
+        .catch((error) => {
+      if (error.status === 401 || error.status === 403) {
+            localStorage.removeItem("accessToken");
+            window.location.href = "/signin";
+          }
+    });;
 
     this.$store.dispatch("dashboard/getSellerTotalSale").then((res) => {
       let resObj = {
-        difference: res.current_sales.toString(),
+        difference: res.current_sales_label,
         curentSale: res.diff.toString(),
       };
       this.curentSale = resObj.difference;
       this.diffCurrentSales = resObj.curentSale;
       this.currentLoading = false;
     })
+        .catch((error) => {
+      if (error.status === 401 || error.status === 403) {
+            localStorage.removeItem("accessToken");
+            window.location.href = "/signin";
+          }
+    });;
 
     if (this.userInfo.id === "") {
       this.$store.dispatch("settings/getUserProfile").then(() => {
@@ -335,9 +353,9 @@ export default {
           .dispatch("dashboard/getTotalRevenue", { id: this.userInfo.id })
           .then((res) => {
             this.totalRevenue = res.total_revenue_label;
-            this.settled = res.settled_label;
-            this.awaitingSettlement = res.awaiting_settlement_label;
-            this.availableBalance = res.available_balance_label;
+            this.settled = res.settled;
+            this.awaitingSettlement = res.awaiting_settlement;
+            this.availableBalance = res.available_balance;
             this.payment = false
           });
       });
@@ -346,9 +364,9 @@ export default {
         .dispatch("dashboard/getTotalRevenue", { id: this.userInfo.id })
         .then((res) => {
           this.totalRevenue = res.total_revenue_label;
-          this.settled = res.settled_label;
-          this.awaitingSettlement = res.awaiting_settlement_label;
-          this.availableBalance = res.available_balance_label;
+          this.settled = res.settled;
+          this.awaitingSettlement = res.awaiting_settlement;
+          this.availableBalance = res.available_balance;
           this.payment = false
         });
     }
