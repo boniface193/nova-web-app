@@ -58,6 +58,7 @@ const actions = {
             })
                 .then(response => {
                     context.commit("setHistory", response.data.data)
+                    console.log(response.data.data)
                     // context.commit("setPageDetails", response.data.meta);
                     resolve(response.data.data)
                 })

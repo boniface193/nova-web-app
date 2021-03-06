@@ -171,7 +171,7 @@
                   ></div>
                 </div>
                 <div class="card-header">{{ cSales }}</div>
-                <div class="card-sale">Sales Points</div>
+                <div class="card-sale">Life Time Sales Points</div>
                 <div
                   class="card-success"
                   :class="{
@@ -333,7 +333,7 @@ export default {
 
     this.$store.dispatch("dashboard/getSellerTotalSale").then((res) => {
       let resObj = {
-        difference: res.current_sales.toString(),
+        difference: res.current_sales_label,
         curentSale: res.diff.toString(),
       };
       this.curentSale = resObj.difference;
@@ -352,7 +352,7 @@ export default {
         this.$store
           .dispatch("dashboard/getTotalRevenue", { id: this.userInfo.id })
           .then((res) => {
-            this.totalRevenue = res.total_revenue;
+            this.totalRevenue = res.total_revenue_label;
             this.settled = res.settled;
             this.awaitingSettlement = res.awaiting_settlement;
             this.availableBalance = res.available_balance;
@@ -363,7 +363,7 @@ export default {
       this.$store
         .dispatch("dashboard/getTotalRevenue", { id: this.userInfo.id })
         .then((res) => {
-          this.totalRevenue = res.total_revenue;
+          this.totalRevenue = res.total_revenue_label;
           this.settled = res.settled;
           this.awaitingSettlement = res.awaiting_settlement;
           this.availableBalance = res.available_balance;
