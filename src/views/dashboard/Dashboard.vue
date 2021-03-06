@@ -179,7 +179,7 @@
                   }"
                 >
                   {{ diffSales }}
-                  <span class="awaiting">( available points )</span> 
+                  <span class="awaiting">( available points )</span>
                 </div>
                 <div class="card-history my-2">
                   <router-link
@@ -300,53 +300,59 @@ export default {
     }),
   },
   created() {
-    this.$store.dispatch("dashboard/getSellerPoint").then((res) => {
-      let resObj = {
-        difference: res.diff.toString(),
-        curentSale: res.current_sales.toString(),
-      };
-      this.cSales = resObj.curentSale;
-      this.diffSales = resObj.difference;
-      this.sellLoading = false;
-    })
-    .catch((error) => {
-      if (error.status === 401 || error.status === 403) {
-            localStorage.removeItem("accessToken");
-            window.location.href = "/signin";
-          }
-    });
+    this.$store
+      .dispatch("dashboard/getSellerPoint")
+      .then((res) => {
+        let resObj = {
+          difference: res.diff.toString(),
+          curentSale: res.current_sales.toString(),
+        };
+        this.cSales = resObj.curentSale;
+        this.diffSales = resObj.difference;
+        this.sellLoading = false;
+      })
+      .catch((error) => {
+        if (error.status === 401 || error.status === 403) {
+          localStorage.removeItem("accessToken");
+          window.location.href = "/signin";
+        }
+      });
 
-    this.$store.dispatch("dashboard/getSellerRank").then((res) => {
-      let resObj = {
-        difference: res.diff.toString(),
-        curentSale: res.present_rank.toString(),
-      };
-      this.pRank = resObj.curentSale;
-      this.diffRank = resObj.difference;
-      this.rankLoading = false;
-    })
-        .catch((error) => {
-      if (error.status === 401 || error.status === 403) {
-            localStorage.removeItem("accessToken");
-            window.location.href = "/signin";
-          }
-    });;
+    this.$store
+      .dispatch("dashboard/getSellerRank")
+      .then((res) => {
+        let resObj = {
+          difference: res.diff.toString(),
+          curentSale: res.present_rank.toString(),
+        };
+        this.pRank = resObj.curentSale;
+        this.diffRank = resObj.difference;
+        this.rankLoading = false;
+      })
+      .catch((error) => {
+        if (error.status === 401 || error.status === 403) {
+          localStorage.removeItem("accessToken");
+          window.location.href = "/signin";
+        }
+      });
 
-    this.$store.dispatch("dashboard/getSellerTotalSale").then((res) => {
-      let resObj = {
-        difference: res.current_sales_label,
-        curentSale: res.diff.toString(),
-      };
-      this.curentSale = resObj.difference;
-      this.diffCurrentSales = resObj.curentSale;
-      this.currentLoading = false;
-    })
-        .catch((error) => {
-      if (error.status === 401 || error.status === 403) {
-            localStorage.removeItem("accessToken");
-            window.location.href = "/signin";
-          }
-    });;
+    this.$store
+      .dispatch("dashboard/getSellerTotalSale")
+      .then((res) => {
+        let resObj = {
+          difference: res.current_sales_label,
+          curentSale: res.diff.toString(),
+        };
+        this.curentSale = resObj.difference;
+        this.diffCurrentSales = resObj.curentSale;
+        this.currentLoading = false;
+      })
+      .catch((error) => {
+        if (error.status === 401 || error.status === 403) {
+          localStorage.removeItem("accessToken");
+          window.location.href = "/signin";
+        }
+      });
 
     if (this.userInfo.id === "") {
       this.$store.dispatch("settings/getUserProfile").then(() => {
@@ -355,14 +361,20 @@ export default {
           .then((res) => {
             this.totalRevenue = res.total_revenue_label;
             this.settled = res.settled;
-            let awaitingSettle = res.awaiting_settlement_label
-            if (awaitingSettle.includes("00000") || awaitingSettle.includes("000")) {
-            
-            
-            console.log(awaitingSettle);
+            // convertion to thousands
+            let awaitingSettle = Math.floor(res.awaiting_settlement);
+            let convertToString = awaitingSettle.toString();
+            if (convertToString.length >= 4) {
+              let roundedSettlement =  `${awaitingSettle / 1000}k`;
+              this.awaitingSettlement = roundedSettlement;
+            } else if (convertToString.length >= 7) {
+              let roundedSettlement =  `${awaitingSettle / 1000000}k`;
+              this.awaitingSettlement = roundedSettlement;
+            } else {
+              this.awaitingSettlement = res.awaiting_settlement_label;
             }
             this.availableBalance = res.available_balance;
-            this.payment = false
+            this.payment = false;
           });
       });
     } else {
@@ -371,9 +383,20 @@ export default {
         .then((res) => {
           this.totalRevenue = res.total_revenue_label;
           this.settled = res.settled;
-          this.awaitingSettlement = res.awaiting_settlement;
+          // convertion to thousands
+            let awaitingSettle = Math.floor(res.awaiting_settlement);
+            let convertToString = awaitingSettle.toString();
+            if (convertToString.length >= 4) {
+              let roundedSettlement =  `${awaitingSettle / 1000}k`;
+              this.awaitingSettlement = roundedSettlement;
+            } else if (convertToString.length >= 7) {
+              let roundedSettlement =  `${awaitingSettle / 1000000}k`;
+              this.awaitingSettlement = roundedSettlement;
+            } else {
+              this.awaitingSettlement = res.awaiting_settlement_label;
+            }
           this.availableBalance = res.available_balance;
-          this.payment = false
+          this.payment = false;
         });
     }
   },
@@ -387,14 +410,16 @@ export default {
       this.$store.dispatch("dashboard/searchSellerPoint");
       this.$store.dispatch("dashboard/searchSellerRank");
       this.$store.dispatch("dashboard/searchSellerTotalSales");
-      this.$store.dispatch("dashboard/getTotalRevenue", { id: this.userInfo.id });
+      this.$store.dispatch("dashboard/getTotalRevenue", {
+        id: this.userInfo.id,
+      });
     },
   },
 };
 </script>
 
 <style lang="scss" scoped>
-.dashboard-container{
+.dashboard-container {
   margin-top: -40px !important;
 }
 .welcome-text {
@@ -411,12 +436,12 @@ export default {
   font-size: 16px;
   color: #ffffff;
 }
-.row-properties{
+.row-properties {
   position: absolute;
-  width: 70%
+  width: 70%;
 }
-@media (max-width:500px){
-  .row-properties{
+@media (max-width: 500px) {
+  .row-properties {
     width: 85%;
   }
 }

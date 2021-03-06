@@ -2,7 +2,7 @@
   <div>
     <v-container>
       <div class="mx-5">
-        <div class="chOder" style="margin:0">
+        <div class="chOder" style="margin: 0">
           <router-link :to="{ path: '/dashboard' }">
             <v-icon class="float-left">mdi-chevron-left</v-icon>
           </router-link>
@@ -25,7 +25,7 @@
         <div
           class="lenghtOfUser text-center mt-8"
           v-for="items in leaderboard.data"
-          :key="items.id"
+          :key="items.seller_id"
         >
           <div v-if="userInfo.id == items.seller_id">
             You’re {{ leaderboard.ranks[items.seller_id]
@@ -36,6 +36,7 @@
           </div>
         </div>
         <!-- no data -->
+         
         <div class="text-center pt-10 pb-5" v-if="leaderboard.data.length < 1">
           <p class="mb-0 secondary--text" style="font-size: 20px">
             Opps! No leaders found.
@@ -55,7 +56,7 @@
         <!-- loader ends here -->
         <v-row class="d-flex justify-center">
           <v-col lg="6">
-            <v-row class=" mt-5">
+            <v-row class="mt-5">
               <v-col cols="2" lg="3"><h5>Rank</h5></v-col>
               <v-col cols="8" lg="6"><h5>Name</h5></v-col>
               <v-col cols="2" lg="3"><h5>Points</h5></v-col>
@@ -65,7 +66,7 @@
               class="leader-text my-2"
               v-for="items in leaderboard.data"
               :key="items.id"
-              :class="{ active: userInfo.id == items.seller_id }"
+              :class="{ active: userInfo.id === items.seller_id }"
             >
               <v-col cols="2" lg="3"
                 >{{ leaderboard.ranks[items.seller_id] }}
@@ -91,15 +92,15 @@
     </v-container>
 
     <!-- pagination -->
-    <div class="text-center elevation-8 pa-3" v-if="leaderboard.length >= 10">
-      <v-pagination
+    <div class="text-center elevation-8 pa-3" v-if="leaderboard.data.length >= 10">
+      <!-- <v-pagination
         v-model="getCurrentPage.currentPage"
-        :length="pageDetails.last_page"
         @input="setCurentPage"
         circle
         small
         style="font-size: 8px"
-      ></v-pagination>
+      ></v-pagination> -->
+      <!--  v-if="leaderboard.data.length >= 10" -->
     </div>
 
     <!-- modal -->
@@ -191,32 +192,51 @@ export default {
       dialog: false,
       Search: false,
       isLoading: true,
-      userProfile: {},
+      // userProfile: {},
       filteredArray: {},
+      leaderboard: [],
+      userInfo: [],
     };
   },
 
   computed: {
     ...mapGetters({
-      leaderboard: "leaderboard/leaderboard",
-      userInfo: "settings/profile",
+      leaderboardGetters: "leaderboard/leaderboard",
+      userInformation: "settings/profile",
     }),
     ...mapState({
-      page: (state) => state.leaderboard.page,
-      pageDetails: (state) => state.leaderboard.pageDetails,
-      getCurrentPage() {
-        return {
-          currentPage: this.pageDetails.current_page,
-        };
-      },
+      // page: (state) => state.leaderboard.page,
+      // pageDetails: (state) => state.leaderboard.pageDetails,
+      // getCurrentPage() {
+      //   return {
+      //     currentPage: this.pageDetails.current_page,
+      //   };
+      // },
     }),
   },
 
   created() {
-    this.$store.dispatch("leaderboard/getLeaderboard").then((res) => {
-      console.log("leaderboard", res)
-      this.isLoading = false;
+    
+    if (this.userInfo.id === undefined) {
+      this.$store.dispatch("settings/getUserProfile").then((res) => {
+      let userData = res.data.data;
+      this.userInfo = userData;
     });
+    }else{
+      this.userInfo = this.userInformation
+    }
+
+    if (this.leaderboardGetters.data === undefined) {
+    this.$store.dispatch("leaderboard/getLeaderboard").then((res) => {
+      this.leaderboard = res;
+      this.isLoading = false;
+      console.log(res);
+    });
+    } else {
+    this.leaderboard = this.leaderboardGetters;
+    this.isLoading = false;
+    }
+    this.$store.dispatch("leaderboard/getLeaderboard");
   },
 
   methods: {
@@ -235,36 +255,36 @@ export default {
 
     filterById(id) {
       this.filteredArray = this.leaderboard.data.find(
-        (item) => item.seller_id == id
+        (item) => item.seller_id === id
       );
       this.openModal();
     },
 
     // search the datatable items
-    getSearchValue(params) {
-      this.$store.commit("leaderboard/setSearchValue", params);
-      this.$store.commit("leaderboard/setSearchLeaderBoard", true);
-      this.$store.dispatch("leaderboard/searchLeaderBoard").then(() => {
-        this.isLoading = true;
-      });
-      this.getOrders();
-    },
+    // getSearchValue(params) {
+    //   this.$store.commit("leaderboard/setSearchValue", params);
+    //   this.$store.commit("leaderboard/setSearchLeaderBoard", true);
+    //   this.$store.dispatch("leaderboard/searchLeaderBoard").then(() => {
+    //     this.isLoading = true;
+    //   });
+    //   this.getOrders();
+    // },
 
     // returns searched values to the table
-    getOrders() {
-      this.$store.dispatch("leaderboard/searchLeaderBoard").then(() => {
-        this.isLoading = false;
-      });
-    },
+    // getOrders() {
+    //   this.$store.dispatch("leaderboard/searchLeaderBoard").then(() => {
+    //     this.isLoading = false;
+    //   });
+    // },
 
     // set current page
-    setCurentPage() {
-      this.$store.commit(
-        "leaderboard/setPage",
-        this.getCurrentPage.currentPage
-      );
-      this.getOrders === true ? this.getSearchValue() : "";
-    },
+    // setCurentPage() {
+    //   this.$store.commit(
+    //     "leaderboard/setPage",
+    //     this.getCurrentPage.currentPage
+    //   );
+    //   this.getOrders === true ? this.getSearchValue() : "";
+    // },
   },
 };
 </script>
@@ -289,14 +309,9 @@ export default {
   color: #2b2b2b;
   font-size: 14px;
 }
-// .leader-label {
-//   font-family: "Product Sans Bold";
-//   color: #2b2b2b;
-//   font-size: 14px;
-// }
 .active {
-  border-left: 4px solid #5064cc;
-  color: #5064cc;
+  border-left: 4px solid #029b97;
+  color: #029b97;
   font-family: "Product Sans Medium";
   font-size: 14px;
   background-color: #5065cc1c;
