@@ -18,7 +18,7 @@
       <div class="pt-10 pb-5" v-show="!fetchingData">
         <div class="">
           <v-row>
-            <v-col sm="4" md="6" v-for="item in settlementList" :key="item.id">
+            <v-col class="col-12 col-lg-4 col-sm-6" v-for="item in settlementList" :key="item.id">
               <v-card outlined class="rounded-lg py-3">
                 <v-row>
                   <v-col cols="5">
@@ -27,6 +27,7 @@
                         :src="item.meta.product_image_url"
                         class="mx-3 my-5 image-bgColor"
                         width="90%"
+                        height="150px"
                       ></v-img>
                     </div>
                   </v-col>
@@ -34,34 +35,40 @@
                   <v-col cols="7" class="pr-5 pl-1 my-lg-3 my-md-3">
                     <div class="order-item-font mt-1">
                       Order ID:
-                      <span class="order-no-grey mx-1"> {{ item.id }}</span>
+                      <span class="order-no-grey mx-1"> {{ item.order_id }}</span>
                     </div>
                     <div class="order-item-font mt-1">
                       Settlement Status:
                       <span class="order-no-grey mx-1"> {{ item.status }}</span>
                     </div>
                     <div class="order-item-font mt-1">
-                      Price Of Item:
+                      Profit:
                       <span class="order-no-grey mx-1"
                         >&#8358;{{ item.amount_label }}</span
                       >
                     </div>
                     <div class="order-item-font mt-1">
+                      Amount:
+                      <span class="order-no-grey mx-1"
+                        >&#8358;{{ item.meta.product_price }}</span
+                      >
+                    </div>
+                    <div class="order-item-font mt-1">
                       Due date:
                       <span class="order-no-grey mx-1"
-                        >{{ item.due_date }}</span
+                        >{{ (item.due_date)? item.due_date: 'pending' }}</span
                       >
                     </div>
                    <div class="order-item-font mt-1">
                       Settlement date:
                       <span class="order-no-grey mx-1"
-                        >{{ item.date_settled }}</span
+                        >{{ (item.date_settled)? item.date_settled: 'pending' }}</span
                       >
                     </div>
                     <div class="order-item-font mt-1">
-                      Paid out date:
+                      Payout date:
                       <span class="order-no-grey mx-1"
-                        >{{ item.date_paidout }}</span
+                        >{{ (item.date_paidout)? item.date_paidout: 'pending' }}</span
                       >
                     </div>
                   </v-col>
