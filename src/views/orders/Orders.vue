@@ -109,9 +109,7 @@
                 </div>
                 <div class="order-item-font">
                   Price (NGN):
-                  <span class="order-no-grey">{{
-                    orders.subtotal_label
-                  }}</span>
+                  <span class="order-no-grey">{{ orders.subtotal_label }}</span>
                 </div>
               </v-col>
             </v-row>
@@ -121,14 +119,14 @@
     </div>
     <!-- pagination -->
     <div class="text-center pa-3">
-      <v-pagination
+      <!-- <v-pagination
         v-model="getCurrentPage.currentPage"
         :length="pageDetails.last_page"
         @input="setCurentPage"
         circle
         small
         style="font-size: 8px"
-      ></v-pagination>
+      ></v-pagination> -->
     </div>
   </v-container>
 </template>
@@ -164,38 +162,39 @@ export default {
       filterParameters: {
         price: true,
       },
+      ordersItems: [],
     };
   },
 
   computed: {
     // to populate items on the table
     ...mapGetters({
-      ordersItems: "orders/orders",
+      order: "orders/orders",
     }),
     ...mapState({
-      page: (state) => state.orders.page,
-      pageDetails: (state) => state.orders.pageDetails,
-      getCurrentPage() {
-        return {
-          currentPage: this.pageDetails.current_page,
-        };
-      },
+      // page: (state) => state.orders.page,
+      // pageDetails: (state) => state.orders.pageDetails,
+      // searchOrder: (state) => state.orders.searchOrder,
+      // getCurrentPage() {
+      //   return {
+      //     currentPage: this.pageDetails.current_page,
+      //   };
+      // },
     }),
   },
   created() {
     this.$store.dispatch("orders/getOrders").then((e) => {
       this.isLoading = false;
+      this.ordersItems = e;
       e.forEach((i) => {
         if (i.product_image_url) {
           this.loadImage = false;
         }
       });
-
       if (e.length < 1) {
         this.empty = "No Item Found";
       }
     });
-    this.$store.dispatch("orders/filterGetOrders");
 
     let ifConnected = window.navigator.onLine;
     if (!ifConnected) {
@@ -216,17 +215,16 @@ export default {
 
     getOrder() {
       this.$store.dispatch("orders/searchOrders").then((e) => {
-        console.log(e);
+        this.ordersItems = e.data.data;
       });
     },
 
+    // page here
+
     filterGetOrders() {
-      this.$store
-        .dispatch("orders/filterGetOrders")
-        .then(() => {})
-        .catch((e) => {
-          console.log(e);
-        });
+      this.$store.dispatch("orders/filterGetOrders").then((e) => {
+        this.ordersItems = e.data.data;
+      });
     },
     // filter function
     filterTable(params) {
@@ -249,12 +247,13 @@ export default {
 
     // set current page
     setCurentPage() {
-      this.$store.commit(
-        "orders/setPageDetails",
-        this.getCurrentPage.currentPage
+      this.$store.commit("orders/setPage", this.getCurrentPage.currentPage);
+      this.$store.commit("orders/setPageDetails", this.getCurrentPage.currentPage
       );
-      // this.$store.commit("orders/setPage", this.getCurrentPage.currentPage);
-      // this.getOrders === true ? this.getSearchValue() : "";
+      this.filterGetOrders();
+      this.getOrder()
+
+      this.getOrder === true ? this.getSearchValue() : "";
     },
   },
 };
@@ -282,7 +281,7 @@ export default {
   font-size: 12px;
 }
 .order-no-blue {
-  color: #029B97;
+  color: #029b97;
   font-size: 11px;
   font-family: "Product Sans Bold" !important;
 }
@@ -337,7 +336,7 @@ div.step-progress__step span {
 
 .position-abs {
   position: absolute !important;
-  color: #029B97;
+  color: #029b97;
   font-size: 20px !important;
   opacity: 0.5;
 }

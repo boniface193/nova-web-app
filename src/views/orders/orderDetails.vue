@@ -146,7 +146,6 @@
 </template>
 
 <script>
-// import { mapGetters } from 'vuex'
 export default {
   name: "orderDetails",
   data() {
@@ -159,9 +158,6 @@ export default {
       phone: "",
       email: "",
     };
-  },
-  computed: {
-    // ...mapGetters({orderDetails: 'orders/orders'})
   },
   created() {
     this.$store
@@ -177,9 +173,6 @@ export default {
         this.email = data.customer.email;
 
       })
-      .catch((e) => {
-        console.log(e);
-      });
   },
 };
 </script>

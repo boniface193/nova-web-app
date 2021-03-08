@@ -1,34 +1,34 @@
 import axios from "@/axios/order.js";
 
 // set the number of item you want to show on table
-const setItemPerPage = (itemPerPage, per_page, from_page) => {
-    let page = null;
-    if (itemPerPage > per_page) {
-        let range = Math.round(
-            (from_page - 1) / per_page
-        );
-        if (range < 0.5) {
-            page = range + 1;
-            return page;
-        } else {
-            page = range;
-            return page;
-        }
-    } else {
-        page = Math.round(
-            (from_page - 1) / itemPerPage + 1
-        );
-        return page
-    }
-}
+// const setItemPerPage = (itemPerPage, per_page, from_page) => {
+//     let page = null;
+//     if (itemPerPage > per_page) {
+//         let range = Math.round(
+//             (from_page - 1) / per_page
+//         );
+//         if (range < 0.5) {
+//             page = range + 1;
+//             return page;
+//         } else {
+//             page = range;
+//             return page;
+//         }
+//     } else {
+//         page = Math.round(
+//             (from_page - 1) / itemPerPage + 1
+//         );
+//         return page
+//     }
+// }
 
 //holds the state properties
 const state = {
     orders: [],
     searchOrder: false,
     searchValue: "",
-    page: 1,
-    itemPerPage: 15,
+    // page: 1,
+    // itemPerPage: null,
     pageDetails: {},
     filter: {
         minPrice: 0,
@@ -119,24 +119,6 @@ const actions = {
                 })
         })
     },
-    // exportOrder() {
-    //     return new Promise((resolve, reject) => {
-    //         axios.post(`/orders/export`, {
-    //             start_date: state.dateRange.startDate,
-    //             end_date: state.dateRange.endDate
-    //         },
-    //             {
-    //                 headers: {
-    //                     Authorization: `Bearer ${localStorage.getItem("accessToken")}`
-    //                 }
-    //             }).then(response => {
-    //                 resolve(response);
-    //             })
-    //             .catch(error => {
-    //                 reject(error);
-    //             })
-    //     })
-    // },
     // create order
     createOrder(context, data) {
         return new Promise((resolve, reject) => {
@@ -218,14 +200,14 @@ const mutations = {
     setPageDetails(state, data) {
         state.pageDetails = data
     },
-    setItemPerPage(state, itemPerPage) {
-        state.itemPerPage = itemPerPage ;
-        let page = setItemPerPage(itemPerPage, state.pageDetails.per_page, state.pageDetails.from);
-        state.page = page;
-    },
-    setPage(state, page) {
-        state.page = page
-    },
+    // setItemPerPage(state, itemPerPage) {
+    //     state.itemPerPage = itemPerPage ;
+    //     let page = setItemPerPage(itemPerPage, state.pageDetails.per_page, state.pageDetails.from);
+    //     state.page = page;
+    // },
+    // setPage(state, page) {
+    //     state.page = page
+    // },
     // commit nothing
     doNothing: (state) => (state.doNothing = null),
 };

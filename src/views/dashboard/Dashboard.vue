@@ -237,7 +237,7 @@
                 <div
                   class="card-success"
                   :class="{
-                    'card-error': diffSales == 0 || diffSales.includes('-'),
+                    'card-error': diffRank === '0' || diffRank.includes('-'),
                   }"
                 >
                   {{ diffRank }}
@@ -328,13 +328,14 @@ export default {
         this.pRank = resObj.curentSale;
         this.diffRank = resObj.difference;
         this.rankLoading = false;
+        console.log(typeof(this.diffRank))
       })
-      .catch((error) => {
-        if (error.status === 401 || error.status === 403) {
-          localStorage.removeItem("accessToken");
-          window.location.href = "/signin";
-        }
-      });
+      // .catch((error) => {
+      //   if (error.status === 401 || error.status === 403) {
+      //     localStorage.removeItem("accessToken");
+      //     window.location.href = "/signin";
+      //   }
+      // });
 
     this.$store
       .dispatch("dashboard/getSellerTotalSale")
@@ -347,12 +348,12 @@ export default {
         this.diffCurrentSales = resObj.curentSale;
         this.currentLoading = false;
       })
-      .catch((error) => {
-        if (error.status === 401 || error.status === 403) {
-          localStorage.removeItem("accessToken");
-          window.location.href = "/signin";
-        }
-      });
+      // .catch((error) => {
+      //   if (error.status === 401 || error.status === 403) {
+      //     localStorage.removeItem("accessToken");
+      //     window.location.href = "/signin";
+      //   }
+      // });
 
     if (this.userInfo.id === "") {
       this.$store.dispatch("settings/getUserProfile").then(() => {
@@ -365,10 +366,10 @@ export default {
             let awaitingSettle = Math.floor(res.awaiting_settlement);
             let convertToString = awaitingSettle.toString();
             if (convertToString.length >= 4) {
-              let roundedSettlement =  `${awaitingSettle / 1000}k`;
+              let roundedSettlement = `${awaitingSettle / 1000}k`;
               this.awaitingSettlement = roundedSettlement;
             } else if (convertToString.length >= 7) {
-              let roundedSettlement =  `${awaitingSettle / 1000000}k`;
+              let roundedSettlement = `${awaitingSettle / 1000000}k`;
               this.awaitingSettlement = roundedSettlement;
             } else {
               this.awaitingSettlement = res.awaiting_settlement_label;
@@ -384,23 +385,22 @@ export default {
           this.totalRevenue = res.total_revenue_label;
           this.settled = res.settled;
           // convertion to thousands
-            let awaitingSettle = Math.floor(res.awaiting_settlement);
-            let convertToString = awaitingSettle.toString();
-            if (convertToString.length >= 4) {
-              let roundedSettlement =  `${awaitingSettle / 1000}k`;
-              this.awaitingSettlement = roundedSettlement;
-            } else if (convertToString.length >= 7) {
-              let roundedSettlement =  `${awaitingSettle / 1000000}k`;
-              this.awaitingSettlement = roundedSettlement;
-            } else {
-              this.awaitingSettlement = res.awaiting_settlement_label;
-            }
+          let awaitingSettle = Math.floor(res.awaiting_settlement);
+          let convertToString = awaitingSettle.toString();
+          if (convertToString.length >= 4) {
+            let roundedSettlement = `${awaitingSettle / 1000}k`;
+            this.awaitingSettlement = roundedSettlement;
+          } else if (convertToString.length >= 7) {
+            let roundedSettlement = `${awaitingSettle / 1000000}k`;
+            this.awaitingSettlement = roundedSettlement;
+          } else {
+            this.awaitingSettlement = res.awaiting_settlement_label;
+          }
           this.availableBalance = res.available_balance;
           this.payment = false;
         });
     }
   },
-  
 
   methods: {
     dateValue(value) {
