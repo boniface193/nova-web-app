@@ -322,8 +322,8 @@ export default {
       .dispatch("dashboard/getSellerRank")
       .then((res) => {
         let resObj = {
-          difference: res.diff.toString(),
-          curentSale: res.present_rank.toString(),
+          difference: res.today_rank.toString(),
+          curentSale: res.overall_rank.toString(),
         };
         this.pRank = resObj.curentSale;
         this.diffRank = resObj.difference;
