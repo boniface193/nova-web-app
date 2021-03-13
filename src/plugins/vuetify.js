@@ -14,7 +14,12 @@ export default new Vuetify({
                 error: '#E62222',
                 success: '#00B944',
                 accent: '#52F1EC',
+                default: '#000',
+                background: '#eeffff'
             },
         },
+        options: {
+            customProperties: true
+        }
     },
 });
