@@ -1,24 +1,24 @@
 <template>
   <div class="footer">
-    <v-row class="py-10">
-      <v-col class="col-3">
+    <v-row class="py-md-10 py-3">
+      <v-col class="col-12 col-sm-4 col-md-3">
         <div class="logo-conatiner">
           <img src="" alt="" />
         </div>
       </v-col>
-      <v-col class="col-3">
-        <p class="white--text">
+      <v-col class="col-12  col-sm-4 col-md-3">
+        <p class="white--text mb-0">
           26 Adewale Kolawole Crescent, Marwa, Lagos, Nigeria
         </p>
       </v-col>
-      <v-col class="col-3">
-        <p class="white--text">Info@brandmobileafrica.com</p>
+      <v-col class="col-12 col-sm-4 col-md-3">
+        <p class="white--text mb-0">Info@brandmobileafrica.com</p>
       </v-col>
-      <v-col class="col-3">
-        <p class="white--text">+234 818 655 1443</p>
+      <v-col class="col-12 col-sm-4 col-md-3">
+        <p class="white--text mb-0">+234 818 655 1443</p>
       </v-col>
     </v-row>
-    <p class="mt-8 white--text">Kuuzza is a product of BrandMobileAfrica</p>
+    <p class="mt-2 mt-md-8 white--text">Kuuzza is a product of BrandMobileAfrica</p>
 
     <div class="mask"></div>
   </div>
@@ -54,5 +54,9 @@ export default {
     background-attachment: fixed;
   }
 }
-
+@media (max-width: 959px) {
+  .footer{
+    padding: 50px 20px;
+  }
+}
 </style>

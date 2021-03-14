@@ -35,7 +35,10 @@ export default {
   background: var(--v-background-base);
   padding: 20px 70px;
   position: fixed;
+  right: 0px;
+  left: 0px;
   top: 0;
+  margin: auto;
   z-index: 7;
   &--logo {
     width: 85px;
@@ -54,6 +57,14 @@ export default {
     .nav-item {
       text-decoration: none;
       color: var(--v-default-base);
+    }
+  }
+}
+@media (max-width: 959px) {
+  .navbar {
+    padding: 10px 20px;
+    &--nav {
+      display: none;
     }
   }
 }
