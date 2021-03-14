@@ -2,9 +2,11 @@ import Vue from "vue";
 import VueRouter from "vue-router";
 import store from "@/store";
 
-import Index from "../views/Index.vue";
+// public pages
+import Index from "../views/publicPages/Index.vue";
+import Home from "../views/publicPages/Home.vue";
+import SuspensionPage from "../views/publicPages/SuspensionPage.vue";
 // onboarding routes
-import SuspensionPage from "../views/SuspensionPage.vue";
 import Signup from "@/components/onboarding/Signup.vue";
 import Signin from "@/components/onboarding/Signin.vue";
 import Recoverpassword from "@/components/onboarding/Recoverpassword.vue";
@@ -13,19 +15,19 @@ import Emailverification from "@/components/onboarding/Emailverification.vue";
 import Forgotpasswordverification from "@/components/onboarding/Forgotpasswordverification.vue";
 import Onboarding from "@/views/onboarding/Onboarding.vue";
 // dashbord
-import dashboardView from "@/views/dashboard/dashboardView.vue";
-import Dashboard from "@/views/dashboard/Dashboard.vue";
-import Reward from "@/views/dashboard/Reward.vue";
-import Leaderboard from "@/views/dashboard/Leaderboard.vue";
+import dashboardView from "@/views/authPages/dashboard/dashboardView.vue";
+import Dashboard from "@/views/authPages/dashboard/Dashboard.vue";
+import Reward from "@/views/authPages/dashboard/Reward.vue";
+import Leaderboard from "@/views/authPages/dashboard/Leaderboard.vue";
 // sales history pages
 import PaymentHistory from "@/components/salesHistory/PaymentHistory.vue";
 import SettlementHistory from "@/components/salesHistory/SettlementHistory.vue";
 // order routes
-import orderView from "@/views/orders/orderView.vue";
-import Orders from "@/views/orders/Orders.vue";
-import orderDetails from "@/views/orders/orderDetails.vue";
+import orderView from "@/views/authPages/orders/orderView.vue";
+import Orders from "@/views/authPages/orders/Orders.vue";
+import orderDetails from "@/views/authPages/orders/orderDetails.vue";
 // Settings
-import Settings from "@/views/Settings.vue";
+import Settings from "@/views/authPages/Settings.vue";
 import ProfilePage from "@/components/settings/ProfilePage.vue";
 import Profile from "@/components/settings/Profile.vue";
 import Privacy from '@/components/settings/Privacy.vue';
@@ -35,7 +37,7 @@ import WithdrawFund from "@/components/withdrawalPages/WithdrawFund.vue";
 import AddBankDetails from "@/components/withdrawalPages/AddBankDetails.vue";
 import EditBankDetails from '@/components/withdrawalPages/EditBankDetails.vue';
 // Inventory
-import Inventory from "@/views/Inventory.vue";
+import Inventory from "@/views/authPages/Inventory.vue";
 import InventoryHome from "@/components/inventory/InventoryHome.vue";
 import ProductPage from "@/components/inventory/ProductPage.vue";
 import CustomerDetailsForm from "@/components/inventory/CustomerDetailsForm.vue";
@@ -152,8 +154,12 @@ const allowEditBankAccount = (to, from, next) => {
 const routes = [
   {
     path: "/",
-    name: "Index",
-    component: Index
+    component: Index,
+    children: [{
+      path: "",
+      component: Home,
+      name: "Home"
+    }]
   },
   {
     path: "/suspension-page",
@@ -252,7 +258,7 @@ const routes = [
               {
                 path: "change-account",
                 name: "EditBankDetails",
-                component: EditBankDetails ,
+                component: EditBankDetails,
                 beforeEnter: allowEditBankAccount
               }
             ]
