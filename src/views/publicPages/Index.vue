@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div style="position: relative; width: 100%">
     <!-- navbar section -->
     <Navbar />
     

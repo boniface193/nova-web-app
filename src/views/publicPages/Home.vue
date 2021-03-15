@@ -5,14 +5,14 @@
     <Banner />
 
     <div class="text-center">
-      <h1 class="mt-7">
+      <h1 class="mt-7 px-5 secondary-header">
         Start selling with <span class="primary--text">no upfront cost.</span>
       </h1>
     </div>
 
     <!-- featured item -->
     <div class="featured-item">
-      <div class="d-flex justify-space-between">
+      <div class="d-flex justify-space-between align-baseline">
         <h2>Featured items</h2>
         <router-link
           :to="{ path: '/' }"
@@ -30,13 +30,13 @@
     </div>
 
     <div class="text-center">
-      <h1 class="mt-7">Why resell on Kuuzzza?</h1>
+      <h1 class="mt-7 secondary-header">Why resell on Kuuzzza?</h1>
     </div>
 
     <!-- why kuuzza -->
     <div class="why-kuuzza">
       <v-row>
-        <v-col class="col-6 d-flex align-center">
+        <v-col class="col-12 col-md-6 d-flex align-center why-kuuzza--text">
           <div>
             <h2 class="mb-5">No upfront costs</h2>
             <p class="mb-8">
@@ -52,7 +52,7 @@
             </p>
           </div>
         </v-col>
-        <v-col class="col-6">
+        <v-col class="col-12 col-md-6 why-kuuzza--img">
           <div class="image-container">
             <img src="@/assets/images/quantity.png" alt="" />
           </div>
@@ -62,12 +62,12 @@
 
     <div class="top-seller">
       <v-row>
-        <v-col class="col-6">
+        <v-col class="col-12 col-md-6 top-seller--img">
           <div class="image-container">
             <img src="@/assets/images/top-seller.png" alt="" />
           </div>
         </v-col>
-        <v-col class="col-6 d-flex align-center">
+        <v-col class="col-12 col-md-6 d-flex align-center top-seller--text">
           <div>
             <h2 class="mb-5">Decide your profit</h2>
             <p class="mb-8">
@@ -86,7 +86,7 @@
 
     <div class="logistics">
       <v-row>
-        <v-col class="col-6 d-flex align-center">
+        <v-col class="col-12 col-md-6 d-flex align-center logistics--text">
           <div>
             <h2 class="mb-5">We handle the logistics</h2>
             <p class="mb-8">
@@ -101,7 +101,7 @@
             </p>
           </div>
         </v-col>
-        <v-col class="col-6">
+        <v-col class="col-12 col-md-6 logistics--img">
           <div class="image-container">
             <img src="@/assets/images/map.svg" alt="" />
           </div>
@@ -111,17 +111,19 @@
 
     <div class="get-started">
       <v-row>
-        <v-col class="col-6">
+        <v-col class="col-0 col-md-6 get-started--img">
           <div class="image-container">
             <img src="@/assets/images/get-started.png" alt="" />
           </div>
         </v-col>
-        <v-col class="col-6 d-flex align-center">
+        <v-col class="col-12 col-md-6 d-flex align-center get-started--text">
           <div>
-            <h1 class="mb-5">How to get started.</h1>
-            <p class="mb-5">
-              Getting started on Kuuzza is as easy as thesefew steps:
-            </p>
+            <div class="text-center text-md-left">
+              <h1 class="mb-5">How to get started.</h1>
+              <p class="mb-5">
+                Getting started on Kuuzza is as easy as thesefew steps:
+              </p>
+            </div>
 
             <div class="mb-3 d-flex align-center">
               <div></div>
@@ -153,7 +155,7 @@
               </div>
             </div>
 
-            <v-btn class="primary px-10 py-6">Sell now</v-btn>
+            <v-btn class="primary px-10 py-6 d-md-flex d-none">Sell now</v-btn>
           </div>
         </v-col>
       </v-row>
@@ -243,6 +245,56 @@ export default {
     padding: 60px 0px;
     background: var(--v-background-base);
     text-align: center;
+  }
+}
+@media (max-width: 959px) {
+  .main {
+    padding-top: 46.7px;
+    .secondary-header{
+      font-size: 27px;
+    }
+    .featured-item {
+      margin: 50px 20px 0px 20px;
+    }
+    .why-kuuzza {
+      margin: 0px 0px 0px 20px;
+      &--text {
+        order: 2;
+        padding-right: 20px;
+      }
+      &--img {
+        order: 1;
+      }
+    }
+    .top-seller {
+      margin: 0px;
+      &--text {
+        order: 2;
+        padding: 0px 20px;
+      }
+      &--img {
+        order: 1;
+      }
+    }
+    .logistics {
+      margin: 0px;
+      &--text {
+        order: 2;
+        padding: 30px 20px 0px 20px;
+      }
+      &--img {
+        order: 1;
+      }
+    }
+    .get-started {
+      margin: 0;
+      &--text {
+        padding: 0px 20px;
+      }
+      &--img {
+        display: none;
+      }
+    }
   }
 }
 @keyframes rotation {
