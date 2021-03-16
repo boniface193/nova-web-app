@@ -20,24 +20,23 @@ const actions = {
             })
                 .then(response => {
                     context.commit("setRewards", response.data)
-                    // context.commit("setPageDetails", response.data.meta);
                     resolve(response.data)
                     
                 })
                 .catch(error => {
                     reject(error)
                 })
-        })
-    },
-
-    redeemReward(context) {
-        let redeemAirtime = (state.redeem_airtime !== "") ? `/get?reward_id=${state.redeem_airtime}` : ""
-        return new Promise((resolve, reject) => {
-            axios.get(`/reward${redeemAirtime}`, {
-                headers: {
-                    Authorization: `Bearer ${localStorage.getItem("accessToken")}`
-                }
             })
+        },
+        
+        redeemReward(context, data) {
+            let redeemAirtime = (state.redeem_airtime !== "") ? `?reward_id=${state.redeem_airtime}` : ""
+            return new Promise((resolve, reject) => {
+                axios.post(`/reward/get${redeemAirtime}`, data, {
+                    headers: {
+                        Authorization: `Bearer ${localStorage.getItem("accessToken")}`
+                    }
+                })
                 .then(response => {
                     context.commit("setRewards", response.data.data)
                     resolve(response.data.data)
@@ -58,8 +57,6 @@ const actions = {
             })
                 .then(response => {
                     context.commit("setHistory", response.data.data)
-                    console.log(response.data.data)
-                    // context.commit("setPageDetails", response.data.meta);
                     resolve(response.data.data)
                 })
                 .catch(error => {
