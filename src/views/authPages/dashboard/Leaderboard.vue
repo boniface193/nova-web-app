@@ -24,20 +24,20 @@
 
         <div
           class="lenghtOfUser text-center mt-8"
-          v-for="items in leaderboard.data"
+          v-for="items in leaderboard"
           :key="items.seller_id"
         >
           <div v-if="userInfo.id == items.seller_id">
-            You’re {{ leaderboard.ranks[items.seller_id]
-            }}<span v-if="leaderboard.ranks[items.seller_id] == 1">st</span
-            ><span v-else-if="leaderboard.ranks[items.seller_id] == 2">nd</span>
-            <span v-else-if="leaderboard.ranks[items.seller_id] == 3">rd</span>
+            You’re {{ items.rank
+            }}<span v-if="items.rank == 1">st</span
+            ><span v-else-if="items.rank == 2">nd</span>
+            <span v-else-if="items.rank == 3">rd</span>
             <span v-else>th</span> on the Leaderboard!
           </div>
         </div>
         <!-- no data -->
          
-        <div class="text-center pt-10 pb-5" v-if="leaderboard.data.length < 1">
+        <div class="text-center pt-10 pb-5" v-if="leaderboard.length < 1">
           <p class="mb-0 secondary--text" style="font-size: 20px">
             Opps! No leaders found.
           </p>
@@ -56,7 +56,7 @@
         <!-- loader ends here -->
         <v-row class="d-flex justify-center">
           <v-col lg="6">
-            <v-row class="mt-5">
+            <v-row class="mt-5" v-show="leaderboard.length >= 1">
               <v-col cols="2" lg="3"><h5>Rank</h5></v-col>
               <v-col cols="8" lg="6"><h5>Name</h5></v-col>
               <v-col cols="2" lg="3"><h5>Points</h5></v-col>
@@ -64,12 +64,12 @@
 
             <v-row
               class="leader-text my-2"
-              v-for="items in leaderboard.data"
-              :key="items.id"
+              v-for="items in leaderboard"
+              :key="items.seller_id"
               :class="{ active: userInfo.id === items.seller_id }"
             >
               <v-col cols="2" lg="3"
-                >{{ leaderboard.ranks[items.seller_id] }}
+                >{{ items.rank }}
               </v-col>
               <v-col cols="8" lg="6">
                 <div
@@ -92,7 +92,7 @@
     </v-container>
 
     <!-- pagination -->
-    <div class="text-center elevation-8 pa-3" v-if="leaderboard.data.length >= 10">
+    <div class="text-center elevation-8 pa-3" v-if="leaderboard.length >= 10">
       <!-- <v-pagination
         v-model="getCurrentPage.currentPage"
         @input="setCurentPage"
@@ -129,18 +129,18 @@
                 <v-list-item-content class="pt-1" align="center">
                   <v-list-item-title
                     ><span class="primary--text larger-text"
-                      >{{ leaderboard.ranks[filteredArray.seller_id]
+                      >{{ filteredArray.rank
                       }}<span
-                        v-if="leaderboard.ranks[filteredArray.seller_id] == 1"
+                        v-if="filteredArray.rank == 1"
                         >st</span
                       ><span
                         v-else-if="
-                          leaderboard.ranks[filteredArray.seller_id] == 2
+                          filteredArray.rank == 2
                         "
                         >nd</span
                       ><span
                         v-else-if="
-                          leaderboard.ranks[filteredArray.seller_id] == 3
+                          filteredArray.rank == 3
                         "
                         >rd</span
                       ><span v-else>th</span>
@@ -201,7 +201,7 @@ export default {
 
   computed: {
     ...mapGetters({
-      leaderboardGetters: "leaderboard/leaderboard",
+      getLeaderboard: "leaderboard/leaderboard",
       userInformation: "settings/profile",
     }),
     ...mapState({
@@ -226,17 +226,10 @@ export default {
       this.userInfo = this.userInformation
     }
 
-    if (this.leaderboardGetters.data === undefined) {
     this.$store.dispatch("leaderboard/getLeaderboard").then((res) => {
       this.leaderboard = res;
       this.isLoading = false;
-      console.log(res);
     });
-    } else {
-    this.leaderboard = this.leaderboardGetters;
-    this.isLoading = false;
-    }
-    this.$store.dispatch("leaderboard/getLeaderboard");
   },
 
   methods: {
@@ -254,21 +247,22 @@ export default {
     },
 
     filterById(id) {
-      this.filteredArray = this.leaderboard.data.find(
+      this.filteredArray = this.leaderboard.find(
         (item) => item.seller_id === id
       );
       this.openModal();
     },
 
     // search the datatable items
-    // getSearchValue(params) {
-    //   this.$store.commit("leaderboard/setSearchValue", params);
-    //   this.$store.commit("leaderboard/setSearchLeaderBoard", true);
-    //   this.$store.dispatch("leaderboard/searchLeaderBoard").then(() => {
-    //     this.isLoading = true;
-    //   });
-    //   this.getOrders();
-    // },
+    getSearchValue(params) {
+      this.$store.commit("leaderboard/setSearchValue", params);
+      this.$store.commit("leaderboard/setSearchLeaderBoard", true);
+      this.$store.dispatch("leaderboard/searchLeaderBoard").then(() => {
+        // this.leaderboard = this.getLeaderboard
+        // this.isLoading = true;
+      });
+      // this.getOrders();
+    },
 
     // returns searched values to the table
     // getOrders() {
