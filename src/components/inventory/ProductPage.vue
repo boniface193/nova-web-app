@@ -34,7 +34,7 @@
               >{{ productDetails.quantity }} Available</span
             >
             <span class="mx-2">|</span>
-            <span><span>Minimum order quantity:</span> 1</span>
+            <span><span>Minimum order quantity:</span> {{ productDetails.min_order_quantity}}</span>
           </p>
           <p class="mb-4">
             <span class="primary--text mr-2"
