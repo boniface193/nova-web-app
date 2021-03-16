@@ -7,7 +7,7 @@
 
     <div class="description">
       <router-link
-        :to="{ name: 'Index' }"
+        :to="{ name: 'Home' }"
         style="text-decoration: none"
         v-show="presentForm === 'form1'"
       >

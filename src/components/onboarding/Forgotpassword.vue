@@ -33,6 +33,9 @@
         @keyup.enter="validateEmail()"
       ></v-text-field>
 
+      <!-- do not remove -->
+      <v-text-field style="display:none"></v-text-field>
+
       <!-- button container -->
       <div class="pa-0 mt-5" style="width: 100%">
         <v-btn
@@ -82,10 +85,6 @@ export default {
         .then((response) => {
           this.loading = false;
           if (response.data.message === "An OTP has been sent to your email.") {
-            this.$store.commit(
-              "onboarding/accessForgotPasswordVerificationPage",
-              true
-            );
             this.$router.push({
               name: "Forgotpasswordverification",
               params: { email: emailAddress },

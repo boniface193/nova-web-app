@@ -8,8 +8,8 @@
             <span class="primary--text">Anyone </span>can sell.
           </h1>
           <p class="secondary--text mb-5">
-            With Kuuzzza, absolutely anyone can sign up, gain access to
-            inventory and become a seller for our partner brands, with no
+            With Kuuzzza, anyone can sign up, gain access to
+            inventory and become a seller for our partner brands, at no
             upfront costs
           </p>
           <v-btn class="primary px-10 py-6 mx-auto mx-md-0">Sell now</v-btn>

@@ -45,7 +45,16 @@
         <div class="pa-0 mt-10" style="width: 100%">
           <p>
             Didn't receive the code?
-            <a style="text-decoration: none" @click="resendOTP">Resend Code</a>
+            <a style="text-decoration: none" @click="resendOTP">
+              <span v-show="!resendOTPLoader">Resend Code</span>
+              <v-progress-circular
+                indeterminate
+                color="primary"
+                size="20"
+                class="ml-5"
+                v-show="resendOTPLoader"
+              ></v-progress-circular>
+            </a>
           </p>
           <v-btn
             class="primary py-5 mb-5 mx-auto"
@@ -105,6 +114,7 @@ export default {
       errorMessage: false,
       message: "",
       resendOtpSuccess: false,
+      resendOTPLoader: false,
       dashboardBtn: true,
       statusImage: null,
     };
@@ -163,6 +173,7 @@ export default {
     },
     // resend OTP
     resendOTP() {
+      this.resendOTPLoader= true;
       this.$store
         .dispatch("onboarding/resendEmailOTP", {
           email: this.$route.params.email,
@@ -171,6 +182,7 @@ export default {
         .then((response) => {
           if (response.data.message === "An OTP has been sent to your email.") {
             this.resendOtpSuccess = true;
+            this.resendOTPLoader= false;
             setTimeout(() => {
               this.resendOtpSuccess = false;
             }, 3000);
@@ -178,6 +190,7 @@ export default {
         })
         .catch((error) => {
           this.errorMessage = true;
+          this.resendOTPLoader= false;
           if (error.response) {
             this.message = error.response.errors.email[0];
           } else {
