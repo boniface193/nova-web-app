@@ -44,6 +44,7 @@ const actions = {
                 .then(response => {
                     context.commit("setLeaderboard", response.data)
                     context.commit("setPageDetails", response.data.meta);
+                    console.log("leaderboard", response.data)
                     resolve(response.data)
                 })
                 .catch(error => {

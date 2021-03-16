@@ -232,7 +232,7 @@
                     class="rounded-pill pa-7 text-center round-img-bg-warning"
                   ></div>
                 </div>
-                <div class="card-header">{{ pRank }}</div>
+                <div class="card-header">{{ pRank || "No data found" }}</div>
                 <div class="card-sale">on leaderboard</div>
                 <div
                   class="card-success"
@@ -240,7 +240,7 @@
                     'card-error': diffRank === '0' || diffRank.includes('-'),
                   }"
                 >
-                  {{ diffRank }}
+                  {{ diffRank || "No data found" }}
                 </div>
                 <div class="card-history my-2">
                   <router-link
@@ -322,8 +322,8 @@ export default {
       .dispatch("dashboard/getSellerRank")
       .then((res) => {
         let resObj = {
-          difference: res.today_rank.toString(),
-          curentSale: res.overall_rank.toString(),
+          difference: res.today_rank === null ? '' : res.today_rank.toString(),
+          curentSale: res.overall_rank === null ? '' : res.overall_rank.toString(),
         };
         this.pRank = resObj.curentSale;
         this.diffRank = resObj.difference;
