@@ -7,7 +7,6 @@ const decodeToken = (token) => {
     return JSON.parse(payload.toString());
 }
 
-
 // check if user is authenticated
 const checkIfTokenIsPresent = () => {
     if (state.token !== null) {
