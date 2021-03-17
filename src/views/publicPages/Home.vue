@@ -6,7 +6,7 @@
 
     <div class="text-center">
       <h1 class="mt-7 px-5 secondary-header">
-        Start selling with <span class="primary--text">no upfront cost.</span>
+        Start selling at <span class="primary--text">no upfront cost.</span>
       </h1>
     </div>
 
@@ -125,16 +125,20 @@
               </p>
             </div>
 
-            <div class="mb-3 d-flex align-center">
-              <div></div>
+            <div class="mb-3 d-flex">
+              <div>
+                <img class="mt-2" src="@/assets/images/user-check.svg" alt="" />
+              </div>
               <div class="ml-5">
                 <h3>Create account</h3>
                 <p>Sign up at no cost and access our inventory immediately</p>
               </div>
             </div>
 
-            <div class="mb-3 d-flex align-center">
-              <div></div>
+            <div class="mb-3 d-flex">
+              <div>
+                <img class="mt-2" src="@/assets/images/search-cart.svg" alt="" />
+              </div>
               <div class="ml-5">
                 <h3>Find product, decide profit and market</h3>
                 <p>
@@ -144,8 +148,10 @@
               </div>
             </div>
 
-            <div class="mb-3 d-flex align-center">
-              <div></div>
+            <div class="mb-3 d-flex">
+              <div>
+                <img class="mt-2" src="@/assets/images/naira-check.svg" alt="" />
+              </div>
               <div class="ml-5">
                 <h3>Get paid</h3>
                 <p>
@@ -162,7 +168,7 @@
     </div>
 
     <div class="product-to-sell">
-      <h1 class="mb-5">Do you have any products to sell?</h1>
+      <h1 class="mb-5 secondary-header">Do you have any products to sell?</h1>
       <p class="mb-4">You can put your products up for sale on Kuuzza too.</p>
       <v-btn class="primary px-10 py-6 mx-auto">List your products</v-btn>
     </div>
@@ -181,7 +187,6 @@ export default {
 </script>
 <style lang="scss" scoped>
 .main {
-  padding-top: 76px;
   .featured-item {
     margin: 50px 70px 0px 70px;
     .items-container {
@@ -249,7 +254,6 @@ export default {
 }
 @media (max-width: 959px) {
   .main {
-    padding-top: 46.7px;
     .secondary-header{
       font-size: 27px;
     }

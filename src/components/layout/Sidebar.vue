@@ -11,10 +11,11 @@
         <v-container
           class="px-5 my-10 d-flex align-center justify-space-between"
         >
-          <div class="nova-logo d-flex align-center">
-            <img src="@/assets/images/primary-logo.png" />
-          </div>
-
+          <router-link :to="{ name: 'Home' }">
+            <div class="nova-logo d-flex align-center">
+              <img src="@/assets/images/primary-logo.png" />
+            </div>
+          </router-link>
           <v-icon
             color="primary"
             size="32"
@@ -28,7 +29,7 @@
         <v-list class="pa-0" nav tile>
           <v-list-item-group mandatory>
             <v-list-item
-              class="rounded-0"
+             
               v-for="item in items"
               :key="item.key"
               link
@@ -192,5 +193,10 @@ export default {
     min-width: 250px;
     width: 250px;
   }
+}
+</style>
+<style lang="scss">
+.v-list--nav .v-list-item, .v-list--nav .v-list-item:before {
+    border-radius: 0px !important;
 }
 </style>
