@@ -52,28 +52,31 @@ import OrderStatus from "@/components/checkout/OrderStatus.vue";
 
 Vue.use(VueRouter);
 
-// requirement for user to log on to the dashboard
+// requirement for user to log on to the authenticated pages
 const ifAuthenticated = (to, from, next) => {
   store.commit("onboarding/tokenIsPresent");
   if (store.getters["onboarding/tokenIsPresent"] === true) {
-    store.dispatch("onboarding/getUserProfile").then((response) => {
+    store.dispatch("onboarding/getUserProfile").then(response => {
       const profile = response.data.data;
-      if (profile.email_verified === true) {
+      if (profile.email_verified) {
         if (profile.status) {
           store.commit("onboarding/setTokenExpired");
           if (store.getters["onboarding/tokenExpired"] === false) {
             next()
             return
           } else {
-            localStorage.removeItem("accessToken");
-            next({ name: 'Signin' });
+            store.commit("reset");
+            store.commit("onboarding/removeToken");
+            next({ name: "Signin" })
           }
         } else {
-          store.commit("onboarding/loggedIn", false);
-          next({ name: "SuspensionPage" });
+          store.commit("reset");
+          store.commit("onboarding/removeToken");
+          next({ name: "SuspensionPage" })
         }
       } else {
-        console.log(666)
+        store.commit("reset");
+        store.commit("onboarding/removeToken");
         next({
           name: 'Emailverification', params: {
             email: profile.email,
@@ -81,9 +84,10 @@ const ifAuthenticated = (to, from, next) => {
         });
       }
     }).catch((error) => {
-      if (error.response) {
-        localStorage.removeItem("accessToken");
-        next({ name: "Signin" })
+      if (error.response.status == 401) {
+        store.commit("reset");
+        store.commit("onboarding/removeToken");
+        next({ name: "Signin" });
       }
     })
   } else {
@@ -102,6 +106,33 @@ const AlreadyLogin = (to, from, next) => {
     return
   }
 }
+
+// verify if access has been given to a user to view email verification page
+const ifAccessEmailVerifcationPage = (to, from, next) => {
+  if (from.name === "Signup" || from.name === "Signin") {
+    next()
+    return
+  }
+  next({ name: 'Signup' })
+}
+// verify if access has been given to a user to view password verification page
+const ifAccessForgotPasswordVerificationPage = (to, from, next) => {
+  if (from.name === "Forgotpassword") {
+    next()
+    return
+  }
+  next({ name: 'Forgotpassword' })
+}
+
+// verify if access has been given to a user to view password recovery page
+const ifAccessPasswordRecoveryPage = (to, from, next) => {
+  if (from.name === "Forgotpasswordverification") {
+    next()
+    return
+  }
+  next({ name: 'Forgotpassword' })
+}
+
 // check conditon before allowing user to route to payment page 
 const allowPayment = (to, from, next) => {
   const params = new URLSearchParams(window.location.search);
@@ -123,33 +154,6 @@ const allowEditBankAccount = (to, from, next) => {
     next({ name: "WithdrawFund" });
   }
 }
-
-
-// // verify if access has been given to a user to view email verification page
-// const ifAccessEmailVerifcationPage = (to, from, next) => {
-//   if (store.getters["onboarding/accessEmailVerifcationPage"] === true) {
-//     next()
-//     return
-//   }
-//   next({ name: 'Signup' })
-// }
-// // verify if access has been given to a user to view password verification page
-// const ifAccessForgotPasswordVerificationPage = (to, from, next) => {
-//   if (store.getters["onboarding/accessForgotPasswordVerificationPage"] === true) {
-//     next()
-//     return
-//   }
-//   next({ name: 'Forgotpassword' })
-// }
-
-// // verify if access has been given to a user to view password recovery page
-// const ifAccessPasswordRecoveryPage = (to, from, next) => {
-//   if (store.getters["onboarding/accessPasswordRecoveryPage"] === true) {
-//     next()
-//     return
-//   }
-//   next({ name: 'Forgotpassword' })
-// }
 
 const routes = [
   {
@@ -350,7 +354,7 @@ const routes = [
         path: "/recoverpassword",
         name: "Recoverpassword",
         component: Recoverpassword,
-        //beforeEnter:ifAccessPasswordRecoveryPage,
+        beforeEnter:ifAccessPasswordRecoveryPage,
         props: true
       },
       {
@@ -362,14 +366,14 @@ const routes = [
         path: "/emailverification",
         name: "Emailverification",
         component: Emailverification,
-        //beforeEnter: ifAccessEmailVerifcationPage,
+        beforeEnter: ifAccessEmailVerifcationPage,
         props: true
       },
       {
         path: "/forgotpasswordverification",
         name: "Forgotpasswordverification",
         component: Forgotpasswordverification,
-        //beforeEnter: ifAccessForgotPasswordVerificationPage,
+        beforeEnter: ifAccessForgotPasswordVerificationPage,
         props: true
       },
     ]

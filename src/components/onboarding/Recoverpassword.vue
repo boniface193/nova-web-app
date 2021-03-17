@@ -37,7 +37,7 @@
         color="primary"
         required
         ref="input2"
-        @keyup.enter="validate_password()"
+        @keyup.enter="validatePassword()"
       ></v-text-field>
 
       <!-- button container -->

@@ -43,7 +43,16 @@
       <div class="pa-0 mt-10" style="width: 100%">
         <p>
           Didn't receive the code?
-          <a style="text-decoration: none" @click="resendOTP()">Resend Code</a>
+          <a style="text-decoration: none" @click="resendOTP">
+            <span v-show="!resendOTPLoader">Resend Code</span>
+            <v-progress-circular
+              indeterminate
+              color="primary"
+              size="20"
+              class="ml-5"
+              v-show="resendOTPLoader"
+            ></v-progress-circular>
+          </a>
         </p>
         <v-btn
           class="primary py-5 mb-5 mx-auto"
@@ -70,7 +79,8 @@ export default {
       code: null,
       errorMessage: false,
       message: "",
-      resendOtpSuccess: false,
+      resendOTPLoader: false,
+      resendOtpSuccess: false
     };
   },
   methods: {
@@ -95,16 +105,11 @@ export default {
           .dispatch("onboarding/verifyForgotPassword", {
             otp: this.code,
             email: this.$route.params.email,
-             type: "seller"
+            type: "seller",
           })
           .then((response) => {
             this.loading = false;
             if (response.data.message === "OTP verified successfully.") {
-              this.$store.commit(
-                "onboarding/accessForgotPasswordVerificationPage",
-                false
-              );
-              this.$store.commit("onboarding/accessPasswordRecoveryPage", true);
               this.$router.push({
                 name: "Recoverpassword",
                 params: {
@@ -131,13 +136,16 @@ export default {
     },
     // resend OTP
     resendOTP() {
+      this.resendOTPLoader = true;
       this.$store
-        .dispatch("onboarding/resendEmailOTP", {
+        .dispatch("onboarding/resendVerifyForgotPasswordOTP", {
           email: this.$route.params.email,
+          type: "seller",
         })
         .then((response) => {
           if (response.data.message === "An OTP has been sent to your email.") {
             this.resendOtpSuccess = true;
+            this.resendOTPLoader = false;
             setTimeout(() => {
               this.resendOtpSuccess = false;
             }, 3000);
@@ -145,6 +153,7 @@ export default {
         })
         .catch((error) => {
           this.errorMessage = true;
+          this.resendOTPLoader = false;
           if (error.response) {
             this.message = error.response.errors.email[0];
           } else {

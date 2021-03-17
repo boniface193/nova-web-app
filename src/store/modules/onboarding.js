@@ -132,11 +132,21 @@ const actions = {
         })
     },
     // resend opt for email verification 
-    resendEmailOTP(context, credentials) {
+    resendEmailOTP(context, data) {
         return new Promise((resolve, reject) => {
-            axios.post("emails/send-otp", {
-                email: credentials.email
-            }).then(response => {
+            axios.post("emails/send-otp", data).then(response => {
+                resolve(response);
+            })
+                .catch(error => {
+                    context.commit("doNothing");
+                    reject(error);
+                })
+        })
+    },
+    // resend opt verify forgot password 
+    resendVerifyForgotPasswordOTP(context, data) {
+        return new Promise((resolve, reject) => {
+            axios.post("passwords/reset", data).then(response => {
                 resolve(response);
             })
                 .catch(error => {
