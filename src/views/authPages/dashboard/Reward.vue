@@ -276,6 +276,7 @@ export default {
       this.filteredArray = Object.values(this.rewards.rewards).find(
         (item) => item.key == id
       );
+      console.log(this.filteredArray)
       this.openModal();
     },
     redeemOffer(params) {
@@ -286,8 +287,6 @@ export default {
           this.alert = res.message;
           this.successful = true;
           this.Showdialog = true;
-          // redirect to dashboard
-          // location.href = "/dashboard";
         })
         .catch((err) => {
           this.alert = err.message;

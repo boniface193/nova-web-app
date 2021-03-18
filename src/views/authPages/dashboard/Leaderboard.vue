@@ -2,7 +2,7 @@
   <div>
     <v-container>
       <div class="mx-5">
-        <div class="chOder" style="margin:0">
+        <div class="chOder" style="margin: 0">
           <router-link :to="{ path: '/dashboard' }">
             <v-icon class="float-left">mdi-chevron-left</v-icon>
           </router-link>
@@ -24,19 +24,20 @@
 
         <div
           class="lenghtOfUser text-center mt-8"
-          v-for="items in leaderboard.data"
-          :key="items.id"
+          v-for="items in leaderboard"
+          :key="items.seller_id"
         >
           <div v-if="userInfo.id == items.seller_id">
-            You’re {{ leaderboard.ranks[items.seller_id]
-            }}<span v-if="leaderboard.ranks[items.seller_id] == 1">st</span
-            ><span v-else-if="leaderboard.ranks[items.seller_id] == 2">nd</span>
-            <span v-else-if="leaderboard.ranks[items.seller_id] == 3">rd</span>
+            You’re {{ items.rank
+            }}<span v-if="items.rank == 1">st</span
+            ><span v-else-if="items.rank == 2">nd</span>
+            <span v-else-if="items.rank == 3">rd</span>
             <span v-else>th</span> on the Leaderboard!
           </div>
         </div>
         <!-- no data -->
-        <div class="text-center pt-10 pb-5" v-if="leaderboard.data.length < 1">
+         
+        <div class="text-center pt-10 pb-5" v-if="leaderboard.length < 1">
           <p class="mb-0 secondary--text" style="font-size: 20px">
             Opps! No leaders found.
           </p>
@@ -55,7 +56,7 @@
         <!-- loader ends here -->
         <v-row class="d-flex justify-center">
           <v-col lg="6">
-            <v-row class=" mt-5">
+            <v-row class="mt-5" v-show="leaderboard.length >= 1">
               <v-col cols="2" lg="3"><h5>Rank</h5></v-col>
               <v-col cols="8" lg="6"><h5>Name</h5></v-col>
               <v-col cols="2" lg="3"><h5>Points</h5></v-col>
@@ -63,12 +64,12 @@
 
             <v-row
               class="leader-text my-2"
-              v-for="items in leaderboard.data"
-              :key="items.id"
-              :class="{ active: userInfo.id == items.seller_id }"
+              v-for="items in leaderboard"
+              :key="items.seller_id"
+              :class="{ active: userInfo.id === items.seller_id }"
             >
               <v-col cols="2" lg="3"
-                >{{ leaderboard.ranks[items.seller_id] }}
+                >{{ items.rank }}
               </v-col>
               <v-col cols="8" lg="6">
                 <div
@@ -92,14 +93,14 @@
 
     <!-- pagination -->
     <div class="text-center elevation-8 pa-3" v-if="leaderboard.length >= 10">
-      <v-pagination
+      <!-- <v-pagination
         v-model="getCurrentPage.currentPage"
-        :length="pageDetails.last_page"
         @input="setCurentPage"
         circle
         small
         style="font-size: 8px"
-      ></v-pagination>
+      ></v-pagination> -->
+      <!--  v-if="leaderboard.data.length >= 10" -->
     </div>
 
     <!-- modal -->
@@ -128,18 +129,18 @@
                 <v-list-item-content class="pt-1" align="center">
                   <v-list-item-title
                     ><span class="primary--text larger-text"
-                      >{{ leaderboard.ranks[filteredArray.seller_id]
+                      >{{ filteredArray.rank
                       }}<span
-                        v-if="leaderboard.ranks[filteredArray.seller_id] == 1"
+                        v-if="filteredArray.rank == 1"
                         >st</span
                       ><span
                         v-else-if="
-                          leaderboard.ranks[filteredArray.seller_id] == 2
+                          filteredArray.rank == 2
                         "
                         >nd</span
                       ><span
                         v-else-if="
-                          leaderboard.ranks[filteredArray.seller_id] == 3
+                          filteredArray.rank == 3
                         "
                         >rd</span
                       ><span v-else>th</span>
@@ -191,30 +192,42 @@ export default {
       dialog: false,
       Search: false,
       isLoading: true,
-      userProfile: {},
+      // userProfile: {},
       filteredArray: {},
+      leaderboard: [],
+      userInfo: [],
     };
   },
 
   computed: {
     ...mapGetters({
-      leaderboard: "leaderboard/leaderboard",
-      userInfo: "settings/profile",
+      getLeaderboard: "leaderboard/leaderboard",
+      userInformation: "settings/profile",
     }),
     ...mapState({
-      page: (state) => state.leaderboard.page,
-      pageDetails: (state) => state.leaderboard.pageDetails,
-      getCurrentPage() {
-        return {
-          currentPage: this.pageDetails.current_page,
-        };
-      },
+      // page: (state) => state.leaderboard.page,
+      // pageDetails: (state) => state.leaderboard.pageDetails,
+      // getCurrentPage() {
+      //   return {
+      //     currentPage: this.pageDetails.current_page,
+      //   };
+      // },
     }),
   },
 
   created() {
+    
+    if (this.userInfo.id === undefined) {
+      this.$store.dispatch("settings/getUserProfile").then((res) => {
+      let userData = res.data.data;
+      this.userInfo = userData;
+    });
+    }else{
+      this.userInfo = this.userInformation
+    }
+
     this.$store.dispatch("leaderboard/getLeaderboard").then((res) => {
-      console.log("leaderboard", res)
+      this.leaderboard = res;
       this.isLoading = false;
     });
   },
@@ -234,8 +247,8 @@ export default {
     },
 
     filterById(id) {
-      this.filteredArray = this.leaderboard.data.find(
-        (item) => item.seller_id == id
+      this.filteredArray = this.leaderboard.find(
+        (item) => item.seller_id === id
       );
       this.openModal();
     },
@@ -245,26 +258,27 @@ export default {
       this.$store.commit("leaderboard/setSearchValue", params);
       this.$store.commit("leaderboard/setSearchLeaderBoard", true);
       this.$store.dispatch("leaderboard/searchLeaderBoard").then(() => {
-        this.isLoading = true;
+        // this.leaderboard = this.getLeaderboard
+        // this.isLoading = true;
       });
-      this.getOrders();
+      // this.getOrders();
     },
 
     // returns searched values to the table
-    getOrders() {
-      this.$store.dispatch("leaderboard/searchLeaderBoard").then(() => {
-        this.isLoading = false;
-      });
-    },
+    // getOrders() {
+    //   this.$store.dispatch("leaderboard/searchLeaderBoard").then(() => {
+    //     this.isLoading = false;
+    //   });
+    // },
 
     // set current page
-    setCurentPage() {
-      this.$store.commit(
-        "leaderboard/setPage",
-        this.getCurrentPage.currentPage
-      );
-      this.getOrders === true ? this.getSearchValue() : "";
-    },
+    // setCurentPage() {
+    //   this.$store.commit(
+    //     "leaderboard/setPage",
+    //     this.getCurrentPage.currentPage
+    //   );
+    //   this.getOrders === true ? this.getSearchValue() : "";
+    // },
   },
 };
 </script>
@@ -289,14 +303,9 @@ export default {
   color: #2b2b2b;
   font-size: 14px;
 }
-// .leader-label {
-//   font-family: "Product Sans Bold";
-//   color: #2b2b2b;
-//   font-size: 14px;
-// }
 .active {
-  border-left: 4px solid #5064cc;
-  color: #5064cc;
+  border-left: 4px solid #029b97;
+  color: #029b97;
   font-family: "Product Sans Medium";
   font-size: 14px;
   background-color: #5065cc1c;

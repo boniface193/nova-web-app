@@ -170,15 +170,16 @@
                     class="rounded-pill pa-7 text-center round-img-bg-primary"
                   ></div>
                 </div>
-                <div class="card-header">{{ cSales }}</div>
-                <div class="card-sale">Life Time Sales Points</div>
+                <div class="card-header">{{ diffSales }}</div>
+                <div class="card-sale">Lifetime Sales Points</div>
                 <div
                   class="card-success"
                   :class="{
-                    'card-error': diffSales == 0 || diffSales.includes('-'),
+                    'card-error': cSales == 0 || cSales.includes('-'),
                   }"
                 >
                   {{ diffSales }}
+                  <span class="awaiting">( available points )</span>
                 </div>
                 <div class="card-history my-2">
                   <router-link
@@ -231,15 +232,15 @@
                     class="rounded-pill pa-7 text-center round-img-bg-warning"
                   ></div>
                 </div>
-                <div class="card-header">{{ pRank }}</div>
+                <div class="card-header">{{ pRank || "No data found" }}</div>
                 <div class="card-sale">on leaderboard</div>
                 <div
                   class="card-success"
                   :class="{
-                    'card-error': diffSales == 0 || diffSales.includes('-'),
+                    'card-error': diffRank === '0' || diffRank.includes('-'),
                   }"
                 >
-                  {{ diffRank }}
+                  {{ diffRank || "No data found" }}
                 </div>
                 <div class="card-history my-2">
                   <router-link
@@ -299,53 +300,60 @@ export default {
     }),
   },
   created() {
-    this.$store.dispatch("dashboard/getSellerPoint").then((res) => {
-      let resObj = {
-        difference: res.diff.toString(),
-        curentSale: res.current_sales.toString(),
-      };
-      this.cSales = resObj.curentSale;
-      this.diffSales = resObj.difference;
-      this.sellLoading = false;
-    })
-    .catch((error) => {
-      if (error.status === 401 || error.status === 403) {
-            localStorage.removeItem("accessToken");
-            window.location.href = "/signin";
-          }
-    });
+    this.$store
+      .dispatch("dashboard/getSellerPoint")
+      .then((res) => {
+        let resObj = {
+          difference: res.diff.toString(),
+          curentSale: res.current_sales.toString(),
+        };
+        this.cSales = resObj.curentSale;
+        this.diffSales = resObj.difference;
+        this.sellLoading = false;
+      })
+      .catch((error) => {
+        if (error.status === 401 || error.status === 403) {
+          localStorage.removeItem("accessToken");
+          window.location.href = "/signin";
+        }
+      });
 
-    this.$store.dispatch("dashboard/getSellerRank").then((res) => {
-      let resObj = {
-        difference: res.diff.toString(),
-        curentSale: res.present_rank.toString(),
-      };
-      this.pRank = resObj.curentSale;
-      this.diffRank = resObj.difference;
-      this.rankLoading = false;
-    })
-        .catch((error) => {
-      if (error.status === 401 || error.status === 403) {
-            localStorage.removeItem("accessToken");
-            window.location.href = "/signin";
-          }
-    });;
+    this.$store
+      .dispatch("dashboard/getSellerRank")
+      .then((res) => {
+        let resObj = {
+          difference: res.today_rank === null ? '' : res.today_rank.toString(),
+          curentSale: res.overall_rank === null ? '' : res.overall_rank.toString(),
+        };
+        this.pRank = resObj.curentSale;
+        this.diffRank = resObj.difference;
+        this.rankLoading = false;
+        console.log(typeof(this.diffRank))
+      })
+      // .catch((error) => {
+      //   if (error.status === 401 || error.status === 403) {
+      //     localStorage.removeItem("accessToken");
+      //     window.location.href = "/signin";
+      //   }
+      // });
 
-    this.$store.dispatch("dashboard/getSellerTotalSale").then((res) => {
-      let resObj = {
-        difference: res.current_sales_label,
-        curentSale: res.diff.toString(),
-      };
-      this.curentSale = resObj.difference;
-      this.diffCurrentSales = resObj.curentSale;
-      this.currentLoading = false;
-    })
-        .catch((error) => {
-      if (error.status === 401 || error.status === 403) {
-            localStorage.removeItem("accessToken");
-            window.location.href = "/signin";
-          }
-    });;
+    this.$store
+      .dispatch("dashboard/getSellerTotalSale")
+      .then((res) => {
+        let resObj = {
+          difference: res.current_sales_label,
+          curentSale: res.diff.toString(),
+        };
+        this.curentSale = resObj.difference;
+        this.diffCurrentSales = resObj.curentSale;
+        this.currentLoading = false;
+      })
+      // .catch((error) => {
+      //   if (error.status === 401 || error.status === 403) {
+      //     localStorage.removeItem("accessToken");
+      //     window.location.href = "/signin";
+      //   }
+      // });
 
     if (this.userInfo.id === "") {
       this.$store.dispatch("settings/getUserProfile").then(() => {
@@ -354,9 +362,20 @@ export default {
           .then((res) => {
             this.totalRevenue = res.total_revenue_label;
             this.settled = res.settled;
-            this.awaitingSettlement = res.awaiting_settlement;
+            // convertion to thousands
+            let awaitingSettle = Math.floor(res.awaiting_settlement);
+            let convertToString = awaitingSettle.toString();
+            if (convertToString.length >= 4) {
+              let roundedSettlement = `${awaitingSettle / 1000}k`;
+              this.awaitingSettlement = roundedSettlement;
+            } else if (convertToString.length >= 7) {
+              let roundedSettlement = `${awaitingSettle / 1000000}k`;
+              this.awaitingSettlement = roundedSettlement;
+            } else {
+              this.awaitingSettlement = res.awaiting_settlement_label;
+            }
             this.availableBalance = res.available_balance;
-            this.payment = false
+            this.payment = false;
           });
       });
     } else {
@@ -365,9 +384,20 @@ export default {
         .then((res) => {
           this.totalRevenue = res.total_revenue_label;
           this.settled = res.settled;
-          this.awaitingSettlement = res.awaiting_settlement;
+          // convertion to thousands
+          let awaitingSettle = Math.floor(res.awaiting_settlement);
+          let convertToString = awaitingSettle.toString();
+          if (convertToString.length >= 4) {
+            let roundedSettlement = `${awaitingSettle / 1000}k`;
+            this.awaitingSettlement = roundedSettlement;
+          } else if (convertToString.length >= 7) {
+            let roundedSettlement = `${awaitingSettle / 1000000}k`;
+            this.awaitingSettlement = roundedSettlement;
+          } else {
+            this.awaitingSettlement = res.awaiting_settlement_label;
+          }
           this.availableBalance = res.available_balance;
-          this.payment = false
+          this.payment = false;
         });
     }
   },
@@ -381,14 +411,16 @@ export default {
       this.$store.dispatch("dashboard/searchSellerPoint");
       this.$store.dispatch("dashboard/searchSellerRank");
       this.$store.dispatch("dashboard/searchSellerTotalSales");
-      this.$store.dispatch("dashboard/getTotalRevenue", { id: this.userInfo.id });
+      this.$store.dispatch("dashboard/getTotalRevenue", {
+        id: this.userInfo.id,
+      });
     },
   },
 };
 </script>
 
 <style lang="scss" scoped>
-.dashboard-container{
+.dashboard-container {
   margin-top: -40px !important;
 }
 .welcome-text {
@@ -405,12 +437,12 @@ export default {
   font-size: 16px;
   color: #ffffff;
 }
-.row-properties{
+.row-properties {
   position: absolute;
-  width: 70%
+  width: 70%;
 }
-@media (max-width:500px){
-  .row-properties{
+@media (max-width: 500px) {
+  .row-properties {
     width: 85%;
   }
 }

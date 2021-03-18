@@ -42,9 +42,9 @@ const actions = {
                 }
             })
                 .then(response => {
-                    context.commit("setLeaderboard", response.data)
+                    context.commit("setLeaderboard", response.data.data)
                     context.commit("setPageDetails", response.data.meta);
-                    resolve(response.data)
+                    resolve(response.data.data)
                 })
                 .catch(error => {
                     reject(error)
@@ -64,9 +64,10 @@ const actions = {
                         Authorization: `Bearer ${localStorage.getItem("accessToken")}`
                     }
                 }).then(response => {
-                    context.commit("setLeaderboard", response.data);
+                    context.commit("setLeaderboard", response.data.data);
+                    console.log(response.data)
                     context.commit("setPageDetails", response.data.meta);
-                    resolve(response);
+                    resolve(response.data.data);
                 })
                 .catch(error => {
                     reject(error);
