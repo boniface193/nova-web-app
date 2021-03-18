@@ -137,7 +137,11 @@
 
             <div class="mb-3 d-flex">
               <div>
-                <img class="mt-2" src="@/assets/images/search-cart.svg" alt="" />
+                <img
+                  class="mt-2"
+                  src="@/assets/images/search-cart.svg"
+                  alt=""
+                />
               </div>
               <div class="ml-5">
                 <h3>Find product, decide profit and market</h3>
@@ -150,7 +154,11 @@
 
             <div class="mb-3 d-flex">
               <div>
-                <img class="mt-2" src="@/assets/images/naira-check.svg" alt="" />
+                <img
+                  class="mt-2"
+                  src="@/assets/images/naira-check.svg"
+                  alt=""
+                />
               </div>
               <div class="ml-5">
                 <h3>Get paid</h3>
@@ -160,8 +168,11 @@
                 </p>
               </div>
             </div>
-
-            <v-btn class="primary px-10 py-6 d-md-flex d-none">Sell now</v-btn>
+            <router-link :to="{ path: '/signup' }" style="text-decoration: none">
+              <v-btn class="primary px-10 py-6 d-md-flex d-none"
+                >Sell now</v-btn
+              >
+            </router-link>
           </div>
         </v-col>
       </v-row>
@@ -170,7 +181,13 @@
     <div class="product-to-sell">
       <h1 class="mb-5 secondary-header">Do you have any products to sell?</h1>
       <p class="mb-4">You can put your products up for sale on Kuuzza too.</p>
-      <v-btn class="primary px-10 py-6 mx-auto">List your products</v-btn>
+      <a
+        href="http://nova-front-end.s3-website-eu-west-1.amazonaws.com/"
+        target="_blank"
+        style="text-decoration: none"
+      >
+        <v-btn class="primary px-10 py-6 mx-auto">List your products</v-btn>
+      </a>
     </div>
   </div>
 </template>
@@ -254,7 +271,7 @@ export default {
 }
 @media (max-width: 959px) {
   .main {
-    .secondary-header{
+    .secondary-header {
       font-size: 27px;
     }
     .featured-item {

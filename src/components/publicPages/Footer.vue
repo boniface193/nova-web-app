@@ -3,7 +3,7 @@
     <v-row class="py-md-10 py-3">
       <v-col class="col-12 col-sm-4 col-md-3">
         <div class="logo-conatiner">
-          <img src="" alt="" />
+          <img src="@/assets/images/secondary-logo.png" alt="" />
         </div>
       </v-col>
       <v-col class="col-12  col-sm-4 col-md-3">
