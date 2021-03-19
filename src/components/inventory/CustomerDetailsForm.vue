@@ -156,9 +156,8 @@ export default {
         bounds: new window.google.maps.LatLngBounds(
           new window.google.maps.LatLng(6.5244, 3.3792)
         ),
-        types: ["establishment"],
         componentRestrictions: { country: ["NG"] },
-        fields: ["place_id", "geometry", "name"],
+        fields: ["geometry", "name", "formatted_address"],
       }
     );
 
@@ -179,7 +178,7 @@ export default {
         this.validAddress = false;
       } else {
         //Display details about the valid place
-        this.address = place.name;
+        this.address = place.name + " " + place.formatted_address;
         this.validAddress = true;
         this.lat = place.geometry.location.lat();
         this.lng = place.geometry.location.lng();
