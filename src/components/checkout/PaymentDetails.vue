@@ -24,7 +24,11 @@
         <!-- delivery method  -->
         <div class="mb-0">
           <h4>Select a delivery method:</h4>
-          <v-radio-group v-model="radioGroup" class="mt-1">
+          <v-radio-group
+            v-model="deliveryMethod"
+            class="mt-1"
+            @change="changeDeliveryMethod()"
+          >
             <v-radio
               class="primary--text mb-0"
               :label="`Express Delivery (₦${deliveryFee})`"
@@ -35,7 +39,7 @@
             >
             <v-radio
               class="primary--text mb-0"
-              label="Standard Delivery (₦1200)"
+              :label="`Standard Delivery (₦1200)`"
               value="standard"
             ></v-radio>
             <span class="ml-8 mb-0 primary--text"
@@ -47,12 +51,11 @@
         <div class="mb-4">
           <h4>Order Details</h4>
           <p class="secondary--text mb-0">
-            <span style="font-weight: 600; color: black">{{
-              pageDetails.orderDetails.total_items
-            }} </span> <span class="mx-2">X</span>
-            <span> {{
-              pageDetails.orderDetails.product_name
-            }}</span>
+            <span style="font-weight: 600; color: black"
+              >{{ pageDetails.orderDetails.total_items }}
+            </span>
+            <span class="mx-2">X</span>
+            <span> {{ pageDetails.orderDetails.product_name }}</span>
           </p>
         </div>
         <!-- payment summary -->
@@ -72,9 +75,7 @@
           </div>
           <div class="d-flex align-center justify-space-between mb-2 mt-2">
             <h3 class="mb-0">Total</h3>
-            <h3 class="primary--text">
-              &#8358;{{ totalPrice }}
-            </h3>
+            <h3 class="primary--text">&#8358;{{ totalPrice }}</h3>
           </div>
           <!-- payment btn -->
           <v-btn
@@ -133,6 +134,7 @@
               required
             >
             </v-text-field>
+            <v-text-field style="display: none"></v-text-field>
           </div>
         </v-form>
         <!-- edit address btn -->
@@ -158,7 +160,7 @@ export default {
   props: ["productDetails", "orderDetails"],
   data: function () {
     return {
-      radioGroup: "express",
+      deliveryMethod: this.orderDetails.delivery_method,
       dialog: false,
       editAddressDialog: false,
       statusImage: null,
@@ -176,9 +178,9 @@ export default {
           phone: null,
         },
       },
-      lat: "",
-      lng: "",
-      address: "",
+      lat: this.orderDetails.delivery_location.lat,
+      lng: this.orderDetails.delivery_location.lng,
+      address: this.orderDetails.delivery_location.address,
       validAddress: false,
       autocomplete: "",
       addressRules: [
@@ -195,9 +197,8 @@ export default {
         bounds: new window.google.maps.LatLngBounds(
           new window.google.maps.LatLng(6.5244, 3.3792)
         ),
-        types: ["establishment"],
         componentRestrictions: { country: ["NG"] },
-        fields: ["place_id", "geometry", "name"],
+        fields: ["geometry", "name", "formatted_address"],
       }
     );
 
@@ -294,41 +295,48 @@ export default {
     openEditAddressModal() {
       this.editAddressDialog = true;
     },
+    changeDeliveryMethod() {
+      this.changeOrderAddressOrDeliveryMethod();
+    },
     editOrderAddress() {
       this.$refs.addressForm.validate();
       if (this.$refs.addressForm.validate() && this.validAddress) {
         this.editLoader = true;
-        const params = new URLSearchParams(window.location.search);
-        const orderId = params.get("order_id");
-        this.$store
-          .dispatch("orders/editOrderAddress", {
-            customer: {
-              location: {
-                address: this.address,
-                lat: this.lat,
-                lng: this.lng,
-              },
-            },
-            order_id: orderId,
-          })
-          .then((response) => {
-            this.editLoader = false;
-            this.editAddressDialog = false;
-            this.deliveryLocation = response.data.data.delivery_location.address;
-            this.deliveryFee = response.data.data.delivery_fee_label;
-            this.totalPrice = response.data.data.total_price_label
-          })
-          .catch((error) => {
-            this.dialog = true;
-            this.editLoader = false;
-            this.statusImage = failedImage;
-            if (error.response) {
-              this.dialogMessage = error.response.data.message;
-            } else {
-              this.dialogMessage = "No internet Connection!";
-            }
-          });
+        this.changeOrderAddressOrDeliveryMethod();
       }
+    },
+    changeOrderAddressOrDeliveryMethod() {
+      const params = new URLSearchParams(window.location.search);
+      const orderId = params.get("order_id");
+      this.$store
+        .dispatch("orders/editOrderAddress", {
+          customer: {
+            location: {
+              address: this.address,
+              lat: this.lat,
+              lng: this.lng,
+            },
+          },
+          order_id: orderId,
+          delivery_method: this.deliveryMethod,
+        })
+        .then((response) => {
+          this.editLoader = false;
+          this.editAddressDialog = false;
+          this.deliveryLocation = response.data.data.delivery_location.address;
+          this.deliveryFee = response.data.data.delivery_fee_label;
+          this.totalPrice = response.data.data.total_price_label;
+        })
+        .catch((error) => {
+          this.dialog = true;
+          this.editLoader = false;
+          this.statusImage = failedImage;
+          if (error.response) {
+            this.dialogMessage = error.response.data.message;
+          } else {
+            this.dialogMessage = "No internet Connection!";
+          }
+        });
     },
     onPlaceChanged() {
       let place = this.autocomplete.getPlace();
@@ -338,7 +346,7 @@ export default {
       } else {
         //Display details about the valid place
         this.validAddress = true;
-        this.address = place.name;
+        this.address = place.name + " " + place.formatted_address;
         this.lat = place.geometry.location.lat();
         this.lng = place.geometry.location.lng();
       }
@@ -361,7 +369,7 @@ export default {
   padding: 8px 0px;
   cursor: pointer;
   color: white;
-  background: #029B97;
+  background: #029b97;
   border-radius: 5px;
   margin-top: 20px;
   display: none;
