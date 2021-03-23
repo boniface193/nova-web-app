@@ -60,7 +60,7 @@ const actions = {
     // check if an account exist
     checkAccount: (context, data) => {
         return new Promise((resolve, reject) => {
-            axios.post("auth/register/validate-email", data).then(response => {
+            axios.post("auth/register/seller/validate-email", data).then(response => {
                 resolve(response)
             })
                 .catch(error => {
