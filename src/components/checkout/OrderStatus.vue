@@ -7,15 +7,14 @@
           <step-progress
             :steps="['Processing', 'Shipped', 'Delivered']"
             :current-step="
-              orderDetails.isProcessing ||
-              orderDetails.isShipped ||
-              orderDetails.isDelivered
+              orderDetails.delivery_status_label == 'Processing' ||
+              orderDetails.delivery_status_label == 'Shipped'
                 ? 1
-                : 0
+                : 3
             "
             icon-class="fa fa-check"
             :line-thickness="lineThickness"
-            active-color="#5064CC"
+            active-color="#FFA500"
             :active-thickness="activeThickness"
             :passive-thickness="passiveThickness"
             passive-color="#5E5E5E1A"
@@ -89,6 +88,12 @@
             </a>
             <h5>{{ orderDetails.seller_name }}</h5>
           </div>
+
+          <v-btn
+            class="primary mx-auto mt-5 mb-3 px-16 py-5"
+            @click="confirmOrder()"
+            >Confirm Order</v-btn
+          >
         </div>
       </div>
       <!-- page loader -->
@@ -100,6 +105,74 @@
         ></v-progress-circular>
       </div>
     </div>
+
+    <!-- modal for dialog messages -->
+    <modal :dialog="dialog2" width="400">
+      <div class="white pa-3 px-5 dialog">
+        <div class="d-flex justify-end">
+          <v-icon class="error--text close-btn" @click="dialog2 = false"
+            >mdi-close</v-icon
+          >
+        </div>
+        <!-- otp resend alert -->
+        <v-alert type="success" v-show="resendOtpSuccess"
+          >OPT has been sent successfully!</v-alert
+        >
+        <div class="text-center mb-5 mt-5">
+          <h3>Pls verify your are the buyer</h3>
+        </div>
+        <p class="mt-5 mb-5">
+          An OTP has been sent to your email and mobile number for verification
+        </p>
+        <v-form>
+          <div class="mt-0 mb-2">
+            <v-otp-input
+              ref="otpInput1"
+              separator=""
+              :num-inputs="5"
+              :should-auto-focus="true"
+              input-type="number"
+              @on-complete="handleOnComplete"
+              @on-change="handleOnChange"
+            />
+          </div>
+
+          <!-- error message -->
+          <p
+            class="error--text"
+            style="font-size: 14px"
+            v-show="otpError == true"
+          >
+            {{ otpErrorMessage }}
+          </p>
+
+          <!-- button container -->
+          <div class="pa-0 mt-5" style="width: 100%">
+            <p>
+              Didn't receive the code?
+              <a style="text-decoration: none" @click="resendOTP">
+                <span v-show="!resendOTPLoader">Resend Code</span>
+                <v-progress-circular
+                  indeterminate
+                  color="primary"
+                  size="20"
+                  class="ml-5"
+                  v-show="resendOTPLoader"
+                ></v-progress-circular>
+              </a>
+            </p>
+            <v-btn
+              class="primary px-16 py-5 mb-5 mx-auto"
+              :disabled="otpLoader"
+              :loading="otpLoader"
+              @click="submitOTP()"
+              >Verify</v-btn
+            >
+          </div>
+        </v-form>
+      </div>
+    </modal>
+
     <!-- modal for dialog messages -->
     <modal :dialog="dialog" width="400">
       <div class="white pa-3 pb-10 text-center dialog">
@@ -122,15 +195,24 @@
 import failedImage from "@/assets/images/failed-img.svg";
 import StepProgress from "vue-step-progress";
 import modal from "@/components/modal.vue";
+import OtpInput from "@/components/onboarding/verifyInput";
 // import the css (OPTIONAL - you can provide your own design)
 import "vue-step-progress/dist/main.css";
 export default {
   name: "OrderStatus",
-  components: { modal, StepProgress },
+  components: { modal, StepProgress, "v-otp-input": OtpInput },
   data: function () {
     return {
+      resendOtpSuccess: false,
+      resendOTPLoader: false,
+      otpLoader: false,
+      verifyOTP: false,
+      otp: "",
+      otpErrorMessage: "",
+      otpError: false,
       dialog: false,
       statusImage: null,
+      dialog2: false,
       dialogMessage: "",
       orderDetails: {
         delivery_location: {},
@@ -166,6 +248,27 @@ export default {
           this.dialogMessage = "No internet Connection!";
         }
       });
+  },
+  methods: {
+    // check if code changes
+    handleOnChange(value) {
+      this.otp = value;
+      if (this.otp.length != 5) {
+        this.verifyOTP = false;
+      }
+    },
+    // checks if code is complete
+    handleOnComplete(value) {
+      this.verifyOTP = true;
+      this.otp = value;
+      this.otpError = false;
+    },
+    confirmOrder() {
+      this.otp.length > 0 ? this.$refs.otpInput1.clearInput() : "";
+      this.dialog2 = true;
+    },
+    resendOTP() {},
+    submitOTP() {},
   },
 };
 </script>
@@ -242,7 +345,7 @@ div.step-progress__step span {
 
 .position-abs {
   position: absolute !important;
-  color: #029B97;
+  color: #029b97;
   font-size: 20px !important;
   opacity: 0.5;
 }
