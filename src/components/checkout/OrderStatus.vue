@@ -161,9 +161,15 @@
                 ></v-progress-circular>
               </a>
             </p>
+            <v-checkbox
+        v-model="acceptTerms"
+        label="By clicking continue, you are agreeing to our terms of service and our
+        disclaimer"
+        class="mt-5"
+      ></v-checkbox>
             <v-btn
               class="primary px-16 py-5 mb-5 mx-auto"
-              :disabled="otpLoader"
+              :disabled="otpLoader || !acceptTerms"
               :loading="otpLoader"
               @click="submitOTP()"
               >Verify</v-btn
@@ -204,6 +210,7 @@ export default {
   data: function () {
     return {
       resendOtpSuccess: false,
+      acceptTerms: false,
       resendOTPLoader: false,
       otpLoader: false,
       verifyOTP: false,

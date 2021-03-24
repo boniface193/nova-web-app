@@ -43,8 +43,10 @@
       <div class="pa-0 mt-10" style="width: 100%">
         <p>
           Didn't receive the code?
-          <a style="text-decoration: none" @click="resendOTP">
-            <span v-show="!resendOTPLoader">Resend Code</span>
+          <a style="text-decoration: none">
+            <span v-show="!resendOTPLoader && !showOTPTimer" @click="resendOTP"
+              >Resend Code</span
+            >
             <v-progress-circular
               indeterminate
               color="primary"
@@ -52,6 +54,10 @@
               class="ml-5"
               v-show="resendOTPLoader"
             ></v-progress-circular>
+            <span class="primary--text" v-show="showOTPTimer"
+              >You can resend OTP in
+              <span class="error--text">{{ timer }}.00</span></span
+            >
           </a>
         </p>
         <v-btn
@@ -72,6 +78,9 @@ export default {
   components: {
     "v-otp-input": OtpInput,
   },
+  created() {
+    this.setOTPTimer();
+  },
   data: function () {
     return {
       loading: false,
@@ -80,7 +89,9 @@ export default {
       errorMessage: false,
       message: "",
       resendOTPLoader: false,
-      resendOtpSuccess: false
+      resendOtpSuccess: false,
+      showOTPTimer: true,
+      timer: 60,
     };
   },
   methods: {
@@ -96,6 +107,18 @@ export default {
       this.verify = true;
       this.code = value;
       this.errorMessage = false;
+    },
+    setOTPTimer() {
+      this.showOTPTimer = true;
+      let counter = setInterval(() => {
+        if (this.timer === 1) {
+          clearInterval(counter);
+          this.showOTPTimer = false;
+          this.timer = 60;
+        } else {
+          this.timer -= 1;
+        }
+      }, 1000);
     },
     // submit code
     submitCode() {
@@ -149,6 +172,7 @@ export default {
             setTimeout(() => {
               this.resendOtpSuccess = false;
             }, 3000);
+            this.setOTPTimer();
           }
         })
         .catch((error) => {
