@@ -231,7 +231,7 @@ export default {
       this.leaderboard = res;
       this.isLoading = false
       if(res.length < 1) {
-        this.msg = "Opps! No leaders found."
+        this.msg = "."
       }
     });
   },
