@@ -276,7 +276,6 @@ export default {
       this.filteredArray = Object.values(this.rewards.rewards).find(
         (item) => item.key == id
       );
-      console.log(this.filteredArray)
       this.openModal();
     },
     redeemOffer(params) {
@@ -297,9 +296,9 @@ export default {
     },
 
     setimeout() {
-      setTimeout(() => {
+      // setTimeout(() => {
         this.showing = true;
-      }, 2000);
+      // }, 500);
     },
     closeNredirect(){
       location.href = "/dashboard";
@@ -352,7 +351,7 @@ export default {
 
 .v-tab--active {
   color: #fff !important;
-  background-color: #5064cc;
+  background-color: #029b97;
   margin: 0px;
 }
 .v-application--is-ltr
