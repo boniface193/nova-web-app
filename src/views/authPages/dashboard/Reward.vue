@@ -276,7 +276,6 @@ export default {
       this.filteredArray = Object.values(this.rewards.rewards).find(
         (item) => item.key == id
       );
-      console.log(this.filteredArray)
       this.openModal();
     },
     redeemOffer(params) {
