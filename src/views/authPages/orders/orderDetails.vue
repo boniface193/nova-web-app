@@ -94,7 +94,7 @@
             <div class="order-no-grey my-2">
               Shipping
               <div class="d-flex justify-space-between">
-                <span class="order-no-lighter-grey"> Standard Shipping </span>
+                <span class="order-no-lighter-grey"> {{orderDetails.delivery_method}} </span>
                 <div class="">NGN{{orderDetails.delivery_fee_label}}</div>
               </div>
             </div>
