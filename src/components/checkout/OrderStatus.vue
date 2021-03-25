@@ -104,9 +104,9 @@
             >
           </div>
           <div class="text-center mt-5">
-            <h4 class="primary--text" v-show="orderDetails.delivery_confirmed">
-              <span class="accent--text">Order Status:</span> confirmed
-            </h4>
+            <p class="primary--text" v-show="orderDetails.delivery_confirmed">
+              <span style="color:#FFA500;">Order Status:</span> <span class="ml-2 py-2 px-3 primary white--text" style="border-radius:5px"> Confirmed</span>
+            </p>
           </div>
         </div>
       </div>
