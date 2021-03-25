@@ -31,7 +31,7 @@
           >
             <v-radio
               class="primary--text mb-0"
-              :label="`Express Delivery (₦${deliveryFee})`"
+              :label="`Express Delivery (₦${orderDetails.express_delivery_fee_label})`"
               value="express"
             ></v-radio>
             <span class="ml-8 mb-4 primary--text"
@@ -39,7 +39,7 @@
             >
             <v-radio
               class="primary--text mb-0"
-              :label="`Standard Delivery (₦1200)`"
+              :label="`Standard Delivery (₦${orderDetails.standard_delivery_fee_label})`"
               value="standard"
             ></v-radio>
             <span class="ml-8 mb-0 primary--text"

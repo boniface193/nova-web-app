@@ -85,7 +85,7 @@ const actions = {
                 })
         })
     },
-    
+
     // get order details
     getOrdersDetail(context, data) {
         return new Promise((resolve, reject) => {
@@ -157,8 +157,8 @@ const actions = {
     verifyPayment(context, data) {
         return new Promise((resolve, reject) => {
             axios.post(`/orders/${data.orderId}/verify?trx_ref=${data.trx_ref}&trx_id=${data.trx_id}`, data,).then(response => {
-                    resolve(response);
-                })
+                resolve(response);
+            })
                 .catch(error => {
                     context.commit("doNothing");
                     reject(error);
@@ -166,11 +166,34 @@ const actions = {
         })
     },
     // edit order address
-    editOrderAddress(context, data){
+    editOrderAddress(context, data) {
         return new Promise((resolve, reject) => {
-            axios.post(`/orders/${data.order_id}/location`, data,).then(response => {
-                    resolve(response);
+            axios.post(`/orders/${data.order_id}/location`, data).then(response => {
+                resolve(response);
+            })
+                .catch(error => {
+                    context.commit("doNothing");
+                    reject(error);
                 })
+        })
+    },
+    // confirm order
+    sendConfirmOrderOTP(context, data) {
+        return new Promise((resolve, reject) => {
+            axios.post(`/orders/${data.orderId}/confirm-delivery/send-otp`, data).then(response => {
+                resolve(response);
+            })
+                .catch(error => {
+                    context.commit("doNothing");
+                    reject(error);
+                })
+        })
+    },
+    submitConfirmOrderOTP(context, data) {
+        return new Promise((resolve, reject) => {
+            axios.post(`/orders/${data.orderId}/confirm-delivery`, data).then(response => {
+                resolve(response);
+            })
                 .catch(error => {
                     context.commit("doNothing");
                     reject(error);
@@ -219,4 +242,4 @@ export default {
     getters,
     actions,
     mutations
-};  
+};
