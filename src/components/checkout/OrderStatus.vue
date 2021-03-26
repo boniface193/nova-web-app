@@ -88,12 +88,21 @@
             </a>
             <h5>{{ orderDetails.seller_name }}</h5>
           </div>
-
-          <v-btn
-            class="primary mx-auto mt-5 mb-3 px-16 py-5"
-            @click="confirmOrder()"
-            >Confirm Order</v-btn
-          >
+          <div class="text-left">
+            <v-checkbox
+              v-model="acceptTerms"
+              label="By clicking continue, you are agreeing to our terms of service and our
+                    disclaimer"
+              class="mt-5"
+            ></v-checkbox>
+            <v-btn
+              class="primary mt-1 mx-auto mb-3 px-16 py-5"
+              :disabled="!acceptTerms || loading2"
+              :loading="loading2"
+              @click="confirmOrder()"
+              >Confirm Order</v-btn
+            >
+          </div>
         </div>
       </div>
       <!-- page loader -->
@@ -150,8 +159,12 @@
           <div class="pa-0 mt-5" style="width: 100%">
             <p>
               Didn't receive the code?
-              <a style="text-decoration: none" @click="resendOTP">
-                <span v-show="!resendOTPLoader">Resend Code</span>
+              <a style="text-decoration: none">
+                <span
+                  v-show="!resendOTPLoader && !showOTPTimer"
+                  @click="resendOTP"
+                  >Resend Code</span
+                >
                 <v-progress-circular
                   indeterminate
                   color="primary"
@@ -159,17 +172,15 @@
                   class="ml-5"
                   v-show="resendOTPLoader"
                 ></v-progress-circular>
+                <span class="primary--text" v-show="showOTPTimer"
+                  >You can resend OTP in
+                  <span class="error--text">{{ timer }}.00</span></span
+                >
               </a>
             </p>
-            <v-checkbox
-        v-model="acceptTerms"
-        label="By clicking continue, you are agreeing to our terms of service and our
-        disclaimer"
-        class="mt-5"
-      ></v-checkbox>
             <v-btn
               class="primary px-16 py-5 mb-5 mx-auto"
-              :disabled="otpLoader || !acceptTerms"
+              :disabled="otpLoader"
               :loading="otpLoader"
               @click="submitOTP()"
               >Verify</v-btn
@@ -202,6 +213,7 @@ import failedImage from "@/assets/images/failed-img.svg";
 import StepProgress from "vue-step-progress";
 import modal from "@/components/modal.vue";
 import OtpInput from "@/components/onboarding/verifyInput";
+import successImage from "@/assets/images/success-img.svg";
 // import the css (OPTIONAL - you can provide your own design)
 import "vue-step-progress/dist/main.css";
 export default {
@@ -209,9 +221,13 @@ export default {
   components: { modal, StepProgress, "v-otp-input": OtpInput },
   data: function () {
     return {
+      loading: false,
+      loading2: false,
       resendOtpSuccess: false,
-      acceptTerms: false,
       resendOTPLoader: false,
+      showOTPTimer: true,
+      timer: 60,
+      acceptTerms: false,
       otpLoader: false,
       verifyOTP: false,
       otp: "",
@@ -270,12 +286,96 @@ export default {
       this.otp = value;
       this.otpError = false;
     },
-    confirmOrder() {
-      this.otp.length > 0 ? this.$refs.otpInput1.clearInput() : "";
-      this.dialog2 = true;
+    setOTPTimer() {
+      this.showOTPTimer = true;
+      let counter = setInterval(() => {
+        if (this.timer === 1) {
+          clearInterval(counter);
+          this.showOTPTimer = false;
+          this.timer = 60;
+        } else {
+          this.timer -= 1;
+        }
+      }, 1000);
     },
-    resendOTP() {},
-    submitOTP() {},
+    confirmOrder() {
+      this.loading2 = true;
+      this.$store
+        .dispatch("orders/sendConfirmOrderOTP", {
+          orderId: this.orderDetails.id,
+        })
+        .then(() => {
+          this.loading2 = false;
+          this.otp.length > 0 ? this.$refs.otpInput1.clearInput() : "";
+          this.dialog2 = true;
+          this.timer = 60;
+        })
+        .catch((error) => {
+          this.dialog = true;
+          this.loading2 = false;
+          this.statusImage = failedImage;
+          if (error.response) {
+            this.dialogMessage = "Sorry, this data does not Exist";
+          } else {
+            this.dialogMessage = "No internet Connection!";
+          }
+        });
+    },
+    // resend OTP
+    resendOTP() {
+      this.resendOTPLoader = true;
+      this.$store
+        .dispatch("orders/sendConfirmOrderOTP", {
+          orderId: this.orderDetails.id,
+        })
+        .then(() => {
+         
+            this.resendOtpSuccess = true;
+            this.resendOTPLoader = false;
+            setTimeout(() => {
+              this.resendOtpSuccess = false;
+            }, 3000);
+            this.setOTPTimer();
+    
+        })
+        .catch((error) => {
+          this.errorMessage = true;
+          this.resendOTPLoader = false;
+          if (error.response) {
+            this.otpErrorMessage = error.response.errors.email[0];
+          } else {
+            this.otpErrorMessage = "No internet Connection!";
+          }
+        });
+    },
+    submitOTP() {
+      if (this.verify) {
+        this.loading = true;
+        this.$store
+          .dispatch("orders/submitConfirmOrderOTP", {
+            otp: this.code,
+            orderId: this.orderDetails.id,
+          })
+          .then(() => {
+            this.loading = false;
+            this.statusImage = successImage;
+            this.dialogMessage = "Order successfully confirm";
+          })
+          .catch((error) => {
+            this.loading = false;
+            this.otpError = true;
+            if (error.response) {
+              this.otpErrorMessage = error.response.data.errors.otp[0];
+            } else {
+              this.otpErrorMessage = "No internet connection";
+            }
+          });
+      } else {
+        this.otpError = true;
+        this.otpErrorMessage =
+          "Please Enter the 5 digits code sent to your email adddress";
+      }
+    },
   },
 };
 </script>
@@ -291,7 +391,7 @@ export default {
   .order-details {
     background: #fff;
     border-radius: 12px;
-    width: 500px;
+    width: 600px;
     margin: auto;
   }
   .image-container {

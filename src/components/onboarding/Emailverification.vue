@@ -172,12 +172,11 @@ export default {
             this.loading = false;
             if (response.data.message === "Email verified successfully.") {
               this.statusImage = successImage;
-              if (localStorage.getItem("accessToken")) {
-                this.dialog = true;
+              this.dialog = true;
+              if (localStorage.getItem("accessToken")) { 
                 this.dashboardBtn = true;
               } else {
                 this.dashboardBtn = false;
-                this.dialog = true;
               }
             }
           })
