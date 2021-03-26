@@ -88,7 +88,7 @@
             </a>
             <h5>{{ orderDetails.seller_name }}</h5>
           </div>
-          <div class="text-left">
+          <div class="text-left" v-show="!orderDetails.delivery_confirmed">
             <v-checkbox
               v-model="acceptTerms"
               label="By clicking continue, you are agreeing to our terms of service and our
@@ -102,6 +102,11 @@
               @click="confirmOrder()"
               >Confirm Order</v-btn
             >
+          </div>
+          <div class="text-center mt-5">
+            <h4 class="primary--text" v-show="orderDetails.delivery_confirmed">
+              <span class="accent--text">Order Status:</span> confirmed
+            </h4>
           </div>
         </div>
       </div>
@@ -221,7 +226,6 @@ export default {
   components: { modal, StepProgress, "v-otp-input": OtpInput },
   data: function () {
     return {
-      loading: false,
       loading2: false,
       resendOtpSuccess: false,
       resendOTPLoader: false,
@@ -308,14 +312,14 @@ export default {
           this.loading2 = false;
           this.otp.length > 0 ? this.$refs.otpInput1.clearInput() : "";
           this.dialog2 = true;
-          this.timer = 60;
+          this.setOTPTimer();
         })
         .catch((error) => {
           this.dialog = true;
           this.loading2 = false;
           this.statusImage = failedImage;
           if (error.response) {
-            this.dialogMessage = "Sorry, this data does not Exist";
+            this.dialogMessage = "Something went wrong, pls try again";
           } else {
             this.dialogMessage = "No internet Connection!";
           }
@@ -329,14 +333,12 @@ export default {
           orderId: this.orderDetails.id,
         })
         .then(() => {
-         
-            this.resendOtpSuccess = true;
-            this.resendOTPLoader = false;
-            setTimeout(() => {
-              this.resendOtpSuccess = false;
-            }, 3000);
-            this.setOTPTimer();
-    
+          this.resendOtpSuccess = true;
+          this.resendOTPLoader = false;
+          setTimeout(() => {
+            this.resendOtpSuccess = false;
+          }, 3000);
+          this.setOTPTimer();
         })
         .catch((error) => {
           this.errorMessage = true;
@@ -349,23 +351,26 @@ export default {
         });
     },
     submitOTP() {
-      if (this.verify) {
-        this.loading = true;
+      if (this.verifyOTP) {
+        this.otpLoader = true;
         this.$store
           .dispatch("orders/submitConfirmOrderOTP", {
-            otp: this.code,
+            otp: this.otp,
             orderId: this.orderDetails.id,
           })
-          .then(() => {
-            this.loading = false;
+          .then((response) => {
+            this.otpLoader = false;
             this.statusImage = successImage;
             this.dialogMessage = "Order successfully confirm";
+            this.orderDetails = response.data.data;
+            this.dialog2 = false;
+            this.dialog = true;
           })
           .catch((error) => {
-            this.loading = false;
+            this.otpLoader = false;
             this.otpError = true;
             if (error.response) {
-              this.otpErrorMessage = error.response.data.errors.otp[0];
+              this.otpErrorMessage = error.response.data.otp;
             } else {
               this.otpErrorMessage = "No internet connection";
             }
