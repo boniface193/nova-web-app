@@ -192,7 +192,7 @@ export default {
         }
       });
       if (e.length < 1) {
-        this.empty = "No Item Found";
+        this.empty = "No Sales Recorded Yet";
       }
     });
 

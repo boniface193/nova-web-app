@@ -37,9 +37,9 @@
         </div>
         <!-- no data -->
          
-        <div class="text-center pt-10 pb-5" v-if="leaderboard.length < 1">
+        <div class="text-center pt-10 pb-5">
           <p class="mb-0 secondary--text" style="font-size: 20px">
-            Opps! No leaders found.
+            {{msg}}
           </p>
         </div>
 
@@ -192,6 +192,7 @@ export default {
       dialog: false,
       Search: false,
       isLoading: true,
+      msg: "",
       // userProfile: {},
       filteredArray: {},
       leaderboard: [],
@@ -228,7 +229,10 @@ export default {
 
     this.$store.dispatch("leaderboard/getLeaderboard").then((res) => {
       this.leaderboard = res;
-      this.isLoading = false;
+      this.isLoading = false
+      if(res.length < 1) {
+        this.msg = "."
+      }
     });
   },
 
