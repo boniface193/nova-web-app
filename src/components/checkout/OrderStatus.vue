@@ -91,8 +91,7 @@
           <div class="text-left" v-show="!orderDetails.delivery_confirmed">
             <v-checkbox
               v-model="acceptTerms"
-              label="By clicking continue, you are agreeing to our terms of service and our
-                    disclaimer"
+              label="By clicking continue, you are agreeing to our terms of service and shipping policies."
               class="mt-5"
             ></v-checkbox>
             <v-btn
