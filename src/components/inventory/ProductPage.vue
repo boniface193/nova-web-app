@@ -54,7 +54,7 @@
             >
           </p>
           <p class="secondary--text" style="font-size: 14px">
-            Inventory: {{ storeDetails.name}}
+            Inventory: {{ storeDetails.name }}
           </p>
           <hr class="secondary--text" />
 
@@ -157,7 +157,7 @@
               }}</span>
             </p>
             <v-form ref="variantForm">
-              <h4 class="mb-4">Variants</h4>
+              <h4 class="mb-4" v-show="productDetails.variants">Variants</h4>
               <div
                 v-for="(item, index) in productDetails.variants"
                 :key="index"
@@ -395,8 +395,9 @@ export default {
         this.quantityError = false;
       } else {
         this.quantityError = true;
+        let placeholder = (this.productDetails.quantity > 1)? 'items': 'item'
         this.quantityErrorMsg =
-          "The maximum quantity allowed is " + this.productDetails.quantity;
+          "Only " + this.productDetails.quantity + " " + placeholder + " Available in stock"
       }
     },
     decreaseNum() {
