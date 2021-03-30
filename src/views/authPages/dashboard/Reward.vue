@@ -27,7 +27,7 @@
               </div>
             </div>
             <div class="mb-8 pr-4 w-100">
-              <v-img src="@/assets/images/reward.png"></v-img>
+              <v-img src="@/assets/images/reward.svg"></v-img>
             </div>
           </div>
 
@@ -35,7 +35,7 @@
             <v-col offset-lg="3" offset-md="3" offset-sm="3" class="offset-xs">
               <!-- this image time loader is calculated by the loader to triger the load time -->
               <v-img
-                src="@/assets/images/reward.png"
+                src="@/assets/images/reward.svg"
                 width="5px"
                 height="5px"
                 @load="onLoad"
