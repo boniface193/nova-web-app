@@ -1,5 +1,8 @@
 <template>
-  <div style="background: #fafafa; min-height: 100%; margin-top:-40px" class="pt-sm-10 pt-16 ">
+  <div
+    style="background: #fafafa; min-height: 100%; margin-top: -40px"
+    class="pt-sm-10 pt-16"
+  >
     <div v-show="!loader">
       <!-- go to previous page -->
       <router-link
@@ -10,7 +13,9 @@
         class="mx-5"
       >
         <span class="back-btn">
-          <v-icon color="black" style="font-size: 25px">mdi-chevron-left</v-icon>
+          <v-icon color="black" style="font-size: 25px"
+            >mdi-chevron-left</v-icon
+          >
         </span>
       </router-link>
 
@@ -34,7 +39,10 @@
               >{{ productDetails.quantity }} Available</span
             >
             <span class="mx-2">|</span>
-            <span><span>Minimum order quantity:</span> {{ productDetails.min_order_quantity}}</span>
+            <span
+              ><span style="font-weight: 600">Minimum order quantity:</span>
+              {{ productDetails.min_order_quantity }}</span
+            >
           </p>
           <p class="mb-4">
             <span class="primary--text mr-2"
@@ -46,12 +54,12 @@
             >
           </p>
           <p class="secondary--text" style="font-size: 14px">
-            Inventory: TDAfrica
+            Inventory: {{ storeDetails.name }}
           </p>
           <hr class="secondary--text" />
 
           <div class="py-5">
-            <h5 class="mb-4">Description</h5>
+            <h4 class="mb-4">Description</h4>
             <p class="secondary--text mb-2" style="font-size: 14px">
               {{ productDetails.description }}
             </p>
@@ -63,11 +71,13 @@
                   id: this.$route.params.id,
                 },
               }"
-              style="text-decoration: none"
+              style="text-decoration: none font-size:14px"
               class="primary--text"
             >
               View more
             </router-link>
+
+            <h4 class="mt-5 mb-4">Shipping Policies</h4>
           </div>
         </v-col>
       </v-row>
@@ -94,11 +104,10 @@
                 }}</span
               >
             </p>
-            <v-btn class="primary" @click="() => (checkout = true)"
-              >Resell</v-btn
-            >
+            <v-btn class="primary" @click="() => (checkout = true)">Sell</v-btn>
           </div>
 
+          <!-- checkout container -->
           <div v-show="checkout">
             <div class="d-flex mb-3" style="align-items: baseline">
               <p class="mr-5 mb-0" style="font-weight: 600">
@@ -111,20 +120,30 @@
                   v-model="profit"
                   @keyup.enter="submitCheckoutDetails"
                 ></v-text-field>
-                <v-text-field style="display:none"></v-text-field>
+                <v-text-field style="display: none"></v-text-field>
               </v-form>
             </div>
             <div class="d-flex align-center mb-5">
               <p class="mr-5 mb-0" style="font-weight: 600">Quantity:</p>
               <div class="d-flex align-center">
                 <span class="minus-btn" @click="decreaseNum">-</span>
-                <span class="mx-4">{{ quantity }}</span>
-                <span class="add-btn" @click="increaseNum">+</span>
+                <span class="mx-4">{{ this.quantity }}</span>
+                <span class="add-btn mr-3" @click="increaseNum">+</span>
               </div>
+              <p
+                class="error--text mb-0"
+                v-show="quantityError"
+                style="font-size: 14px"
+              >
+                {{ quantityErrorMsg }}
+              </p>
             </div>
             <p class="mb-5">
               <span class="mr-2" style="font-weight: 600">
-                profit (&#8358;) <span class="primary--text" style="font-weight:300">(Inclusive of 7.5% VAT): </span> </span
+                profit (&#8358;)
+                <span class="primary--text" style="font-weight: 300"
+                  >(Inclusive of 7.5% VAT):
+                </span> </span
               ><span class="secondary--text">{{
                 numberWithCommas(computedPrices.yourProfit)
               }}</span>
@@ -137,6 +156,29 @@
                 numberWithCommas(computedPrices.total)
               }}</span>
             </p>
+            <v-form ref="variantForm">
+              <h4 class="mb-4" v-show="productDetails.variants">Variants</h4>
+              <div
+                v-for="(item, index) in productDetails.variants"
+                :key="index"
+              >
+                <p class="mb-1" style="font-weight: 600">{{ item.name }}</p>
+                <v-radio-group
+                  row
+                  v-model="variants[index].value"
+                  class="mt-1"
+                  :rules="variantRules"
+                >
+                  <v-radio
+                    class="primary--text mb-0"
+                    v-for="(value, index2) in item.values"
+                    :key="index2"
+                    :label="value"
+                    :value="value"
+                  ></v-radio>
+                </v-radio-group>
+              </div>
+            </v-form>
             <v-btn class="primary" @click="submitCheckoutDetails">Next</v-btn>
           </div>
         </div>
@@ -154,7 +196,7 @@
           <div class="link py-3 px-2">
             <img src="@/assets/images/link.svg" alt="" />
             <span
-              style="cursor: pointer;height:25px; overflow:hidden"
+              style="cursor: pointer; height: 25px; overflow: hidden"
               v-clipboard:copy="createLink.url"
               @click="showCopyStatus"
               >{{ createLink.url }}</span
@@ -269,11 +311,15 @@ export default {
       checkout: false,
       shareDialog: false,
       productDetails: {},
+      storeDetails: {},
       loader: false,
       statusImage: null,
       dialog: false,
       dialogMessage: "",
       copyStatus: false,
+      variants: [{}],
+      quantityError: false,
+      quantityErrorMsg: "",
       inputRules: [
         (v) => !!v || "Profit is required", // verifies name satisfies the requirement
         (v) => Math.sign(v) !== -1 || "Negative profit is not allowed",
@@ -281,6 +327,7 @@ export default {
           v <= this.productDetails.max_profit ||
           "Profit must be less than maximum recommended profit",
       ],
+      variantRules: [(v) => !!v || "Required"],
       yourProfit: 0,
       total: 0,
       profit: 0,
@@ -325,8 +372,10 @@ export default {
         id: this.$route.params.id,
       })
       .then((response) => {
-        this.loader = false;
         this.productDetails = response.data.data;
+        this.variants = this.productDetails.variants;
+        this.quantity = this.productDetails.min_order_quantity;
+        this.getStoreDetails();
       })
       .catch((error) => {
         this.dialog = true;
@@ -343,21 +392,67 @@ export default {
     increaseNum() {
       if (this.quantity < this.productDetails.quantity) {
         this.quantity = parseInt(this.quantity, 10) + 1;
+        this.quantityError = false;
+      } else {
+        this.quantityError = true;
+        let placeholder = (this.productDetails.quantity > 1)? 'items': 'item'
+        this.quantityErrorMsg =
+          "Only " + this.productDetails.quantity + " " + placeholder + " Available in stock"
       }
     },
     decreaseNum() {
-      if (this.quantity > 1) {
+      if (this.quantity > this.productDetails.min_order_quantity) {
         this.quantity = parseInt(this.quantity, 10) - 1;
+        this.quantityError = false;
+      } else {
+        this.quantityError = true;
+        this.quantityErrorMsg =
+          "The minimum quantity allowed is " +
+          this.productDetails.min_order_quantity;
       }
+    },
+    EncodeArrayOfObjects(arrayValues) {
+      const encodedValues = arrayValues.map((param) => {
+        return (
+          encodeURIComponent(param.name) + "=" + encodeURIComponent(param.value)
+        );
+      });
+
+      return encodedValues.join("&");
+    },
+    getStoreDetails() {
+      this.$store
+        .dispatch("inventory/getStoreDetails", {
+          id: this.productDetails.store_id,
+        })
+        .then((response) => {
+          this.storeDetails = response.data.data;
+          this.loader = false;
+        })
+        .catch((error) => {
+          this.loader = false;
+          this.dialog = true;
+          this.statusImage = failedImage;
+          if (error.response) {
+            this.dialogMessage = "Sorry, this data does not Exist";
+          } else {
+            this.dialogMessage = "No internet Connection!";
+          }
+        });
     },
     submitCheckoutDetails() {
       this.$refs.form.validate();
-      if (this.$refs.form.validate()) {
+      this.$refs.variantForm.validate();
+      if (this.$refs.form.validate() && this.$refs.variantForm.validate()) {
+        //let variants = this.convertArrayToObjects(this.variants);
+        console.log(this.variants);
         this.$router.push({
           path:
             `/inventory/${this.$route.params.id}/customer-form?` +
             `${encodeURIComponent("quantity=" + this.quantity)}` +
-            `${encodeURIComponent("&profit=" + this.profit)}`,
+            `${encodeURIComponent("&profit=" + this.profit)}` +
+            `&${this.EncodeArrayOfObjects(this.variants)}`,
+
           params: {
             id: this.$route.params.id,
           },
@@ -424,7 +519,7 @@ export default {
   z-index: 3;
   .link {
     background: #f3f5ff;
-    color: #029B97;
+    color: #029b97;
     text-align: center;
     border-radius: 12px;
     display: flex;
@@ -453,7 +548,7 @@ export default {
 }
 .add-btn {
   border-radius: 50%;
-  background: #029B97;
+  background: #029b97;
   width: 25px;
   height: 25px;
   display: flex;
@@ -469,7 +564,7 @@ export default {
   height: 25px;
   display: flex;
   align-items: center;
-  color: #029B97;
+  color: #029b97;
   justify-content: center;
   cursor: pointer;
 }

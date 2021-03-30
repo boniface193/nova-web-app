@@ -166,18 +166,6 @@ const actions = {
                 })
         });
     },
-    // get store details
-    getStoreDetails(context, data) {
-        return new Promise((resolve, reject) => {
-            axios.get(`/stores/${data.id}`).then(response => {
-                resolve(response);
-            })
-                .catch(error => {
-                    context.commit("doNothing");
-                    reject(error);
-                })
-        })
-    },
 };
 
 //updates the different state properties

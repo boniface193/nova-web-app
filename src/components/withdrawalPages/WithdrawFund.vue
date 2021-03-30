@@ -23,13 +23,15 @@
         <div class="account-details-container">
           <div class="d-flex justify-space-between align-center my-5">
             <p class="secondary--text mb-0">Your balance:</p>
-            <h3 v-show="!fetchingBalance">&#8358;{{revenueDetails.available_balance_label}}</h3>
+            <h3 v-show="!fetchingBalance">
+              &#8358;{{ revenueDetails.available_balance_label }}
+            </h3>
             <span v-show="fetchingBalance">
-                <v-progress-circular
-                  indeterminate
-                  color="primary"
-                ></v-progress-circular>
-              </span>
+              <v-progress-circular
+                indeterminate
+                color="primary"
+              ></v-progress-circular>
+            </span>
           </div>
           <div class="d-flex justify-space-between align-baseline my-5">
             <p class="secondary--text mb-0">To:</p>
@@ -44,9 +46,7 @@
             <h5>&#8358;100</h5>
           </div> -->
           <!-- withdrwa btn -->
-          <v-btn
-            class="primary mt-5"
-            @click="openConfirmationDialog()"
+          <v-btn class="primary mt-5" @click="openConfirmationDialog()"
             >Withdraw</v-btn
           >
           <!-- change account btn -->
@@ -85,8 +85,14 @@
         <div class="text-left confirmation-dialog">
           <!-- message -->
           <p class="mt-5">
-            You are about to withdraw
-            &#8358;{{ revenueDetails.available_balance_label }} to your bank account
+            Your available balance is
+            <span class="primary--text"
+              >&#8358;{{ revenueDetails.available_balance_label }}</span
+            >, a sum of
+            <span class="primary--text"
+              >&#8358;{{ amountToDeposit.amount }}</span
+            >
+            would deposited to your bank account due to deduction of 7.5% VAT.
           </p>
           <!-- acount details -->
           <h5>
@@ -177,6 +183,24 @@ export default {
         accountDetails: this.accountDetails,
       };
     },
+    amountToDeposit() {
+      let balance = this.revenueDetails.available_balance;
+      let vat = 0.075 * balance;
+      if (balance <= 5000) {
+        balance = balance - vat - 10;
+      }
+
+      if (balance > 5000 && balance <= 50000) {
+        balance = balance - vat - 25;
+      }
+
+      if (balance > 50000) {
+        balance = balance - vat - 50;
+      }
+      return {
+        amount: balance,
+      };
+    },
   },
   methods: {
     openConfirmationDialog() {
@@ -214,11 +238,11 @@ export default {
         })
         .then((response) => {
           this.revenueDetails = response.data.data;
-          this.fetchingBalance  = false;
+          this.fetchingBalance = false;
         })
         .catch((error) => {
           this.dialog = true;
-          this.fetchingBalance  = false;
+          this.fetchingBalance = false;
           this.statusImage = failedImage;
           if (error.response) {
             this.dialogMessage = error.response.data.message;
