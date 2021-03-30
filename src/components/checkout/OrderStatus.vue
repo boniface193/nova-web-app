@@ -318,7 +318,11 @@ export default {
           this.loading2 = false;
           this.statusImage = failedImage;
           if (error.response) {
-            this.dialogMessage = "Something went wrong, pls try again";
+            if(error.response.status === 400){
+              this.dialogMessage = error.response.data.message
+            }else{
+              this.dialogMessage = "Something went wrong, pls try again";
+            }
           } else {
             this.dialogMessage = "No internet Connection!";
           }
