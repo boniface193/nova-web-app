@@ -26,9 +26,19 @@
     </div>
     <!-- product description -->
     <div class="mt-5">
-      <h5 class="mb-2">Description</h5>
+      <h4 class="mb-2">Description</h4>
       <p class="mb-5 secondary--text" style="font-size: 14px">
         {{ pageDetails.productDetails.description }}
+      </p>
+
+      <h4 class="mt-5 mb-2" v-show="orderDetails.variants">Variants</h4>
+      <p
+        class="mb-1 secondary--text"
+        v-for="(variant, index) in orderDetails.variants"
+        :key="index"
+        style="font-size: 14px"
+      >
+         {{ variant.name }}: {{ variant.value }}
       </p>
     </div>
     <!-- select quantity container -->
@@ -38,17 +48,20 @@
         <span class="mx-4">{{ quantity }}</span>
         <span class="add-btn" @click="increaseNum">+</span>
       </div> -->
-      <h5 class="mb-3">No. of items: <span>{{ pageDetails.orderDetails.total_items }}</span></h5 >
+      <h4 class="mb-3">
+        No. of items: <span>{{ pageDetails.orderDetails.total_items }}</span>
+      </h4>
       <p class="mb-0">
         <span class="primary--text mr-4" style="font-size: 20px"
-          >&#8358;{{ pageDetails.orderDetails.subtotal_label }}</span>
-        <br/><span class="secondary--text" style="font-size: 14px"
+          >&#8358;{{ pageDetails.orderDetails.subtotal_label }}</span
+        >
+        <br /><span class="secondary--text" style="font-size: 14px"
           >Delivery fee not included yet</span
         >
       </p>
     </div>
     <div class="btn-container">
-       <v-checkbox
+      <v-checkbox
         v-model="acceptTerms"
         label="By clicking continue, you are agreeing to our terms of service and our
         disclaimer"
@@ -126,7 +139,7 @@ export default {
 }
 .add-btn {
   border-radius: 50%;
-  background: #029B97;
+  background: #029b97;
   width: 25px;
   height: 25px;
   display: flex;
@@ -142,7 +155,7 @@ export default {
   height: 25px;
   display: flex;
   align-items: center;
-  color: #029B97;
+  color: #029b97;
   justify-content: center;
   cursor: pointer;
 }

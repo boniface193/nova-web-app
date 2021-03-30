@@ -54,12 +54,12 @@
             >
           </p>
           <p class="secondary--text" style="font-size: 14px">
-            Inventory: TDAfrica
+            Inventory: {{ storeDetails.name}}
           </p>
           <hr class="secondary--text" />
 
           <div class="py-5">
-            <h5 class="mb-4">Description</h5>
+            <h4 class="mb-4">Description</h4>
             <p class="secondary--text mb-2" style="font-size: 14px">
               {{ productDetails.description }}
             </p>
@@ -71,11 +71,13 @@
                   id: this.$route.params.id,
                 },
               }"
-              style="text-decoration: none"
+              style="text-decoration: none font-size:14px"
               class="primary--text"
             >
               View more
             </router-link>
+
+            <h4 class="mt-5 mb-4">Shipping Policies</h4>
           </div>
         </v-col>
       </v-row>
@@ -102,9 +104,7 @@
                 }}</span
               >
             </p>
-            <v-btn class="primary" @click="() => (checkout = true)"
-              >Resell</v-btn
-            >
+            <v-btn class="primary" @click="() => (checkout = true)">Sell</v-btn>
           </div>
 
           <!-- checkout container -->
@@ -127,9 +127,16 @@
               <p class="mr-5 mb-0" style="font-weight: 600">Quantity:</p>
               <div class="d-flex align-center">
                 <span class="minus-btn" @click="decreaseNum">-</span>
-                <span class="mx-4">{{ quantity }}</span>
-                <span class="add-btn" @click="increaseNum">+</span>
+                <span class="mx-4">{{ this.quantity }}</span>
+                <span class="add-btn mr-3" @click="increaseNum">+</span>
               </div>
+              <p
+                class="error--text mb-0"
+                v-show="quantityError"
+                style="font-size: 14px"
+              >
+                {{ quantityErrorMsg }}
+              </p>
             </div>
             <p class="mb-5">
               <span class="mr-2" style="font-weight: 600">
@@ -304,12 +311,15 @@ export default {
       checkout: false,
       shareDialog: false,
       productDetails: {},
+      storeDetails: {},
       loader: false,
       statusImage: null,
       dialog: false,
       dialogMessage: "",
       copyStatus: false,
       variants: [{}],
+      quantityError: false,
+      quantityErrorMsg: "",
       inputRules: [
         (v) => !!v || "Profit is required", // verifies name satisfies the requirement
         (v) => Math.sign(v) !== -1 || "Negative profit is not allowed",
@@ -362,9 +372,10 @@ export default {
         id: this.$route.params.id,
       })
       .then((response) => {
-        this.loader = false;
         this.productDetails = response.data.data;
         this.variants = this.productDetails.variants;
+        this.quantity = this.productDetails.min_order_quantity;
+        this.getStoreDetails();
       })
       .catch((error) => {
         this.dialog = true;
@@ -381,43 +392,66 @@ export default {
     increaseNum() {
       if (this.quantity < this.productDetails.quantity) {
         this.quantity = parseInt(this.quantity, 10) + 1;
+        this.quantityError = false;
+      } else {
+        this.quantityError = true;
+        this.quantityErrorMsg =
+          "The maximum quantity allowed is " + this.productDetails.quantity;
       }
     },
     decreaseNum() {
-      if (this.quantity > 1) {
+      if (this.quantity > this.productDetails.min_order_quantity) {
         this.quantity = parseInt(this.quantity, 10) - 1;
+        this.quantityError = false;
+      } else {
+        this.quantityError = true;
+        this.quantityErrorMsg =
+          "The minimum quantity allowed is " +
+          this.productDetails.min_order_quantity;
       }
     },
-    // objectToQueryString(object) {
-    //   var parameters = [];
-    //   for (var property in object) {
-    //     if (object.hasOwnProperty(property)) {
-    //       parameters.push(encodeURI(property + "=" + object[property]));
-    //     }
-    //   }
-    //   return parameters.join("&");
-    // },
-    convertArrayToObjects(arrayValue){
-      let arr = arrayValue
-      //convert
-      let result = {};
-      for (var i = 0; i < arr.length; i++) {
-        result[arr[i].key] = arr[i].value;
-      }
+    EncodeArrayOfObjects(arrayValues) {
+      const encodedValues = arrayValues.map((param) => {
+        return (
+          encodeURIComponent(param.name) + "=" + encodeURIComponent(param.value)
+        );
+      });
 
-      return result
+      return encodedValues.join("&");
+    },
+    getStoreDetails() {
+      this.$store
+        .dispatch("inventory/getStoreDetails", {
+          id: this.productDetails.store_id,
+        })
+        .then((response) => {
+          this.storeDetails = response.data.data;
+          this.loader = false;
+        })
+        .catch((error) => {
+          this.loader = false;
+          this.dialog = true;
+          this.statusImage = failedImage;
+          if (error.response) {
+            this.dialogMessage = "Sorry, this data does not Exist";
+          } else {
+            this.dialogMessage = "No internet Connection!";
+          }
+        });
     },
     submitCheckoutDetails() {
       this.$refs.form.validate();
       this.$refs.variantForm.validate();
       if (this.$refs.form.validate() && this.$refs.variantForm.validate()) {
         //let variants = this.convertArrayToObjects(this.variants);
+        console.log(this.variants);
         this.$router.push({
           path:
             `/inventory/${this.$route.params.id}/customer-form?` +
             `${encodeURIComponent("quantity=" + this.quantity)}` +
-            `${encodeURIComponent("&profit=" + this.profit)}`,
-            
+            `${encodeURIComponent("&profit=" + this.profit)}` +
+            `&${this.EncodeArrayOfObjects(this.variants)}`,
+
           params: {
             id: this.$route.params.id,
           },

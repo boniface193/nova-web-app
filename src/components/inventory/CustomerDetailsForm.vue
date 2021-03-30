@@ -68,7 +68,10 @@
       </div>
       <!-- Address field -->
       <div class="mb-5 input-field">
-        <p class="mb-1">Address* <span class="primary--text">(Delivery within lagos only)</span></p>
+        <p class="mb-1">
+          Address*
+          <span class="primary--text">(Delivery within lagos only)</span>
+        </p>
         <v-text-field
           color="primary"
           placeholder="Street address"
@@ -130,6 +133,7 @@ export default {
       lng: "",
       validAddress: false,
       autocomplete: "",
+      variants: [],
       nameRules: [
         (v) => !!v || "Name is required", // verifies name satisfies the requirement
       ],
@@ -163,13 +167,14 @@ export default {
 
     this.autocomplete.addListener("place_changed", this.onPlaceChanged);
   },
-  // created(){
-
-  //       const routeParameter = new URLSearchParams(
-  //         decodeURIComponent(window.location.search)
-  //       )
-  //   console.log(routeParameter.get("size"))
-  // },
+  created() {
+    // const routeParameter = new URLSearchParams(
+    //   decodeURIComponent(window.location.search)
+    // )
+    console.log(
+      this.convertQueryToObject(decodeURIComponent(window.location.search))
+    );
+  },
   computed: {
     getAddress() {
       return {
@@ -178,6 +183,23 @@ export default {
     },
   },
   methods: {
+    convertQueryToObject(querystring) {
+      // parse query string
+      const params = new URLSearchParams(querystring);
+
+      const obj = {};
+
+      // iterate over all keys
+      for (const key of params.keys()) {
+        if (params.getAll(key).length > 1) {
+          obj[key] = params.getAll(key);
+        } else {
+          obj[key] = params.get(key);
+        }
+      }
+
+      return obj;
+    },
     onPlaceChanged() {
       let place = this.autocomplete.getPlace();
       if (!place.geometry) {
@@ -197,10 +219,18 @@ export default {
         this.loading = true;
         let getUrl = window.location;
         let baseUrl = getUrl.protocol + "//" + getUrl.host + "/";
-        const routeParameter = new URLSearchParams(
+
+        let urlQuery = this.convertQueryToObject(
           decodeURIComponent(window.location.search)
         );
-
+        Object.keys(urlQuery).forEach((key) => {
+          let variantItem = {};
+          if (key !== "quantity" && key !== "profit") {
+            variantItem.name = key;
+            variantItem.value = urlQuery[`${key}`];
+            this.variants.push(variantItem);
+          }
+        });
         this.$store
           .dispatch("orders/createOrder", {
             product_id: this.$route.params.id,
@@ -214,9 +244,10 @@ export default {
                 lng: this.lng,
               },
             },
-            total_items: parseInt(routeParameter.get("quantity"), 10),
+            variants: this.variants,
+            total_items: parseInt(urlQuery.quantity, 10),
             payment_link: `${baseUrl}checkout-details`,
-            seller_profit: parseInt(routeParameter.get("profit"), 10),
+            seller_profit: parseInt(urlQuery.profit, 10),
           })
           .then((response) => {
             this.loading = false;
