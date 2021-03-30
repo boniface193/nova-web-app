@@ -422,7 +422,7 @@ export default {
     },
     getStoreDetails() {
       this.$store
-        .dispatch("inventory/getStoreDetails", {
+        .dispatch("onboarding/getStoreDetails", {
           id: this.productDetails.store_id,
         })
         .then((response) => {
@@ -445,7 +445,6 @@ export default {
       this.$refs.variantForm.validate();
       if (this.$refs.form.validate() && this.$refs.variantForm.validate()) {
         //let variants = this.convertArrayToObjects(this.variants);
-        console.log(this.variants);
         this.$router.push({
           path:
             `/inventory/${this.$route.params.id}/customer-form?` +

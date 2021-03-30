@@ -130,7 +130,7 @@ export default {
     },
     getStoreDetails(store_id) {
       this.$store
-        .dispatch("inventory/getStoreDetails", {
+        .dispatch("onboarding/getStoreDetails", {
           id: store_id,
         })
         .then((response) => {
