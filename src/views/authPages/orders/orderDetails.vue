@@ -1,7 +1,7 @@
 <template>
   <v-container>
     <div class="mx-5">
-      <div class="chOder" style="margin-top:0px">
+      <div class="chOder" style="margin-top: 0px">
         <router-link :to="{ path: '/orders' }">
           <v-icon class="float-left">mdi-chevron-left</v-icon>
         </router-link>
@@ -28,31 +28,35 @@
                     {{ orderDetails.product_name }}
                   </span>
                 </div>
+                <div
+                  class="order-item-font mt-1"
+                  v-for="(variant, index) in orderDetails.variants"
+                  :key="index"
+                >
+                  {{ variant.name }}:
+                  <span class="order-no-grey">{{ variant.value }}</span>
+                </div>
                 <div class="order-item-font mt-1">
                   Time:
                   <span class="order-no-grey"
                     >{{ date }}
-                    <span class="order-no-lighter-grey">{{
-                      time
-                    }}</span></span
+                    <span class="order-no-lighter-grey">{{ time }}</span></span
                   >
                 </div>
                 <div class="order-item-font mt-1">
                   Customer:
-                  <span class="order-no-grey">{{
-                    customerName
-                  }}</span>
+                  <span class="order-no-grey">{{ customerName }}</span>
                 </div>
               </v-col>
             </v-row>
           </v-card>
         </v-col>
 
-        <v-col sm="4"  md="8" offset-md="2">
+        <v-col sm="4" md="8" offset-md="2">
           <v-card outlined class="rounded-lg px-5">
             <div class="order-item-font my-2">Shipping and Billing Address</div>
             <div class="order-no-grey mb-3">
-              {{address}}<br />
+              {{ address }}<br />
               <span>900281</span><br />
               <span>Abuja</span><br />
               <span>Nigeria</span><br />
@@ -94,14 +98,18 @@
             <div class="order-no-grey my-2">
               Shipping
               <div class="d-flex justify-space-between">
-                <span class="order-no-lighter-grey"> {{orderDetails.delivery_method}} </span>
-                <div class="">NGN{{orderDetails.delivery_fee_label}}</div>
+                <span class="order-no-lighter-grey">
+                  {{ orderDetails.delivery_method }}
+                </span>
+                <div class="">NGN{{ orderDetails.delivery_fee_label }}</div>
               </div>
             </div>
 
             <div class="d-flex justify-space-between my-3">
               <span class="order-no-blue"> Total Paid</span>
-              <div class="order-no-grey">NGN{{orderDetails.total_price_label}}</div>
+              <div class="order-no-grey">
+                NGN{{ orderDetails.total_price_label }}
+              </div>
             </div>
           </v-card>
         </v-col>
@@ -171,8 +179,7 @@ export default {
         this.address = data.delivery_location.address;
         this.phone = data.customer.phone;
         this.email = data.customer.email;
-
-      })
+      });
   },
 };
 </script>

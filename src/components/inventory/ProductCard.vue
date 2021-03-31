@@ -59,7 +59,7 @@ export default {
     height: 190px;
     background: #f3f5ff;
     border-radius: 12px;
-    z-index: 2;
+    z-index: 1;
     position: absolute;
     margin: auto;
     left: 0;
@@ -87,7 +87,6 @@ export default {
     border-radius: 12px;
     margin: 0px auto 0px auto;
     position: absolute;
-    z-index: 1;
     box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
     .v-btn:not(.v-btn--round).v-size--default {
       height: 25px;

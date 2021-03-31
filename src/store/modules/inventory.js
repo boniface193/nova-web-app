@@ -25,6 +25,7 @@ const setItemPerPage = (itemPerPage, per_page, from_page) => {
 //holds the state properties
 const state = {
     products: [],
+    productCategories: [],
     searchProduct: false,
     searchValue: "",
     page: 1,
@@ -40,6 +41,7 @@ const state = {
 //returns the state properties
 const getters = {
     products: state => state.products,
+    productCategories: state => state.productCategories
 };
 
 //fetch data 
@@ -120,6 +122,26 @@ const actions = {
                 })
         })
     },
+    // get product categories
+    getProductCategories(context) {
+        return new Promise((resolve, reject) => {
+            axios.get(`/categories`,
+                {
+                    headers: {
+                        Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+                    }
+                }).then(response => {
+                    resolve(response);
+                })
+                .catch(error => {
+                    // if (error.response.status == 401) {
+                    //     store.commit("onboarding/setTokenAuthorizeStatus", false);
+                    // }
+                    context.commit("doNothing");
+                    reject(error);
+                })
+        })
+    }
 };
 
 //updates the different state properties
@@ -136,6 +158,7 @@ const mutations = {
     setPage: (state, page) => (state.page = page),
     setInventoryLoader: (state, status) => (state.inventoryLoader = status),
     setFilter: (state, filter) => (state.filter = filter),
+    setProductCategories: (state, productCategories) => (state.productCategories = productCategories)
 };
 
 

@@ -74,7 +74,9 @@ export default {
         customer: {},
       },
       productDetails: {},
-      storeDetails: {},
+      storeDetails: {
+        refund_policy: {}
+      },
       pageLoader: false,
     };
   },

@@ -25,20 +25,44 @@
       <h5>{{ pageDetails.orderDetails.seller_name }}</h5>
     </div>
     <!-- product description -->
-    <div class="mt-5">
+    <div class="mt-4">
       <h4 class="mb-2">Description</h4>
-      <p class="mb-5 secondary--text" style="font-size: 14px">
+      <p class="secondary--text" style="font-size: 14px">
         {{ pageDetails.productDetails.description }}
       </p>
 
-      <h4 class="mt-5 mb-2" v-show="orderDetails.variants">Variants</h4>
+      <h4 class="mt-4 mb-2" v-show="orderDetails.variants">Variants</h4>
       <p
         class="mb-1 secondary--text"
         v-for="(variant, index) in orderDetails.variants"
         :key="index"
         style="font-size: 14px"
       >
-         {{ variant.name }}: {{ variant.value }}
+        {{ variant.name }}: {{ variant.value }}
+      </p>
+
+      <h4 class="mt-4 mb-2">Shipping Policies</h4>
+      <p
+        v-show="storeDetails.refund_policy.return_allowed == 'true'"
+        style="font-size: 14px"
+      >
+        <span class="secondary--text"
+          >Free return within {{ storeDetails.refund_policy.return_window }}
+          {{
+            storeDetails.refund_policy.return_window > 1 ? "days" : "day"
+          }}
+          from {{ storeDetails.name }}</span
+        ><br />
+        <span style="font-weight: 600"
+          >What qualifies a product for returns ?</span
+        ><br />
+        <span>{{ storeDetails.refund_policy.return_precondition }}</span>
+      </p>
+      <p
+        v-show="storeDetails.refund_policy.return_allowed == 'false'"
+        style="font-size: 14px"
+      >
+        Returns are not allowed for this product
       </p>
     </div>
     <!-- select quantity container -->
@@ -63,8 +87,7 @@
     <div class="btn-container">
       <v-checkbox
         v-model="acceptTerms"
-        label="By clicking continue, you are agreeing to our terms of service and our
-        disclaimer"
+        label="By clicking continue, you are agreeing to our terms of service, shipping and return policies."
         class="mt-7"
       ></v-checkbox>
       <v-btn
