@@ -59,7 +59,7 @@
           <hr class="secondary--text" />
 
           <div class="py-5">
-            <h4 class="mb-4">Description</h4>
+            <h4 class="mb-2">Description</h4>
             <p class="secondary--text mb-2" style="font-size: 14px">
               {{ productDetails.description }}
             </p>
@@ -77,7 +77,35 @@
               View more
             </router-link>
 
-            <h4 class="mt-5 mb-4">Shipping Policies</h4>
+            <h4 class="mt-5 mb-2">Shipping Policies</h4>
+            <p v-show="storeDetails.refund_policy.return_allowed == 'true'">
+              <span class="secondary--text" style="font-size: 14px"
+                >Free return within
+                {{ storeDetails.refund_policy.return_window }}
+                {{
+                  storeDetails.refund_policy.return_window > 1 ? "days" : "day"
+                }}
+                from {{ storeDetails.name }}</span
+              ><br />
+              <span style="font-size: 14px; font-weight: 600"
+                >What qualifies a product for returns ?</span
+              ><br />
+              <span>{{ storeDetails.refund_policy.return_precondition }}</span
+              ><br />
+              <span style="font-size: 14px; font-weight: 600"
+                >Can a customer replace a product in the event of a return
+                ?</span
+              ><br />
+              <span>{{
+                storeDetails.refund_policy.product_replacable_on_return ==
+                "true"
+                  ? "Yes, a customer can replace a product on return"
+                  : "No, a customer cannot replace a product on return"
+              }}</span>
+            </p>
+            <p v-show="storeDetails.refund_policy.return_allowed == 'false'">
+              Returns are not allowed for this product
+            </p>
           </div>
         </v-col>
       </v-row>
@@ -311,7 +339,9 @@ export default {
       checkout: false,
       shareDialog: false,
       productDetails: {},
-      storeDetails: {},
+      storeDetails: {
+        refund_policy: {},
+      },
       loader: false,
       statusImage: null,
       dialog: false,
@@ -395,9 +425,13 @@ export default {
         this.quantityError = false;
       } else {
         this.quantityError = true;
-        let placeholder = (this.productDetails.quantity > 1)? 'items': 'item'
+        let placeholder = this.productDetails.quantity > 1 ? "items" : "item";
         this.quantityErrorMsg =
-          "Only " + this.productDetails.quantity + " " + placeholder + " Available in stock"
+          "Only " +
+          this.productDetails.quantity +
+          " " +
+          placeholder +
+          " Available in stock";
       }
     },
     decreaseNum() {

@@ -248,10 +248,12 @@ export default {
     // set current page
     setCurentPage() {
       this.$store.commit("orders/setPage", this.getCurrentPage.currentPage);
-      this.$store.commit("orders/setPageDetails", this.getCurrentPage.currentPage
+      this.$store.commit(
+        "orders/setPageDetails",
+        this.getCurrentPage.currentPage
       );
       this.filterGetOrders();
-      this.getOrder()
+      this.getOrder();
 
       this.getOrder === true ? this.getSearchValue() : "";
     },
