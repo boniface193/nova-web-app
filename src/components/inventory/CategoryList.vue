@@ -65,9 +65,9 @@ export default {
 <style lang="scss" scoped>
 .category-container {
   display: flex;
-  align-items: center;
   width: fit-content;
   max-width: 100%;
+  overflow-y: auto;
   flex-wrap: nowrap;
   -ms-overflow-style: none; /* IE and Edge */
   scrollbar-width: none;
@@ -89,7 +89,7 @@ export default {
       background: var(--v-background-base);
     }
     .sub-category-container {
-      width: 100%;
+      width: calc(100% - 12px);
       min-height: 250px;
       max-height: 500px;
       top: 42px;

@@ -27,11 +27,16 @@
     <!-- product description -->
     <div class="mt-4">
       <h4 class="mb-2">Description</h4>
-      <p class="secondary--text" style="font-size: 14px">
-        {{ pageDetails.productDetails.description }}
+      <p class="secondary--text mb-0" v-if="!readMoreActivated" style="font-size: 14px">
+        {{ pageDetails.productDetails.description.slice(0, 200) }}
       </p>
+      <a class="primary--text"  v-if="!readMoreActivated" @click="readMoreActivated = true">view more</a>
+      <p class="secondary--text mb-0" v-if="readMoreActivated" style="font-size: 14px">
+        {{ pageDetails.productDetails.description}}
+      </p>
+      <a class="primary--text"  v-if="readMoreActivated" @click="readMoreActivated = false">view less</a>
 
-      <h4 class="mt-4 mb-2" v-show="orderDetails.variants">Variants</h4>
+      <h4 class="mt-4 mb-2" v-show="orderDetails.variants.length != 0">Variants</h4>
       <p
         class="mb-1 secondary--text"
         v-for="(variant, index) in orderDetails.variants"
@@ -41,22 +46,28 @@
         {{ variant.name }}: {{ variant.value }}
       </p>
 
-      <h4 class="mt-4 mb-2">Shipping Policies</h4>
+      <h4 class="mt-4 mb-2">Shipping and returns</h4>
       <p
         v-show="storeDetails.refund_policy.return_allowed == 'true'"
         style="font-size: 14px"
       >
         <span class="secondary--text"
           >Free return within {{ storeDetails.refund_policy.return_window }}
-          {{
-            storeDetails.refund_policy.return_window > 1 ? "days" : "day"
-          }}
+          {{ storeDetails.refund_policy.return_window > 1 ? "days" : "day" }}
           from {{ storeDetails.name }}</span
         ><br />
         <span style="font-weight: 600"
           >What qualifies a product for returns ?</span
         ><br />
-        <span>{{ storeDetails.refund_policy.return_precondition }}</span>
+        <span>{{ storeDetails.refund_policy.return_precondition }}</span><br />
+        <span style="font-size: 14px; font-weight: 600"
+          >Can a customer replace a product in the event of a return ?</span
+        ><br />
+        <span>{{
+          storeDetails.refund_policy.product_replacable_on_return == "true"
+            ? "Yes, a customer can replace a product on return"
+            : "No, a customer cannot replace a product on return"
+        }}</span>
       </p>
       <p
         v-show="storeDetails.refund_policy.return_allowed == 'false'"
@@ -107,6 +118,7 @@ export default {
     return {
       quantity: 0,
       acceptTerms: false,
+      readMoreActivated: false,
     };
   },
   computed: {

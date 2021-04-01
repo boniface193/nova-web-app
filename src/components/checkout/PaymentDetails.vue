@@ -31,7 +31,7 @@
           >
             <v-radio
               class="primary--text mb-0"
-              :label="`Express Delivery (₦${orderDetails.express_delivery_fee_label})`"
+              :label="`Express Delivery (₦${expressDeliveryFee})`"
               value="express"
             ></v-radio>
             <span class="ml-8 mb-4 primary--text"
@@ -39,7 +39,7 @@
             >
             <v-radio
               class="primary--text mb-0"
-              :label="`Standard Delivery (₦${orderDetails.standard_delivery_fee_label})`"
+              :label="`Standard Delivery (₦${standardDeliveryFee})`"
               value="standard"
             ></v-radio>
             <span class="ml-8 mb-0 primary--text"
@@ -130,7 +130,6 @@
               :rules="addressRules"
               ref="autocomplete"
               id="autocomplete"
-              @keyup.enter="submitCustomerDetails"
               required
             >
             </v-text-field>
@@ -161,6 +160,8 @@ export default {
   data: function () {
     return {
       deliveryMethod: this.orderDetails.delivery_method,
+      expressDeliveryFee: this.orderDetails.express_delivery_fee_label,
+      standardDeliveryFee: this.orderDetails.standard_delivery_fee_label,
       dialog: false,
       editAddressDialog: false,
       statusImage: null,
@@ -326,6 +327,7 @@ export default {
           this.deliveryLocation = response.data.data.delivery_location.address;
           this.deliveryFee = response.data.data.delivery_fee_label;
           this.totalPrice = response.data.data.total_price_label;
+          this.expressDeliveryFee = response.data.data.express_delivery_fee_label;
         })
         .catch((error) => {
           this.dialog = true;
