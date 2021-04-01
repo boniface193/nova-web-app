@@ -134,7 +134,7 @@
           <p class="mt-4">
             You are about to send
             <span class="primary--text"
-              >&#8358;{{ amountToDeposit.amount }}</span
+              >&#8358;{{ numberWithCommas(amountToDeposit.amount) }}</span
             >
             to yout bank's account
           </p>
@@ -233,6 +233,10 @@ export default {
     },
   },
   methods: {
+    // separate money with comma
+    numberWithCommas(x) {
+      return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    },
     openConfirmationDialog() {
       this.confirmationDialog = true;
     },
