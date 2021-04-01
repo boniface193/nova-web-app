@@ -7,7 +7,7 @@
 
       <FilterProducts class="ml-1"/>
     </div>
-    <CategoryList class="mt-6" />
+    <CategoryList class="mt-6 mx-auto" />
 
     <div class="pt-12 pb-5 products-container" v-show="products.length !== 0 && !inventoryLoader">
       <div class="d-flex flex-wrap">

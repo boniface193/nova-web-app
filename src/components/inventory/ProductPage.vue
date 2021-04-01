@@ -61,7 +61,7 @@
           <div class="py-5">
             <h4 class="mb-2">Description</h4>
             <p class="secondary--text mb-2" style="font-size: 14px">
-              {{ productDetails.description }}
+              {{ productDetails.description.slice(0, 200) }}
             </p>
             <!-- view more about product btn -->
             <router-link
@@ -77,7 +77,7 @@
               View more
             </router-link>
 
-            <h4 class="mt-5 mb-2">Shipping Policies</h4>
+            <h4 class="mt-5 mb-2">Shipping and returns</h4>
             <p v-show="storeDetails.refund_policy.return_allowed == 'true'">
               <span class="secondary--text" style="font-size: 14px"
                 >Free return within
@@ -477,16 +477,14 @@ export default {
     submitCheckoutDetails() {
       this.$refs.form.validate();
       this.$refs.variantForm.validate();
-      if (this.$refs.form.validate() && this.$refs.variantForm.validate()) {
-        //let variants = this.convertArrayToObjects(this.variants);
+      if (this.$refs.form.validate() && (this.$refs.variantForm.validate() || !this.productDetails.variants)) {
+        const variants = (this.productDetails.variants)? `&${this.EncodeArrayOfObjects(this.variants)}`: '';
         this.$router.push({
           path:
             `/inventory/${this.$route.params.id}/customer-form?` +
             `${encodeURIComponent("quantity=" + this.quantity)}` +
-            `${encodeURIComponent("&profit=" + this.profit)}` +
-            `&${this.EncodeArrayOfObjects(this.variants)}`,
-
-          params: {
+            `${encodeURIComponent("&profit=" + this.profit)}` + variants,
+                      params: {
             id: this.$route.params.id,
           },
         });

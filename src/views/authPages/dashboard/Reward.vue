@@ -8,15 +8,20 @@
         <h5 class="text-center mx-auto">Rewards</h5>
       </div>
 
-      <v-row>
+      <v-row class="mt-8" v-if="isLoading">
+        <v-col class="text-center">
+          <v-progress-circular
+            color="primary"
+            indeterminate
+          ></v-progress-circular>
+        </v-col>
+      </v-row>
+      <!-- loader ends here -->
+
+      <v-row v-if="!isLoading">
         <v-col offset-lg="3" offset-md="3" offset-sm="3">
           <!-- card -->
-          <div
-            class="center"
-            v-for="items in rewards.data"
-            :key="items.id"
-            v-show="showing"
-          >
+          <div class="center" v-for="items in rewards.data" :key="items.id">
             <div class="overlay pa-8">
               <div class="card-title text-left">Reward Debit Balance</div>
               <div class="card-point mt-7 text-left">
@@ -30,24 +35,6 @@
               <v-img src="@/assets/images/reward.svg"></v-img>
             </div>
           </div>
-
-          <v-row class="my-8" v-if="isLoading">
-            <v-col offset-lg="3" offset-md="3" offset-sm="3" class="offset-xs">
-              <!-- this image time loader is calculated by the loader to triger the load time -->
-              <v-img
-                src="@/assets/images/reward.svg"
-                width="5px"
-                height="5px"
-                @load="onLoad"
-              ></v-img>
-              <v-progress-circular
-                color="primary"
-                indeterminate
-              ></v-progress-circular>
-              <!-- loader ends here -->
-            </v-col>
-          </v-row>
-          <!-- loader ends here -->
 
           <v-row>
             <v-col lg="7" xl="7" md="8" sm="7">
@@ -247,8 +234,6 @@ export default {
       isLoading: true,
       alert: "",
       successful: false,
-      image: true,
-      showing: false,
     };
   },
   computed: {
@@ -262,7 +247,6 @@ export default {
       this.rewardHistory = e;
       this.isLoading = false;
     });
-    this.setimeout();
   },
 
   methods: {
@@ -291,18 +275,10 @@ export default {
           this.alert = err.message;
         });
     },
-    onLoad() {
-      this.isLoading ? (this.isLoading = false) : (this.isLoading = true);
-    },
 
-    setimeout() {
-      // setTimeout(() => {
-        this.showing = true;
-      // }, 500);
-    },
-    closeNredirect(){
+    closeNredirect() {
       location.href = "/dashboard";
-    }
+    },
   },
 };
 </script>

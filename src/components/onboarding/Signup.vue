@@ -67,10 +67,10 @@
       ></v-text-field>
 
       <!-- Phone Number -->
-      <div class="d-flex align-center" style="width:100%">
+      <div class="d-flex align-center" style="width: 100%">
         <v-icon color="#64B161" class="mt-3 mr-3">mdi-whatsapp</v-icon>
         <v-text-field
-          class=" mt-5"
+          class="mt-5"
           v-model="phoneNumber"
           :rules="phoneNumberRules"
           label="Phone Number"
@@ -78,6 +78,7 @@
           type="tel"
           required
           ref="input4"
+          @keyup="secureNumberFormat"
           @keyup.enter="validateForm(1)"
         ></v-text-field>
       </div>
@@ -140,7 +141,7 @@
         @keyup.enter="validateForm(2)"
       ></v-text-field>
 
-       <v-checkbox
+      <v-checkbox
         v-model="acceptTerms"
         label="By clicking continue, you are agreeing to our terms of service and privacy policy"
         class="mt-5"
@@ -172,7 +173,7 @@ export default {
       error: false,
       fullName: "",
       email: "",
-      phoneNumber: "",
+      phoneNumber: "+234 ",
       createPassword: "",
       confirmPassword: "",
       showPassword: true,
@@ -193,9 +194,7 @@ export default {
         //verifies password satisfies the requirement
         (v) => !!v || "Password is required",
         (v) =>
-          /^(?=.*[A-Za-z])(?=.*\d).{8,}$/.test(
-            v
-          ) ||
+          /^(?=.*[A-Za-z])(?=.*\d).{8,}$/.test(v) ||
           "Password must contain a minimum of 8 character, at least one uppercase, one lowercase, one number",
       ],
       confirmPasswordRules: [
@@ -211,13 +210,21 @@ export default {
     }),
   },
   methods: {
+    secureNumberFormat(e) {
+      if ((e.key === "Backspace" && this.phoneNumber.length <= 4) || this.phoneNumber.substring(0,5) !== "+234 ") {
+        //this.phoneNumber = "+234 "
+        return e.preventDefault(); // Don't do anything to the input value
+      }
+
+     
+    },
     //validate forms
     validateForm(formNum) {
       this.$refs[`form${formNum}`].validate();
       if (this.$refs[`form${formNum}`].validate()) {
         if (formNum == 2) {
-          if(this.acceptTerms){
-             this.submit();
+          if (this.acceptTerms) {
+            this.submit();
           }
         } else if (formNum == 1) {
           this.loading1 = true;

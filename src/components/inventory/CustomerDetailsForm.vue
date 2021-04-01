@@ -167,14 +167,6 @@ export default {
 
     this.autocomplete.addListener("place_changed", this.onPlaceChanged);
   },
-  created() {
-    // const routeParameter = new URLSearchParams(
-    //   decodeURIComponent(window.location.search)
-    // )
-    console.log(
-      this.convertQueryToObject(decodeURIComponent(window.location.search))
-    );
-  },
   computed: {
     getAddress() {
       return {
