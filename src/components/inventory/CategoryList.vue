@@ -64,15 +64,14 @@ export default {
 </script>
 <style lang="scss" scoped>
 .category-container {
+  position: relative;
+  display: flex;
+  flex-wrap: nowrap;
+  // -ms-overflow-style: none; /* IE and Edge */
+  // scrollbar-width: none;
   display: flex;
   width: fit-content;
-  max-width: 100%;
-  overflow-y: auto;
-  flex-wrap: nowrap;
-  -ms-overflow-style: none; /* IE and Edge */
-  scrollbar-width: none;
-  display: flex;
-  position: relative;
+  margin: auto;
   z-index: 4;
   .category {
     border: 1px solid #bebebe;
@@ -81,7 +80,7 @@ export default {
     height: 40px;
     display: flex;
     align-items: center;
-    min-width: fit-content;
+    width: fit-content;
     cursor: pointer;
     z-index: 5;
     &:hover {
@@ -126,8 +125,8 @@ export default {
       color: black;
     }
   }
-  &::-webkit-scrollbar {
-    display: none;
-  }
+  // &::-webkit-scrollbar {
+  //   display: none;
+  // }
 }
 </style>

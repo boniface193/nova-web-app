@@ -5,11 +5,16 @@
         <SearchProduct />
       </div>
 
-      <FilterProducts class="ml-1"/>
+      <FilterProducts class="ml-1" />
     </div>
-    <CategoryList class="mt-6 mx-auto" />
+    <div class="mt-6 mx-auto category-container">
+      <CategoryList class="mx-auto"/>
+    </div>
 
-    <div class="pt-12 pb-5 products-container" v-show="products.length !== 0 && !inventoryLoader">
+    <div
+      class="pt-12 pb-5 products-container"
+      v-show="products.length !== 0 && !inventoryLoader"
+    >
       <div class="d-flex flex-wrap">
         <ProductCard
           class="mb-5"
@@ -210,6 +215,11 @@ export default {
 }
 .search-container {
   width: 400px;
+}
+.category-container{
+  max-width: 100%;
+  //overflow-x: auto;
+  position: relative;
 }
 .status-img {
   width: 140px;

@@ -338,7 +338,9 @@ export default {
       quantity: 1,
       checkout: false,
       shareDialog: false,
-      productDetails: {},
+      productDetails: {
+        description: ""
+      },
       storeDetails: {
         refund_policy: {},
       },
