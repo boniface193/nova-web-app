@@ -69,8 +69,9 @@
         </div>
 
         <!-- phone number field -->
-        <div class="mb-5 settings-input">
+        <div class="mb-5 settings-input phone-field">
           <p class="mb-1">Phone Number</p>
+          <span class="primary--text phone-format">+234</span>
           <v-text-field
             class="input mt-0"
             :rules="inputRules"
@@ -190,6 +191,7 @@ export default {
   components: { modal },
   data: function () {
     return {
+      phoneNum: "",
       statusImage: null,
       dialog: false,
       dialogMessage: "",
@@ -205,18 +207,18 @@ export default {
   },
   computed: {
     ...mapGetters({
-      userInfo: "settings/profile"
+      userInfo: "settings/profile",
     }),
     computedInfo() {
       // gets the values of user information
       //let userInfo = this.$store.getters["settings/getUserProfile"];
       let fullName = this.userInfo.name;
-      let phoneNum = this.userInfo.phone_number;
-      let address = "22 Abubakar Way, Abuja";
+      let phoneNum = this.userInfo.phone_number.substring(4);
+      let address = this.userInfo.address;
       let email = this.userInfo.email;
       let currentFullName = this.userInfo.name;
-      let currentPhoneNum = this.userInfo.phone_number;
-      let currentAddress = "22 Abubakar Way, Abuja";
+      let currentPhoneNum = this.userInfo.phone_number.substring(4);
+      let currentAddress = this.userInfo.address || "null";
 
       return {
         fullName: fullName,
@@ -225,7 +227,7 @@ export default {
         currentFullName: currentFullName,
         currentPhoneNum: currentPhoneNum,
         currentAddress: currentAddress,
-        email: email
+        email: email,
       };
     },
   },
@@ -274,7 +276,10 @@ export default {
           this.phoneNumLoader = true;
           this.$store
             .dispatch("settings/editUserProfile", {
-              phone_number: this.computedInfo.currentPhoneNum,
+              phone_number:
+                this.computedInfo.currentPhoneNum.substring(0, 1) == "0"
+                  ? "+234" + this.computedInfo.currentPhoneNum.substring(1)
+                  : "+234" + this.computedInfo.currentPhoneNum,
             })
             .then(() => {
               this.dialogMessage = "Phone number changed successfully!";
@@ -333,10 +338,14 @@ export default {
     bottom: 25px;
     right: 0;
     cursor: pointer;
-    color: #029B97;
+    color: #029b97;
     background: white;
     padding: 5px 0px 0px 5px;
   }
+}
+.phone-format {
+  position: absolute;
+  margin-top: 16px;
 }
 .back-btn {
   position: absolute;
@@ -347,5 +356,17 @@ export default {
   .store-width {
     width: 100%;
   }
+}
+</style>
+<style lang="scss">
+.phone-field
+  > .v-text-field
+  > .v-input__control
+  > .v-input__slot
+  > .v-text-field__slot {
+  padding-left: 40px;
+}
+.phone-field > .v-input .v-label {
+  padding-left: 40px;
 }
 </style>

@@ -38,8 +38,9 @@
         </v-text-field>
       </div>
       <!-- phone number field -->
-      <div class="mb-5 input-field">
+      <div class="mb-5 input-field phone-field">
         <p class="mb-1">Phone Number*</p>
+        <span class="primary--text phone-format">+234</span>
         <v-text-field
           color="primary"
           placeholder="Customer's mobile phone number"
@@ -229,7 +230,9 @@ export default {
             customer: {
               name: this.name,
               email: this.email,
-              phone: this.phoneNumber,
+              phone: this.phoneNumber.substring(0, 1) == "0"
+                  ? "+234" + this.phoneNumber.substring(1)
+                  : "+234" + this.phoneNumber,
               location: {
                 address: this.address,
                 lat: this.lat,
@@ -291,6 +294,10 @@ export default {
     width: 100%;
   }
 }
+.phone-format {
+  position: absolute;
+  margin-top: 16px;
+}
 @media (max-width: 950px) {
   .customer-details {
     width: 100%;
@@ -303,5 +310,17 @@ export default {
   .v-btn:not(.v-btn--round).v-size--default {
     min-width: 100%;
   }
+}
+</style>
+<style lang="scss">
+.phone-field
+  > .v-text-field
+  > .v-input__control
+  > .v-input__slot
+  > .v-text-field__slot {
+  padding-left: 40px;
+}
+.phone-field > .v-input .v-label {
+  padding-left: 40px;
 }
 </style>

@@ -67,8 +67,12 @@
       ></v-text-field>
 
       <!-- Phone Number -->
-      <div class="d-flex align-center" style="width: 100%">
-        <v-icon color="#64B161" class="mt-3 mr-3">mdi-whatsapp</v-icon>
+      <div
+        class="d-flex align-center phone-field"
+        style="width: 100%; position: relative"
+      >
+        <v-icon color="#64B161" class="mt-3 mr-1">mdi-whatsapp</v-icon>
+        <span class="primary--text phone-format">+234</span>
         <v-text-field
           class="mt-5"
           v-model="phoneNumber"
@@ -78,7 +82,6 @@
           type="tel"
           required
           ref="input4"
-          @keyup="secureNumberFormat"
           @keyup.enter="validateForm(1)"
         ></v-text-field>
       </div>
@@ -173,7 +176,7 @@ export default {
       error: false,
       fullName: "",
       email: "",
-      phoneNumber: "+234 ",
+      phoneNumber: "",
       createPassword: "",
       confirmPassword: "",
       showPassword: true,
@@ -210,14 +213,6 @@ export default {
     }),
   },
   methods: {
-    secureNumberFormat(e) {
-      if ((e.key === "Backspace" && this.phoneNumber.length <= 4) || this.phoneNumber.substring(0,5) !== "+234 ") {
-        //this.phoneNumber = "+234 "
-        return e.preventDefault(); // Don't do anything to the input value
-      }
-
-     
-    },
     //validate forms
     validateForm(formNum) {
       this.$refs[`form${formNum}`].validate();
@@ -270,7 +265,10 @@ export default {
         .dispatch("onboarding/register", {
           full_name: this.fullName,
           email: this.email,
-          phone_number: this.phoneNumber,
+          phone_number:
+            this.phoneNumber.substring(0, 1) == "0"
+              ? "+234" + this.phoneNumber.substring(1)
+              : "+234" + this.phoneNumber,
           password: this.createPassword,
           password_confirmation: this.confirmPassword,
         })
@@ -320,6 +318,11 @@ export default {
     padding: 15px 0px;
   }
 }
+.phone-format {
+  position: absolute;
+  left: 28px;
+  margin-top: 10px;
+}
 .input {
   width: 100%;
 }
@@ -334,5 +337,17 @@ export default {
     min-width: 100%;
     padding: 0 16px;
   }
+}
+</style>
+<style lang="scss">
+.phone-field
+  > .v-text-field
+  > .v-input__control
+  > .v-input__slot
+  > .v-text-field__slot {
+  padding-left: 40px;
+}
+.phone-field > .v-input .v-label {
+  padding-left: 40px;
 }
 </style>
