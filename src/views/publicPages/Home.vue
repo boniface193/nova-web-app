@@ -177,6 +177,8 @@
         </v-col>
       </v-row>
     </div>
+     <!-- frequently ask question component -->
+    <Faq />
 
     <div class="product-to-sell">
       <h1 class="mb-5 secondary-header">Do you have any products to sell?</h1>
@@ -194,11 +196,13 @@
 <script>
 import Banner from "@/components/publicPages/Banner.vue";
 import ListedItems from "@/components/publicPages/ListedItems.vue";
+import Faq from "@/components/publicPages/Faq.vue";
 export default {
   name: "Index",
   components: {
     Banner,
     ListedItems,
+    Faq
   },
 };
 </script>
