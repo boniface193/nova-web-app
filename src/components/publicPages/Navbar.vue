@@ -119,7 +119,6 @@ export default {
   .mobile-navbar--nav {
     position: fixed;
     height: 100%;
-    height: 100vh;
     top: 0px;
     left: 0;
     max-height: calc(100% - 0px);
