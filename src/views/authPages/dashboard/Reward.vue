@@ -21,14 +21,14 @@
       <v-row v-if="!isLoading">
         <v-col offset-lg="3" offset-md="3" offset-sm="3">
           <!-- card -->
-          <div class="center" v-for="items in rewards.data" :key="items.id">
+          <div class="center">
             <div class="overlay pa-8">
               <div class="card-title text-left">Reward Debit Balance</div>
               <div class="card-point mt-7 text-left">
-                {{ items.total_points }} Points
+                {{ rewards.data.total_points }} Points
               </div>
               <div class="card-name mt-3 text-left text-capitalized">
-                {{ items.seller_name }}
+                {{ userInfo.name }}
               </div>
             </div>
             <div class="mb-8 pr-4 w-100">
@@ -58,9 +58,9 @@
             <v-tab-item transition="false" id="tab-1" value="tab-1">
               <v-row
                 class="leader-text my-2"
-                v-for="items in rewards.rewards"
+                v-for="items in rewards.data.rewards"
                 :key="items.id"
-                :class="{ active: items.isRedeemable }"
+                :class="{ active: items.is_redeemable }"
               >
                 <v-col cols="9" xl="6" lg="6" md="7" sm="6">
                   <div class="d-flex" style="cursor: pointer">
@@ -88,7 +88,7 @@
                   cols="2"
                   style="cursor: pointer"
                   class="redeem mt-1 offset-425"
-                  :class="{ 'primary--text': items.isRedeemable }"
+                  :class="{ 'primary--text': items.is_redeemable }"
                   >Redeem</v-col
                 >
               </v-row>
@@ -140,7 +140,7 @@
             color="primary"
             >mdi-close</v-icon
           >
-          <div class="pt-9" v-if="filteredArray.isRedeemable">
+          <div class="pt-9" v-if="filteredArray.is_redeemable">
             <div class="d-flex justify-center">
               <span>
                 <v-img
@@ -172,11 +172,11 @@
           <!-- if not redemable -->
           <div
             class="pt-9 px-8 text-center"
-            v-show="filteredArray.isRedeemable == false"
+            v-show="filteredArray.is_redeemable == false"
           >
             <span class="mt-8 body-text">
               You need
-              <span class="primary--text">{{ filteredArray.point_left }}</span>
+              <span class="primary--text">{{ filteredArray.points_left }}</span>
               more points to claim this reward, sell more to earn more
             </span>
             <div class="d-flex justify-center mt-3 pb-5">
@@ -237,7 +237,10 @@ export default {
     };
   },
   computed: {
-    ...mapGetters({ rewards: "reward/getRewards" }),
+    ...mapGetters({
+      rewards: "reward/getRewards",
+      userInfo: "settings/profile",
+    }),
   },
   created() {
     this.$store.dispatch("reward/getReward").then(() => {
@@ -257,7 +260,7 @@ export default {
       this.dialog = true;
     },
     filterById(id) {
-      this.filteredArray = Object.values(this.rewards.rewards).find(
+      this.filteredArray = Object.values(this.rewards.data.rewards).find(
         (item) => item.key == id
       );
       this.openModal();

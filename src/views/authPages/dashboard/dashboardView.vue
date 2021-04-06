@@ -28,7 +28,8 @@
         </div>
       </div>
       <div class="pt-10" style="height: 100%">
-        <router-view />
+          
+      <router-view />
       </div>
     </div>
   </div>
@@ -65,7 +66,6 @@ export default {
 
 <style lang="scss" scoped>
 .dashboard-pages-container {
-  display: flex;
   position: absolute;
   width: 100%;
   height: 100%;
