@@ -185,7 +185,9 @@ export default {
       statusImage: null,
       withdrawLoader: false,
       fetchingBalance: false,
-      revenueDetails: {},
+      revenueDetails: {
+        available_balance: 0
+      },
       confirmationDialog: false,
     };
   },

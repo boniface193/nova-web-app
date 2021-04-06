@@ -16,13 +16,13 @@
         ><span></span></router-link
       > -->
       <a
-        href="http://nova-front-end.s3-website-eu-west-1.amazonaws.com/"
+        href="http://nova-front-end.s3-website-eu-west-1.amazonaws.com/signin"
         target="_blank"
         style="text-decoration: none"
         class="nav-item"
         >List your products
       </a>
-      <router-link :to="{ path: '/' }" class="nav-item">FAQs</router-link>
+      <a @click="gotoFaq()" class="nav-item">FAQs</a>
       <router-link :to="{ path: '/signin' }" class="nav-item"
         >Sign In</router-link
       >
@@ -43,15 +43,14 @@
           >
         </div>
         <a
-          href="http://nova-front-end.s3-website-eu-west-1.amazonaws.com/"
+          href="http://nova-front-end.s3-website-eu-west-1.amazonaws.com/signin"
           target="_blank"
           style="text-decoration: none"
           class="nav-item white--text"
           >List your products
         </a>
-        <router-link :to="{ path: '/' }" class="nav-item white--text"
-          >FAQs</router-link
-        >
+        <a @click="gotoFaqMobile()" class="nav-item white--text"
+          >FAQs</a>
         <router-link :to="{ path: '/signin' }" class="nav-item white--text"
           >Sign In</router-link
         >
@@ -80,6 +79,13 @@ export default {
     toggleMobileNav() {
       this.mobileNav = !this.mobileNav;
     },
+    gotoFaq() {
+      this.$root.$refs.faq.gotoFaq()
+    },
+    gotoFaqMobile(){
+      this.toggleMobileNav();
+      this.gotoFaq();
+    }
   },
 };
 </script>
