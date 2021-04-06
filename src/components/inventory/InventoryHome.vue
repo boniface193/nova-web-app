@@ -37,6 +37,7 @@
             color="primary"
           ></v-progress-circular>
         </div>
+      </div>
     <!-- </v-container> -->
     <!--------------------------- modal for dialog messages ------------------------------>
     <modal :dialog="dialog" width="400">
@@ -54,6 +55,7 @@
         <h4>{{ dialogMessage }}</h4>
       </div>
     </modal>
+  </div>
   </div>
 </template>
 <script>
