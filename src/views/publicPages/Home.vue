@@ -168,7 +168,10 @@
                 </p>
               </div>
             </div>
-            <router-link :to="{ path: '/signup' }" style="text-decoration: none">
+            <router-link
+              :to="{ path: '/signup' }"
+              style="text-decoration: none"
+            >
               <v-btn class="primary px-10 py-6 d-md-flex d-none"
                 >Sell now</v-btn
               >
@@ -177,14 +180,16 @@
         </v-col>
       </v-row>
     </div>
-     <!-- frequently ask question component -->
-    <Faq />
+    <!-- frequently ask question component -->
+    <div id="faq">
+      <Faq />
+    </div>
 
     <div class="product-to-sell">
       <h1 class="mb-5 secondary-header">Do you have any products to sell?</h1>
       <p class="mb-4">You can put your products up for sale on Kuuzza too.</p>
       <a
-        href="http://nova-front-end.s3-website-eu-west-1.amazonaws.com/"
+        href="http://nova-front-end.s3-website-eu-west-1.amazonaws.com/signin"
         target="_blank"
         style="text-decoration: none"
       >
@@ -202,7 +207,16 @@ export default {
   components: {
     Banner,
     ListedItems,
-    Faq
+    Faq,
+  },
+  created() {
+    this.$root.$refs.faq = this;
+  },
+  methods: {
+    gotoFaq() {
+      const position = document.querySelector("#faq").offsetTop;
+      scrollTo({ top: position - 76, behavior: "smooth" });
+    },
   },
 };
 </script>
@@ -292,10 +306,10 @@ export default {
       }
     }
     .top-seller {
-      margin: 0px;
+      margin: 0px 20px 0px 0px;
       &--text {
         order: 2;
-        padding: 0px 20px;
+        padding-left: 30px;
       }
       &--img {
         order: 1;
@@ -305,7 +319,7 @@ export default {
       margin: 0px;
       &--text {
         order: 2;
-        padding: 30px 20px 0px 20px;
+        padding: 30px 30px 0px 30px;
       }
       &--img {
         order: 1;
@@ -314,11 +328,14 @@ export default {
     .get-started {
       margin: 0;
       &--text {
-        padding: 0px 20px;
+        padding: 0px 30px;
       }
       &--img {
         display: none;
       }
+    }
+    .product-to-sell {
+      padding: 25px 20px;
     }
   }
 }

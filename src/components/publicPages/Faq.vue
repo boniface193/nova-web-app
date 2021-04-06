@@ -18,9 +18,7 @@
             >mdi-chevron-down</v-icon
           >
         </p>
-        <p class="answer mb-0 mt-4">
-          {{ item.answer }}
-        </p>
+        <p class="answer mb-0 mt-4" v-html="item.answer"></p>
       </div>
     </div>
   </div>
@@ -38,64 +36,87 @@ export default {
         },
         {
           question: "How can I become a seller on Kuuzza?",
-          answer: "Yes, no subscription fees, no hidden charges.",
+          answer:
+            "Simple visit <a>www.kuzza.com</a> and signup to become a seller.",
         },
         {
           question: "How does Kuuzza work?",
-          answer: "Yes, no subscription fees, no hidden charges.",
+          answer: `Kuzza is a decentralised open inventory platform where anyone can sign up and become a seller
+           for free. On the Kuuzza inventory you can select and download any product image, then market it 
+           through any channel of choice( e.g whatsapp, Facebook and instagram). Once you have a customer who 
+           wants to buy, simply bargain a price with the customer (ensure that you factor in your own profit). 
+           Then head to the kuzza inventory, enter the bargained price of the product ,with your customers 
+           shipping details . A payment link will be generated that you can share with your customer to make 
+           payments. Once the customer makes payment, we ship the item to your customer.`,
         },
         {
           question:
             "Do I need to purchase products before I can sell to my customers?",
-          answer: "Yes, no subscription fees, no hidden charges.",
-        },
-        {
-          question:
-            "Do I have to pay for a product before I can resell to my customers?",
-          answer: "Yes, no subscription fees, no hidden charges.",
+          answer: `Using Kuzza is free, you do not have to keep any physical stock and you do not have to buy 
+          the product from us before selling it to your customers. simply sell to your customer directly from us 
+          at Zero Naira.  We pay you your own profit when your customers makes payment.`,
         },
         {
           question: "When a customer pays for a product, who delivers it?",
-          answer: "Yes, no subscription fees, no hidden charges.",
+          answer: `There is no need for hassle. Our logistic partners will deliver the product to your customer
+           on your behalf, you should only focus on selling and making more money.`,
         },
         {
           question: "Who pays the delivery fee associated with the product?",
-          answer: "Yes, no subscription fees, no hidden charges.",
+          answer: `Your customer will pay the delivery fee. This will be added to their product price while checking out.`,
         },
         {
           question: "Where do we deliver to?",
-          answer: "Yes, no subscription fees, no hidden charges.",
+          answer: `For now, our logistics partners will only deliver to your customers within Lagos`,
         },
         {
-          question:
-            "How long does it take to get paid after reselling a product?",
-          answer: "Yes, no subscription fees, no hidden charges.",
+          question: "How long does it take get paid after I sell a product?",
+          answer: `We will pay you 24 hours after your customer has confirmed that they have received their order. 
+          However, in the event that they do not confirm the receipt of the order, we will release the funds to you 
+          after the returns window of that order has elapsed. This could be between 3- 14 days . It is advisable you 
+          chat with your customers to confirm that they received the order  via the payment link shared with them, so 
+          as to avoid delay in payment.`,
         },
         {
           question: "Is reselling from Kuuzza profitable?",
-          answer: "Yes, no subscription fees, no hidden charges.",
+          answer:
+            "You don't invest any money before you sell on Kuzza. We 100% guarantee profitability once you sell to your customer using Kuzza.",
         },
         {
           question: "What profit margins can I expect?",
-          answer: "Yes, no subscription fees, no hidden charges.",
+          answer: `There is no limit to how much you can earn resselling on Kuzza. The quantity and value of 
+          product you sell will determine your profitability`,
         },
         {
           question: "Can I sell everywhere?",
-          answer: "Yes, no subscription fees, no hidden charges.",
+          answer: "You can only sell to your customer within Lagos for now.",
         },
         {
           question: "Can I refund items or get a refund?",
-          answer: "Yes, no subscription fees, no hidden charges.",
+          answer: `This varies from product to product as every inventory owner on our platform has their own 
+          return policy. Ensure you check this on the product detail page before you sell.`,
         },
         {
           question:
-            "What are the fees associated with profit withdrawal on Kuuzza?",
-          answer: "Yes, no subscription fees, no hidden charges.",
+            "How much does it cost to ship an item to my customers and how long does it take ?",
+          answer: `The delivery fee your customer pays will depend on the shipping method they choose while 
+          checking out on Kuuzza.<br /><br/>
+          
+          <span class="primary--text">Express Shipping</span> : This fee varies with the location of your customer. The closer they are to our 
+          partner inventory warehouse, the cheaper you pay. Your customer can pay as low as N500 and as high as 
+          N2500. If your customer checks out with this shipping method we will deliver to them within 24hours and 
+          this could be less. This could be the same day delivery if the order is placed before 2pm that day.
+          <br /> <br />
+
+          <span class="primary--text">Standard delivery</span> : This comes at a flat fee of N1200, however, this order will take about 2-3 days for 
+          it to be delivered
+
+`,
         },
-        {
-          question: "How do I contact your support team",
-          answer: "Yes, no subscription fees, no hidden charges.",
-        },
+        // {
+        //   question: "How do I contact your support team",
+        //   answer: "Yes, no subscription fees, no hidden charges.",
+        // },
       ],
     };
   },
@@ -139,8 +160,8 @@ export default {
         display: none;
       }
       &--active {
-        .answer{
-            display: block;
+        .answer {
+          display: block;
         }
         .question {
           .v-icon {
