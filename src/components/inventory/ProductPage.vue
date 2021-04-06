@@ -289,7 +289,6 @@
       <div class="col-sm-5">
       </div>
     </div>
-
       <!-- modal for dialog messages -->
       <modal :dialog="dialog" width="400">
         <div class="white pa-3 pb-10 text-center dialog">
