@@ -226,6 +226,9 @@ export default {
   .products-container {
     width: 400px;
   }
+  .my-sm-5{
+    margin: 8% 0 0 0;
+  }
 }
 @media (max-width: 410px) {
   .products-container {
