@@ -12,7 +12,7 @@
             become a seller for our partner brands, at no upfront costs
           </p>
           <router-link :to="{ path: '/signup' }" style="text-decoration: none">
-            <v-btn class="primary px-10 py-6 mx-auto mx-md-0">Sell now</v-btn>
+            <v-btn class="primary px-10 mx-auto mx-md-0">Sell now</v-btn>
           </router-link>
         </div>
       </v-col>
@@ -27,9 +27,7 @@
         <div class="banner-design2"></div>
       </v-col>
     </v-row>
-    <div class="curved-design1">
-      
-    </div>
+    <div class="curved-design1"></div>
   </div>
 </template>
 <script>
@@ -98,6 +96,9 @@ export default {
     width: 100%;
     height: 0px;
     display: none;
+  }
+  .v-btn:not(.v-btn--round).v-size--default {
+    height: 45px;
   }
 }
 @keyframes rotation {
