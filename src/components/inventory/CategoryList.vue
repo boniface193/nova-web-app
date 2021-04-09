@@ -1,7 +1,7 @@
 <template>
   <div class="category-container">
     <div
-      class="mr-3 px-4 category secondary--text"
+      class="mr-2 px-1 category secondary--text"
       v-for="(category, index) in productCategories"
       :key="index"
     >
@@ -128,5 +128,11 @@ export default {
   // &::-webkit-scrollbar {
   //   display: none;
   // }
+
+  @media (max-width: 650px){
+    .category{
+      height: 55px;
+    }
+  }
 }
 </style>
