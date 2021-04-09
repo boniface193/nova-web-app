@@ -75,6 +75,7 @@
             class="primary py-6 px-4"
             :disabled="!accountVerified || this.accNumber.length !== 10"
             @click="openPasswordModal"
+            depressed
             >Save and continue</v-btn
           >
         </v-form>

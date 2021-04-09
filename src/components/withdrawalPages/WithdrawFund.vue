@@ -50,6 +50,7 @@
             class="primary mt-5"
             :disabled="revenueDetails.available_balance <= 100"
             @click="openConfirmationDialog()"
+            depressed
             >Withdraw</v-btn
           >
           <!-- change account btn -->
@@ -57,7 +58,7 @@
             :to="{ name: 'EditBankDetails' }"
             style="text-decoration: none"
           >
-            <v-btn class="mt-5 primary--text background"
+            <v-btn class="mt-5 primary--text background" depressed
               >Change account number
             </v-btn>
           </router-link>
@@ -66,7 +67,7 @@
             :to="{ name: 'PaymentHistory' }"
             style="text-decoration: none"
           >
-            <v-btn class="mt-5 primary--text background"
+            <v-btn class="mt-5 primary--text background" depressed
               >Payment History
             </v-btn>
           </router-link>
@@ -145,6 +146,7 @@
             :disabled="withdrawLoader"
             :loading="withdrawLoader"
             @click="withdrawFunds()"
+            depressed
             >Get Paid Now</v-btn
           >
         </div>
@@ -186,7 +188,7 @@ export default {
       withdrawLoader: false,
       fetchingBalance: false,
       revenueDetails: {
-        available_balance: 0
+        available_balance: 0,
       },
       confirmationDialog: false,
     };
