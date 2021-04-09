@@ -133,6 +133,8 @@ export default {
   },
   methods: {
     getProducts() {
+      // set category
+      this.$store.commit("inventory/setCategory", "");
       this.$store
         .dispatch("inventory/getProducts")
         .then(() => {

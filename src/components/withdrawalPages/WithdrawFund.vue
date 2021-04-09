@@ -251,6 +251,9 @@ export default {
           this.withdrawLoader = false;
           this.dialog = true;
           this.statusImage = successImage;
+          this.fetchingBalance = true;
+          this.getRevenueDetails();
+
           this.dialogMessage =
             "Your request have been received successfully, your account would be credited within 24hrs";
         })
@@ -327,7 +330,7 @@ export default {
     height: 45px;
     min-width: 80%;
     padding: 0 16px;
-    border-radius: 12px;
+    border-radius: 8px;
   }
 }
 .status-img {
