@@ -20,18 +20,18 @@
           <v-row>
             <v-col sm="4" md="6" v-for="item in paymentHistory" :key="item.id">
               <v-card outlined class="rounded-lg py-3">
-                <v-row>
-                  <v-col cols="5">
+                <v-row class="px-3">
+                  <!-- <v-col cols="5">
                     <div class="text-center">
                       <v-img
-                        :src="item.meta.product_image_url"
+                        :src="item.product_image_url"
                         class="mx-3 my-5 image-bgColor"
                         width="90%"
                       ></v-img>
                     </div>
-                  </v-col>
+                  </v-col> -->
 
-                  <v-col cols="7" class="pr-5 pl-1 my-lg-3 my-md-3">
+                  <v-col cols="12" class="pr-2 my-lg-3 my-md-3">
                     <div class="order-item-font mt-1">
                       Order ID:
                       <span class="order-no-grey mx-1"> {{ item.id }}</span>
@@ -43,27 +43,27 @@
                     <div class="order-item-font mt-1">
                       Price Of Item:
                       <span class="order-no-grey mx-1"
-                        >&#8358;{{ item.amount_label }}</span
+                        >&#8358;{{ item.amount }}</span
                       >
                     </div>
-                    <div class="order-item-font mt-1">
+                    <!-- <div class="order-item-font mt-1">
                       Due date:
                       <span class="order-no-grey mx-1"
-                        >{{ item.due_date }}</span
+                        >{{ item.created_at }}</span
                       >
-                    </div>
+                    </div> -->
                    <div class="order-item-font mt-1">
                       Settlement date:
                       <span class="order-no-grey mx-1"
-                        >{{ item.date_settled }}</span
+                        >{{ item.created_at }}</span
                       >
                     </div>
-                    <div class="order-item-font mt-1">
+                    <!-- <div class="order-item-font mt-1">
                       Paid out date:
                       <span class="order-no-grey mx-1"
                         >{{ item.date_paidout }}</span
                       >
-                    </div>
+                    </div> -->
                   </v-col>
                 </v-row>
               </v-card>
@@ -133,6 +133,7 @@ export default {
   },
   methods: {
     getPaymentHistory() {
+      console.log(22)
       let sellerId = this.$store.getters["settings/profile"].id;
       axios
         .get(`payouts/${sellerId}/history`, {

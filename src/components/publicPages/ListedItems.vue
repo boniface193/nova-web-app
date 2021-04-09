@@ -24,7 +24,7 @@
         Recommended profit
       </p>
 
-      <v-btn class="primary sell-now">Sell</v-btn>
+      <v-btn class="primary sell-now" depressed>Sell</v-btn>
       <span class="primary sell-now-secondary">Sell</span>
     </div>
     <p class="points">{{ product.points }}pts</p>
