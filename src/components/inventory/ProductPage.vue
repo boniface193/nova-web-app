@@ -276,17 +276,17 @@
       </div>
 
           <div class="row mt-8 mx-5" v-else>
-      <div class="col-sm-5">
+      <div class="col-5">
 
       </div>
-      <div class="col-sm-2 ">
+      <div class="col-2 ">
         <v-progress-circular
           indeterminate
           color="primary"
           class="text-center"
         ></v-progress-circular>
       </div>
-      <div class="col-sm-5">
+      <div class="col-5">
       </div>
     </div>
       <!-- modal for dialog messages -->

@@ -1,6 +1,6 @@
 <template>
   <v-container>
-    <div class="mx-4 max-width">
+    <div class="max-width">
       <div class="chOder" style="margin: 0 0 20px 0">
         <router-link :to="{ path: '/dashboard' }">
           <v-icon class="float-left">mdi-chevron-left</v-icon>

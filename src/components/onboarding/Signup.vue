@@ -22,7 +22,7 @@
       >
 
       <h3 v-show="presentForm === 'form1'">
-        Join the race to become sales champion!
+        Sign up now and start earning!
       </h3>
       <h3 v-show="presentForm === 'form2'">Create Password</h3>
     </div>
