@@ -36,6 +36,7 @@ const state = {
         minPrice: 0,
         maxPrice: 0,
     },
+    category: ''
 };
 
 //returns the state properties
@@ -105,9 +106,10 @@ const actions = {
         let page = ((state.page) ? `page=${state.page}` : "");
         let perPage = ((state.itemPerPage) ? `per_page=${state.itemPerPage}` : "");
         let priceRange = ((state.filter.maxPrice) ? `price_between=${state.filter.minPrice},${state.filter.maxPrice}` : "");
+        let category = (state.category !== "") ? `category=${state.category}` : ""
 
         return new Promise((resolve, reject) => {
-            axios.get(`/products?${page}&${perPage}&${priceRange}`,
+            axios.get(`/products?${page}&${perPage}&${priceRange}&${category}`,
                 {
                     headers: {
                         Authorization: `Bearer ${localStorage.getItem("accessToken")}`
@@ -158,7 +160,8 @@ const mutations = {
     setPage: (state, page) => (state.page = page),
     setInventoryLoader: (state, status) => (state.inventoryLoader = status),
     setFilter: (state, filter) => (state.filter = filter),
-    setProductCategories: (state, productCategories) => (state.productCategories = productCategories)
+    setProductCategories: (state, productCategories) => (state.productCategories = productCategories),
+    setCategory: (state, category) => (state.category = category),
 };
 
 
@@ -169,4 +172,4 @@ export default {
     getters,
     actions,
     mutations
-};  
+};

@@ -172,7 +172,7 @@
               :to="{ path: '/signup' }"
               style="text-decoration: none"
             >
-              <v-btn class="primary px-10 py-6 d-md-flex d-none"
+              <v-btn class="primary px-10 d-md-flex d-none"
                 >Sell now</v-btn
               >
             </router-link>
@@ -193,7 +193,7 @@
         target="_blank"
         style="text-decoration: none"
       >
-        <v-btn class="primary px-10 py-6 mx-auto">List your products</v-btn>
+        <v-btn class="primary px-10 mx-auto">List your products</v-btn>
       </a>
     </div>
   </div>
@@ -280,11 +280,17 @@ export default {
         width: 100%;
       }
     }
+    .v-btn:not(.v-btn--round).v-size--default {
+      height: 45px;
+    }
   }
   .product-to-sell {
     padding: 60px 0px;
     background: var(--v-background-base);
     text-align: center;
+    .v-btn:not(.v-btn--round).v-size--default {
+      height: 45px;
+    }
   }
 }
 @media (max-width: 959px) {
