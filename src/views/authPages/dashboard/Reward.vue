@@ -6,10 +6,10 @@
           <v-icon class="float-left">mdi-chevron-left</v-icon>
         </router-link>
       </div>
-        <h5 class="chOder offset-lg-5 text-sm-center">Rewards</h5>
+        <h5 class="chOder offset-5">Rewards</h5>
 
       <v-row class="mt-8" v-if="isLoading">
-        <v-col class="offset-lg-5">
+        <v-col class="offset-5">
           <v-progress-circular
             color="primary"
             indeterminate
