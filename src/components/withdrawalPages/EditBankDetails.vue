@@ -143,6 +143,7 @@
                 :loading="loading"
                 :disabled="loading"
                 @click="setAccountDetails()"
+                depressed
                 >Update</v-btn
               >
             </div>

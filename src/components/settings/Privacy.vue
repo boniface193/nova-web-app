@@ -70,6 +70,7 @@
           @click="update_password"
           :loading="loading"
           :disabled="loading"
+          depressed
           >Save Changes</v-btn
         >
       </div>

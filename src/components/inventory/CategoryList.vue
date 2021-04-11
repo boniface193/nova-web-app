@@ -6,6 +6,16 @@
     <div class="category-container">
       <div
         class="mr-3 px-4 category secondary--text"
+        :class="{
+          'category--active': (activeLink || selectedCategory) == '',
+        }"
+        @click.stop="itemSelected('')"
+      >
+        All
+      </div>
+      
+      <div
+        class="mr-3 px-4 category secondary--text"
         v-for="(category, index) in productCategories"
         :key="index"
         :class="{
@@ -102,7 +112,6 @@ export default {
     itemSelected(categoryName) {
       this.closeDropDown();
       this.selectedCategory = categoryName
-      console.log(this.selectedCategory);
       // commit values for filter
       this.$store.commit("inventory/setFilter", {
         minPrice: 0,
@@ -170,13 +179,13 @@ export default {
     min-width: fit-content;
     cursor: pointer;
     &:hover {
-      color: var(--v-primary-base);
+      color: var(--v-primary-base) !important;
       background: var(--v-background-base);
     }
     &--active,
     &--selected {
-      color: var(--v-primary-base);
-      background: var(--v-background-base);
+      color: white !important;
+      background: var(--v-primary-base);
     }
   }
   .sub-category-container {
