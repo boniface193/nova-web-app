@@ -43,7 +43,7 @@
       <!-- button container -->
       <div class="pa-0 mt-5" style="width: 100%">
         <v-btn
-          class="primary py-5 mb-5 mx-auto"
+          class="primary mb-5 mx-auto"
           @click="validatePassword()"
           :loading="loading"
           :disabled="loading"

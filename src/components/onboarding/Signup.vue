@@ -153,7 +153,7 @@
       <!-- button container -->
       <div class="pa-0 mt-5 btn-container-form1" style="width: 100%">
         <v-btn
-          class="primary px-8 py-5 mb-5 mx-auto"
+          class="primary px-8 mb-5 mx-auto"
           @click="validateForm(2)"
           :loading="loading2"
           :disabled="loading2 || !acceptTerms"

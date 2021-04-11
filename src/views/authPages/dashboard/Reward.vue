@@ -5,11 +5,11 @@
         <router-link :to="{ path: '/dashboard' }">
           <v-icon class="float-left">mdi-chevron-left</v-icon>
         </router-link>
-        <h5 class="text-center mx-auto">Rewards</h5>
       </div>
+        <h5 class="chOder offset-lg-5 text-sm-center">Rewards</h5>
 
       <v-row class="mt-8" v-if="isLoading">
-        <v-col class="text-center">
+        <v-col class="offset-lg-5">
           <v-progress-circular
             color="primary"
             indeterminate
