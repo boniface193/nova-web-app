@@ -7,8 +7,8 @@
 
       <FilterProducts class="ml-1" />
     </div>
-    <div class="mt-6 mx-auto category-container">
-      <CategoryList class="mx-auto"/>
+    <div class="mt-6 category-container">
+      <CategoryList class="mx-auto" />
     </div>
 
     <div
@@ -17,7 +17,7 @@
     >
       <div class="d-flex flex-wrap">
         <ProductCard
-          class="mb-5"
+          class="mb-10"
           v-for="product in products"
           :key="product.id"
           :product="product"
@@ -38,24 +38,24 @@
           ></v-progress-circular>
         </div>
       </div>
-    <!-- </v-container> -->
-    <!--------------------------- modal for dialog messages ------------------------------>
-    <modal :dialog="dialog" width="400">
-      <div class="white pa-3 pb-10 text-center dialog">
-        <div class="d-flex justify-end">
-          <v-icon class="error--text close-btn" @click="dialog = false"
-            >mdi-close</v-icon
-          >
-        </div>
+      <!-- </v-container> -->
+      <!--------------------------- modal for dialog messages ------------------------------>
+      <modal :dialog="dialog" width="400">
+        <div class="white pa-3 pb-10 text-center dialog">
+          <div class="d-flex justify-end">
+            <v-icon class="error--text close-btn" @click="dialog = false"
+              >mdi-close</v-icon
+            >
+          </div>
 
-        <div class="mb-7 mt-5 mx-auto status-img">
-          <v-img :src="statusImage"></v-img>
-        </div>
+          <div class="mb-7 mt-5 mx-auto status-img">
+            <v-img :src="statusImage"></v-img>
+          </div>
 
-        <h4>{{ dialogMessage }}</h4>
-      </div>
-    </modal>
-  </div>
+          <h4>{{ dialogMessage }}</h4>
+        </div>
+      </modal>
+    </div>
   </div>
 </template>
 <script>
@@ -205,7 +205,7 @@ export default {
 .search-container {
   width: 400px;
 }
-.category-container{
+.category-container {
   max-width: 100%;
   //overflow-x: auto;
   position: relative;
@@ -230,7 +230,13 @@ export default {
   .products-container {
     width: 400px;
   }
-  .my-sm-5{
+  .category-container {
+    margin: auto 3%;
+  }
+  .search-container {
+    margin: auto 3%;
+  }
+  .my-sm-5 {
     margin: 8% 0 0 0;
   }
 }
@@ -243,7 +249,8 @@ export default {
   .search-container {
     max-width: -webkit-fill-available;
     width: -webkit-fill-available;
-    min-width: 300px;
+    min-width: 150px;
+    margin: auto 3%;
   }
 }
 </style>

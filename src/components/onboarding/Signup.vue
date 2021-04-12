@@ -21,7 +21,7 @@
         >mdi-chevron-left</v-icon
       >
 
-      <h3 v-show="presentForm === 'form1'">
+      <h3 class="headings" v-show="presentForm === 'form1'">
         Sign up now and start earning!
       </h3>
       <h3 v-show="presentForm === 'form2'">Create Password</h3>
@@ -89,14 +89,23 @@
       <!-- button container -->
       <div class="pa-0 mt-5 btn-container-form1" style="width: 100%">
         <v-btn
-          class="primary py-5 mb-5 mx-auto"
+          height="48px"
+          block
+          depressed
+          class="primary mb-5 mx-auto"
           @click="validateForm(1)"
           :loading="loading1"
           :disabled="loading1"
           >Next</v-btn
         >
         <!-- signin link -->
-        <p>
+        <p
+          style="
+            font-size: 16px;
+            font-family: 'Product Sans' Light;
+            color: #646464;
+          "
+        >
           Already have an account?
           <router-link to="/signin" style="text-decoration: none"
             >Sign In</router-link
@@ -151,7 +160,7 @@
       ></v-checkbox>
 
       <!-- button container -->
-      <div class="pa-0 mt-5 btn-container-form1" style="width: 100%">
+      <div class="pa-0 mt-5" style="width: 100%">
         <v-btn
           class="primary px-8 mb-5 mx-auto"
           @click="validateForm(2)"
@@ -190,9 +199,9 @@ export default {
         (v) => /.+@.+\..+/.test(v) || "E-mail must be valid",
       ],
       phoneNumberRules: [
-       //verifies phone number satisfies the requirement
+        //verifies phone number satisfies the requirement
         (v) => !!v || "This field is required",
-        (v) => v.substring(0,1) != 0 || "Phone number cannot begin with 0",
+        (v) => v.substring(0, 1) != 0 || "Phone number cannot begin with 0",
         (v) => v.length > 9 || "Number should 10 digits or more",
         (v) => v.length <= 11 || "Maximum 11 digits or more",
       ],
@@ -306,6 +315,11 @@ export default {
   width: 100%;
   text-align: center;
   padding-top: 30px;
+  .headings {
+    font-size: 20px;
+    font-family: "Product Sans" Medium;
+    color: #2b2b2b;
+  }
   .description {
     text-align: left;
     width: 90%;
@@ -329,17 +343,10 @@ export default {
 .input {
   width: 100%;
 }
-.btn-container-form1 .v-btn:not(.v-btn--round).v-size--default {
-  height: 45px;
-  min-width: 80%;
-  padding: 0 16px;
-}
-@media (max-width: 700px) {
-  .btn-container-form1 .v-btn:not(.v-btn--round).v-size--default {
-    height: 45px;
-    min-width: 100%;
-    padding: 0 16px;
-  }
+.v-btn:not(.v-btn--round).v-size--default {
+  border-radius: 8px;
+  font-family: "Product Sans Regular";
+  font-size: 16px;
 }
 </style>
 <style lang="scss">

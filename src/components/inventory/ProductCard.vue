@@ -13,20 +13,25 @@
         </div>
       </div>
       <div class="card-bottom">
-        <h4 class="mb-0 mb-sm-1 product-name" style="color: black">
+        <h4 class="mb-0 mb-sm-1 product-name text-truncate"
+      style="max-width: 150px;">
           {{ product.name }}
         </h4>
         <p class="secondary--text mb-0 mb-sm-1 total_price">
-          &#8358;{{ product.total_price_label }}
+          <v-icon size="10" class="mb-1 mb-sm-1">mdi-currency-ngn</v-icon
+          >{{ product.total_price_label }}
         </p>
-        <p
-          class="mb-0 mb-sm-1 minMaxProfit"
+        <div
+          class="minMaxProfit"
           style="color: #029b97; font-size: 12px"
         >
-          &#8358;{{ product.min_profit_short }} - &#8358;{{
-            product.max_profit_short
-          }}
-        </p>
+          <v-icon color="#029b97" size="12" style="margin-bottom: 2px;"
+            >mdi-currency-ngn</v-icon
+          >{{ product.min_profit_short }} -
+          <v-icon color="#029b97" size="12" style="margin-bottom: 2px;"
+            >mdi-currency-ngn</v-icon
+          >{{ product.max_profit_short }}
+        </div>
         <p class="secondary--text mb-3" style="font-size: 10px">
           Recommended profit
         </p>
@@ -46,10 +51,10 @@ export default {
 </script>
 <style lang="scss" scoped>
 .card-container {
-  min-width: 200px;
+  min-width: 190px;
   min-height: 340px;
   position: relative;
-  margin: auto 5px;
+  margin: auto 10px;
   cursor: pointer;
   &:hover {
     transform: scale(1.02);
@@ -87,7 +92,12 @@ export default {
     border-radius: 12px;
     margin: 0px auto 0px auto;
     position: absolute;
-    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+    box-shadow: 0 0.5rem 30px #5e5e5e1a;
+    .total_price {
+      color: #979797;
+      font-size: 10px;
+      font-family: "Product Sans" Light;
+    }
     .v-btn:not(.v-btn--round).v-size--default {
       height: 25px;
       min-width: 100%;
@@ -100,6 +110,9 @@ export default {
       height: 22px;
       overflow-y: hidden;
       word-break: break-all;
+      color: #2b2b2b;
+      font-family: "Product Sans" Medium;
+      font-size: 10px;
     }
   }
   .points {
@@ -116,8 +129,8 @@ export default {
 }
 @media (max-width: 650px) {
   .card-container {
-    min-width: 48.4%;
-    margin: auto 0.8%;
+    min-width: 44%;
+    margin: auto 3%;
     min-height: 240px;
     &:hover {
       transform: scale(1);

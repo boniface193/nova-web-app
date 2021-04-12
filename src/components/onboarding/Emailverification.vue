@@ -90,7 +90,10 @@
         <p class="my-3">You have successfully verified your Account.</p>
 
         <v-btn
-          class="primary mx-auto py-5 px-8"
+          height="48px"
+          block
+          depressed
+          class="primary mx-auto px-8"
           :loading="loading2"
           :disabled="loading2"
           v-if="dashboardBtn"
@@ -173,7 +176,7 @@ export default {
             if (response.data.message === "Email verified successfully.") {
               this.statusImage = successImage;
               this.dialog = true;
-              if (localStorage.getItem("accessToken")) { 
+              if (localStorage.getItem("accessToken")) {
                 this.dashboardBtn = true;
               } else {
                 this.dashboardBtn = false;

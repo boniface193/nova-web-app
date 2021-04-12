@@ -45,6 +45,7 @@ export default {
     padding-left: 2px;
     width: -webkit-fill-available;
     background: transparent;
+    opacity: 50%;
   }
 }
 @media (max-width: 600px) {

@@ -14,9 +14,9 @@
     </div>
 
     <div class="description">
-      <h3 class="my-5">Verify your account</h3>
+      <h3 class="my-5 headings">Verify your account</h3>
 
-      <p class="mt-3">
+      <p class="mt-3 sub-headings">
         Please enter the code sent to {{ $route.params.email }}
       </p>
 
@@ -41,9 +41,9 @@
 
       <!-- button container -->
       <div class="pa-0 mt-10" style="width: 100%">
-        <p>
+        <p style="color: #979797; font-size: 14px;">
           Didn't receive the code?
-          <a style="text-decoration: none">
+          <a style="text-decoration: none; font-size: 14px;">
             <span v-show="!resendOTPLoader && !showOTPTimer" @click="resendOTP"
               >Resend Code</span
             >
@@ -60,7 +60,7 @@
             >
           </a>
         </p>
-        <v-btn
+        <v-btn height="48px" block depressed
           class="primary mb-5 mx-auto"
           @click="submitCode()"
           :loading="loading"
@@ -196,6 +196,16 @@ export default {
     width: 90%;
     margin: auto;
   }
+    .headings {
+    font-size: 20px;
+    font-family: "Product Sans" Medium;
+    color: #2b2b2b;
+  }
+  .sub-headings{
+    font-size: 16px;
+    font-family: "Product Sans" Medium;
+    color: #2b2b2b;
+  }
   .v-icon {
     font-size: 25px;
   }
@@ -206,9 +216,9 @@ export default {
   }
 }
 .v-btn:not(.v-btn--round).v-size--default {
-  height: 45px;
-  min-width: 70%;
-  padding: 0 16px;
+  border-radius: 8px;
+  font-family: 'Product Sans Regular';
+  font-size: 16px;
 }
 .status-img {
   width: 140px;
@@ -220,10 +230,10 @@ export default {
   .description {
     text-align: left;
   }
-  .v-btn:not(.v-btn--round).v-size--default {
-    height: 45px;
-    min-width: 100%;
-    padding: 0 16px;
-  }
+  // .v-btn:not(.v-btn--round).v-size--default {
+  //   height: 45px;
+  //   min-width: 100%;
+  //   padding: 0 16px;
+  // }
 }
 </style>

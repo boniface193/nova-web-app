@@ -86,15 +86,16 @@
         </v-text-field>
       </div>
 
-      <div>
+      <!-- <div> -->
         <v-btn
+          depressed
           class="primary"
           :loading="loading"
           :disabled="loading"
           @click="submitCustomerDetails"
           >Submit</v-btn
         >
-      </div>
+      <!-- </div> -->
     </v-form>
     <!-- modal for dialog messages -->
     <modal :dialog="dialog" width="400">
@@ -230,7 +231,8 @@ export default {
             customer: {
               name: this.name,
               email: this.email,
-              phone: this.phoneNumber.substring(0, 1) == "0"
+              phone:
+                this.phoneNumber.substring(0, 1) == "0"
                   ? "+234" + this.phoneNumber.substring(1)
                   : "+234" + this.phoneNumber,
               location: {
@@ -284,9 +286,10 @@ export default {
   top: 0;
 }
 .v-btn:not(.v-btn--round).v-size--default {
-  height: 45px;
-  min-width: 150px;
-  padding: 0 16px;
+  height: 48px;
+  border-radius: 8px;
+  font-family: "Product Sans Regular";
+  font-size: 16px;
 }
 .status-img {
   width: 140px;
@@ -308,7 +311,7 @@ export default {
     width: 100%;
   }
   .v-btn:not(.v-btn--round).v-size--default {
-    min-width: 100%;
+    width: 100%;
   }
 }
 </style>
