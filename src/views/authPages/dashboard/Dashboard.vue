@@ -444,7 +444,6 @@ export default {
   letter-spacing: 0.8px;
   font-size: 16px;
   color: #ffffff;
-  opacity: 100%;
 }
 .row-properties {
   position: absolute;
