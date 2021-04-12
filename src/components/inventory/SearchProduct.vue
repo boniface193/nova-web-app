@@ -1,5 +1,6 @@
 <template>
   <div>
+    <!-- search bar -->
     <SearchBar
       placeholder="Search Inventory"
       bgColor="#DDF8F7"
