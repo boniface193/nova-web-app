@@ -30,15 +30,29 @@
             Page {{ pageDetails.current_page }} of {{ pageDetails.last_page }}
           </p>
         </div>
-        <!-- loader -->
-        <div class="text-center pt-10 pb-5" v-show="inventoryLoader">
-          <v-progress-circular
-            indeterminate
-            color="primary"
-          ></v-progress-circular>
+        <div class="pagination mb-2">
+          <v-pagination
+            v-model="getCurrentPage.currentPage"
+            :length="pageDetails.last_page"
+            @input="setCurentPage"
+            circle
+          ></v-pagination>
         </div>
       </div>
-    <!-- </v-container> -->
+    </div>
+    <!-- no data -->
+    <div
+      class="text-center pt-10 pb-5"
+      v-show="products.length == 0 && !inventoryLoader"
+    >
+      <p class="mb-0 secondary--text" style="font-size: 20px">
+        Opps! No product found.
+      </p>
+    </div>
+    <!-- loader -->
+    <div class="text-center pt-10 pb-5" v-show="inventoryLoader">
+      <v-progress-circular indeterminate color="primary"></v-progress-circular>
+    </div>
     <!--------------------------- modal for dialog messages ------------------------------>
     <modal :dialog="dialog" width="400">
       <div class="white pa-3 pb-10 text-center dialog">
@@ -55,7 +69,6 @@
         <h4>{{ dialogMessage }}</h4>
       </div>
     </modal>
-  </div>
   </div>
 </template>
 <script>
@@ -229,9 +242,6 @@ export default {
 @media (max-width: 650px) {
   .products-container {
     width: 400px;
-  }
-  .my-sm-5{
-    margin: 8% 0 0 0;
   }
 }
 @media (max-width: 410px) {
