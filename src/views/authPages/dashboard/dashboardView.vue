@@ -14,17 +14,17 @@
       >
         <v-app-bar-nav-icon @click.stop="drawer = !drawer">
           <v-icon
-            size="25"
+            size="35"
             :class="{ 'white--text': this.$route.path == '/dashboard' }"
           >
-            mdi-segment</v-icon
+            mdi-text-short</v-icon
           >
         </v-app-bar-nav-icon>
         <div
           class="nova-logo"
           v-show="this.$route.path !== '/dashboard'"
         >
-          <img src="@/assets/images/primary-logo.png" />
+          <img class="mx-4" src="@/assets/images/primary-logo.png" />
         </div>
       </div>
       <div class="pt-10" style="height: 100%">

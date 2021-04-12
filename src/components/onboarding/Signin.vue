@@ -6,7 +6,7 @@
         <img src="@/assets/images/primary-logo.png" />
       </div>
     </router-link>
-    <h3>Login into your Account</h3>
+    <h3 class="headings">Login into your Account</h3>
 
     <!-- Error message -->
     <p v-show="error" class="error--text mt-3 mb-0">
@@ -53,8 +53,8 @@
       </div>
 
       <!-- button container -->
-      <div class="pa-0 mt-5" style="width: 100%">
-        <v-btn
+      <div class="pa-0 mt-5">
+        <v-btn height="48px" block depressed
           class="primary mb-5 mx-auto"
           @click="validateForm"
           :loading="loading"
@@ -63,7 +63,7 @@
         >
 
         <!-- create account link -->
-        <p>
+        <p style="font-size: 16px; font-family: 'Product Sans' Light; color: #646464;">
           Don't have an account?
           <router-link to="/signup" style="text-decoration: none"
             >Create Account</router-link
@@ -135,6 +135,11 @@ export default {
   width: 100%;
   text-align: center;
   padding-top: 30px;
+  .headings {
+    font-size: 20px;
+    font-family: "Product Sans" Medium;
+    color: #2b2b2b;
+  }
   .nova-logo {
     width: 120px;
     img {
@@ -151,15 +156,9 @@ export default {
   width: 100%;
 }
 .v-btn:not(.v-btn--round).v-size--default {
-  height: 45px;
-  min-width: 80%;
-  padding: 0 16px;
-}
-@media (max-width: 700px) {
-  .v-btn:not(.v-btn--round).v-size--default {
-    height: 45px;
-    min-width: 100%;
-    padding: 0 16px;
-  }
+  border-radius: 8px;
+  font-family: 'Product Sans Regular';
+  font-size: 16px;
+  
 }
 </style>

@@ -43,6 +43,9 @@
       <!-- button container -->
       <div class="pa-0 mt-5" style="width: 100%">
         <v-btn
+        height="48px"
+          block
+          depressed
           class="primary mb-5 mx-auto"
           @click="validatePassword()"
           :loading="loading"

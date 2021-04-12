@@ -34,11 +34,14 @@
       ></v-text-field>
 
       <!-- do not remove -->
-      <v-text-field style="display:none"></v-text-field>
+      <v-text-field style="display: none"></v-text-field>
 
       <!-- button container -->
       <div class="pa-0 mt-5" style="width: 100%">
         <v-btn
+          height="48px"
+          block
+          depressed
           class="primary mb-5 mx-auto"
           @click="validateEmail()"
           :loading="loading"

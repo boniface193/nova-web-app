@@ -1,7 +1,7 @@
 <template>
   <!-- filter btn -->
   <div class="filter-btn">
-    <v-icon class="white--text">mdi-sort</v-icon>
+    <v-icon class="white--text">mdi-tune</v-icon>
     <span class="tooltiptext">{{ toolTipText }}</span>
   </div>
 </template>
