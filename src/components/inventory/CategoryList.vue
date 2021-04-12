@@ -9,6 +9,7 @@
         :class="{
           'category--active': (activeLink || selectedCategory) == '',
         }"
+        v-show="productCategories.length > 0"
         @click.stop="itemSelected('')"
       >
         All

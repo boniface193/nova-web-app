@@ -62,7 +62,7 @@
             <div class="py-5">
               <h4 class="mb-4">Description</h4>
               <p class="secondary--text mb-2" style="font-size: 14px">
-                {{ productDetails.description }}
+                {{ productDetails.description.slice(0, 200) }}
               </p>
               <!-- view more about product btn -->
               <router-link
@@ -78,7 +78,43 @@
                 View more
               </router-link>
 
-              <h4 class="mt-5 mb-4">Shipping Policies</h4>
+              <h4 class="mt-4 mb-2">Shipping and returns</h4>
+              <p
+                v-show="storeDetails.refund_policy.return_allowed == 'true'"
+                style="font-size: 14px"
+              >
+                <span class="secondary--text"
+                  >Free return within
+                  {{ storeDetails.refund_policy.return_window }}
+                  {{
+                    storeDetails.refund_policy.return_window > 1
+                      ? "days"
+                      : "day"
+                  }}
+                  from {{ storeDetails.name }}</span
+                ><br />
+                <span style="font-weight: 600"
+                  >What qualifies a product for returns ?</span
+                ><br />
+                <span>{{ storeDetails.refund_policy.return_precondition }}</span
+                ><br />
+                <span style="font-size: 14px; font-weight: 600"
+                  >Can a customer replace a product in the event of a return
+                  ?</span
+                ><br />
+                <span>{{
+                  storeDetails.refund_policy.product_replacable_on_return ==
+                  "true"
+                    ? "Yes, a customer can replace a product on return"
+                    : "No, a customer cannot replace a product on return"
+                }}</span>
+              </p>
+              <p
+                v-show="storeDetails.refund_policy.return_allowed == 'false'"
+                style="font-size: 14px"
+              >
+                Returns are not allowed for this product
+              </p>
             </div>
           </v-col>
         </v-row>
@@ -275,20 +311,17 @@
         </modal>
       </div>
 
-          <div class="row mt-8 mx-5" v-else>
-      <div class="col-5">
-
+      <div class="row mt-8 mx-5" v-else>
+        <div class="col-5"></div>
+        <div class="col-2">
+          <v-progress-circular
+            indeterminate
+            color="primary"
+            class="text-center"
+          ></v-progress-circular>
+        </div>
+        <div class="col-5"></div>
       </div>
-      <div class="col-2 ">
-        <v-progress-circular
-          indeterminate
-          color="primary"
-          class="text-center"
-        ></v-progress-circular>
-      </div>
-      <div class="col-5">
-      </div>
-    </div>
       <!-- modal for dialog messages -->
       <modal :dialog="dialog" width="400">
         <div class="white pa-3 pb-10 text-center dialog">
@@ -323,7 +356,7 @@ export default {
       checkout: false,
       shareDialog: false,
       productDetails: {
-        description: ""
+        description: "",
       },
       storeDetails: {
         refund_policy: {},
@@ -463,14 +496,20 @@ export default {
     submitCheckoutDetails() {
       this.$refs.form.validate();
       this.$refs.variantForm.validate();
-      if (this.$refs.form.validate() && (this.$refs.variantForm.validate() || !this.productDetails.variants)) {
-        const variants = (this.productDetails.variants)? `&${this.EncodeArrayOfObjects(this.variants)}`: '';
+      if (
+        this.$refs.form.validate() &&
+        (this.$refs.variantForm.validate() || !this.productDetails.variants)
+      ) {
+        const variants = this.productDetails.variants
+          ? `&${this.EncodeArrayOfObjects(this.variants)}`
+          : "";
         this.$router.push({
           path:
             `/inventory/${this.$route.params.id}/customer-form?` +
             `${encodeURIComponent("quantity=" + this.quantity)}` +
-            `${encodeURIComponent("&profit=" + this.profit)}` + variants,
-                      params: {
+            `${encodeURIComponent("&profit=" + this.profit)}` +
+            variants,
+          params: {
             id: this.$route.params.id,
           },
         });

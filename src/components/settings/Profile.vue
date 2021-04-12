@@ -111,7 +111,7 @@
           <p class="mb-1">Address</p>
           <v-text-field
             class="input mt-0"
-            :rules="inputRules"
+            :rules="phoneRules"
             type="address"
             color="primary"
             v-model="computedInfo.currentAddress"
@@ -201,7 +201,8 @@ export default {
       phoneNumLoader: false,
       nameLoader: false,
       addressLoader: false,
-      inputRules: [
+      inputRules: [(v) => !!v || "This field is required"],
+      phoneRules: [
         //verifies phone number satisfies the requirement
         (v) => !!v || "This field is required",
         (v) => v.substring(0, 1) != 0 || "Phone number cannot begin with 0",
