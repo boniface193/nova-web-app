@@ -87,14 +87,14 @@
       </div>
 
       <!-- <div> -->
-        <v-btn
-          depressed
-          class="primary"
-          :loading="loading"
-          :disabled="loading"
-          @click="submitCustomerDetails"
-          >Submit</v-btn
-        >
+      <v-btn
+        depressed
+        class="primary"
+        :loading="loading"
+        :disabled="loading"
+        @click="submitCustomerDetails"
+        >Submit</v-btn
+      >
       <!-- </div> -->
     </v-form>
     <!-- modal for dialog messages -->
