@@ -3,7 +3,7 @@
     <Sidebar :drawer="drawer" @closeDrawer="closeDrawer" />
     <div class="page-content" :class="{ 'add-margin': drawer }">
       <div
-        class="page-content-header px-2 px-md-7"
+        class="page-content-header px-2 px-md-7 mt-5"
         v-if="
           !drawer &&
           (this.$route.path == '/dashboard' ||
@@ -12,7 +12,7 @@
             this.$route.path == '/orders')
         "
       >
-        <v-app-bar-nav-icon @click.stop="drawer = !drawer">
+        <v-app-bar-nav-icon @click.stop="drawer = !drawer" class="mx-small">
           <v-icon
             size="35"
             :class="{ 'white--text': this.$route.path == '/dashboard' }"
@@ -93,6 +93,12 @@ export default {
   @media (max-width: 1260px) {
     .add-margin {
       margin-left: 0px;
+    }
+  }
+
+  @media (max-width: 650px) {
+    .mx-small{
+      margin-left: 20px !important;
     }
   }
 }

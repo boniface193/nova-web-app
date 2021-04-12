@@ -1,20 +1,20 @@
 <template>
   <div class="dashboard-container">
-    <div class="primary py-16">
-      <div class="px-2 px-md-7">
+    <div class="primary pt-16 pb-8">
+      <div class="px-8 mt-8">
         <!-- <Calender class="float-right" autoApply @updateDate="dateValue" /> -->
         <div class="welcome-text">Hello,</div>
         <div class="welcome-text-sm">{{ userInfo.name }}</div>
       </div>
-      <div class="mx-7 mt-8 d-flex justify-center">
+      <div class="mt-16 d-flex justify-center">
         <v-row class="row-properties">
           <!-- current sales -->
-          <v-col cols="6" sm="4" md="" lg="" class="pr-0">
+          <v-col cols="6" sm="4" md="" lg="">
             <v-card
               v-if="currentLoading"
               class="shadow-sm elevation-0 px-2"
               style="
-                box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15) !important;
+                box-shadow: 0 0.5rem 30px rgba(0, 0, 0, 0.15) !important;
                 border-radius: 15px;
                 height: 186px;
               "
@@ -25,7 +25,7 @@
               v-if="!currentLoading"
               class="shadow-sm elevation-0 px-2"
               style="
-                box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15) !important;
+                box-shadow: 0 0.5rem 30px rgba(0, 0, 0, 0.15) !important;
                 border-radius: 15px;
                 height: 186px;
               "
@@ -71,12 +71,12 @@
           <!-- current sale -->
 
           <!-- payment total revenue -->
-          <v-col cols="6" sm="4" md="" lg="" class="pr-0">
+          <v-col cols="6" sm="4" md="" lg="">
             <v-card
               v-if="payment"
               class="shadow-sm elevation-0 px-2"
               style="
-                box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15) !important;
+                box-shadow: 0 0.5rem 30px rgba(0, 0, 0, 0.15) !important;
                 border-radius: 15px;
                 height: 186px;
               "
@@ -87,7 +87,7 @@
               v-if="!payment"
               class="shadow-sm elevation-0 px-2"
               style="
-                box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15) !important;
+                box-shadow: 0 0.5rem 30px rgba(0, 0, 0, 0.15) !important;
                 border-radius: 15px;
                 height: 186px;
               "
@@ -135,12 +135,12 @@
           <!-- payment total Revenue -->
 
           <!-- sale point -->
-          <v-col cols="6" sm="4" md="" lg="" class="pr-0">
+          <v-col cols="6" sm="4" md="" lg="">
             <v-card
               v-if="sellLoading"
               class="shadow-sm elevation-0 px-2"
               style="
-                box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15) !important;
+                box-shadow: 0 0.5rem 30px rgba(0, 0, 0, 0.15) !important;
                 border-radius: 15px;
                 height: 186px;
               "
@@ -151,7 +151,7 @@
               v-if="!sellLoading"
               class="shadow-sm elevation-0 px-2"
               style="
-                box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15) !important;
+                box-shadow: 0 0.5rem 30px rgba(0, 0, 0, 0.15) !important;
                 border-radius: 15px;
                 height: 186px;
               "
@@ -197,12 +197,12 @@
           <!-- end of sale point -->
 
           <!-- sallers rank-->
-          <v-col cols="6" sm="4" md="" lg="" class="pr-0">
+          <v-col cols="6" sm="4" md="" lg="">
             <v-card
               v-if="rankLoading"
               class="shadow-sm elevation-0 px-2"
               style="
-                box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15) !important;
+                box-shadow: 0 0.5rem 30px rgba(0, 0, 0, 0.15) !important;
                 border-radius: 15px;
                 height: 186px;
               "
@@ -213,7 +213,7 @@
               v-if="!rankLoading"
               class="shadow-sm elevation-0 px-2"
               style="
-                box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15) !important;
+                box-shadow: 0 0.5rem 30px rgba(0, 0, 0, 0.15) !important;
                 border-radius: 15px;
                 height: 186px;
               "
@@ -423,18 +423,17 @@ export default {
   margin-top: -40px !important;
 }
 .welcome-text {
-  font-family: "Product Sans Medium";
-  font-weight: normal;
+  font-family: "Product Sans" Medium;
   color: #ffffff;
   font-size: 24px;
 }
 .welcome-text-sm {
-  font-family: "Product Sans Light";
-  font-weight: lighter;
+  font-family: "Product Sans" Light;
   font-variant: normal;
   letter-spacing: 0.8px;
   font-size: 16px;
   color: #ffffff;
+  opacity: 100%;
 }
 .row-properties {
   position: absolute;
@@ -442,7 +441,7 @@ export default {
 }
 @media (max-width: 500px) {
   .row-properties {
-    width: 85%;
+    width: 90%;
   }
 }
 .round-img-bg-danger {
