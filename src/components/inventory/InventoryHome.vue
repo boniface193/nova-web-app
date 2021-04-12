@@ -1,5 +1,5 @@
 <template>
-  <div class="px-2 px-md-7 pt-9 pt-md-0">
+  <div class="px-2 px-md-7 pt-9 pt-md-0 pb-16">
     <div class="d-flex align-center" style="justify-content: flex-end">
       <div class="search-container">
         <SearchProduct />
@@ -30,12 +30,13 @@
             Page {{ pageDetails.current_page }} of {{ pageDetails.last_page }}
           </p>
         </div>
-        <!-- loader -->
-        <div class="text-center pt-10 pb-5" v-show="inventoryLoader">
-          <v-progress-circular
-            indeterminate
-            color="primary"
-          ></v-progress-circular>
+        <div class="pagination mb-2">
+          <v-pagination
+            v-model="getCurrentPage.currentPage"
+            :length="pageDetails.last_page"
+            @input="setCurentPage"
+            circle
+          ></v-pagination>
         </div>
       </div>
       <!-- </v-container> -->
