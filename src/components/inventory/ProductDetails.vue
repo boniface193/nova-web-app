@@ -20,12 +20,12 @@
           </span>
         </router-link>
         <!-- title -->
-        <h3 class="align-self-center headings">Product Details</h3>
+        <h3 class="align-self-center">Product Details</h3>
       </div>
 
       <div class="mt-5">
-        <h5 class="mb-4 sub-headings">Description</h5>
-        <p class="mb-5 details">
+        <h5 class="mb-4">Description</h5>
+        <p class="mb-5 secondary--text" style="font-size: 14px">
           {{ productDetails.description }}
         </p>
 
@@ -38,13 +38,13 @@
         </p> -->
       </div>
     </div>
-    <div class="d-flex py-5 text-center" v-if="loader">
-      <v-progress-circular
-        indeterminate
-        color="primary"
-        class="mx-auto"
-      ></v-progress-circular>
-    </div>
+     <div class="d-flex py-5 text-center" v-if="loader">
+        <v-progress-circular
+          indeterminate
+          color="primary"
+          class="mx-auto"
+        ></v-progress-circular>
+      </div>
     <!-- modal for dialog messages -->
     <modal :dialog="dialog" width="400">
       <div class="white pa-3 pb-10 text-center dialog">
@@ -74,7 +74,7 @@ export default {
       loader: false,
       statusImage: null,
       dialog: false,
-      dialogMessage: "",
+      dialogMessage: ""
     };
   },
   created() {
@@ -111,18 +111,5 @@ export default {
   .v-image {
     width: 100%;
   }
-}
-.headings {
-  color: #2b2b2b;
-  font-size: 20px;
-}
-.sub-headings {
-  color: #2b2b2b;
-  font-size: 16px;
-}
-.details {
-  color: #979797;
-  font-size: 12px;
-  opacity: 100%;
 }
 </style>
