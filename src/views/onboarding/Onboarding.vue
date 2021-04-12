@@ -11,6 +11,7 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
+
 .onboarding {
   background: #f9fafe;
   height: 100%;

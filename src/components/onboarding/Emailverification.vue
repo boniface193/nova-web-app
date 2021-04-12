@@ -65,7 +65,7 @@
             </a>
           </p>
           <v-btn
-            class="primary py-5 mb-5 mx-auto"
+            class="primary mb-5 mx-auto"
             @click="SubmitCode()"
             :loading="loading"
             :disabled="loading"
