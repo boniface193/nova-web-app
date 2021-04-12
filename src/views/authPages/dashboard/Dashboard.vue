@@ -44,7 +44,14 @@
                     class="rounded-pill pa-7 text-center round-img-bg-danger"
                   ></div>
                 </div>
-                <div class="card-header">₦{{ curentSale }}</div>
+                <div class="card-header">
+                  <v-icon
+                    size="17"
+                    class="mb-1 font-weight-bold"
+                    color="#2b2b2b"
+                    >mdi-currency-ngn</v-icon
+                  >{{ curentSale }}
+                </div>
                 <div class="card-sale">In sales</div>
                 <div
                   class="card-success"
@@ -106,7 +113,14 @@
                     class="rounded-pill pa-7 text-center round-img-bg-success"
                   ></div>
                 </div>
-                <div class="card-header">₦{{ totalRevenue }}</div>
+                <div class="card-header">
+                  <v-icon
+                    size="17"
+                    class="mb-1 font-weight-bold"
+                    color="#2b2b2b"
+                    >mdi-currency-ngn</v-icon
+                  >{{ totalRevenue }}
+                </div>
                 <div class="card-sale">In profits</div>
                 <div
                   class="card-success"
@@ -318,41 +332,38 @@ export default {
         }
       });
 
-    this.$store
-      .dispatch("dashboard/getSellerRank")
-      .then((res) => {
-        let resObj = {
-          difference: res.today_rank === null ? '' : res.today_rank.toString(),
-          curentSale: res.overall_rank === null ? '' : res.overall_rank.toString(),
-        };
-        this.pRank = resObj.curentSale;
-        this.diffRank = resObj.difference;
-        this.rankLoading = false;
-      })
-      // .catch((error) => {
-      //   if (error.status === 401 || error.status === 403) {
-      //     localStorage.removeItem("accessToken");
-      //     window.location.href = "/signin";
-      //   }
-      // });
+    this.$store.dispatch("dashboard/getSellerRank").then((res) => {
+      let resObj = {
+        difference: res.today_rank === null ? "" : res.today_rank.toString(),
+        curentSale:
+          res.overall_rank === null ? "" : res.overall_rank.toString(),
+      };
+      this.pRank = resObj.curentSale;
+      this.diffRank = resObj.difference;
+      this.rankLoading = false;
+    });
+    // .catch((error) => {
+    //   if (error.status === 401 || error.status === 403) {
+    //     localStorage.removeItem("accessToken");
+    //     window.location.href = "/signin";
+    //   }
+    // });
 
-    this.$store
-      .dispatch("dashboard/getSellerTotalSale")
-      .then((res) => {
-        let resObj = {
-          difference: res.current_sales_label,
-          curentSale: res.diff.toString(),
-        };
-        this.curentSale = resObj.difference;
-        this.diffCurrentSales = resObj.curentSale;
-        this.currentLoading = false;
-      })
-      // .catch((error) => {
-      //   if (error.status === 401 || error.status === 403) {
-      //     localStorage.removeItem("accessToken");
-      //     window.location.href = "/signin";
-      //   }
-      // });
+    this.$store.dispatch("dashboard/getSellerTotalSale").then((res) => {
+      let resObj = {
+        difference: res.current_sales_label,
+        curentSale: res.diff.toString(),
+      };
+      this.curentSale = resObj.difference;
+      this.diffCurrentSales = resObj.curentSale;
+      this.currentLoading = false;
+    });
+    // .catch((error) => {
+    //   if (error.status === 401 || error.status === 403) {
+    //     localStorage.removeItem("accessToken");
+    //     window.location.href = "/signin";
+    //   }
+    // });
 
     if (this.userInfo.id === "") {
       this.$store.dispatch("settings/getUserProfile").then(() => {
@@ -466,33 +477,33 @@ export default {
 .card-header {
   color: #2b2b2b;
   font-size: 17px;
-  font-family: "Product Sans Bold";
+  font-family: "Product Sans" Bold;
   margin: 10px 0px 0px 0px;
   font-weight: bold;
 }
 .card-sale {
   color: #979797;
-  font-family: "Product Sans Light";
+  font-family: "Product Sans" Light;
   font-size: 12px;
 }
 .card-success {
   color: #29db58;
   font-size: 10px;
-  font-family: "Product Sans Bold";
+  font-family: "Product Sans" Bold;
 }
 .card-error {
   color: #ff3b3b;
   font-size: 10px;
-  font-family: "Product Sans Bold";
+  font-family: "Product Sans" Bold;
 }
 .card-history {
   color: #5063ca;
-  font-family: "Product Sans Medium";
+  font-family: "Product Sans" Medium;
   font-size: 10px;
 }
 .awaiting {
   color: #979797;
-  font-family: "Product Sans Light";
+  font-family: "Product Sans" Light;
   font-size: 8px;
 }
 </style>
