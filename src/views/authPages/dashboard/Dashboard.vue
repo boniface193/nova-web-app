@@ -439,7 +439,7 @@ export default {
   font-size: 24px;
 }
 .welcome-text-sm {
-  font-family: "Product Sans" Light;
+  font-family: "Product Sans Light";
   font-variant: normal;
   letter-spacing: 0.8px;
   font-size: 16px;
