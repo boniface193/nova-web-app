@@ -15,7 +15,7 @@
       <div class="d-flex justify-space-between align-baseline">
         <h2>Featured items</h2>
         <router-link
-          :to="{ path: '/' }"
+          :to="{ path: '/signin' }"
           class="primary--text"
           style="text-decoration: none"
           >View more

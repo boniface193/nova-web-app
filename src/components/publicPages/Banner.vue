@@ -74,7 +74,7 @@ export default {
       top: 10%;
       right: 2%;
       width: 60px;
-      animation: rotation 5s infinite linear;
+      //animation: rotation 5s infinite linear;
     }
     .play-img3 {
       position: absolute;
