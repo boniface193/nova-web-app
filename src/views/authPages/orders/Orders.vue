@@ -5,6 +5,27 @@
         You have <span class="font-weight-bold">20</span> orders.
       </p>
       <!-- search filter -->
+<<<<<<< HEAD:src/views/authPages/orders/Orders.vue
+      <div class="d-flex align-center" style="justify-content: flex-end">
+        <div class="search-container">
+          <Search
+            placeholder="Order Number or Product Name"
+            bgColor="#DDF8F7"
+            borderColor="transparent"
+            @search="getSearchValue"
+          />
+        </div>
+
+        <BasicFilter
+          :price="filterParameters.price"
+          toolTipText="Filter products"
+          headerName="Filter Orders"
+          @filterOption="filterTable"
+          @resetFilter="resetFilter"
+          class="ml-1"
+        />
+      </div>
+=======
       <v-row class="d-flex justify-end">
         <v-col cols="10" lg="5" md="5">
           <Search placeholder="Search orders" @search="getSearchValue" />
@@ -15,12 +36,13 @@
           </div>
         </v-col>
       </v-row>
+>>>>>>> ade9d3cccff46f2645dae3ce5549a0bbae573ac3:src/views/orders/Orders.vue
 
       <!-- card item -->
       <div v-if="isLoading" class="text-center my-8">
         <!-- this image time loader is calculated by the loader to triger the load time -->
         <v-progress-circular
-          color="primary"
+          color="#029B97"
           class="text-center"
           indeterminate
           size="20"
@@ -31,11 +53,15 @@
 
       <v-row>
         <v-col sm="4" v-for="orders in ordersItems" :key="orders.id">
+<<<<<<< HEAD:src/views/authPages/orders/Orders.vue
+          <v-card outlined class="rounded-lg pa-5 mb-3" height="100%">
+=======
           <!-- if no order -->
           <p v-if="orders.length == 0" class="text-center mt-8">
             No Item Found
           </p>
           <v-card outlined class="rounded-lg pa-5 mb-3">
+>>>>>>> ade9d3cccff46f2645dae3ce5549a0bbae573ac3:src/views/orders/Orders.vue
             <step-progress
               :steps="['Processing', 'Shipped', 'Delivered']"
               :current-step="
@@ -45,7 +71,7 @@
               "
               icon-class="fa fa-check"
               :line-thickness="lineThickness"
-              active-color="#5064CC"
+              active-color="#FFA500"
               :active-thickness="activeThickness"
               :passive-thickness="passiveThickness"
               passive-color="#5E5E5E1A"
@@ -53,7 +79,16 @@
             <v-row class="mt-12">
               <v-col cols="5" class="py-0">
                 <div class="text-center">
+                  <v-progress-circular
+                    v-if="loadImage"
+                    color="primary"
+                    class="text-center"
+                    indeterminate
+                    size="20"
+                    width="2"
+                  ></v-progress-circular>
                   <v-img
+                    v-if="!loadImage"
                     :src="orders.product_image_url"
                     class="image-bgColor"
                     width="100%"
@@ -93,9 +128,7 @@
                 </div>
                 <div class="order-item-font">
                   Price (NGN):
-                  <span class="order-no-grey">{{
-                    orders.product_price_label
-                  }}</span>
+                  <span class="order-no-grey">{{ orders.subtotal_label }}</span>
                 </div>
               </v-col>
             </v-row>
@@ -103,6 +136,20 @@
         </v-col>
       </v-row>
     </div>
+<<<<<<< HEAD:src/views/authPages/orders/Orders.vue
+    <!-- pagination -->
+    <div class="text-center pa-3">
+      <!-- <v-pagination
+        v-model="getCurrentPage.currentPage"
+        :length="pageDetails.last_page"
+        @input="setCurentPage"
+        circle
+        small
+        style="font-size: 8px"
+      ></v-pagination> -->
+    </div>
+=======
+>>>>>>> ade9d3cccff46f2645dae3ce5549a0bbae573ac3:src/views/orders/Orders.vue
   </v-container>
 </template>
 
@@ -121,6 +168,7 @@ export default {
   },
   data() {
     return {
+      loadImage: true,
       isLoading: true,
       // searchValue: "",
       filterItems: "",
@@ -128,25 +176,64 @@ export default {
       activeThickness: 3,
       passiveThickness: 3,
       mySteps: ["Step 1", "Step 2", "Step 3"],
+<<<<<<< HEAD:src/views/authPages/orders/Orders.vue
+      filterParameters: {
+        price: true,
+      },
+      ordersItems: [],
+=======
+>>>>>>> ade9d3cccff46f2645dae3ce5549a0bbae573ac3:src/views/orders/Orders.vue
     };
   },
 
   computed: {
     // to populate items on the table
     ...mapGetters({
+<<<<<<< HEAD:src/views/authPages/orders/Orders.vue
+      order: "orders/orders",
+    }),
+    ...mapState({
+      // page: (state) => state.orders.page,
+      // pageDetails: (state) => state.orders.pageDetails,
+      // searchOrder: (state) => state.orders.searchOrder,
+      // getCurrentPage() {
+      //   return {
+      //     currentPage: this.pageDetails.current_page,
+      //   };
+      // },
+=======
       ordersItems: "orders/orders",
       searchOrder: "orders/searchOrder",
     }),
     ...mapState({
       searchValue: (state) => state.orders.searchValue,
       pageDetails: (state) => state.orders.pageDetails,
+>>>>>>> ade9d3cccff46f2645dae3ce5549a0bbae573ac3:src/views/orders/Orders.vue
     }),
   },
   created() {
     this.$store.dispatch("orders/getOrders").then(() => {
       this.isLoading = false;
+<<<<<<< HEAD:src/views/authPages/orders/Orders.vue
+      this.ordersItems = e;
+      e.forEach((i) => {
+        if (i.product_image_url) {
+          this.loadImage = false;
+        }
+      });
+      if (e.length < 1) {
+        this.empty = "No Sales Recorded Yet";
+      }
+    });
+
+    let ifConnected = window.navigator.onLine;
+    if (!ifConnected) {
+      this.empty = "please connect to the internet";
+    }
+=======
     });
     this.$store.dispatch("orders/filterGetOrders");
+>>>>>>> ade9d3cccff46f2645dae3ce5549a0bbae573ac3:src/views/orders/Orders.vue
   },
 
   methods: {
@@ -154,6 +241,57 @@ export default {
     getSearchValue(params) {
       this.$store.commit("orders/getSearchValue", params);
       this.$store.commit("orders/setSearchOrder", true);
+<<<<<<< HEAD:src/views/authPages/orders/Orders.vue
+      this.$store.dispatch("orders/searchOrders").then(() => {
+        this.isLoading = false;
+      });
+      this.getOrder();
+    },
+
+    getOrder() {
+      this.$store.dispatch("orders/searchOrders").then((e) => {
+        this.ordersItems = e.data.data;
+      });
+    },
+
+    // page here
+
+    filterGetOrders() {
+      this.$store.dispatch("orders/filterGetOrders").then((e) => {
+        this.ordersItems = e.data.data;
+      });
+    },
+    // filter function
+    filterTable(params) {
+      this.$store.commit("orders/filterOrders", {
+        minPrice: params.minPrice,
+        maxPrice: params.maxPrice,
+      });
+      this.filterGetOrders();
+    },
+
+    // reset the filter and it will affect the table
+    resetFilter() {
+      this.$store.commit("orders/filterOrders", {
+        minPrice: 0,
+        maxPrice: 0,
+        selectedOptions: [],
+      });
+      this.filterGetOrders();
+    },
+
+    // set current page
+    setCurentPage() {
+      this.$store.commit("orders/setPage", this.getCurrentPage.currentPage);
+      this.$store.commit(
+        "orders/setPageDetails",
+        this.getCurrentPage.currentPage
+      );
+      this.filterGetOrders();
+      this.getOrder();
+
+      this.getOrder === true ? this.getSearchValue() : "";
+=======
       this.$store.dispatch("orders/searchOrders").then((response) => {
         this.isLoading = true;
         if (response) {
@@ -164,6 +302,7 @@ export default {
         }
         
       });
+>>>>>>> ade9d3cccff46f2645dae3ce5549a0bbae573ac3:src/views/orders/Orders.vue
     },
   }
   // computed: {
@@ -198,7 +337,7 @@ export default {
   font-size: 12px;
 }
 .order-no-blue {
-  color: #5064cc;
+  color: #029b97;
   font-size: 11px;
   font-family: "Product Sans Bold" !important;
 }
@@ -253,9 +392,17 @@ div.step-progress__step span {
 
 .position-abs {
   position: absolute !important;
-  color: #5064cc;
+  color: #029b97;
   font-size: 20px !important;
   opacity: 0.5;
+}
+.search-container {
+  width: 400px;
+}
+@media (max-width: 500px) {
+  .search-container {
+    width: -webkit-fill-available;
+  }
 }
 </style>
 

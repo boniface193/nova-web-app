@@ -2,8 +2,10 @@
   <div class="forgotpassword-container">
     <!-- app logo -->
     <div class="description">
-      <router-link to="/" class="d-flex dark--text app-logo">
-        N<v-img src="@/assets/images/fire.svg" max-width="35"></v-img>VA
+      <router-link to="/" class="d-flex dark--text">
+        <div class="nova-logo d-flex align-center justify-center mx-auto my-5">
+          <img src="@/assets/images/primary-logo.png" />
+        </div>
       </router-link>
       <h3 class="mb-4">Recover password</h3>
       <p>
@@ -31,10 +33,16 @@
         @keyup.enter="validateEmail()"
       ></v-text-field>
 
+      <!-- do not remove -->
+      <v-text-field style="display: none"></v-text-field>
+
       <!-- button container -->
       <div class="pa-0 mt-5" style="width: 100%">
         <v-btn
-          class="primary py-5 mb-5 mx-auto"
+          height="48px"
+          block
+          depressed
+          class="primary mb-5 mx-auto"
           @click="validateEmail()"
           :loading="loading"
           :disabled="loading"
@@ -75,15 +83,11 @@ export default {
       this.$store
         .dispatch("onboarding/forgotPassword", {
           email: this.email,
-          type: "seller"
+          type: "seller",
         })
         .then((response) => {
           this.loading = false;
           if (response.data.message === "An OTP has been sent to your email.") {
-            this.$store.commit(
-              "onboarding/accessForgotPasswordVerificationPage",
-              true
-            );
             this.$router.push({
               name: "Forgotpasswordverification",
               params: { email: emailAddress },
@@ -107,14 +111,11 @@ export default {
 .forgotpassword-container {
   width: 100%;
   text-align: center;
-  .app-logo {
-    font-size: 40px;
-    font-weight: bold;
-    color: #000000;
-    align-items: baseline;
-    text-decoration: none;
+  .nova-logo {
     width: 120px;
-    margin: 20px auto;
+    img {
+      width: 100%;
+    }
   }
   .form-container {
     width: 90%;

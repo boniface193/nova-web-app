@@ -7,7 +7,7 @@
 
     <div class="description">
       <router-link
-        :to="{ name: 'Index' }"
+        :to="{ name: 'Home' }"
         style="text-decoration: none"
         v-show="presentForm === 'form1'"
       >
@@ -21,8 +21,8 @@
         >mdi-chevron-left</v-icon
       >
 
-      <h3 v-show="presentForm === 'form1'">
-        Join the race to become sales champion!
+      <h3 class="headings" v-show="presentForm === 'form1'">
+        Sign up now and start earning!
       </h3>
       <h3 v-show="presentForm === 'form2'">Create Password</h3>
     </div>
@@ -67,10 +67,14 @@
       ></v-text-field>
 
       <!-- Phone Number -->
-      <div class="d-flex align-center" style="width:100%">
-        <v-icon color="#64B161" class="mt-3 mr-3">mdi-whatsapp</v-icon>
+      <div
+        class="d-flex align-center phone-field"
+        style="width: 100%; position: relative"
+      >
+        <v-icon color="#64B161" class="mt-3 mr-1">mdi-whatsapp</v-icon>
+        <span class="primary--text phone-format">+234</span>
         <v-text-field
-          class=" mt-5"
+          class="mt-5"
           v-model="phoneNumber"
           :rules="phoneNumberRules"
           label="Phone Number"
@@ -85,14 +89,23 @@
       <!-- button container -->
       <div class="pa-0 mt-5 btn-container-form1" style="width: 100%">
         <v-btn
-          class="primary py-5 mb-5 mx-auto"
+          height="48px"
+          block
+          depressed
+          class="primary mb-5 mx-auto"
           @click="validateForm(1)"
           :loading="loading1"
           :disabled="loading1"
           >Next</v-btn
         >
         <!-- signin link -->
-        <p>
+        <p
+          style="
+            font-size: 16px;
+            font-family: 'Product Sans' Light;
+            color: #646464;
+          "
+        >
           Already have an account?
           <router-link to="/signin" style="text-decoration: none"
             >Sign In</router-link
@@ -140,10 +153,19 @@
         @keyup.enter="validateForm(2)"
       ></v-text-field>
 
+<<<<<<< HEAD
+      <v-checkbox
+        v-model="acceptTerms"
+        label="By clicking continue, you are agreeing to our terms of service and privacy policy"
+        class="mt-5"
+      ></v-checkbox>
+
+=======
+>>>>>>> ade9d3cccff46f2645dae3ce5549a0bbae573ac3
       <!-- button container -->
-      <div class="pa-0 mt-5 btn-container-form1" style="width: 100%">
+      <div class="pa-0 mt-5" style="width: 100%">
         <v-btn
-          class="primary px-8 py-5 mb-5 mx-auto"
+          class="primary px-8 mb-5 mx-auto"
           @click="validateForm(2)"
           :loading="loading2"
           :disabled="loading2"
@@ -180,15 +202,16 @@ export default {
       ],
       phoneNumberRules: [
         //verifies phone number satisfies the requirement
-        (v) => !!v || "Phone Number is required",
+        (v) => !!v || "This field is required",
+        (v) => v.substring(0, 1) != 0 || "Phone number cannot begin with 0",
+        (v) => v.length > 9 || "Number should 10 digits or more",
+        (v) => v.length <= 11 || "Maximum 11 digits or more",
       ],
       createPasswordRules: [
         //verifies password satisfies the requirement
         (v) => !!v || "Password is required",
         (v) =>
-          /^(?=.*[A-Za-z])(?=.*\d).{8,}$/.test(
-            v
-          ) ||
+          /^(?=.*[A-Za-z])(?=.*\d).{8,}$/.test(v) ||
           "Password must contain a minimum of 8 character, at least one uppercase, one lowercase, one number",
       ],
       confirmPasswordRules: [
@@ -209,7 +232,13 @@ export default {
       this.$refs[`form${formNum}`].validate();
       if (this.$refs[`form${formNum}`].validate()) {
         if (formNum == 2) {
+<<<<<<< HEAD
+          if (this.acceptTerms) {
+            this.submit();
+          }
+=======
           this.submit();
+>>>>>>> ade9d3cccff46f2645dae3ce5549a0bbae573ac3
         } else if (formNum == 1) {
           this.loading1 = true;
           this.$store
@@ -254,7 +283,10 @@ export default {
         .dispatch("onboarding/register", {
           full_name: this.fullName,
           email: this.email,
-          phone_number: this.phoneNumber,
+          phone_number:
+            this.phoneNumber.substring(0, 1) == "0"
+              ? "+234" + this.phoneNumber.substring(1)
+              : "+234" + this.phoneNumber,
           password: this.createPassword,
           password_confirmation: this.confirmPassword,
         })
@@ -289,6 +321,11 @@ export default {
   width: 100%;
   text-align: center;
   padding-top: 30px;
+  .headings {
+    font-size: 20px;
+    font-family: "Product Sans" Medium;
+    color: #2b2b2b;
+  }
   .description {
     text-align: left;
     width: 90%;
@@ -304,19 +341,29 @@ export default {
     padding: 15px 0px;
   }
 }
+.phone-format {
+  position: absolute;
+  left: 28px;
+  margin-top: 10px;
+}
 .input {
   width: 100%;
 }
-.btn-container-form1 .v-btn:not(.v-btn--round).v-size--default {
-  height: 45px;
-  min-width: 80%;
-  padding: 0 16px;
+.v-btn:not(.v-btn--round).v-size--default {
+  border-radius: 8px;
+  font-family: "Product Sans Regular";
+  font-size: 16px;
 }
-@media (max-width: 700px) {
-  .btn-container-form1 .v-btn:not(.v-btn--round).v-size--default {
-    height: 45px;
-    min-width: 100%;
-    padding: 0 16px;
-  }
+</style>
+<style lang="scss">
+.phone-field
+  > .v-text-field
+  > .v-input__control
+  > .v-input__slot
+  > .v-text-field__slot {
+  padding-left: 40px;
+}
+.phone-field > .v-input .v-label {
+  padding-left: 40px;
 }
 </style>

@@ -25,6 +25,7 @@ const setItemPerPage = (itemPerPage, per_page, from_page) => {
 //holds the state properties
 const state = {
     products: [],
+    productCategories: [],
     searchProduct: false,
     searchValue: "",
     page: 1,
@@ -35,11 +36,13 @@ const state = {
         minPrice: 0,
         maxPrice: 0,
     },
+    category: ''
 };
 
 //returns the state properties
 const getters = {
     products: state => state.products,
+    productCategories: state => state.productCategories
 };
 
 //fetch data 
@@ -99,9 +102,10 @@ const actions = {
         let page = ((state.page) ? `page=${state.page}` : "");
         let perPage = ((state.itemPerPage) ? `per_page=${state.itemPerPage}` : "");
         let priceRange = ((state.filter.maxPrice) ? `price_between=${state.filter.minPrice},${state.filter.maxPrice}` : "");
+        let category = (state.category !== "") ? `category=${state.category}` : ""
 
         return new Promise((resolve, reject) => {
-            axios.get(`/products?${page}&${perPage}&${priceRange}`,
+            axios.get(`/products?${page}&${perPage}&${priceRange}&${category}`,
                 {
                     headers: {
                         Authorization: `Bearer ${localStorage.getItem("accessToken")}`
@@ -116,7 +120,26 @@ const actions = {
                 })
         })
     },
-
+    // get product categories
+    getProductCategories(context) {
+        return new Promise((resolve, reject) => {
+            axios.get(`/categories`,
+                {
+                    headers: {
+                        Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+                    }
+                }).then(response => {
+                    resolve(response);
+                })
+                .catch(error => {
+                    // if (error.response.status == 401) {
+                    //     store.commit("onboarding/setTokenAuthorizeStatus", false);
+                    // }
+                    context.commit("doNothing");
+                    reject(error);
+                })
+        })
+    }
 };
 
 //updates the different state properties
@@ -133,6 +156,8 @@ const mutations = {
     setPage: (state, page) => (state.page = page),
     setInventoryLoader: (state, status) => (state.inventoryLoader = status),
     setFilter: (state, filter) => (state.filter = filter),
+    setProductCategories: (state, productCategories) => (state.productCategories = productCategories),
+    setCategory: (state, category) => (state.category = category),
 };
 
 
@@ -143,4 +168,4 @@ export default {
     getters,
     actions,
     mutations
-};  
+};

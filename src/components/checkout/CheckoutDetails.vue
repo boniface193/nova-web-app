@@ -25,10 +25,55 @@
       <h5>{{ pageDetails.orderDetails.seller_name }}</h5>
     </div>
     <!-- product description -->
-    <div class="mt-5">
-      <h5 class="mb-2">Description</h5>
-      <p class="mb-5 secondary--text" style="font-size: 14px">
-        {{ pageDetails.productDetails.description }}
+    <div class="mt-4">
+      <h4 class="mb-2">Description</h4>
+      <p class="secondary--text mb-0" v-if="!readMoreActivated" style="font-size: 14px">
+        {{ pageDetails.productDetails.description.slice(0, 200) }}
+      </p>
+      <a class="primary--text"  v-if="!readMoreActivated" @click="readMoreActivated = true">view more</a>
+      <p class="secondary--text mb-0" v-if="readMoreActivated" style="font-size: 14px">
+        {{ pageDetails.productDetails.description}}
+      </p>
+      <a class="primary--text"  v-if="readMoreActivated" @click="readMoreActivated = false">view less</a>
+
+      <h4 class="mt-4 mb-2" v-show="orderDetails.variants.length != 0">Variants</h4>
+      <p
+        class="mb-1 secondary--text"
+        v-for="(variant, index) in orderDetails.variants"
+        :key="index"
+        style="font-size: 14px"
+      >
+        {{ variant.name }}: {{ variant.value }}
+      </p>
+
+      <h4 class="mt-4 mb-2">Shipping and returns</h4>
+      <p
+        v-show="storeDetails.refund_policy.return_allowed == 'true'"
+        style="font-size: 14px"
+      >
+        <span class="secondary--text"
+          >Free return within {{ storeDetails.refund_policy.return_window }}
+          {{ storeDetails.refund_policy.return_window > 1 ? "days" : "day" }}
+          from {{ storeDetails.name }}</span
+        ><br />
+        <span style="font-weight: 600"
+          >What qualifies a product for returns ?</span
+        ><br />
+        <span>{{ storeDetails.refund_policy.return_precondition }}</span><br />
+        <span style="font-size: 14px; font-weight: 600"
+          >Can a customer replace a product in the event of a return ?</span
+        ><br />
+        <span>{{
+          storeDetails.refund_policy.product_replacable_on_return == "true"
+            ? "Yes, a customer can replace a product on return"
+            : "No, a customer cannot replace a product on return"
+        }}</span>
+      </p>
+      <p
+        v-show="storeDetails.refund_policy.return_allowed == 'false'"
+        style="font-size: 14px"
+      >
+        Returns are not allowed for this product
       </p>
     </div>
     <!-- select quantity container -->
@@ -38,15 +83,24 @@
         <span class="mx-4">{{ quantity }}</span>
         <span class="add-btn" @click="increaseNum">+</span>
       </div> -->
+      <h4 class="mb-3">
+        No. of items: <span>{{ pageDetails.orderDetails.total_items }}</span>
+      </h4>
       <p class="mb-0">
-        <span class="primary--text" style="font-size: 20px"
+        <span class="primary--text mr-4" style="font-size: 20px"
           >&#8358;{{ pageDetails.orderDetails.subtotal_label }}</span
-        ><br /><span class="secondary--text" style="font-size: 14px"
+        >
+        <br /><span class="secondary--text" style="font-size: 14px"
           >Delivery fee not included yet</span
         >
       </p>
     </div>
     <div class="btn-container">
+      <v-checkbox
+        v-model="acceptTerms"
+        label="By clicking continue, you are agreeing to our terms of service, shipping and return policies."
+        class="mt-7"
+      ></v-checkbox>
       <v-btn
         class="primary mt-7 mb-3"
         @click="gotoDeliveryPage"
@@ -69,6 +123,7 @@ export default {
     return {
       quantity: 0,
       acceptTerms: false,
+      readMoreActivated: false,
     };
   },
   computed: {
@@ -124,7 +179,7 @@ export default {
 }
 .add-btn {
   border-radius: 50%;
-  background: #758bfc;
+  background: #029b97;
   width: 25px;
   height: 25px;
   display: flex;
@@ -140,7 +195,7 @@ export default {
   height: 25px;
   display: flex;
   align-items: center;
-  color: #758bfc;
+  color: #029b97;
   justify-content: center;
   cursor: pointer;
 }

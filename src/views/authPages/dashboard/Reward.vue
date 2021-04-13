@@ -1,24 +1,38 @@
 <template>
   <v-container>
-    <div class="mx-5">
-      <div class="chOder my-9">
+    <div class="max-width">
+      <div class="chOder" style="margin: 0 0 20px 0">
         <router-link :to="{ path: '/dashboard' }">
           <v-icon class="float-left">mdi-chevron-left</v-icon>
         </router-link>
-        <h5 class="text-center mx-auto">Rewards</h5>
       </div>
+        <h5 class="chOder offset-5">Rewards</h5>
 
-      <v-row>
-        <v-col lg="" offset-lg="3" offset-md="3">
+      <v-row class="mt-8" v-if="isLoading">
+        <v-col class="offset-5">
+          <v-progress-circular
+            color="primary"
+            indeterminate
+          ></v-progress-circular>
+        </v-col>
+      </v-row>
+      <!-- loader ends here -->
+
+      <v-row v-if="!isLoading">
+        <v-col offset-lg="3" offset-md="3" offset-sm="3">
           <!-- card -->
-          <div class="">
+          <div class="center">
             <div class="overlay pa-8">
               <div class="card-title text-left">Reward Debit Balance</div>
-              <div class="card-point mt-7 text-left">2095 Points</div>
-              <div class="card-name mt-3 text-left">Ayotunde Lanwo</div>
+              <div class="card-point mt-7 text-left">
+                {{ rewards.data.total_points }} Points
+              </div>
+              <div class="card-name mt-3 text-left text-capitalized">
+                {{ userInfo.name }}
+              </div>
             </div>
             <div class="mb-8 pr-4 w-100">
-              <v-img src="@/assets/images/reward.png"></v-img>
+              <v-img src="@/assets/images/reward.svg"></v-img>
             </div>
           </div>
 
@@ -44,9 +58,9 @@
             <v-tab-item id="tab-1" value="tab-1">
               <v-row
                 class="leader-text my-2"
-                v-for="items in redeemed"
+                v-for="items in rewards.data.rewards"
                 :key="items.id"
-                :class="{ active: items.active }"
+                :class="{ active: items.is_redeemable }"
               >
                 <v-col cols="8" lg="6">
                   <div class="d-flex" style="cursor: pointer">
@@ -70,9 +84,9 @@
                   @click="openModal"
                   lg="3"
                   style="cursor: pointer"
-                  class="redeem mt-1"
-                  :class="{ 'primary--text': items.redeemed }"
-                  >{{ items.redeem }}</v-col
+                  class="redeem mt-1 offset-425"
+                  :class="{ 'primary--text': items.is_redeemable }"
+                  >Redeem</v-col
                 >
               </v-row>
             </v-tab-item>
@@ -118,7 +132,7 @@
             color="primary"
             >mdi-close</v-icon
           >
-          <div class="pt-9">
+          <div class="pt-9" v-if="filteredArray.is_redeemable">
             <div class="d-flex justify-center">
               <span>
                 <v-img
@@ -130,11 +144,62 @@
               </span>
             </div>
             <span class="d-flex justify-center mt-8 body-text">
-              Do you want to claim your reward?
+              Do you which to redeem your reward?
             </span>
             <div class="d-flex justify-center mt-3 pb-5">
-              <v-btn depressed class="mx-3" dark color="primary">Yes</v-btn>
-              <v-btn depressed dark color="#52F1EC"> No</v-btn>
+              <v-btn
+                depressed
+                class="mx-3"
+                dark
+                color="primary"
+                @click="redeemOffer(filteredArray.key)"
+                >Yes</v-btn
+              >
+              <v-btn depressed dark color="#52F1EC" @click.native="closeModal">
+                No</v-btn
+              >
+            </div>
+          </div>
+
+          <!-- if not redemable -->
+          <div
+            class="pt-9 px-8 text-center"
+            v-show="filteredArray.is_redeemable == false"
+          >
+            <span class="mt-8 body-text">
+              You need
+              <span class="primary--text">{{ filteredArray.points_left }}</span>
+              more points to claim this reward, sell more to earn more
+            </span>
+            <div class="d-flex justify-center mt-3 pb-5">
+              <v-btn
+                depressed
+                class="mx-3"
+                dark
+                color="primary"
+                :to="{ name: 'InventoryHome' }"
+                >Continue Selling</v-btn
+              >
+            </div>
+          </div>
+        </v-card>
+      </Modal>
+
+      <Modal :dialog="Showdialog" width="300">
+        <v-card class="rounded-lg">
+          <div v-show="successful == true" class="pt-9 px-8 text-center">
+            <span class="mt-8 body-text">
+              {{ alert }}
+            </span>
+            <div class="d-flex justify-center mt-3 pb-5">
+              <v-btn
+                depressed
+                class="mx-3"
+                dark
+                color="primary"
+                @click.native="closeNredirect"
+                >Ok</v-btn
+              >
             </div>
           </div>
         </v-card>
@@ -154,47 +219,28 @@ export default {
     return {
       tab: null,
       dialog: false,
+      Showdialog: false,
       filteredArray: {},
-      redeemed: [
-        {
-          id: "01",
-          point: "N100",
-          image: require("@/assets/images/airtime.svg"),
-          name: "Airtime",
-          redeem: "Redeem",
-          redeemed: true,
-        },
-        {
-          id: "02",
-          point: "N200",
-          image: require("@/assets/images/airtime.svg"),
-          name: "Airtime",
-          redeem: "Redeem",
-          redeemed: true,
-        },
-        {
-          id: "03",
-          point: "N500",
-          image: require("@/assets/images/airtime.svg"),
-          name: "Airtime",
-          redeem: "Redeem",
-          redeemed: false,
-        },
-      ],
-
-      rewardHistory: [
-        {
-          type: "N100 airtime",
-          date: "5 Jul 2020",
-          time: "8:58AM",
-          points: "1010",
-        },
-      ],
+      rewardHistory: {},
+      isLoading: true,
+      alert: "",
+      successful: false,
     };
   },
-
+  computed: {
+    ...mapGetters({
+      rewards: "reward/getRewards",
+      userInfo: "settings/profile",
+    }),
+  },
   created() {
-    this.$store.dispatch("reward/getReward");
+    this.$store.dispatch("reward/getReward").then(() => {
+      this.isLoading = false;
+    });
+    this.$store.dispatch("reward/getHistory").then((e) => {
+      this.rewardHistory = e;
+      this.isLoading = false;
+    });
   },
 
   methods: {
@@ -206,11 +252,28 @@ export default {
     },
 
     filterById(id) {
-      this.filteredArray = this.redeemed.filter(function (item) {
-        return id == item.id;
-      });
+      this.filteredArray = Object.values(this.rewards.data.rewards).find(
+        (item) => item.key == id
+      );
       this.openModal();
       console.log(this.filteredArray)
+    },
+    redeemOffer(params) {
+      this.$store.commit("reward/setRedeemAirtime", params);
+      this.$store
+        .dispatch("reward/redeemReward")
+        .then((res) => {
+          this.alert = res.message;
+          this.successful = true;
+          this.Showdialog = true;
+        })
+        .catch((err) => {
+          this.alert = err.message;
+        });
+    },
+
+    closeNredirect() {
+      location.href = "/dashboard";
     },
   },
 };
@@ -260,7 +323,7 @@ export default {
 
 .v-tab--active {
   color: #fff !important;
-  background-color: #5064cc;
+  background-color: #029b97;
   margin: 0px;
 }
 .v-application--is-ltr

@@ -1,7 +1,7 @@
 <template>
   <div>
     <!-- user profile -->
-    <v-row class="px-4">
+    <v-row class="px-2 px-md-7">
       <v-col class="col-12 col-md-5 pt-9 text-center">
         <div
           class="d-flex align-center justify-center"
@@ -69,11 +69,12 @@
         </div>
 
         <!-- phone number field -->
-        <div class="mb-5 settings-input">
+        <div class="mb-5 settings-input phone-field">
           <p class="mb-1">Phone Number</p>
+          <span class="primary--text phone-format">+234</span>
           <v-text-field
             class="input mt-0"
-            :rules="inputRules"
+            :rules="phoneRules"
             v-model="computedInfo.currentPhoneNum"
             type="tel"
             color="primary"
@@ -177,6 +178,7 @@ export default {
   components: { modal },
   data: function () {
     return {
+      phoneNum: "",
       statusImage: null,
       dialog: false,
       dialogMessage: "",
@@ -187,22 +189,35 @@ export default {
       nameLoader: false,
       addressLoader: false,
       inputRules: [(v) => !!v || "This field is required"],
+      phoneRules: [
+        //verifies phone number satisfies the requirement
+        (v) => !!v || "This field is required",
+        (v) => v.substring(0, 1) != 0 || "Phone number cannot begin with 0",
+        (v) => v.length > 9 || "Number should 10 digits or more",
+        (v) => v.length <= 11 || "Maximum 11 digits or more",
+      ],
       loader: false,
     };
   },
   computed: {
     ...mapGetters({
-      userInfo: "settings/profile"
+      userInfo: "settings/profile",
     }),
     computedInfo() {
       // gets the values of user information
       //let userInfo = this.$store.getters["settings/getUserProfile"];
       let fullName = this.userInfo.name;
+<<<<<<< HEAD
+      let phoneNum = this.userInfo.phone_number.substring(4);
+      let address = this.userInfo.address;
+      let email = this.userInfo.email;
+=======
       let phoneNum = this.userInfo.phone_number;
       let address = "22 Abubakar Way, Abuja";
+>>>>>>> ade9d3cccff46f2645dae3ce5549a0bbae573ac3
       let currentFullName = this.userInfo.name;
-      let currentPhoneNum = this.userInfo.phone_number;
-      let currentAddress = "22 Abubakar Way, Abuja";
+      let currentPhoneNum = this.userInfo.phone_number.substring(4);
+      let currentAddress = this.userInfo.address || "null";
 
       return {
         fullName: fullName,
@@ -211,6 +226,10 @@ export default {
         currentFullName: currentFullName,
         currentPhoneNum: currentPhoneNum,
         currentAddress: currentAddress,
+<<<<<<< HEAD
+        email: email,
+=======
+>>>>>>> ade9d3cccff46f2645dae3ce5549a0bbae573ac3
       };
     },
   },
@@ -253,13 +272,17 @@ export default {
       // check if the edited input field is the admin phone number
       if (
         input_field === "phonenum" &&
-        this.computedInfo.currentPhoneNum !== ""
+        this.computedInfo.currentPhoneNum !== "" &&
+        this.computedInfo.currentPhoneNum.substring(0, 1) != "0"
       ) {
         if (this.computedInfo.currentPhoneNum !== this.computedInfo.phoneNum) {
           this.phoneNumLoader = true;
           this.$store
             .dispatch("settings/editUserProfile", {
-              phone_number: this.computedInfo.currentPhoneNum,
+              phone_number:
+                this.computedInfo.currentPhoneNum.substring(0, 1) == "0"
+                  ? "+234" + this.computedInfo.currentPhoneNum.substring(1)
+                  : "+234" + this.computedInfo.currentPhoneNum,
             })
             .then(() => {
               this.dialogMessage = "Phone number changed successfully!";
@@ -318,10 +341,18 @@ export default {
     bottom: 25px;
     right: 0;
     cursor: pointer;
+<<<<<<< HEAD
+    color: #029b97;
+=======
     color: #5064cc;
+>>>>>>> ade9d3cccff46f2645dae3ce5549a0bbae573ac3
     background: white;
     padding: 5px 0px 0px 5px;
   }
+}
+.phone-format {
+  position: absolute;
+  margin-top: 16px;
 }
 .back-btn {
   position: absolute;
@@ -332,5 +363,17 @@ export default {
   .store-width {
     width: 100%;
   }
+}
+</style>
+<style lang="scss">
+.phone-field
+  > .v-text-field
+  > .v-input__control
+  > .v-input__slot
+  > .v-text-field__slot {
+  padding-left: 40px;
+}
+.phone-field > .v-input .v-label {
+  padding-left: 40px;
 }
 </style>

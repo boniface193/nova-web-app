@@ -1,7 +1,7 @@
 <template>
   <v-container>
     <div class="mx-5">
-      <div class="chOder">
+      <div class="chOder" style="margin-top: 0px">
         <router-link :to="{ path: '/orders' }">
           <v-icon class="float-left">mdi-chevron-left</v-icon>
         </router-link>
@@ -28,31 +28,56 @@
                     {{ orderDetails.product_name }}
                   </span>
                 </div>
+                <div
+                  class="order-item-font mt-1"
+                  v-for="(variant, index) in orderDetails.variants"
+                  :key="index"
+                >
+                  {{ variant.name }}:
+                  <span class="order-no-grey">{{ variant.value }}</span>
+                </div>
                 <div class="order-item-font mt-1">
                   Time:
                   <span class="order-no-grey"
+<<<<<<< HEAD:src/views/authPages/orders/orderDetails.vue
+                    >{{ date }}
+                    <span class="order-no-lighter-grey">{{ time }}</span></span
+=======
                     >{{ orderDetails.created_at.slice(0, -6) }}
                     <span class="order-no-lighter-grey">{{
                       orderDetails.created_at.slice(10)
                     }}</span></span
+>>>>>>> ade9d3cccff46f2645dae3ce5549a0bbae573ac3:src/views/orders/orderDetails.vue
                   >
                 </div>
                 <div class="order-item-font mt-1">
                   Customer:
+<<<<<<< HEAD:src/views/authPages/orders/orderDetails.vue
+                  <span class="order-no-grey">{{ customerName }}</span>
+=======
                   <span class="order-no-grey">{{
                     orderDetails.customer_name
                   }}</span>
+>>>>>>> ade9d3cccff46f2645dae3ce5549a0bbae573ac3:src/views/orders/orderDetails.vue
                 </div>
               </v-col>
             </v-row>
           </v-card>
         </v-col>
 
+<<<<<<< HEAD:src/views/authPages/orders/orderDetails.vue
+        <v-col sm="4" md="8" offset-md="2">
+          <v-card outlined class="rounded-lg px-5">
+            <div class="order-item-font my-2">Shipping and Billing Address</div>
+            <div class="order-no-grey mb-3">
+              {{ address }}<br />
+=======
         <v-col sm="4" md="12">
           <v-card outlined class="rounded-lg px-5">
             <div class="order-item-font my-2">Shipping and Billing Address</div>
             <div class="order-no-grey mb-3">
               32 Oran Street, Wuse zone 1, Abuja<br />
+>>>>>>> ade9d3cccff46f2645dae3ce5549a0bbae573ac3:src/views/orders/orderDetails.vue
               <span>900281</span><br />
               <span>Abuja</span><br />
               <span>Nigeria</span><br />
@@ -94,14 +119,27 @@
             <div class="order-no-grey my-2">
               Shipping
               <div class="d-flex justify-space-between">
+<<<<<<< HEAD:src/views/authPages/orders/orderDetails.vue
+                <span class="order-no-lighter-grey">
+                  {{ orderDetails.delivery_method }}
+                </span>
+                <div class="">NGN{{ orderDetails.delivery_fee_label }}</div>
+=======
                 <span class="order-no-lighter-grey"> Standard Shipping </span>
                 <div class="">NGN3,000.00</div>
+>>>>>>> ade9d3cccff46f2645dae3ce5549a0bbae573ac3:src/views/orders/orderDetails.vue
               </div>
             </div>
 
             <div class="d-flex justify-space-between my-3">
               <span class="order-no-blue"> Total Paid</span>
+<<<<<<< HEAD:src/views/authPages/orders/orderDetails.vue
+              <div class="order-no-grey">
+                NGN{{ orderDetails.total_price_label }}
+              </div>
+=======
               <div class="order-no-grey">NGN3,000.00</div>
+>>>>>>> ade9d3cccff46f2645dae3ce5549a0bbae573ac3:src/views/orders/orderDetails.vue
             </div>
           </v-card>
         </v-col>
@@ -157,10 +195,21 @@ export default {
     this.$store
       .dispatch("orders/getOrdersDetail", { id: this.$route.params.id })
       .then((response) => {
+<<<<<<< HEAD:src/views/authPages/orders/orderDetails.vue
+        let data = response.data.data;
+        this.orderDetails = data;
+        this.date = data.created_at.slice(0, -6);
+        this.time = data.created_at.slice(10);
+        this.customerName = data.customer.name;
+        this.address = data.delivery_location.address;
+        this.phone = data.customer.phone;
+        this.email = data.customer.email;
+=======
         this.orderDetails = response.data.data;
       })
       .catch((e) => {
         console.log(e);
+>>>>>>> ade9d3cccff46f2645dae3ce5549a0bbae573ac3:src/views/orders/orderDetails.vue
       });
   },
 };

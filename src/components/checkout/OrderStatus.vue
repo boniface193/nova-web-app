@@ -7,15 +7,14 @@
           <step-progress
             :steps="['Processing', 'Shipped', 'Delivered']"
             :current-step="
-              orderDetails.isProcessing ||
-              orderDetails.isShipped ||
-              orderDetails.isDelivered
+              orderDetails.delivery_status_label == 'Processing' ||
+              orderDetails.delivery_status_label == 'Shipped'
                 ? 1
-                : 0
+                : 3
             "
             icon-class="fa fa-check"
             :line-thickness="lineThickness"
-            active-color="#5064CC"
+            active-color="#FFA500"
             :active-thickness="activeThickness"
             :passive-thickness="passiveThickness"
             passive-color="#5E5E5E1A"
@@ -89,6 +88,25 @@
             </a>
             <h5>{{ orderDetails.seller_name }}</h5>
           </div>
+          <div class="text-left" v-show="!orderDetails.delivery_confirmed">
+            <v-checkbox
+              v-model="acceptTerms"
+              label="By clicking continue, you are agreeing to our terms of service and shipping policies."
+              class="mt-5"
+            ></v-checkbox>
+            <v-btn
+              class="primary mt-1 mx-auto mb-3 px-16 py-5"
+              :disabled="!acceptTerms || loading2"
+              :loading="loading2"
+              @click="confirmOrder()"
+              >Confirm Order</v-btn
+            >
+          </div>
+          <div class="text-center mt-5">
+            <p class="primary--text" v-show="orderDetails.delivery_confirmed">
+              <span style="color:#FFA500;">Order Status:</span> <span class="ml-2 py-2 px-3 primary white--text" style="border-radius:5px"> Confirmed</span>
+            </p>
+          </div>
         </div>
       </div>
       <!-- page loader -->
@@ -100,6 +118,82 @@
         ></v-progress-circular>
       </div>
     </div>
+
+    <!-- modal for dialog messages -->
+    <modal :dialog="dialog2" width="400">
+      <div class="white pa-3 px-5 dialog">
+        <div class="d-flex justify-end">
+          <v-icon class="error--text close-btn" @click="dialog2 = false"
+            >mdi-close</v-icon
+          >
+        </div>
+        <!-- otp resend alert -->
+        <v-alert type="success" v-show="resendOtpSuccess"
+          >OPT has been sent successfully!</v-alert
+        >
+        <div class="text-center mb-5 mt-5">
+          <h3>Pls verify your are the buyer</h3>
+        </div>
+        <p class="mt-5 mb-5">
+          An OTP has been sent to your email and mobile number for verification
+        </p>
+        <v-form>
+          <div class="mt-0 mb-2">
+            <v-otp-input
+              ref="otpInput1"
+              separator=""
+              :num-inputs="5"
+              :should-auto-focus="true"
+              input-type="number"
+              @on-complete="handleOnComplete"
+              @on-change="handleOnChange"
+            />
+          </div>
+
+          <!-- error message -->
+          <p
+            class="error--text"
+            style="font-size: 14px"
+            v-show="otpError == true"
+          >
+            {{ otpErrorMessage }}
+          </p>
+
+          <!-- button container -->
+          <div class="pa-0 mt-5" style="width: 100%">
+            <p>
+              Didn't receive the code?
+              <a style="text-decoration: none">
+                <span
+                  v-show="!resendOTPLoader && !showOTPTimer"
+                  @click="resendOTP"
+                  >Resend Code</span
+                >
+                <v-progress-circular
+                  indeterminate
+                  color="primary"
+                  size="20"
+                  class="ml-5"
+                  v-show="resendOTPLoader"
+                ></v-progress-circular>
+                <span class="primary--text" v-show="showOTPTimer"
+                  >You can resend OTP in
+                  <span class="error--text">{{ timer }}.00</span></span
+                >
+              </a>
+            </p>
+            <v-btn
+              class="primary px-16 py-5 mb-5 mx-auto"
+              :disabled="otpLoader"
+              :loading="otpLoader"
+              @click="submitOTP()"
+              >Verify</v-btn
+            >
+          </div>
+        </v-form>
+      </div>
+    </modal>
+
     <!-- modal for dialog messages -->
     <modal :dialog="dialog" width="400">
       <div class="white pa-3 pb-10 text-center dialog">
@@ -122,15 +216,29 @@
 import failedImage from "@/assets/images/failed-img.svg";
 import StepProgress from "vue-step-progress";
 import modal from "@/components/modal.vue";
+import OtpInput from "@/components/onboarding/verifyInput";
+import successImage from "@/assets/images/success-img.svg";
 // import the css (OPTIONAL - you can provide your own design)
 import "vue-step-progress/dist/main.css";
 export default {
   name: "OrderStatus",
-  components: { modal, StepProgress },
+  components: { modal, StepProgress, "v-otp-input": OtpInput },
   data: function () {
     return {
+      loading2: false,
+      resendOtpSuccess: false,
+      resendOTPLoader: false,
+      showOTPTimer: true,
+      timer: 60,
+      acceptTerms: false,
+      otpLoader: false,
+      verifyOTP: false,
+      otp: "",
+      otpErrorMessage: "",
+      otpError: false,
       dialog: false,
       statusImage: null,
+      dialog2: false,
       dialogMessage: "",
       orderDetails: {
         delivery_location: {},
@@ -167,6 +275,116 @@ export default {
         }
       });
   },
+  methods: {
+    // check if code changes
+    handleOnChange(value) {
+      this.otp = value;
+      if (this.otp.length != 5) {
+        this.verifyOTP = false;
+      }
+    },
+    // checks if code is complete
+    handleOnComplete(value) {
+      this.verifyOTP = true;
+      this.otp = value;
+      this.otpError = false;
+    },
+    setOTPTimer() {
+      this.showOTPTimer = true;
+      let counter = setInterval(() => {
+        if (this.timer === 1) {
+          clearInterval(counter);
+          this.showOTPTimer = false;
+          this.timer = 60;
+        } else {
+          this.timer -= 1;
+        }
+      }, 1000);
+    },
+    confirmOrder() {
+      this.loading2 = true;
+      this.$store
+        .dispatch("orders/sendConfirmOrderOTP", {
+          orderId: this.orderDetails.id,
+        })
+        .then(() => {
+          this.loading2 = false;
+          this.otp.length > 0 ? this.$refs.otpInput1.clearInput() : "";
+          this.dialog2 = true;
+          this.setOTPTimer();
+        })
+        .catch((error) => {
+          this.dialog = true;
+          this.loading2 = false;
+          this.statusImage = failedImage;
+          if (error.response) {
+            if(error.response.status === 400){
+              this.dialogMessage = error.response.data.message
+            }else{
+              this.dialogMessage = "Something went wrong, pls try again";
+            }
+          } else {
+            this.dialogMessage = "No internet Connection!";
+          }
+        });
+    },
+    // resend OTP
+    resendOTP() {
+      this.resendOTPLoader = true;
+      this.$store
+        .dispatch("orders/sendConfirmOrderOTP", {
+          orderId: this.orderDetails.id,
+        })
+        .then(() => {
+          this.resendOtpSuccess = true;
+          this.resendOTPLoader = false;
+          setTimeout(() => {
+            this.resendOtpSuccess = false;
+          }, 3000);
+          this.setOTPTimer();
+        })
+        .catch((error) => {
+          this.errorMessage = true;
+          this.resendOTPLoader = false;
+          if (error.response) {
+            this.otpErrorMessage = error.response.errors.email[0];
+          } else {
+            this.otpErrorMessage = "No internet Connection!";
+          }
+        });
+    },
+    submitOTP() {
+      if (this.verifyOTP) {
+        this.otpLoader = true;
+        this.$store
+          .dispatch("orders/submitConfirmOrderOTP", {
+            otp: this.otp,
+            orderId: this.orderDetails.id,
+          })
+          .then((response) => {
+            this.otpLoader = false;
+            this.statusImage = successImage;
+            this.dialogMessage = "Order successfully confirm";
+            this.orderDetails = response.data.data;
+            this.dialog2 = false;
+            this.dialog = true;
+          })
+          .catch((error) => {
+            this.otpLoader = false;
+            this.otpError = true;
+            if (error.response) {
+              this.otpErrorMessage = error.response.data.otp;
+            } else {
+              this.otpErrorMessage = "No internet connection";
+            }
+          });
+      } else {
+        this.otpError = true;
+        this.otpErrorMessage =
+          "Please Enter the 5 digits code sent to your email adddress";
+      }
+    },
+  },
 };
 </script>
 <style lang="scss" scoped>
@@ -181,7 +399,7 @@ export default {
   .order-details {
     background: #fff;
     border-radius: 12px;
-    width: 500px;
+    width: 600px;
     margin: auto;
   }
   .image-container {
@@ -242,7 +460,7 @@ div.step-progress__step span {
 
 .position-abs {
   position: absolute !important;
-  color: #5064cc;
+  color: #029b97;
   font-size: 20px !important;
   opacity: 0.5;
 }

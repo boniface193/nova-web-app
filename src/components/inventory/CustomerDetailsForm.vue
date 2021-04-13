@@ -1,5 +1,5 @@
 <template>
-  <div class="px-4 pt-5 customer-details">
+  <div class="px-2 px-md-7 customer-details">
     <div
       class="d-flex align-center justify-center mb-8"
       style="position: relative"
@@ -38,8 +38,9 @@
         </v-text-field>
       </div>
       <!-- phone number field -->
-      <div class="mb-5 input-field">
+      <div class="mb-5 input-field phone-field">
         <p class="mb-1">Phone Number*</p>
+        <span class="primary--text phone-format">+234</span>
         <v-text-field
           color="primary"
           placeholder="Customer's mobile phone number"
@@ -68,7 +69,10 @@
       </div>
       <!-- Address field -->
       <div class="mb-5 input-field">
-        <p class="mb-1">Address*</p>
+        <p class="mb-1">
+          Address*
+          <span class="primary--text">(Delivery within lagos only)</span>
+        </p>
         <v-text-field
           color="primary"
           placeholder="Street address"
@@ -83,15 +87,16 @@
         </v-text-field>
       </div>
 
-      <div>
-        <v-btn
-          class="primary"
-          :loading="loading"
-          :disabled="loading"
-          @click="submitCustomerDetails"
-          >Submit</v-btn
-        >
-      </div>
+      <!-- <div> -->
+      <v-btn
+        depressed
+        class="primary"
+        :loading="loading"
+        :disabled="loading"
+        @click="submitCustomerDetails"
+        >Submit</v-btn
+      >
+      <!-- </div> -->
     </v-form>
     <!-- modal for dialog messages -->
     <modal :dialog="dialog" width="400">
@@ -130,6 +135,7 @@ export default {
       lng: "",
       validAddress: false,
       autocomplete: "",
+      variants: [],
       nameRules: [
         (v) => !!v || "Name is required", // verifies name satisfies the requirement
       ],
@@ -139,8 +145,11 @@ export default {
         (v) => /.+@.+\..+/.test(v) || "E-mail must be valid",
       ],
       phoneNumberRules: [
-        //verifies phone number satisfies the requirement
-        (v) => !!v || "Phone Number is required",
+       //verifies phone number satisfies the requirement
+        (v) => !!v || "This field is required",
+        (v) => v.substring(0,1) != 0 || "Phone number cannot begin with 0",
+        (v) => v.length > 9 || "Number should 10 digits or more",
+        (v) => v.length <= 11 || "Maximum 11 digits or more",
       ],
       addressRules: [
         //verifies phone number satisfies the requirement
@@ -157,9 +166,8 @@ export default {
         bounds: new window.google.maps.LatLngBounds(
           new window.google.maps.LatLng(6.5244, 3.3792)
         ),
-        types: ['establishment'],
-        componentRestrictions: {'country': ['NG']},
-        fields: ['place_id', 'geometry', 'name']
+        componentRestrictions: { country: ["NG"] },
+        fields: ["geometry", "name", "formatted_address"],
       }
     );
 
@@ -173,13 +181,31 @@ export default {
     }
   },
   methods: {
-    onPlaceChanged(){
+    convertQueryToObject(querystring) {
+      // parse query string
+      const params = new URLSearchParams(querystring);
+
+      const obj = {};
+
+      // iterate over all keys
+      for (const key of params.keys()) {
+        if (params.getAll(key).length > 1) {
+          obj[key] = params.getAll(key);
+        } else {
+          obj[key] = params.get(key);
+        }
+      }
+
+      return obj;
+    },
+    onPlaceChanged() {
       let place = this.autocomplete.getPlace();
       if(!place.geometry){
         // User did not select a prediction; reset the input field
         this.validAddress = false;
       }else {
         //Display details about the valid place
+        this.address = place.name + " " + place.formatted_address;
         this.validAddress = true;
         this.getAddress.address = place.name;
         this.lat = place.geometry.location.lat();
@@ -192,26 +218,38 @@ export default {
         this.loading = true;
         let getUrl = window.location;
         let baseUrl = getUrl.protocol + "//" + getUrl.host + "/";
-        const routeParameter = new URLSearchParams(
+
+        let urlQuery = this.convertQueryToObject(
           decodeURIComponent(window.location.search)
         );
-
+        Object.keys(urlQuery).forEach((key) => {
+          let variantItem = {};
+          if (key !== "quantity" && key !== "profit") {
+            variantItem.name = key;
+            variantItem.value = urlQuery[`${key}`];
+            this.variants.push(variantItem);
+          }
+        });
         this.$store
           .dispatch("orders/createOrder", {
             product_id: this.$route.params.id,
             customer: {
               name: this.name,
               email: this.email,
-              phone: this.phoneNumber,
+              phone:
+                this.phoneNumber.substring(0, 1) == "0"
+                  ? "+234" + this.phoneNumber.substring(1)
+                  : "+234" + this.phoneNumber,
               location: {
                 address: this.getAddress.address,
                 lat: this.lat,
                 lng: this.lng,
               },
             },
-            total_items: parseInt(routeParameter.get("quantity"), 10),
+            variants: this.variants,
+            total_items: parseInt(urlQuery.quantity, 10),
             payment_link: `${baseUrl}checkout-details`,
-            seller_profit: parseInt(routeParameter.get("profit"), 10),
+            seller_profit: parseInt(urlQuery.profit, 10),
           })
           .then((response) => {
             this.loading = false;
@@ -253,15 +291,20 @@ export default {
   top: 0;
 }
 .v-btn:not(.v-btn--round).v-size--default {
-  height: 45px;
-  min-width: 150px;
-  padding: 0 16px;
+  height: 48px;
+  border-radius: 8px;
+  font-family: "Product Sans Regular";
+  font-size: 16px;
 }
 .status-img {
   width: 140px;
   .v-image {
     width: 100%;
   }
+}
+.phone-format {
+  position: absolute;
+  margin-top: 16px;
 }
 @media (max-width: 950px) {
   .customer-details {
@@ -273,7 +316,19 @@ export default {
     width: 100%;
   }
   .v-btn:not(.v-btn--round).v-size--default {
-    min-width: 100%;
+    width: 100%;
   }
+}
+</style>
+<style lang="scss">
+.phone-field
+  > .v-text-field
+  > .v-input__control
+  > .v-input__slot
+  > .v-text-field__slot {
+  padding-left: 40px;
+}
+.phone-field > .v-input .v-label {
+  padding-left: 40px;
 }
 </style>

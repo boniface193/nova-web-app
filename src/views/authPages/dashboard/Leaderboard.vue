@@ -2,7 +2,7 @@
   <div>
     <v-container>
       <div class="mx-5">
-        <div class="chOder my-9">
+        <div class="chOder" style="margin: 0">
           <router-link :to="{ path: '/dashboard' }">
             <v-icon class="float-left">mdi-chevron-left</v-icon>
           </router-link>
@@ -21,27 +21,46 @@
           </div>
         </div>
 
-        <div class="lenghtOfUser text-center mt-8">
-          You’re {{ leaderboard.length }}th on the Leaderboard!
+        <div
+          class="lenghtOfUser text-center mt-8"
+          v-for="items in leaderboard"
+          :key="items.seller_id"
+        >
+          <div v-if="userInfo.id == items.seller_id">
+            You’re {{ items.rank
+            }}<span v-if="items.rank == 1">st</span
+            ><span v-else-if="items.rank == 2">nd</span>
+            <span v-else-if="items.rank == 3">rd</span>
+            <span v-else>th</span> on the Leaderboard!
+          </div>
+        </div>
+        <!-- no data -->
+         
+        <div class="text-center pt-10 pb-5">
+          <p class="mb-0 secondary--text" style="font-size: 20px">
+            {{msg}}
+          </p>
         </div>
 
         <!-- <div class="leaderTitle text-center my-3">Leaderboard</div> -->
         <!-- <v-layout justify-center> -->
         <v-row class="d-flex justify-center">
-          <v-col lg="10">
-            <v-row class="leader-label mt-5">
-              <v-col cols="2" lg="3">Rank</v-col>
-              <v-col cols="8" lg="6">Name</v-col>
-              <v-col cols="2" lg="3">Points</v-col>
+          <v-col lg="6">
+            <v-row class="mt-5" v-show="leaderboard.length >= 1">
+              <v-col cols="2" lg="3"><h5>Rank</h5></v-col>
+              <v-col cols="8" lg="6"><h5>Name</h5></v-col>
+              <v-col cols="2" lg="3"><h5>Points</h5></v-col>
             </v-row>
 
             <v-row
               class="leader-text my-2"
               v-for="items in leaderboard"
-              :key="items.id"
-              :class="{ active: items.active }"
+              :key="items.seller_id"
+              :class="{ active: userInfo.id === items.seller_id }"
             >
-              <v-col cols="2" lg="3">{{ items.rank }}</v-col>
+              <v-col cols="2" lg="3"
+                >{{ items.rank }}
+              </v-col>
               <v-col cols="8" lg="6">
                 <div class="d-flex" style="cursor: pointer" @click="openModal">
                   <span class="mr-3"
@@ -64,14 +83,15 @@
       </div>
     </v-container>
     <!-- pagination -->
-    <div class="text-center elevation-8 pa-3">
-      <v-pagination
-        v-model="page"
-        :length="5"
+    <div class="text-center elevation-8 pa-3" v-if="leaderboard.length >= 10">
+      <!-- <v-pagination
+        v-model="getCurrentPage.currentPage"
+        @input="setCurentPage"
         circle
         small
         style="font-size: 8px"
-      ></v-pagination>
+      ></v-pagination> -->
+      <!--  v-if="leaderboard.data.length >= 10" -->
     </div>
     <!-- modal -->
     <div class="mx-3">
@@ -99,6 +119,53 @@
                   class="rounded-pill"
                 ></v-img>
               </span>
+              <div class="pt-3">
+                <v-divider light></v-divider>
+              </div>
+              <v-list-item>
+                <v-list-item-content class="pt-1" align="center">
+                  <v-list-item-title
+                    ><span class="primary--text larger-text"
+                      >{{ filteredArray.rank
+                      }}<span
+                        v-if="filteredArray.rank == 1"
+                        >st</span
+                      ><span
+                        v-else-if="
+                          filteredArray.rank == 2
+                        "
+                        >nd</span
+                      ><span
+                        v-else-if="
+                          filteredArray.rank == 3
+                        "
+                        >rd</span
+                      ><span v-else>th</span>
+                    </span>
+                    <br />
+                    <span class="title-text">In-store</span>
+                  </v-list-item-title>
+                </v-list-item-content>
+                <v-divider vertical> </v-divider>
+                <v-list-item-content class="pt-1" align="center">
+                  <v-list-item-title
+                    ><span class="primary--text larger-text">
+                      {{ filteredArray.total_points }}
+                    </span>
+                    <br />
+                    <span class="title-text">Total Points</span>
+                  </v-list-item-title>
+                </v-list-item-content>
+              </v-list-item>
+              <div>
+                <v-divider light></v-divider>
+              </div>
+              <div class="d-flex justify-center mt-3 pb-5">
+                <span class="primary--text larger-text"
+                  >N{{ filteredArray.total_order_value }}
+                </span>
+                <span class="title-text mx-2">in sales</span>
+              </div>
             </div>
             <span class="d-flex justify-center mt-2 body-text">
               Emike lucy
@@ -152,89 +219,49 @@ export default {
     return {
       dialog: false,
       Search: false,
-      page: 1,
-      leaderboard: [
-        {
-          id: "01",
-          rank: "1",
-          image: require("@/assets/images/emike.png"),
-          name: "Emike Lucy",
-          points: "1010",
-        },
-        {
-          id: "02",
-          rank: "2",
-          image: require("@/assets/images/emike.png"),
-          name: "Ayodeji Lanwo",
-          points: "1010",
-        },
-        {
-          id: "03",
-          rank: "3",
-          image: require("@/assets/images/emike.png"),
-          name: "Emike Lucy 1",
-          points: "1010",
-        },
-        {
-          id: "04",
-          rank: "4",
-          image: require("@/assets/images/emike.png"),
-          name: "Emike Lucy 2",
-          points: "1010",
-          active: true,
-        },
-        {
-          id: "05",
-          rank: "5",
-          image: require("@/assets/images/emike.png"),
-          name: "Emike Lucy 3",
-          points: "13",
-        },
-        {
-          id: "06",
-          rank: "6",
-          image: require("@/assets/images/emike.png"),
-          name: "Emike Lucy",
-          points: "101",
-        },
-        {
-          id: "07",
-          rank: "7",
-          image: require("@/assets/images/laptop.png"),
-          name: "Emike Lucy",
-          points: "102",
-        },
-        {
-          id: "08",
-          rank: "8",
-          image: require("@/assets/images/laptop.png"),
-          name: "Emike Lucy",
-          points: "101",
-        },
-        {
-          id: "09",
-          rank: "9",
-          image: require("@/assets/images/laptop.png"),
-          name: "Emike Lucy",
-          points: "1010",
-        },
-        {
-          id: "10",
-          rank: "10",
-          image: require("@/assets/images/laptop.png"),
-          name: "Emike Lucy 10",
-          points: "1010",
-        },
-      ],
+      isLoading: true,
+      msg: "",
+      // userProfile: {},
+      filteredArray: {},
+      leaderboard: [],
+      userInfo: [],
     };
   },
 
-  // computed: {
-  //   ...mapGetters({leaderboard: 'leaderboard/leaderboard'})
-  // },
+  computed: {
+    ...mapGetters({
+      getLeaderboard: "leaderboard/leaderboard",
+      userInformation: "settings/profile",
+    }),
+    ...mapState({
+      // page: (state) => state.leaderboard.page,
+      // pageDetails: (state) => state.leaderboard.pageDetails,
+      // getCurrentPage() {
+      //   return {
+      //     currentPage: this.pageDetails.current_page,
+      //   };
+      // },
+    }),
+  },
 
   created() {
-    this.$store.dispatch("leaderboard/getLeaderboard");
+    
+    if (this.userInfo.id === undefined) {
+      this.$store.dispatch("settings/getUserProfile").then((res) => {
+      let userData = res.data.data;
+      this.userInfo = userData;
+    });
+    }else{
+      this.userInfo = this.userInformation
+    }
+
+    this.$store.dispatch("leaderboard/getLeaderboard").then((res) => {
+      this.leaderboard = res;
+      this.isLoading = false
+      if(res.length < 1) {
+        this.msg = "."
+      }
+    });
   },
 
   methods: {
@@ -250,7 +277,40 @@ export default {
     openModal() {
       this.dialog = true;
     },
-    
+
+    filterById(id) {
+      this.filteredArray = this.leaderboard.find(
+        (item) => item.seller_id === id
+      );
+      this.openModal();
+    },
+
+    // search the datatable items
+    getSearchValue(params) {
+      this.$store.commit("leaderboard/setSearchValue", params);
+      this.$store.commit("leaderboard/setSearchLeaderBoard", true);
+      this.$store.dispatch("leaderboard/searchLeaderBoard").then(() => {
+        // this.leaderboard = this.getLeaderboard
+        // this.isLoading = true;
+      });
+      // this.getOrders();
+    },
+
+    // returns searched values to the table
+    // getOrders() {
+    //   this.$store.dispatch("leaderboard/searchLeaderBoard").then(() => {
+    //     this.isLoading = false;
+    //   });
+    // },
+
+    // set current page
+    // setCurentPage() {
+    //   this.$store.commit(
+    //     "leaderboard/setPage",
+    //     this.getCurrentPage.currentPage
+    //   );
+    //   this.getOrders === true ? this.getSearchValue() : "";
+    // },
   },
 };
 </script>
@@ -280,14 +340,9 @@ export default {
   color: #2b2b2b;
   font-size: 14px;
 }
-.leader-label {
-  font-family: "Product Sans Bold";
-  color: #2b2b2b;
-  font-size: 14px;
-}
 .active {
-  border-left: 4px solid #5064cc;
-  color: #5064cc;
+  border-left: 4px solid #029b97;
+  color: #029b97;
   font-family: "Product Sans Medium";
   font-size: 14px;
   background-color: #5065cc1c;

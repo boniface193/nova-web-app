@@ -1,5 +1,5 @@
 <template>
-  <div class="px-4 pt-5">
+  <div class="px-2 px-md-7">
     <div v-show="!loader">
       <div
         class="d-flex align-center justify-center mb-8"
@@ -29,13 +29,13 @@
           {{ productDetails.description }}
         </p>
 
-        <h5 class="mb-4">Key Features</h5>
+        <!-- <h5 class="mb-4">Key Features</h5>
         <p class="mb-5 secondary--text" style="font-size: 14px">
           128GB or 256GB PCle-based flash storage 13 inch 1440 x 900-pixel
           display 8GB of 1600 MHz LPDDR3 RAM Intel HD Graphics 6000 1.8GHz
           dual-core Intel Core i5 processor with 3MB Operating System: Mac OS X
           Product Warranty: 1 year
-        </p>
+        </p> -->
       </div>
     </div>
      <div class="d-flex py-5 text-center" v-if="loader">

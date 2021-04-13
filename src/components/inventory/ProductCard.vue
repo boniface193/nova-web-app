@@ -13,11 +13,16 @@
         </div>
       </div>
       <div class="card-bottom">
-        <h5 class="mb-1" style="color: black">{{ product.name }}</h5>
-        <p class="secondary--text mb-2" style="font-size: 11px">
+        <h4 class="mb-0 mb-sm-1 product-name" style="color: black">
+          {{ product.name }}
+        </h4>
+        <p class="secondary--text mb-0 mb-sm-1 total_price">
           &#8358;{{ product.total_price_label }}
         </p>
-        <p class="mb-0 minMaxProfit" style="color: #5064cc">
+        <p
+          class="mb-0 mb-sm-1 minMaxProfit"
+          style="color: #029b97; font-size: 12px"
+        >
           &#8358;{{ product.min_profit_short }} - &#8358;{{
             product.max_profit_short
           }}
@@ -26,7 +31,8 @@
           Recommended profit
         </p>
 
-        <div class="add-btn">+</div>
+        <v-btn class="primary sell-now" depressed>Sell</v-btn>
+        <span class="primary sell-now-secondary">Sell</span>
       </div>
       <p class="points">{{ product.points }}pts</p>
     </router-link>
@@ -53,7 +59,7 @@ export default {
     height: 143px;
     background: #f3f5ff;
     border-radius: 12px;
-    z-index: 2;
+    z-index: 1;
     position: absolute;
     margin: auto;
     left: 0;
@@ -81,7 +87,6 @@ export default {
     border-radius: 12px;
     margin: -50px auto 0px auto;
     position: absolute;
-    z-index: 1;
     box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
     .add-btn {
       width: 35px;
@@ -101,6 +106,14 @@ export default {
         background: #758bfc;
       }
     }
+    .sell-now-secondary {
+      display: none;
+    }
+    .product-name {
+      height: 22px;
+      overflow-y: hidden;
+      word-break: break-all;
+    }
   }
   .points {
     background: #ffba00;
@@ -116,14 +129,9 @@ export default {
 }
 @media (max-width: 1150px) {
   .card-container {
-    min-width: 22.5%;
-    margin: auto 1%;
-  }
-}
-@media (max-width: 750px) {
-  .card-container {
-    min-width: 30%;
-    margin: auto 1.5%;
+    min-width: 48.4%;
+    margin: auto 0.8%;
+    min-height: 240px;
     &:hover {
       transform: scale(1);
     }
@@ -134,14 +142,28 @@ export default {
     min-width: 45%;
     margin: auto 2.5%;
     .card-bottom {
-      .add-btn {
-        right: 5px;
-        bottom: 30px;
+      padding-top: 95px;
+      height: 180px;
+      .product-name {
+        font-size: 12px;
+      }
+      .sell-now-secondary {
+        display: block;
+        position: absolute;
         width: 30px;
         height: 30px;
+        border-radius: 50%;
+        color: white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 12px;
+        position: absolute;
+        bottom: 25px;
+        right: 15px;
       }
-      .minMaxProfit {
-        font-size: 14px;
+      .sell-now {
+        display: none !important;
       }
     }
   }

@@ -1,16 +1,34 @@
 <template>
+<<<<<<< HEAD
+  <div class="px-2 px-md-7 pt-16 pt-md-0 pb-16">
+=======
   <div class="px-4 px-md-10">
+>>>>>>> ade9d3cccff46f2645dae3ce5549a0bbae573ac3
     <div class="d-flex align-center" style="justify-content: flex-end">
       <div class="search-container">
         <SearchProduct />
       </div>
 
-      <FilterProducts />
+<<<<<<< HEAD
+      <FilterProducts class="ml-1" />
     </div>
-    <CategoryList class="mt-6" />
+    <div class="mt-6 mx-auto category-container">
+      <CategoryList class="mx-auto"/>
+=======
+      <FilterProducts />
+>>>>>>> ade9d3cccff46f2645dae3ce5549a0bbae573ac3
+    </div>
 
+<<<<<<< HEAD
+    <div
+      class="pt-12 pb-5 products-container"
+      v-show="products.length !== 0 && !inventoryLoader"
+    >
+      <div class="d-flex flex-wrap">
+=======
     <div class="pt-12 pb-5" v-show="products.length !== 0 && !inventoryLoader">
       <div class="products-container">
+>>>>>>> ade9d3cccff46f2645dae3ce5549a0bbae573ac3
         <ProductCard
           class="mb-7"
           v-for="product in products"
@@ -110,6 +128,29 @@ export default {
     }),
   },
   methods: {
+<<<<<<< HEAD
+    getProducts() {
+      // set category
+      this.$store.commit("inventory/setCategory", "");
+      this.$store
+        .dispatch("inventory/getProducts")
+        .then(() => {
+          this.$store.commit("inventory/setInventoryLoader", false);
+          this.dialog = false;
+        })
+        .catch((error) => {
+          this.$store.commit("inventory/setInventoryLoader", false);
+          this.dialog = true;
+          this.statusImage = failedImage;
+          if (error.response) {
+            this.dialogMessage = "Sorry, this data does not Exist";
+          } else {
+            this.dialogMessage = "No internet Connection!";
+          }
+        });
+    },
+=======
+>>>>>>> ade9d3cccff46f2645dae3ce5549a0bbae573ac3
     // set current page
     setCurentPage() {
       this.$store.commit("inventory/setPage", this.getCurrentPage.currentPage);
@@ -152,9 +193,45 @@ export default {
 .search-container {
   width: 400px;
 }
+<<<<<<< HEAD
+.category-container{
+  max-width: 100%;
+  //overflow-x: auto;
+  position: relative;
+}
+.status-img {
+  width: 140px;
+  .v-image {
+    width: 100%;
+  }
+}
+@media (max-width: 1300px) {
+  .products-container {
+    width: 840px;
+  }
+}
+@media (max-width: 860px) {
+  .products-container {
+    width: 630px;
+  }
+}
+@media (max-width: 650px) {
+  .products-container {
+    width: 400px;
+  }
+}
+@media (max-width: 410px) {
+  .products-container {
+    width: 100%;
+  }
+}
+=======
+>>>>>>> ade9d3cccff46f2645dae3ce5549a0bbae573ac3
 @media (max-width: 500px) {
   .search-container {
+    max-width: -webkit-fill-available;
     width: -webkit-fill-available;
+    min-width: 300px;
   }
 }
 </style>

@@ -8,7 +8,7 @@
     <div class="basic-filter-content" v-show="filterActive">
       <div class="header white--text px-4">
         <p class="pa-0 ma-0">
-          <v-icon class="mr-3 white--text">mdi-sort</v-icon>{{ headerName }}
+          <v-icon class="mr-3 white--text">mdi-tune</v-icon>{{ headerName }}
         </p>
         <v-icon class="white--text close-filter" @click="filterActive = false"
           >mdi-close</v-icon

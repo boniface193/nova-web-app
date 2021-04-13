@@ -37,7 +37,7 @@ body {
   margin: auto;
 }
 #app {
-  // max-width: 1800px;
+  max-width: 1800px;
   margin: auto;
   .v-btn {
     text-transform: capitalize;
@@ -45,7 +45,7 @@ body {
     align-items: center;
     justify-content: center;
     .v-btn__loader {
-      color: #5064cc;
+      color: #029b97;
     }
   }
 }

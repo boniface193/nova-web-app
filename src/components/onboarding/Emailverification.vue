@@ -8,8 +8,12 @@
 
       <div class="description">
         <!-- app logo -->
-        <router-link to="/" class="d-flex dark--text app-logo">
-          N<v-img src="@/assets/images/fire.svg" max-width="35"></v-img>VA
+        <router-link to="/" class="d-flex dark--text">
+          <div
+            class="nova-logo d-flex align-center justify-center mx-auto my-5"
+          >
+            <img src="@/assets/images/primary-logo.png" />
+          </div>
         </router-link>
 
         <h3 class="my-5">Verify your Email Address</h3>
@@ -41,10 +45,27 @@
         <div class="pa-0 mt-10" style="width: 100%">
           <p>
             Didn't receive the code?
-            <a style="text-decoration: none" @click="resendOTP">Resend Code</a>
+            <a style="text-decoration: none">
+              <span
+                v-show="!resendOTPLoader && !showOTPTimer"
+                @click="resendOTP"
+                >Resend Code</span
+              >
+              <v-progress-circular
+                indeterminate
+                color="primary"
+                size="20"
+                class="ml-5"
+                v-show="resendOTPLoader"
+              ></v-progress-circular>
+              <span class="primary--text" v-show="showOTPTimer"
+                >You can resend OTP in
+                <span class="error--text">{{ timer }}.00</span></span
+              >
+            </a>
           </p>
           <v-btn
-            class="primary py-5 mb-5 mx-auto"
+            class="primary mb-5 mx-auto"
             @click="SubmitCode()"
             :loading="loading"
             :disabled="loading"
@@ -69,7 +90,10 @@
         <p class="my-3">You have successfully verified your Account.</p>
 
         <v-btn
-          class="primary mx-auto py-5 px-8"
+          height="48px"
+          block
+          depressed
+          class="primary mx-auto px-8"
           :loading="loading2"
           :disabled="loading2"
           v-if="dashboardBtn"
@@ -91,6 +115,9 @@ export default {
     "v-otp-input": OtpInput,
     modal,
   },
+  created() {
+    this.setOTPTimer();
+  },
   data: function () {
     return {
       dialog: false,
@@ -101,8 +128,11 @@ export default {
       errorMessage: false,
       message: "",
       resendOtpSuccess: false,
+      resendOTPLoader: false,
       dashboardBtn: true,
       statusImage: null,
+      showOTPTimer: true,
+      timer: 60,
     };
   },
   methods: {
@@ -119,6 +149,18 @@ export default {
       this.code = value;
       this.errorMessage = false;
     },
+    setOTPTimer() {
+      this.showOTPTimer = true;
+      let counter = setInterval(() => {
+        if (this.timer === 1) {
+          clearInterval(counter);
+          this.showOTPTimer = false;
+          this.timer = 60;
+        } else {
+          this.timer -= 1;
+        }
+      }, 1000);
+    },
     // submit OTP
     SubmitCode() {
       if (this.verify) {
@@ -127,18 +169,17 @@ export default {
           .dispatch("onboarding/verifyEmail", {
             otp: this.code,
             email: this.$route.params.email,
-            type: "seller"
+            type: "seller",
           })
           .then((response) => {
             this.loading = false;
             if (response.data.message === "Email verified successfully.") {
               this.statusImage = successImage;
+              this.dialog = true;
               if (localStorage.getItem("accessToken")) {
-                this.dialog = true;
                 this.dashboardBtn = true;
               } else {
                 this.dashboardBtn = false;
-                this.dialog = true;
               }
             }
           })
@@ -159,21 +200,25 @@ export default {
     },
     // resend OTP
     resendOTP() {
+      this.resendOTPLoader = true;
       this.$store
         .dispatch("onboarding/resendEmailOTP", {
           email: this.$route.params.email,
-          type: "seller"
+          type: "seller",
         })
         .then((response) => {
           if (response.data.message === "An OTP has been sent to your email.") {
             this.resendOtpSuccess = true;
+            this.resendOTPLoader = false;
             setTimeout(() => {
               this.resendOtpSuccess = false;
             }, 3000);
+            this.setOTPTimer();
           }
         })
         .catch((error) => {
           this.errorMessage = true;
+          this.resendOTPLoader = false;
           if (error.response) {
             this.message = error.response.errors.email[0];
           } else {
@@ -210,14 +255,11 @@ export default {
     width: 90%;
     margin: auto;
   }
-  .app-logo {
-    font-size: 40px;
-    font-weight: bold;
-    color: #000000;
-    align-items: baseline;
-    text-decoration: none;
+  .nova-logo {
     width: 120px;
-    margin: 20px auto;
+    img {
+      width: 100%;
+    }
   }
   .form-container {
     width: 90%;
