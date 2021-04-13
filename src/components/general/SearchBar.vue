@@ -2,6 +2,7 @@
   <!-- search bar -->
   <div class="search-bar" :style="{background: bgColor, 'border-color': borderColor}">
     <v-icon class="primary--text">mdi-magnify</v-icon>
+    <!-- input field -->
     <input
       type="text"
       v-model="searchValue"
