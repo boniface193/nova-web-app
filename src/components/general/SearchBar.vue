@@ -14,7 +14,7 @@
 </template>
 <script>
 export default {
-  name: "searchBar",
+  name: "SearchBar",
   data: function () {
     return {
       searchValue: "",
@@ -46,7 +46,6 @@ export default {
     padding-left: 2px;
     width: -webkit-fill-available;
     background: transparent;
-    opacity: 50%;
   }
 }
 @media (max-width: 600px) {
