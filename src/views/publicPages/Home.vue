@@ -267,7 +267,7 @@ export default {
       width: 100%;
       img {
         width: 100%;
-        animation: rotation 20s infinite linear;
+        //animation: rotation 20s infinite linear;
       }
     }
   }

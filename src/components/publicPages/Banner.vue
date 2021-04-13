@@ -4,7 +4,11 @@
     <v-row>
       <v-col class="d-flex align-center col-12 col-md-6">
         <div class="text-center text-md-left">
-          <h1 class="slogan mb-3">
+          <div class="slogan-primary" style="margin-top:-120px">
+            <h1 class="primary--text">Anyone</h1>
+            <h1 class="slogan mb-3">can sell.</h1>
+          </div>
+          <h1 class="slogan-secondary mb-3">
             <span class="primary--text">Anyone </span>can sell.
           </h1>
           <p class="secondary--text mb-5">
@@ -40,9 +44,16 @@ export default {
   padding: 20px 70px;
   background: var(--v-background-base);
   position: relative;
-  .slogan {
-    font-size: 50px;
-    margin-top: -100px;
+  .slogan-primary {
+    h1 {
+      font-size: 90px;
+    }
+    .slogan {
+      margin-top: -50px;
+    }
+  }
+  .slogan-secondary {
+    display: none;
   }
   &--img {
     position: relative;
@@ -112,7 +123,11 @@ export default {
 @media (max-width: 959px) {
   .banner {
     padding: 50px 20px;
-    .slogan {
+    .slogan-primary {
+      display: none;
+    }
+    .slogan-secondary {
+      display: block;
       font-size: 35px;
       margin-top: 0px;
     }
