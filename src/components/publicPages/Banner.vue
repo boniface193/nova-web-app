@@ -4,6 +4,7 @@
     <v-row>
       <v-col class="d-flex align-center col-12 col-md-6">
         <div class="text-center text-md-left mx-md-0 mx-auto">
+          <!-- site description -->
           <div class="slogan-primary" style="margin-top: -120px">
             <h1 class="primary--text">Anyone</h1>
             <h1 class="slogan mb-3">can sell.</h1>
