@@ -74,7 +74,7 @@
           <span class="primary--text phone-format">+234</span>
           <v-text-field
             class="input mt-0"
-            :rules="inputRules"
+            :rules="phoneRules"
             v-model="computedInfo.currentPhoneNum"
             type="tel"
             color="primary"
@@ -111,7 +111,7 @@
           <p class="mb-1">Address</p>
           <v-text-field
             class="input mt-0"
-            :rules="phoneRules"
+            :rules="inputRules"
             type="address"
             color="primary"
             v-model="computedInfo.currentAddress"

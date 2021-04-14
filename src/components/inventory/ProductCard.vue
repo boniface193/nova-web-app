@@ -97,9 +97,12 @@ export default {
       display: none;
     }
     .product-name {
-      height: 22px;
-      overflow-y: hidden;
-      word-break: break-all;
+          height: 22px;
+    overflow: hidden;
+    word-break: break-all;
+    text-overflow: ellipsis;
+    width: 100%;
+    white-space: nowrap;
     }
   }
   .points {
