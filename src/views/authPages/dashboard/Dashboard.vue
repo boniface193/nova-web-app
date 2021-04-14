@@ -1,5 +1,4 @@
 <template>
-<<<<<<< HEAD:src/views/authPages/dashboard/Dashboard.vue
   <div class="dashboard-container">
     <div class="primary pt-16 pb-8">
       <div class="px-8 mt-8">
@@ -24,44 +23,6 @@
             </v-card>
             <v-card
               v-if="!currentLoading"
-=======
-  <div>
-    <div class="primary pb-12 py-12">
-      <!-- <Layout>
-        <template v-slot="slotProps">
-          <div class="d-flex">
-            <div @click.stop="drawer = !drawer">
-              <v-icon size="19" color="#000"> mdi-segment</v-icon>
-            </div>
-            <v-spacer></v-spacer>
-            <div class="">
-              <v-img src="@/assets/images/bell.svg" width="11px"></v-img>
-            </div>
-          </div>
-        </template>
-      </Layout> -->
-      <div class="mx-7">
-        <Calender
-          class="float-right"
-          singleDatePicker
-          autoApply
-          @updateDate="dateValue"
-        />
-        <div class="welcome-text">Hello,</div>
-        <div class="welcome-text-sm">{{ userInfo.name }}</div>
-      </div>
-      <div class="mx-7 mt-8 d-flex justify-center">
-        <v-row style="position: absolute; width: 90%" class="">
-          <v-col
-            sm="4"
-            md=""
-            lg=""
-            class="pr-0"
-            v-for="items in dashboardItems"
-            :key="items.id"
-          >
-            <v-card
->>>>>>> ade9d3cccff46f2645dae3ce5549a0bbae573ac3:src/views/dashboard/Dashboard.vue
               class="shadow-sm elevation-0 px-2"
               style="
                 box-shadow: 0 0.5rem 30px rgba(0, 0, 0, 0.15) !important;
@@ -84,7 +45,6 @@
                     class="rounded-pill pa-7 text-center"
                   ></div>
                 </div>
-<<<<<<< HEAD:src/views/authPages/dashboard/Dashboard.vue
                 <div class="card-header">
                   <v-icon
                     size="17"
@@ -94,10 +54,6 @@
                   >{{ curentSale }}
                 </div>
                 <div class="card-sale">In sales</div>
-=======
-                <div class="card-header">{{ items.card_header }}</div>
-                <div class="card-sale">{{ items.card_sales }}</div>
->>>>>>> ade9d3cccff46f2645dae3ce5549a0bbae573ac3:src/views/dashboard/Dashboard.vue
                 <div
                   class="card-success"
                   :class="{ 'card-error': items.card_success.includes('-') }"
@@ -107,7 +63,6 @@
                     >({{ items.awaiting }})</span
                   >
                 </div>
-<<<<<<< HEAD:src/views/authPages/dashboard/Dashboard.vue
               </div>
             </v-card>
           </v-col>
@@ -169,8 +124,6 @@
                   {{ awaitingSettlement }}
                   <span class="awaiting">(awaiting settlements)</span>
                 </div>
-=======
->>>>>>> ade9d3cccff46f2645dae3ce5549a0bbae573ac3:src/views/dashboard/Dashboard.vue
                 <div class="card-history my-2">
                   <router-link
                     :to="{ name: items.routes }"
@@ -185,7 +138,6 @@
               </div>
             </v-card>
           </v-col>
-<<<<<<< HEAD:src/views/authPages/dashboard/Dashboard.vue
           <!-- payment total Revenue -->
 
           <!-- sale point -->
@@ -310,8 +262,6 @@
             </v-card>
           </v-col>
           <!-- end of sallers rank -->
-=======
->>>>>>> ade9d3cccff46f2645dae3ce5549a0bbae573ac3:src/views/dashboard/Dashboard.vue
         </v-row>
       </div>
     </div>
@@ -320,12 +270,7 @@
 
 <script>
 import moment from "moment";
-<<<<<<< HEAD:src/views/authPages/dashboard/Dashboard.vue
 //import Calender from "@/components/general/calender.vue";
-=======
-import Calender from "@/components/general/calender.vue";
-// import Layout from "@/components/layout/Layout.vue";
->>>>>>> ade9d3cccff46f2645dae3ce5549a0bbae573ac3:src/views/dashboard/Dashboard.vue
 import { mapGetters } from "vuex";
 export default {
   components: {
@@ -383,7 +328,6 @@ export default {
       userInfo: "settings/profile",
     }),
   },
-<<<<<<< HEAD:src/views/authPages/dashboard/Dashboard.vue
   created() {
     this.$store
       .dispatch("dashboard/getSellerPoint")
@@ -495,14 +439,6 @@ export default {
       this.$store.dispatch("dashboard/getTotalRevenue", {
         id: this.userInfo.id,
       });
-=======
-  methods: {
-    dateValue(value) {
-      const startDate = moment(value.startDate).format();
-      const endDate = moment(value.endDate).format();
-      console.log(startDate);
-      console.log(endDate);
->>>>>>> ade9d3cccff46f2645dae3ce5549a0bbae573ac3:src/views/dashboard/Dashboard.vue
     },
   },
 };
