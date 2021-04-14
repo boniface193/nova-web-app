@@ -354,7 +354,7 @@ const routes = [
         path: "/recoverpassword",
         name: "Recoverpassword",
         component: Recoverpassword,
-        beforeEnter:ifAccessPasswordRecoveryPage,
+        beforeEnter: ifAccessPasswordRecoveryPage,
         props: true
       },
       {
