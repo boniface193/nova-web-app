@@ -213,7 +213,6 @@ export default {
           if (res.data.data.length === 0) {
             this.isLoading = false;
             this.empty = "No order found";
-            console.log(res.data);
           } else {
             this.empty = "";
             this.isLoading = false;
@@ -234,6 +233,16 @@ export default {
     filterGetOrders() {
       this.$store.dispatch("orders/filterGetOrders").then((e) => {
         this.ordersItems = e.data.data;
+        this.isLoading = true;
+        setTimeout(() => {
+          if (e.data.data.length === 0) {
+            this.isLoading = false;
+            this.empty = "No order found";
+          } else {
+            this.empty = "";
+            this.isLoading = false;
+          }
+        }, 1000);
       });
     },
     // filter function
