@@ -4,14 +4,14 @@
     <!-- Banner section -->
     <Banner />
 
-    <div class="text-center">
+    <!-- <div class="text-center">
       <h1 class="mt-7 px-5 secondary-header">
         Start selling at <span class="primary--text">no upfront cost.</span>
       </h1>
-    </div>
+    </div> -->
 
     <!-- featured item -->
-    <div class="featured-item">
+    <!-- <div class="featured-item">
       <div class="d-flex justify-space-between align-baseline">
         <h2>Featured items</h2>
         <router-link
@@ -27,10 +27,10 @@
       <div class="items-container">
         <ListedItems v-for="index in 5" :key="index" />
       </div>
-    </div>
+    </div> -->
 
     <div class="text-center">
-      <h1 class="mt-7 secondary-header">Why resell on Kuuzzza?</h1>
+      <h1 class="mt-7 secondary-header">Why sell to your customers with Kuuzza</h1>
     </div>
 
     <!-- why kuuzza -->
@@ -40,9 +40,10 @@
           <div>
             <h2 class="mb-5">No upfront costs</h2>
             <p class="mb-8">
-              There’s no paying suppliers until your customers pay you. Plus you
-              gain access to wholesale prices even on as little as one item! No
-              minimum orders, no subscription or registration fees too!
+              Gain access to products at wholesale prices, no upfront cost, no
+              subscription or registration fees too!. Do the selling, our
+              suppliers sort the inventory, and ship orders directly to your
+              customers.
             </p>
             <h2 class="mb-5">Access thousands of products</h2>
             <p>
@@ -168,14 +169,22 @@
                 </p>
               </div>
             </div>
-            <router-link
+            <!-- <router-link
               :to="{ path: '/signup' }"
               style="text-decoration: none"
             >
               <v-btn class="primary px-10 d-md-flex d-none"
                 >Sell now</v-btn
               >
-            </router-link>
+            </router-link> -->
+            <a
+              href=" https://share.hsforms.com/1_UvzlcUDQkO20aievfd3Zwbnc5b"
+              target="_blank"
+              style="text-decoration: none"
+              ><v-btn class="primary px-10 d-md-flex d-none"
+                >Join Waitlist</v-btn
+              ></a
+            >
           </div>
         </v-col>
       </v-row>
@@ -188,25 +197,31 @@
     <div class="product-to-sell">
       <h1 class="mb-5 secondary-header">Do you have any products to sell?</h1>
       <p class="mb-4">You can put your products up for sale on Kuuzza too.</p>
-      <a
+      <!-- <a
         href="http://nova-front-end.s3-website-eu-west-1.amazonaws.com/signin"
         target="_blank"
         style="text-decoration: none"
       >
         <v-btn class="primary px-10 mx-auto">List your products</v-btn>
-      </a>
+      </a> -->
+      <a
+        href=" https://share.hsforms.com/1_UvzlcUDQkO20aievfd3Zwbnc5b"
+        target="_blank"
+        style="text-decoration: none"
+        ><v-btn class="primary px-10 mx-auto">Join Waitlist</v-btn></a
+      >
     </div>
   </div>
 </template>
 <script>
 import Banner from "@/components/publicPages/Banner.vue";
-import ListedItems from "@/components/publicPages/ListedItems.vue";
+//import ListedItems from "@/components/publicPages/ListedItems.vue";
 import Faq from "@/components/publicPages/Faq.vue";
 export default {
   name: "Index",
   components: {
     Banner,
-    ListedItems,
+    //ListedItems,
     Faq,
   },
   created() {

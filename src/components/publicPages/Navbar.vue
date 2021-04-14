@@ -15,19 +15,25 @@
       <!-- <router-link :to="{ path: '/' }" class="nav-item"
         ><span></span></router-link
       > -->
-      <a
+      <!-- <a
         href="http://nova-front-end.s3-website-eu-west-1.amazonaws.com/signin"
         target="_blank"
         style="text-decoration: none"
         class="nav-item"
         >List your products
       </a>
-      <a @click="gotoFaq()" class="nav-item">FAQs</a>
       <router-link :to="{ path: '/signin' }" class="nav-item"
         >Sign In</router-link
       >
       <router-link :to="{ path: '/signup' }" class="nav-item"
-        ><v-btn class="primary px-8">Sell now</v-btn></router-link
+        ></router-link
+      > -->
+      <a @click="gotoFaq()" class="nav-item">FAQs</a>
+      <a
+        href=" https://share.hsforms.com/1_UvzlcUDQkO20aievfd3Zwbnc5b"
+        target="_blank"
+        style="text-decoration: none"
+        ><v-btn class="primary px-8">Join Waitlist</v-btn></a
       >
     </div>
     <!-- mobile nav section -->
@@ -42,22 +48,27 @@
             >mdi-close</v-icon
           >
         </div>
-        <a
+        <!-- <a
           href="http://nova-front-end.s3-website-eu-west-1.amazonaws.com/signin"
           target="_blank"
           style="text-decoration: none"
           class="nav-item white--text"
           >List your products
-        </a>
-        <a @click="gotoFaqMobile()" class="nav-item white--text"
-          >FAQs</a>
-        <router-link :to="{ path: '/signin' }" class="nav-item white--text"
+        </a> -->
+        <a @click="gotoFaqMobile()" class="nav-item white--text">FAQs</a>
+        <!-- <router-link :to="{ path: '/signin' }" class="nav-item white--text"
           >Sign In</router-link
         >
         <router-link :to="{ path: '/signup' }" class="nav-item white--text"
           ><v-btn class="background primary--text px-8 mx-auto"
             >Sell now</v-btn
           ></router-link
+        > -->
+        <a
+          href=" https://share.hsforms.com/1_UvzlcUDQkO20aievfd3Zwbnc5b"
+          target="_blank"
+          style="text-decoration: none"
+          ><v-btn class="background primary--text px-8 mx-auto">Join Waitlist</v-btn></a
         >
       </div>
       <div
@@ -80,12 +91,12 @@ export default {
       this.mobileNav = !this.mobileNav;
     },
     gotoFaq() {
-      this.$root.$refs.faq.gotoFaq()
+      this.$root.$refs.faq.gotoFaq();
     },
-    gotoFaqMobile(){
+    gotoFaqMobile() {
       this.toggleMobileNav();
       this.gotoFaq();
-    }
+    },
   },
 };
 </script>
@@ -116,7 +127,7 @@ export default {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    width: 450px;
+    width:  215px;//450px;
     .nav-item {
       text-decoration: none;
       color: var(--v-default-base);

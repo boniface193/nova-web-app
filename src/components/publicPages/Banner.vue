@@ -3,8 +3,8 @@
   <div class="banner">
     <v-row>
       <v-col class="d-flex align-center col-12 col-md-6">
-        <div class="text-center text-md-left">
-          <div class="slogan-primary" style="margin-top:-120px">
+        <div class="text-center text-md-left mx-md-0 mx-auto">
+          <div class="slogan-primary" style="margin-top: -120px">
             <h1 class="primary--text">Anyone</h1>
             <h1 class="slogan mb-3">can sell.</h1>
           </div>
@@ -12,12 +12,19 @@
             <span class="primary--text">Anyone </span>can sell.
           </h1>
           <p class="secondary--text mb-5">
-            With Kuuzzza, anyone can sign up, gain access to inventory and
-            become a seller for our partner brands, at no upfront costs
+            <!-- With Kuuzzza, anyone can sign up, gain access to inventory and
+            become a seller for our partner brands, at no upfront costs -->
+            Sign up and gain access to thousands of Products to sell to your <br class="breaker"/>customers - at zero cost!
           </p>
-          <router-link :to="{ path: '/signup' }" style="text-decoration: none">
+          <!-- <router-link :to="{ path: '/signup' }" style="text-decoration: none">
             <v-btn class="primary px-10 mx-auto mx-md-0">Sell now</v-btn>
-          </router-link>
+          </router-link> -->
+          <a
+            href=" https://share.hsforms.com/1_UvzlcUDQkO20aievfd3Zwbnc5b"
+            target="_blank"
+            style="text-decoration: none"
+            ><v-btn class="primary px-10 mx-auto mx-md-0">Join Waitlist</v-btn></a
+          >
         </div>
       </v-col>
       <v-col class="col-12 col-md-6 banner--img pb-10">
@@ -122,6 +129,9 @@ export default {
 }
 @media (max-width: 959px) {
   .banner {
+    .breaker{
+      display: none;
+    }
     padding: 50px 20px;
     .slogan-primary {
       display: none;
