@@ -7,7 +7,7 @@ import settings from "./modules/settings";
 import reward from "./modules/reward";
 import leaderboard from "./modules/leaderboard";
 import bankService from "./modules/bankService";
-import dashboard from  "./modules/dashboard"
+import dashboard from "./modules/dashboard"
 
 // initial state
 const initialState = {
@@ -32,7 +32,7 @@ export default new Vuex.Store({
     inventory: inventory,
     orders: orders,
     settings: settings,
-    reward: reward, 
+    reward: reward,
     leaderboard: leaderboard,
     bankService: bankService,
     dashboard: dashboard,

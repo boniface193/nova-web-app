@@ -207,8 +207,18 @@ export default {
     getSearchValue(params) {
       this.$store.commit("orders/getSearchValue", params);
       this.$store.commit("orders/setSearchOrder", true);
-      this.$store.dispatch("orders/searchOrders").then(() => {
-        this.isLoading = false;
+      this.$store.dispatch("orders/searchOrders").then((res) => {
+        this.isLoading = true;
+        setTimeout(() => {
+          if (res.data.data.length === 0) {
+            this.isLoading = false;
+            this.empty = "No order found";
+            console.log(res.data);
+          } else {
+            this.empty = "";
+            this.isLoading = false;
+          }
+        }, 1000);
       });
       this.getOrder();
     },
