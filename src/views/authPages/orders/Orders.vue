@@ -1,7 +1,7 @@
 <template>
   <v-container>
     <div class="mx-3">
-      <p class="sub-header">
+      <p class="sub-header pt-8">
         You have
         <span class="font-weight-bold">{{ ordersItems.length }}</span> orders.
       </p>
