@@ -16,14 +16,15 @@ export default {
   cursor: pointer;
   width: 40px;
   height: 40px;
-  border-radius: 8px;
+  border-radius: 12px;
+  margin-left: 15px;
   display: flex;
   align-items: center;
   justify-content: center;
   position: relative;
-  background: #029B97;
+  background: #5064cc;
   .tooltiptext {
-    color: #029B97;
+    color: #5064cc;
     background-color: rgb(239, 245, 255);
     width: 120px;
     text-align: center;

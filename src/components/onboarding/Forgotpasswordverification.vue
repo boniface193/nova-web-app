@@ -128,7 +128,10 @@ export default {
           .dispatch("onboarding/verifyForgotPassword", {
             otp: this.code,
             email: this.$route.params.email,
+<<<<<<< HEAD
             type: "seller",
+=======
+>>>>>>> ade9d3cccff46f2645dae3ce5549a0bbae573ac3
           })
           .then((response) => {
             this.loading = false;
@@ -138,6 +141,7 @@ export default {
                 params: {
                   otp: response.data.otp,
                   email: this.$route.params.email,
+                  type: "seller"
                 },
               });
             }

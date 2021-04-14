@@ -152,7 +152,7 @@ input[type="range"]::-webkit-slider-thumb {
   height: 12px;
   width: 12px;
   border-radius: 50%;
-  background: #029B97;
+  background: #5064cc;
   cursor: pointer;
   -webkit-appearance: none;
   margin-top: -4px;
@@ -187,7 +187,7 @@ input[type="range"]::-webkit-slider-thumb {
         border-color: rgba(0, 0, 0, 0.87);
       }
       &:focus {
-        border: 2px solid #029B97;
+        border: 2px solid #5064cc;
       }
     }
   }

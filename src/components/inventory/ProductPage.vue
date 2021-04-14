@@ -588,7 +588,7 @@ export default {
     .copy-btn {
       cursor: pointer;
       &:hover {
-        color: #03a09b;
+        color: #758bfc;
       }
     }
     .copy-status {

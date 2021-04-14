@@ -37,13 +37,22 @@ const state = {
         unpaid: false,
         delivered: false,
         notDelivered: false,
+        selectedOptions: [],
     },
+    dateRange: {
+        startDate: new Date().toISOString().split("T")[0],
+        endDate: new Date().toISOString().split("T")[0],
+    },
+    selectedReferences: [],
     doNothing: null,
 };
 //returns the state properties
 const getters = {
     orders(state) {
         return state.orders
+    },
+    searchOrder(state) {
+        return state.searchOrder
     }
 };
 
@@ -68,9 +77,16 @@ const actions = {
     },
 
     filterGetOrders(context) {
+        let page = ((state.page) ? `page=${state.page}` : "");
+        let perPage = ((state.itemPerPage) ? `per_page=${state.itemPerPage}` : "");
+        let dateRange = ((state.dateRange.startDate || state.dateRange.endDate !== null) ? `created_between=${state.dateRange.startDate},${state.dateRange.endDate}` : "");
         let priceRange = ((state.filter.maxPrice) ? `price_between=${state.filter.minPrice},${state.filter.maxPrice}` : "");
+        let paid = ((state.filter.selectedOptions.includes('paid')) ? `paid=${true}` : "");
+        let unpaid = ((state.filter.selectedOptions.includes('unpaid')) ? `unpaid=${true}` : "");
+        let delivered = ((state.filter.selectedOptions.includes('delivered')) ? `delivered=${true}` : "");
+        let notDelivered = ((state.filter.selectedOptions.includes('notDelivered')) ? `not_delivered=${true}` : "");
         return new Promise((resolve, reject) => {
-            axios.get(`/orders?${priceRange}`,
+            axios.get(`/orders?${dateRange}&${priceRange}&${paid}&${unpaid}&${delivered}&${notDelivered}&${perPage}&${page}`,
                 {
                     headers: {
                         Authorization: `Bearer ${localStorage.getItem("accessToken")}`
@@ -85,12 +101,10 @@ const actions = {
                 })
         })
     },
-
     // get order details
     getOrdersDetail(context, data) {
         return new Promise((resolve, reject) => {
             axios.get(`/orders/${data.id}`).then(response => {
-                context.commit("setOrders", response.data.data);
                 resolve(response);
             })
                 .catch(error => {

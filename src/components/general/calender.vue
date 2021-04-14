@@ -7,7 +7,7 @@
       :minDate="minDate"
       :maxDate="maxDate"
       :autoApply="autoApply"
-      :ranges="ranges"
+      :ranges="false"
       :linkedCalendars="linkedCalendars"
       :showWeekNumbers="showWeekNumbers"
       :singleDatePicker="singleDatePicker"
@@ -15,7 +15,7 @@
       @update="updateValues"
     >
       <template v-slot:input="picker">
-        {{ picker.startDate | moment("dddd") }} - {{ picker.endDate | moment("dddd") }}
+        {{ picker.startDate | moment("dddd") }}
         <v-icon>mdi-chevron-down</v-icon>
       </template>
     </date-range-picker>
@@ -69,9 +69,6 @@ export default {
         "This year": [
           new Date(today.getFullYear(), 0, 1),
           new Date(today.getFullYear(), 11, 31),
-        ],
-        "All time": [
-
         ],
       },
       dateRange: {
@@ -130,7 +127,7 @@ export default {
   box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
 }
 
-.daterangepicker {
+.daterangepicker .drp-calendar.left {
   padding: 8px 0 8px 8px;
   box-shadow: 0 0.5rem 1rem #5e5e5e1a !important;
   border-radius: 12px;
@@ -138,7 +135,7 @@ export default {
 }
 .daterangepicker {
   border: none;
-  margin-top: 50px;
+  margin-top: 55px;
 }
 .daterangepicker:after, .daterangepicker:before {
   content: none

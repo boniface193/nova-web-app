@@ -142,19 +142,6 @@
             ></v-progress-circular>
           </span>
         </div>
-        <!-- Email -->
-        <div class="mb-5 settings-input">
-          <p class="mb-1">Email</p>
-          <v-text-field
-            class="input mt-0"
-            type="email"
-            color="primary"
-            v-model="computedInfo.email"
-            disabled
-            required
-          >
-          </v-text-field>
-        </div>
       </v-col>
     </v-row>
 
@@ -220,9 +207,14 @@ export default {
       // gets the values of user information
       //let userInfo = this.$store.getters["settings/getUserProfile"];
       let fullName = this.userInfo.name;
+<<<<<<< HEAD
       let phoneNum = this.userInfo.phone_number.substring(4);
       let address = this.userInfo.address;
       let email = this.userInfo.email;
+=======
+      let phoneNum = this.userInfo.phone_number;
+      let address = "22 Abubakar Way, Abuja";
+>>>>>>> ade9d3cccff46f2645dae3ce5549a0bbae573ac3
       let currentFullName = this.userInfo.name;
       let currentPhoneNum = this.userInfo.phone_number.substring(4);
       let currentAddress = this.userInfo.address || "null";
@@ -234,7 +226,10 @@ export default {
         currentFullName: currentFullName,
         currentPhoneNum: currentPhoneNum,
         currentAddress: currentAddress,
+<<<<<<< HEAD
         email: email,
+=======
+>>>>>>> ade9d3cccff46f2645dae3ce5549a0bbae573ac3
       };
     },
   },
@@ -346,7 +341,11 @@ export default {
     bottom: 25px;
     right: 0;
     cursor: pointer;
+<<<<<<< HEAD
     color: #029b97;
+=======
+    color: #5064cc;
+>>>>>>> ade9d3cccff46f2645dae3ce5549a0bbae573ac3
     background: white;
     padding: 5px 0px 0px 5px;
   }

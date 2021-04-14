@@ -37,7 +37,7 @@
           </div>
 
           <v-row>
-            <v-col lg="7" xl="7" md="8" sm="7">
+            <v-col lg="7" xl="7" md="7" sm="7">
               <v-tabs
                 height="40"
                 class="rounded-lg"
@@ -55,18 +55,18 @@
           </v-row>
 
           <v-tabs-items v-model="tab" class="my-3">
-            <v-tab-item transition="false" id="tab-1" value="tab-1">
+            <v-tab-item id="tab-1" value="tab-1">
               <v-row
                 class="leader-text my-2"
                 v-for="items in rewards.data.rewards"
                 :key="items.id"
                 :class="{ active: items.is_redeemable }"
               >
-                <v-col cols="9" xl="6" lg="6" md="7" sm="6">
+                <v-col cols="8" lg="6">
                   <div class="d-flex" style="cursor: pointer">
                     <span class="mr-3"
                       ><v-img
-                        src="@/assets/images/airtime.jpeg"
+                        :src="items.image"
                         height="47px"
                         width="44px"
                         class="rounded-lg"
@@ -74,18 +74,15 @@
                       </v-img
                     ></span>
                     <span
-                      >{{ items.title }} <br />
-                      <span class="points">{{ items.points }} pts</span></span
+                      >{{ items.name }} <br />
+                      <span class="points">{{ items.point }}</span></span
                     >
                   </div>
                 </v-col>
                 <v-col
-                  @click="filterById(items.key)"
-                  lg="3"
-                  md="3"
-                  sm="2"
-                  xl="3"
                   cols="2"
+                  @click="openModal"
+                  lg="3"
                   style="cursor: pointer"
                   class="redeem mt-1 offset-425"
                   :class="{ 'primary--text': items.is_redeemable }"
@@ -93,36 +90,30 @@
                 >
               </v-row>
             </v-tab-item>
-            <!-- history -->
-            <v-tab-item transition="false" id="tab-2" value="tab-2">
-              <!-- loader ends here -->
+
+            <v-tab-item id="tab-2" value="tab-2">
               <v-row>
                 <v-col
                   cols="12"
                   lg="7"
-                  md="8"
-                  sm="7"
+                  md="7"
                   v-for="items in rewardHistory"
                   :key="items.id"
                 >
                   <v-card outlined class="rounded-lg py-3 px-8">
                     <div class="order-item-font mt-1">
                       Reward Type:
-                      <span class="order-no-grey mx-1">
-                        {{ items.airtime_amount }}</span
-                      >
+                      <span class="order-no-grey mx-1"> {{ items.type }}</span>
                     </div>
                     <div class="order-item-font mt-1">
                       Points
-                      <span class="order-no-grey mx-1">{{
-                        items.deducted_point
-                      }}</span>
+                      <span class="order-no-grey mx-1">{{ items.points }}</span>
                     </div>
                     <div class="order-item-font mt-1">
-                      Phone Number:
-                      <span class="order-no-grey mx-1">{{
-                        items.phone_number
-                      }}</span>
+                      Date:
+                      <span class="order-no-grey mx-1"
+                        >{{ items.date }} {{ items.time }}</span
+                      >
                     </div>
                   </v-card>
                 </v-col>
@@ -132,6 +123,7 @@
         </v-col>
       </v-row>
       <Modal :dialog="this.dialog" width="300">
+        
         <v-card class="rounded-lg">
           <v-icon
             style="cursor: pointer"
@@ -144,7 +136,7 @@
             <div class="d-flex justify-center">
               <span>
                 <v-img
-                  src="@/assets/images/airtime.jpeg"
+                  src="@/assets/images/airtime.svg"
                   height="54px"
                   width="55px"
                   class="rounded-pill"
@@ -218,7 +210,6 @@
 
 <script>
 import Modal from "@/components/modal.vue";
-import { mapGetters } from "vuex";
 export default {
   name: "orderDetails",
   components: {
@@ -259,11 +250,13 @@ export default {
     openModal() {
       this.dialog = true;
     },
+
     filterById(id) {
       this.filteredArray = Object.values(this.rewards.data.rewards).find(
         (item) => item.key == id
       );
       this.openModal();
+      console.log(this.filteredArray)
     },
     redeemOffer(params) {
       this.$store.commit("reward/setRedeemAirtime", params);
@@ -372,7 +365,6 @@ a.text-format.v-tab.v-tab--active {
   padding: 0px 25%;
   border-radius: 6px !important;
 }
-
 div.v-tabs-slider {
   height: 0;
   width: 0;
@@ -383,80 +375,48 @@ div.v-tabs-slider {
   text-transform: capitalize !important;
 }
 
-@media (min-width: 1024px) {
+@media (max-width: 1024px) {
   .w-100 {
-    width: 427px;
+    width: 450px;
   }
 
   .card-title {
     font-family: "Product Sans Light";
-    font-size: 25px;
-    margin-bottom: 48px;
+    font-size: 12px;
   }
 
   .card-point {
     font-family: "Product Sans Medium";
     font-size: 18px;
-    letter-spacing: 1px;
-    margin-bottom: 20px;
+    margin-bottom: 25px;
   }
 
   .card-name {
     font-family: "Product Sans Light";
-    letter-spacing: 1.5px;
     font-size: 14px;
-  }
-  a.text-format.v-tab {
-    margin: 0 10%;
   }
 }
 
-@media (max-width: 1439px) and (min-width: 1365px) {
+@media (max-width: 1440px) {
   .w-100 {
-    width: 460px;
+    width: 455px;
   }
 
   .card-title {
     font-family: "Product Sans Light";
-    font-size: 25px;
-    margin-bottom: 60px;
+    font-size: 12px;
+    margin-bottom: 48px;
   }
 
   .card-point {
     font-family: "Product Sans Medium";
     font-size: 22px;
-    letter-spacing: 1px;
-    margin-bottom: 20px;
+    margin: 45px 25px 0px 0px;
   }
 
   .card-name {
     font-family: "Product Sans Light";
     font-size: 17px;
-  }
-  a.text-format.v-tab {
-    margin: 0 15%;
-  }
-}
-
-@media (max-width: 1449px) and (min-width: 1440px) {
-  .w-100 {
-    width: 500px;
-  }
-}
-@media (max-width: 1800px) and (min-width: 1450px) {
-  .center {
-    margin-left: 5%;
-    // width: 500px;
-  }
-}
-@media (max-width: 1900px) and (min-width: 1801px) {
-  .center {
-    margin-left: 5%;
-  }
-}
-@media (max-width: 2560px) and (min-width: 1901px) {
-  .center {
-    margin-left: 15%;
   }
 }
 
@@ -481,20 +441,13 @@ div.v-tabs-slider {
   }
 }
 @media (max-width: 425px) {
-  .offset-xs {
-    margin-left: 50%;
-  }
   .w-100 {
-    width: 385px;
-  }
-  .offset-425 {
-    margin-left: 7%;
+    width: 317px;
   }
 
   .card-title {
     font-family: "Product Sans Light";
     font-size: 12px;
-    margin: 10px 0 40px 0;
   }
 
   .card-point {
@@ -505,31 +458,6 @@ div.v-tabs-slider {
   .card-name {
     font-family: "Product Sans Light";
     font-size: 14px;
-  }
-}
-
-@media (max-width: 375px) {
-  .w-100 {
-    width: 340px;
-  }
-  .card-title {
-    font-family: "Product Sans Light";
-    font-size: 12px;
-    margin: 5px 0 20px 0;
-  }
-}
-
-@media (max-width: 320px) {
-  .w-100 {
-    width: 280px;
-  }
-  .card-title {
-    font-family: "Product Sans Light";
-    font-size: 12px;
-    margin: -5px 0 -10px 0;
-  }
-  .offset-425 {
-    margin-left: 0%;
   }
 }
 </style>

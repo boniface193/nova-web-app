@@ -96,13 +96,13 @@ export default {
       cursor: pointer;
       padding: 0px 12px;
       &:hover {
-        color: #029B97;
-        background: #DDF8F7;
+        color: #5064cc;
+        background: #5064cc26;
       }
     }
   }
   &:focus {
-    border: 2px solid #029B97;
+    border: 2px solid #5064cc;
     .select-dropdown--active {
       display: block;
     }

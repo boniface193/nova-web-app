@@ -27,7 +27,7 @@
             product.max_profit_short
           }}
         </p>
-        <p class="secondary--text mb-3" style="font-size: 10px">
+        <p class="secondary--text" style="font-size: 10px">
           Recommended profit
         </p>
 
@@ -46,17 +46,17 @@ export default {
 </script>
 <style lang="scss" scoped>
 .card-container {
-  min-width: 200px;
-  min-height: 340px;
+  min-width: 18%;
+  min-height: 255px;
   position: relative;
-  margin: auto 5px;
+  margin: auto 1%;
   cursor: pointer;
   &:hover {
-    transform: scale(1.02);
+    transform: scale(1.05);
   }
   .card-top {
-    width: 85%;
-    height: 190px;
+    width: 80%;
+    height: 143px;
     background: #f3f5ff;
     border-radius: 12px;
     z-index: 1;
@@ -69,29 +69,42 @@ export default {
     align-items: center;
     .image-container {
       width: 100%;
-      height: 130px;
+      height: 110px;
       margin: auto;
       text-align: center;
       img {
-        width: 85%;
+        width: 80%;
         height: 100%;
       }
     }
   }
   .card-bottom {
     width: 100%;
-    height: 250px;
-    padding: 110px 7.5% 12px 7.5%;
+    height: 180px;
+    padding: 80px 12px 12px 12px;
     bottom: 0;
     background: #fff;
     border-radius: 12px;
-    margin: 0px auto 0px auto;
+    margin: -50px auto 0px auto;
     position: absolute;
     box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
-    .v-btn:not(.v-btn--round).v-size--default {
-      height: 25px;
-      min-width: 100%;
-      padding: 0 16px;
+    .add-btn {
+      width: 35px;
+      height: 35px;
+      display: flex;
+      align-items: center;
+      border-radius: 50%;
+      background: #5064cc;
+      position: absolute;
+      justify-content: center;
+      right: 10px;
+      bottom: 25px;
+      font-size: 25px;
+      color: #fff;
+      cursor: pointer;
+      &:hover {
+        background: #758bfc;
+      }
     }
     .sell-now-secondary {
       display: none;
@@ -114,7 +127,7 @@ export default {
     border-radius: 8px;
   }
 }
-@media (max-width: 650px) {
+@media (max-width: 1150px) {
   .card-container {
     min-width: 48.4%;
     margin: auto 0.8%;
@@ -122,15 +135,12 @@ export default {
     &:hover {
       transform: scale(1);
     }
-    .card-top {
-      height: 150px;
-      .image-container {
-        height: 120px;
-        img {
-          width: 85%;
-        }
-      }
-    }
+  }
+}
+@media (max-width: 550px) {
+  .card-container {
+    min-width: 45%;
+    margin: auto 2.5%;
     .card-bottom {
       padding-top: 95px;
       height: 180px;

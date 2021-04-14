@@ -53,14 +53,14 @@
             <img src="@/assets/images/privacy-logo.svg" alt="" />
           </div>
           <router-link
-            :to="{ name: 'AddBankDetails' }"
+            :to="{ name: 'BankAccount' }"
             style="text-decoration: none"
           >
             <p class="mb-0 ash-color">Bank Accounts</p>
           </router-link>
         </div>
         <router-link
-          :to="{ name: 'AddBankDetails' }"
+          :to="{ name: 'BankAccount' }"
           style="text-decoration: none"
           class="d-flex align-center"
         >

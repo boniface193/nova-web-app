@@ -76,10 +76,11 @@
         <v-text-field
           color="primary"
           placeholder="Street address"
-          v-model="address"
+          v-model="getAddress.address"
           :rules="addressRules"
           ref="autocomplete"
           id="autocomplete"
+         
           @keyup.enter="submitCustomerDetails"
           required
         >
@@ -130,7 +131,6 @@ export default {
       name: "",
       phoneNumber: "",
       email: "",
-      address: "",
       lat: "",
       lng: "",
       validAddress: false,
@@ -154,11 +154,12 @@ export default {
       addressRules: [
         //verifies phone number satisfies the requirement
         (v) => !!v || "Address is required",
-        () => this.validAddress || "Select a valid Address",
+        () => this.validAddress || "Select a valid Address"
       ],
     };
   },
   mounted() {
+    
     this.autocomplete = new window.google.maps.places.Autocomplete(
       document.getElementById("autocomplete"),
       {
@@ -170,14 +171,14 @@ export default {
       }
     );
 
-    this.autocomplete.addListener("place_changed", this.onPlaceChanged);
+    this.autocomplete.addListener('place_changed', this.onPlaceChanged);
   },
   computed: {
-    getAddress() {
+    getAddress(){
       return {
-        address: "",
-      };
-    },
+        address: ""
+      }
+    }
   },
   methods: {
     convertQueryToObject(querystring) {
@@ -199,13 +200,14 @@ export default {
     },
     onPlaceChanged() {
       let place = this.autocomplete.getPlace();
-      if (!place.geometry) {
+      if(!place.geometry){
         // User did not select a prediction; reset the input field
         this.validAddress = false;
-      } else {
+      }else {
         //Display details about the valid place
         this.address = place.name + " " + place.formatted_address;
         this.validAddress = true;
+        this.getAddress.address = place.name;
         this.lat = place.geometry.location.lat();
         this.lng = place.geometry.location.lng();
       }
@@ -239,7 +241,7 @@ export default {
                   ? "+234" + this.phoneNumber.substring(1)
                   : "+234" + this.phoneNumber,
               location: {
-                address: this.address,
+                address: this.getAddress.address,
                 lat: this.lat,
                 lng: this.lng,
               },

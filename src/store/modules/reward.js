@@ -1,14 +1,10 @@
 import axios from "../../axios/reward"
 
 const state = {
-    reward: [],
-    rewardHistory: [],
-    redeem_airtime: [],
+    reward: []
 };
 const getters = {
-    getRewards: (state) => {
-        return state.reward
-    }
+
 };
 const actions = {
     getReward(context) {
@@ -58,6 +54,7 @@ const actions = {
                 .then(response => {
                     context.commit("setHistory", response.data.data)
                     resolve(response.data.data)
+                    console.log(response)
                 })
                 .catch(error => {
                     reject(error)
@@ -67,15 +64,7 @@ const actions = {
 
 };
 const mutations = {
-    setRewards: (state, data) => {
-        state.reward = data
-    },
-    setHistory: (state, status) => {
-        state.rewardHistory = status
-    },
-    setRedeemAirtime: (state, value) => {
-        state.redeem_airtime = value
-    }
+
 };
 export default {
     //export all the listed properties

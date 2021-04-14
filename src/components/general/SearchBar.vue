@@ -7,9 +7,8 @@
       type="text"
       v-model="searchValue"
       @change="updateSearchValue"
-      @keyup.enter="updateSearchValue"
-      :placeholder="placeholder"
-    />
+      @keyup.enter="updateSearchValue" :placeholder="placeholder" class="form-controlly pl-10 form-control-bgColor" />
+    
   </div>
 </template>
 <script>
@@ -29,28 +28,36 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-.search-bar {
+.form-controlly {
+  display: block;
   width: 100%;
-  height: 42px;
-  background: #f9fafe;
-  border-radius: 8px;
-  display: flex;
-  align-items: center;
-  padding: 2px 15px;
-  border: 1px solid transparent;
-  input {
-    margin-left: 7px;
-    height: 100%;
-    border: none;
-    outline: none;
-    padding-left: 2px;
-    width: -webkit-fill-available;
-    background: transparent;
-  }
+  padding: 0.55rem 1rem;
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 1.5;
+  color: #21252900;
+  background-color: #f3f5ff;
+  background-clip: padding-box;
+  border: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  border-radius: 0.25rem;
+  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+  border-radius: 12px;
 }
-@media (max-width: 600px) {
-  .search-bar {
-    width: 100%;
-  }
+.form-controlly:focus {
+  color: #212529;
+  background-color: #fff;
+  border-color: #86b7fe;
+  outline: 0;
+  box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+}
+
+.position-abs {
+  position: absolute !important;
+  color: #5064cc;
+  font-size: 20px !important;
+  opacity: 0.5;
 }
 </style>

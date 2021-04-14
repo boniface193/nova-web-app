@@ -2,10 +2,10 @@
   <v-container>
     <div class="mx-3">
       <p class="sub-header">
-        You have
-        <span class="font-weight-bold">{{ ordersItems.length }}</span> orders.
+        You have <span class="font-weight-bold">20</span> orders.
       </p>
       <!-- search filter -->
+<<<<<<< HEAD:src/views/authPages/orders/Orders.vue
       <div class="d-flex align-center" style="justify-content: flex-end">
         <div class="search-container">
           <Search
@@ -25,6 +25,18 @@
           class="ml-1"
         />
       </div>
+=======
+      <v-row class="d-flex justify-end">
+        <v-col cols="10" lg="5" md="5">
+          <Search placeholder="Search orders" @search="getSearchValue" />
+        </v-col>
+        <v-col cols="2" lg="1" md="1" class="px-0">
+          <div class="primary text-center rounded-lg">
+            <v-icon color="white" style="padding: 5.3px">mdi-menu</v-icon>
+          </div>
+        </v-col>
+      </v-row>
+>>>>>>> ade9d3cccff46f2645dae3ce5549a0bbae573ac3:src/views/orders/Orders.vue
 
       <!-- card item -->
       <div v-if="isLoading" class="text-center my-8">
@@ -38,19 +50,26 @@
         ></v-progress-circular>
       </div>
       <!-- loader ends here -->
-      <!-- if no order -->
-      <p class="text-center mt-8">{{ empty }}</p>
+
       <v-row>
         <v-col sm="4" v-for="orders in ordersItems" :key="orders.id">
+<<<<<<< HEAD:src/views/authPages/orders/Orders.vue
           <v-card outlined class="rounded-lg pa-5 mb-3" height="100%">
+=======
+          <!-- if no order -->
+          <p v-if="orders.length == 0" class="text-center mt-8">
+            No Item Found
+          </p>
+          <v-card outlined class="rounded-lg pa-5 mb-3">
+>>>>>>> ade9d3cccff46f2645dae3ce5549a0bbae573ac3:src/views/orders/Orders.vue
             <step-progress
               :steps="['Processing', 'Shipped', 'Delivered']"
               :current-step="
-                orders.delivery_status_label == 'Processing' ||
-                orders.delivery_status_label == 'Shipped'
+                orders.isProcessing || orders.isShipped || orders.isDelivered
                   ? 1
-                  : 3
+                  : 0
               "
+              icon-class="fa fa-check"
               :line-thickness="lineThickness"
               active-color="#FFA500"
               :active-thickness="activeThickness"
@@ -99,7 +118,7 @@
                 </div>
                 <div class="order-item-font">
                   Customer:
-                  <span class="order-no-grey">{{ orders.customer.name }}</span>
+                  <span class="order-no-grey">{{ orders.customer_name }}</span>
                 </div>
                 <div class="order-item-font">
                   Payment Status:
@@ -117,6 +136,7 @@
         </v-col>
       </v-row>
     </div>
+<<<<<<< HEAD:src/views/authPages/orders/Orders.vue
     <!-- pagination -->
     <div class="text-center pa-3">
       <!-- <v-pagination
@@ -128,11 +148,12 @@
         style="font-size: 8px"
       ></v-pagination> -->
     </div>
+=======
+>>>>>>> ade9d3cccff46f2645dae3ce5549a0bbae573ac3:src/views/orders/Orders.vue
   </v-container>
 </template>
 
 <script>
-import BasicFilter from "@/components/general/BasicFilter.vue";
 import Search from "@/components/general/SearchBar.vue";
 import StepProgress from "vue-step-progress";
 import { mapGetters, mapState } from "vuex";
@@ -143,32 +164,32 @@ import "vue-step-progress/dist/main.css";
 export default {
   components: {
     Search,
-    BasicFilter,
     "step-progress": StepProgress,
   },
   data() {
     return {
       loadImage: true,
       isLoading: true,
-      empty: "",
-      deliveryStatus: "",
-      date: "",
-      time: "",
+      // searchValue: "",
       filterItems: "",
       lineThickness: 1,
       activeThickness: 3,
       passiveThickness: 3,
       mySteps: ["Step 1", "Step 2", "Step 3"],
+<<<<<<< HEAD:src/views/authPages/orders/Orders.vue
       filterParameters: {
         price: true,
       },
       ordersItems: [],
+=======
+>>>>>>> ade9d3cccff46f2645dae3ce5549a0bbae573ac3:src/views/orders/Orders.vue
     };
   },
 
   computed: {
     // to populate items on the table
     ...mapGetters({
+<<<<<<< HEAD:src/views/authPages/orders/Orders.vue
       order: "orders/orders",
     }),
     ...mapState({
@@ -180,11 +201,20 @@ export default {
       //     currentPage: this.pageDetails.current_page,
       //   };
       // },
+=======
+      ordersItems: "orders/orders",
+      searchOrder: "orders/searchOrder",
+    }),
+    ...mapState({
+      searchValue: (state) => state.orders.searchValue,
+      pageDetails: (state) => state.orders.pageDetails,
+>>>>>>> ade9d3cccff46f2645dae3ce5549a0bbae573ac3:src/views/orders/Orders.vue
     }),
   },
   created() {
-    this.$store.dispatch("orders/getOrders").then((e) => {
+    this.$store.dispatch("orders/getOrders").then(() => {
       this.isLoading = false;
+<<<<<<< HEAD:src/views/authPages/orders/Orders.vue
       this.ordersItems = e;
       e.forEach((i) => {
         if (i.product_image_url) {
@@ -200,6 +230,10 @@ export default {
     if (!ifConnected) {
       this.empty = "please connect to the internet";
     }
+=======
+    });
+    this.$store.dispatch("orders/filterGetOrders");
+>>>>>>> ade9d3cccff46f2645dae3ce5549a0bbae573ac3:src/views/orders/Orders.vue
   },
 
   methods: {
@@ -207,6 +241,7 @@ export default {
     getSearchValue(params) {
       this.$store.commit("orders/getSearchValue", params);
       this.$store.commit("orders/setSearchOrder", true);
+<<<<<<< HEAD:src/views/authPages/orders/Orders.vue
       this.$store.dispatch("orders/searchOrders").then(() => {
         this.isLoading = false;
       });
@@ -256,8 +291,27 @@ export default {
       this.getOrder();
 
       this.getOrder === true ? this.getSearchValue() : "";
+=======
+      this.$store.dispatch("orders/searchOrders").then((response) => {
+        this.isLoading = true;
+        if (response) {
+          this.isLoading = false;
+          if (!response) {
+            alert('hello')
+          }
+        }
+        
+      });
+>>>>>>> ade9d3cccff46f2645dae3ce5549a0bbae573ac3:src/views/orders/Orders.vue
     },
-  },
+  }
+  // computed: {
+  //   filterItem: function () {
+  //     return this.ordersItems.filter((blog) => {
+  //       return blog.customers_name.match(this.searchValue);
+  //     });
+  //   },
+  // },
 };
 </script>
 <style lang="scss" >

@@ -3,7 +3,7 @@
     <!-- search bar -->
     <SearchBar
       placeholder="Search Inventory"
-      bgColor="#DDF8F7"
+      bgColor="#F3F5FF"
       borderColor="transparent"
       @search="setSearchValue"
     />
@@ -15,16 +15,10 @@ import failedImage from "@/assets/images/failed-img.svg";
 export default {
   name: "SearchProduct",
   components: { SearchBar },
-  data: function(){
-    return {
-      searchValue: ""
-    }
-  },
   methods: {
     // set search value
     setSearchValue(params) {
       this.$store.commit("inventory/setSearchValue", params);
-      this.searchValue = params
       this.$store.commit("inventory/setSearchProduct", true);
       this.$store.commit("inventory/setPage", 1);
       this.searchProducts();
@@ -33,18 +27,11 @@ export default {
     searchProducts() {
       if (this.searchValue !== "") {
         this.$store.commit("inventory/setSearchProduct", true);
-        this.$router.push({
-          name: "InventoryHome",
-          query: { search: this.searchValue, page: 1 },
-        });
+        this.getProducts();
       } else {
         this.$store.commit("inventory/setSearchProduct", false);
-        this.$router.push({
-          name: "InventoryHome",
-          query: { page: 1 },
-        });
+        this.getProducts();
       }
-      this.getProducts();
     },
     // get products
     getProducts() {

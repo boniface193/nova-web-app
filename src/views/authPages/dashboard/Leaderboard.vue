@@ -17,7 +17,6 @@
               placeholder="Search history"
               class="mx-lg-md-17"
               v-if="Search"
-              @search="getSearchValue"
             />
           </div>
         </div>
@@ -43,17 +42,8 @@
           </p>
         </div>
 
-        <div v-if="isLoading" class="text-center my-8">
-          <!-- this image time loader is calculated by the loader to triger the load time -->
-          <v-progress-circular
-            color="primary"
-            class="text-center"
-            indeterminate
-            size="20"
-            width="2"
-          ></v-progress-circular>
-        </div>
-        <!-- loader ends here -->
+        <!-- <div class="leaderTitle text-center my-3">Leaderboard</div> -->
+        <!-- <v-layout justify-center> -->
         <v-row class="d-flex justify-center">
           <v-col lg="6">
             <v-row class="mt-5" v-show="leaderboard.length >= 1">
@@ -72,25 +62,26 @@
                 >{{ items.rank }}
               </v-col>
               <v-col cols="8" lg="6">
-                <div
-                  class="d-flex"
-                  style="cursor: pointer"
-                  @click="filterById(items.seller_id)"
-                >
-                  <span
-                    class="primary--text"
-                    style="text-decoration: underline"
-                    >{{ items.seller_name }}</span
-                  >
+                <div class="d-flex" style="cursor: pointer" @click="openModal">
+                  <span class="mr-3"
+                    ><v-img
+                      :src="items.image"
+                      height="28px"
+                      width="29px"
+                      class="rounded-pill"
+                    >
+                    </v-img
+                  ></span>
+                  <span>{{ items.name }}</span>
                 </div>
               </v-col>
-              <v-col cols="2" lg="3">{{ items.total_points }}</v-col>
+              <v-col cols="2" lg="3">{{ items.points }}</v-col>
             </v-row>
           </v-col>
         </v-row>
+        <!-- </v-layout> -->
       </div>
     </v-container>
-
     <!-- pagination -->
     <div class="text-center elevation-8 pa-3" v-if="leaderboard.length >= 10">
       <!-- <v-pagination
@@ -102,25 +93,31 @@
       ></v-pagination> -->
       <!--  v-if="leaderboard.data.length >= 10" -->
     </div>
-
     <!-- modal -->
     <div class="mx-3">
-      <Modal class="overlay" :dialog="this.dialog" width="250">
-        <div>
-          <v-card class="rounded-lg">
-            <v-icon
-              style="cursor: pointer"
-              @click.native="closeModal"
-              class="float-right mr-3 mt-3"
-              color="primary"
-              >mdi-close</v-icon
-            >
-            <div class="pt-9">
-              <span class="d-flex justify-center mt-2 body-text">
-                {{ filteredArray.seller_name }}
-              </span>
-              <span class="d-flex justify-center title-text">
-                Sales Representative
+      <Modal
+        class="overlay"
+        :dialog="this.dialog"
+        width="250"
+        
+      >
+        <v-card class="rounded-lg">
+          <v-icon
+            style="cursor: pointer"
+            @click.native="closeModal"
+            class="float-right mr-3 mt-3"
+            color="primary"
+            >mdi-close</v-icon
+          >
+          <div class="pt-9">
+            <div class="d-flex justify-center">
+              <span>
+                <v-img
+                  src="@/assets/images/emike.png"
+                  height="54px"
+                  width="55px"
+                  class="rounded-pill"
+                ></v-img>
               </span>
               <div class="pt-3">
                 <v-divider light></v-divider>
@@ -170,8 +167,39 @@
                 <span class="title-text mx-2">in sales</span>
               </div>
             </div>
-          </v-card>
-        </div>
+            <span class="d-flex justify-center mt-2 body-text">
+              Emike lucy
+            </span>
+            <span class="d-flex justify-center title-text">
+              Sales Representative
+            </span>
+            <div class="pt-3">
+              <v-divider light></v-divider>
+            </div>
+            <v-list-item>
+              <v-list-item-content class="pt-1" align="center">
+                <v-list-item-title
+                  ><span class="primary--text larger-text">1st</span> <br />
+                  <span class="title-text">In-store</span>
+                </v-list-item-title>
+              </v-list-item-content>
+              <v-divider vertical> </v-divider>
+              <v-list-item-content class="pt-1" align="center">
+                <v-list-item-title
+                  ><span class="primary--text larger-text">2587</span> <br />
+                  <span class="title-text">Total Points</span>
+                </v-list-item-title>
+              </v-list-item-content>
+            </v-list-item>
+            <div>
+              <v-divider light></v-divider>
+            </div>
+            <div class="d-flex justify-center mt-3 pb-5">
+              <span class="primary--text larger-text">N268,000,000</span>
+              <span class="title-text mx-2">in sales</span>
+            </div>
+          </div>
+        </v-card>
       </Modal>
     </div>
   </div>
@@ -180,7 +208,7 @@
 <script>
 import Search from "@/components/general/SearchBar.vue";
 import Modal from "@/components/modal.vue";
-import { mapGetters, mapState } from "vuex";
+// import { mapGetters } from "vuex"
 export default {
   name: "orderDetails",
   components: {
@@ -301,6 +329,11 @@ export default {
   color: #979797;
   font-family: "Product Sans";
   font-size: 16px;
+}
+.leaderTitle {
+  color: #5064cc;
+  font-family: "Product Sans";
+  font-size: 24px;
 }
 .leader-text {
   font-family: "Product Sans Light";

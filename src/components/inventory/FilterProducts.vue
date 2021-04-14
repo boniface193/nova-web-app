@@ -1,5 +1,6 @@
 <template>
   <div>
+    
     <BasicFilter
       :price="filterParameters.price"
       toolTipText="Filter products"
@@ -62,14 +63,7 @@ export default {
   methods: {
     // get products
     getProducts() {
-       const params = new URLSearchParams(window.location.search);
       this.$store.commit("inventory/setSearchProduct", false);
-      if(params.get("search") || params.get("page")){
-        this.$router.push({
-        name: "InventoryHome",
-        query: {},
-      });
-      }
       this.$store.commit("inventory/setInventoryLoader", true);
       this.$store
         .dispatch("inventory/getfilteredProducts")

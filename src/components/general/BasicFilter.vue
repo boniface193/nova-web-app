@@ -22,7 +22,7 @@
             @click="toggleFilterItem('priceFilter')"
           >
             Price (&#8358;)
-            <span><v-icon color="#029B97">mdi-chevron-right</v-icon></span>
+            <span><v-icon color="#5064cc">mdi-chevron-right</v-icon></span>
           </div>
           <div class="py-2 px-4">
             <multipleRange
@@ -38,7 +38,7 @@
           <v-btn
             class="px-4 py-2 mr-2 primary--text"
             @click="resetFilter"
-            style="background: #DDF8F7"
+            style="background: #5064cc26"
             >Reset</v-btn
           >
           <!-- apply filter btn -->
@@ -109,7 +109,7 @@ export default {
     margin-top: 10px;
     .header {
       height: 40px;
-      background: #029B97;
+      background: #5064cc;
       width: 100%;
       border-top-right-radius: 8px;
       border-top-left-radius: 8px;
@@ -161,6 +161,7 @@ export default {
   .basic-filter {
     .basic-filter-content {
       width: 300px;
+      left: 0;
       right: 0;
       margin: 10px auto;
     }

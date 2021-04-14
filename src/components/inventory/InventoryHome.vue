@@ -1,30 +1,43 @@
 <template>
+<<<<<<< HEAD
   <div class="px-2 px-md-7 pt-16 pt-md-0 pb-16">
+=======
+  <div class="px-4 px-md-10">
+>>>>>>> ade9d3cccff46f2645dae3ce5549a0bbae573ac3
     <div class="d-flex align-center" style="justify-content: flex-end">
       <div class="search-container">
         <SearchProduct />
       </div>
 
+<<<<<<< HEAD
       <FilterProducts class="ml-1" />
     </div>
     <div class="mt-6 mx-auto category-container">
       <CategoryList class="mx-auto"/>
+=======
+      <FilterProducts />
+>>>>>>> ade9d3cccff46f2645dae3ce5549a0bbae573ac3
     </div>
 
+<<<<<<< HEAD
     <div
       class="pt-12 pb-5 products-container"
       v-show="products.length !== 0 && !inventoryLoader"
     >
       <div class="d-flex flex-wrap">
+=======
+    <div class="pt-12 pb-5" v-show="products.length !== 0 && !inventoryLoader">
+      <div class="products-container">
+>>>>>>> ade9d3cccff46f2645dae3ce5549a0bbae573ac3
         <ProductCard
-          class="mb-5"
+          class="mb-7"
           v-for="product in products"
           :key="product.id"
           :product="product"
         />
       </div>
       <!-- pagination -->
-      <div class="d-flex justify-space-between px-4 align-center flex-wrap">
+      <!-- <div class="d-flex justify-space-between px-4 align-center flex-wrap">
         <div class="d-flex justify-space-between align-center flex-wrap">
           <p class="mb-2 mr-5">
             Page {{ pageDetails.current_page }} of {{ pageDetails.last_page }}
@@ -38,6 +51,9 @@
             circle
           ></v-pagination>
         </div>
+      </div> -->
+      <div class="d-flex justify-center px-4 text-center">
+        <p style="cursor:pointer" class="primary--text">See more</p>
       </div>
     </div>
     <!-- no data -->
@@ -95,43 +111,24 @@ export default {
       dialog: false,
     };
   },
-  created() {
-    this.$store.commit("inventory/setInventoryLoader", true);
-    const params = new URLSearchParams(window.location.search);
-    if (params.get("page")) {
-      // set page back to page 1
-      this.$store.commit("inventory/setPage", params.get("page"));
-      if (params.get("search")) {
-        this.$store.commit("inventory/setSearchValue", params.get("search"));
-        this.$store.commit("inventory/setSearchProduct", true);
-        this.getSearchProduct();
-      } else {
-        this.$store.commit("inventory/setSearchProduct", false);
-        this.getfilteredProducts();
-      }
-    } else {
-      this.$store.commit("inventory/setSearchProduct", false);
-      this.getProducts();
-    }
-  },
   computed: {
     ...mapGetters({
       products: "inventory/products",
     }),
     ...mapState({
+      // pageDetails: (state) => state.inventory.pageDetails,
       inventoryLoader: (state) => state.inventory.inventoryLoader,
       page: (state) => state.inventory.page,
       pageDetails: (state) => state.inventory.pageDetails,
-      searchValue: (state) => state.inventory.searchValue,
-      searchProduct: (state) => state.inventory.searchProduct,
+      getCurrentPage() {
+        return {
+          currentPage: this.pageDetails.current_page,
+        };
+      },
     }),
-    getCurrentPage() {
-      return {
-        currentPage: this.pageDetails.current_page,
-      };
-    },
   },
   methods: {
+<<<<<<< HEAD
     getProducts() {
       // set category
       this.$store.commit("inventory/setCategory", "");
@@ -152,72 +149,51 @@ export default {
           }
         });
     },
+=======
+>>>>>>> ade9d3cccff46f2645dae3ce5549a0bbae573ac3
     // set current page
     setCurentPage() {
       this.$store.commit("inventory/setPage", this.getCurrentPage.currentPage);
-      const params = new URLSearchParams(window.location.search);
-      if (this.searchProduct === true) {
-        if (this.getCurrentPage.currentPage != params.get("page")) {
-          this.$router.push({
-            name: "InventoryHome",
-            query: {
-              search: this.searchValue,
-              page: this.getCurrentPage.currentPage,
-            },
-          });
-          this.getSearchProduct();
-        }
-      } else {
-        this.$router.push({
-          name: "InventoryHome",
-          query: { page: this.getCurrentPage.currentPage },
-        });
-        this.getfilteredProducts();
-      }
+      this.searchProducts === true
+        ? this.getSearchProduct()
+        : this.getfilteredProducts();
     },
     // request for page with the request informations
     getfilteredProducts() {
-      this.$store
-        .dispatch("inventory/getfilteredProducts")
-        .then(() => this.$store.commit("inventory/setInventoryLoader", false))
-        .catch((error) => {
-          this.statusImage = failedImage;
-          this.$store.commit("inventory/setInventoryLoader", false);
-          this.dialog = true;
-          if (error.response) {
-            this.dialogMessage = "Something went wrong, pls try again!";
-          } else {
-            this.dialogMessage = "No internet Connection!";
-          }
-        });
+      this.$store.dispatch("inventory/getfilteredProducts").catch((error) => {
+        this.statusImage = failedImage;
+        if (error.response) {
+          this.dialogMessage = "Something went wrong, pls try again!";
+        } else {
+          this.dialogMessage = "No internet Connection!";
+        }
+        this.dialog = true;
+      });
     },
     // search products
     getSearchProduct() {
-      this.$store
-        .dispatch("inventory/searchProducts")
-        .then(() => this.$store.commit("inventory/setInventoryLoader", false))
-        .catch((error) => {
-          this.statusImage = failedImage;
-          this.$store.commit("inventory/setInventoryLoader", false);
-          this.dialog = true;
-          if (error.response) {
-            this.dialogMessage = "Something went wrong, pls try again!";
-          } else {
-            this.dialogMessage = "No internet Connection!";
-          }
-        });
+      this.$store.dispatch("inventory/searchProducts").catch((error) => {
+        this.statusImage = failedImage;
+        if (error.response) {
+          this.dialogMessage = "Something went wrong, pls try again!";
+        } else {
+          this.dialogMessage = "No internet Connection!";
+        }
+        this.dialog = true;
+      });
     },
   },
 };
 </script>
 <style lang="scss" scoped>
 .products-container {
-  width: 1050px;
-  margin: auto;
+  display: flex;
+  flex-wrap: wrap;
 }
 .search-container {
   width: 400px;
 }
+<<<<<<< HEAD
 .category-container{
   max-width: 100%;
   //overflow-x: auto;
@@ -249,6 +225,8 @@ export default {
     width: 100%;
   }
 }
+=======
+>>>>>>> ade9d3cccff46f2645dae3ce5549a0bbae573ac3
 @media (max-width: 500px) {
   .search-container {
     max-width: -webkit-fill-available;

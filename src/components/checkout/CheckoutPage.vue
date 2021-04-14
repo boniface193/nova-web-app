@@ -23,7 +23,7 @@
           <img :src="orderDetails.product_image_url" alt="" />
         </div>
       </v-col>
-      <v-col class="col-12 col-md-6 pt-5 pt-md-15 pr-0">
+      <v-col class="col-12 col-md-6 pt-5 pt-md-15 px-8">
         <router-view
           :orderDetails="orderDetails"
           :productDetails="productDetails"
