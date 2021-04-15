@@ -1,5 +1,28 @@
 <template>
   <v-container>
+    <div class="mx-3 text-center margin-top" v-show="emptyOrder">
+      <div class="text-h4 text-lg-h3">Orders</div>
+      <img
+        class="text-center my-lg-8 my-md-16 my-sm-10 margin-top"
+        src="../../../assets/images/orders.svg"
+        width="30%"
+      />
+      <div class="text-body-1 text-lg-h5 margin-top">No orders yet.</div>
+      <p class="grey--text text-body-1 mt-3">
+        Once you make a sale, you'll find it here.
+      </p>
+      <div class="d-flex justify-center">
+        <v-btn
+          :to="{ name: 'InventoryHome' }"
+          class="text-capitalize mt-8"
+          height="48px"
+          depressed
+          color="primary"
+          >Start Selling</v-btn
+        >
+      </div>
+    </div>
+
     <div class="mx-3">
       <p class="sub-header pt-8">
         You have
@@ -148,6 +171,7 @@ export default {
   },
   data() {
     return {
+      emptyOrder: false,
       loadImage: true,
       isLoading: true,
       empty: "",
@@ -192,7 +216,7 @@ export default {
         }
       });
       if (e.length < 1) {
-        this.empty = "No Sales Recorded Yet";
+        this.emptyOrder = true
       }
     });
 
@@ -353,6 +377,22 @@ div.step-progress__step span {
   justify-content: space-between;
   align-items: center;
   margin-bottom: 40px;
+}
+
+.v-btn:not(.v-btn--round).v-size--default {
+  border-radius: 8px;
+  font-family: "Product Sans Regular";
+  font-size: 16px;
+  width: 20%;
+}
+
+@media (max-width: 650px) {
+  .v-btn:not(.v-btn--round).v-size--default {
+    width: 100%;
+  }
+  .margin-top{
+    margin-top: 15%;
+  }
 }
 
 .position-abs {
