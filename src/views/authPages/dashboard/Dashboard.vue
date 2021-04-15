@@ -23,7 +23,7 @@
             </v-card>
             <v-card
               v-if="!currentLoading"
-              class="shadow-sm elevation-0 px-2"
+              class="shadow-sm elevation-0"
               style="
                 box-shadow: 0 0.5rem 30px rgba(0, 0, 0, 0.15) !important;
                 border-radius: 15px;
@@ -31,18 +31,17 @@
               "
             >
               <div class="text-center">
-                <div class="d-flex justify-center pt-5">
-                  <div class="mx-4 position-abs">
+                <div class="pt-5">
+                  <div class="d-flex justify-center">
                     <img
+                      style="position: absolute"
                       src="@/assets/images/shopping.png"
                       width="21.5"
                       height="21.27"
-                      class="ml-percent mt-4"
+                      class="mt-4"
                     />
+                    <div class="pa-7 round-img-bg-danger"></div>
                   </div>
-                  <div
-                    class="rounded-pill pa-7 text-center round-img-bg-danger"
-                  ></div>
                 </div>
                 <div class="card-header">
                   <v-icon
@@ -92,7 +91,7 @@
             </v-card>
             <v-card
               v-if="!payment"
-              class="shadow-sm elevation-0 px-2"
+              class="shadow-sm elevation-0"
               style="
                 box-shadow: 0 0.5rem 30px rgba(0, 0, 0, 0.15) !important;
                 border-radius: 15px;
@@ -101,17 +100,14 @@
             >
               <div class="text-center">
                 <div class="d-flex justify-center pt-5">
-                  <div class="mx-4 position-abs">
-                    <img
-                      src="@/assets/images/money.svg"
-                      width="21.5"
-                      height="21.27"
-                      class="ml-percent mt-4"
-                    />
-                  </div>
-                  <div
-                    class="rounded-pill pa-7 text-center round-img-bg-success"
-                  ></div>
+                  <img
+                    style="position: absolute"
+                    src="@/assets/images/money.svg"
+                    width="21.5"
+                    height="21.27"
+                    class="mt-4"
+                  />
+                  <div class="pa-7 round-img-bg-success"></div>
                 </div>
                 <div class="card-header">
                   <v-icon
@@ -163,7 +159,7 @@
             </v-card>
             <v-card
               v-if="!sellLoading"
-              class="shadow-sm elevation-0 px-2"
+              class="shadow-sm elevation-0"
               style="
                 box-shadow: 0 0.5rem 30px rgba(0, 0, 0, 0.15) !important;
                 border-radius: 15px;
@@ -172,17 +168,14 @@
             >
               <div class="text-center">
                 <div class="d-flex justify-center pt-5">
-                  <div class="mx-4 position-abs">
-                    <img
-                      src="@/assets/images/group.svg"
-                      width="21.5"
-                      height="21.27"
-                      class="ml-percent mt-4"
-                    />
-                  </div>
-                  <div
-                    class="rounded-pill pa-7 text-center round-img-bg-primary"
-                  ></div>
+                  <img
+                    style="position: absolute"
+                    src="@/assets/images/group.svg"
+                    width="21.5"
+                    height="21.27"
+                    class="ml-percent mt-4"
+                  />
+                  <div class="pa-7 round-img-bg-primary"></div>
                 </div>
                 <div class="card-header">{{ diffSales }}</div>
                 <div class="card-sale">Lifetime Sales Points</div>
@@ -225,7 +218,7 @@
             </v-card>
             <v-card
               v-if="!rankLoading"
-              class="shadow-sm elevation-0 px-2"
+              class="shadow-sm elevation-0"
               style="
                 box-shadow: 0 0.5rem 30px rgba(0, 0, 0, 0.15) !important;
                 border-radius: 15px;
@@ -234,17 +227,14 @@
             >
               <div class="text-center">
                 <div class="d-flex justify-center pt-5">
-                  <div class="mx-4 position-abs">
-                    <img
-                      src="@/assets/images/cup.svg"
-                      width="21.5"
-                      height="21.27"
-                      class="ml-percent mt-4"
-                    />
-                  </div>
-                  <div
-                    class="rounded-pill pa-7 text-center round-img-bg-warning"
-                  ></div>
+                  <img
+                    style="position: absolute"
+                    src="@/assets/images/cup.svg"
+                    width="21.5"
+                    height="21.27"
+                    class="ml-percent mt-4"
+                  />
+                  <div class="pa-7 round-img-bg-warning"></div>
                 </div>
                 <div class="card-header">{{ pRank || "-" }}</div>
                 <div class="card-sale">on leaderboard</div>
@@ -442,7 +432,7 @@ export default {
   font-size: 24px;
 }
 .welcome-text-sm {
-  font-family: "Product Sans Light";
+  font-family: "Product Sans" Light;
   font-variant: normal;
   letter-spacing: 0.8px;
   font-size: 16px;
@@ -459,22 +449,23 @@ export default {
 }
 .round-img-bg-danger {
   background: #ffecec 0% 0% no-repeat padding-box;
+  border-radius: 50%;
+  width: 30%;
 }
 .round-img-bg-success {
   background: #dbffdc 0% 0% no-repeat padding-box;
+  border-radius: 50%;
+  width: 30%;
 }
 .round-img-bg-primary {
   background: #eaecf9 0% 0% no-repeat padding-box;
+  border-radius: 50%;
+  width: 30%;
 }
 .round-img-bg-warning {
   background: #fff4d2 0% 0% no-repeat padding-box;
-}
-.position-abs {
-  position: absolute;
-  z-index: 1;
-}
-.ml-percent {
-  z-index: 1 !important;
+  border-radius: 50%;
+  width: 30%;
 }
 .card-header {
   color: #2b2b2b;

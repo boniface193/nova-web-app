@@ -1,7 +1,30 @@
 <template>
   <div>
-    <div>
-      <p class="sub-header">
+    <div class="mx-3 text-center margin-top" v-show="emptyOrder">
+      <div class="text-h4 text-lg-h3">Orders</div>
+      <img
+        class="text-center my-lg-8 my-md-16 my-sm-10 margin-top"
+        src="../../../assets/images/orders.svg"
+        width="30%"
+      />
+      <div class="text-body-1 text-lg-h5 margin-top">No orders yet.</div>
+      <p class="grey--text text-body-1 mt-3">
+        Once you make a sale, you'll find it here.
+      </p>
+      <div class="d-flex justify-center">
+        <v-btn
+          :to="{ name: 'InventoryHome' }"
+          class="text-capitalize mt-8"
+          height="48px"
+          depressed
+          color="primary"
+          >Start Selling</v-btn
+        >
+      </div>
+    </div>
+
+    <div class="mx-3">
+      <p class="sub-header pt-8">
         You have
         <span class="font-weight-bold">{{ ordersItems.length }}</span> orders.
       </p>
@@ -77,7 +100,7 @@
                     v-if="!loadImage"
                     :src="orders.product_image_url"
                     class="image-bgColor"
-                    style="width:100%; height: 100px"
+                    style="width: 100%; height: 100px"
                   />
                 </div>
               </v-col>
@@ -120,79 +143,6 @@
             </v-row>
           </v-card>
         </v-col>
-        <!--  <v-card outlined class="rounded-lg pa-5 mb-3" height="100%">
-            <step-progress
-              :steps="['Processing', 'Shipped', 'Delivered']"
-              :current-step="
-                orders.delivery_status_label == 'Processing' ||
-                orders.delivery_status_label == 'Shipped'
-                  ? 1
-                  : 3
-              "
-              :line-thickness="lineThickness"
-              active-color="#FFA500"
-              :active-thickness="activeThickness"
-              :passive-thickness="passiveThickness"
-              passive-color="#5E5E5E1A"
-            ></step-progress>
-            <v-row class="mt-12">
-              <v-col cols="5" class="py-0">
-                <div class="text-center">
-                  <v-progress-circular
-                    v-if="loadImage"
-                    color="primary"
-                    class="text-center"
-                    indeterminate
-                    size="20"
-                    width="2"
-                  ></v-progress-circular>
-                  <v-img
-                    v-if="!loadImage"
-                    :src="orders.product_image_url"
-                    class="image-bgColor"
-                    width="100%"
-                  ></v-img>
-                </div>
-              </v-col>
-              <v-col cols="7" class="pa-0">
-                <div class="order-item-font">
-                  Order No:
-                  <span class="order-no-blue">
-                    <router-link
-                      :to="{ name: 'orderDetails', params: { id: orders.id } }"
-                      style="text-decoration: none"
-                    >
-                      {{ orders.id }}
-                    </router-link>
-                  </span>
-                </div>
-                <div class="order-item-font">
-                  Time:
-                  <span class="order-no-grey"
-                    >{{ orders.created_at.slice(0, -6) }}
-                    <span class="order-no-lighter-grey">{{
-                      orders.created_at.slice(10)
-                    }}</span></span
-                  >
-                </div>
-                <div class="order-item-font">
-                  Customer:
-                  <span class="order-no-grey">{{ orders.customer.name }}</span>
-                </div>
-                <div class="order-item-font">
-                  Payment Status:
-                  <span class="order-no-grey">{{
-                    orders.payment_status_label
-                  }}</span>
-                </div>
-                <div class="order-item-font">
-                  Price (NGN):
-                  <span class="order-no-grey">{{ orders.subtotal_label }}</span>
-                </div>
-              </v-col>
-            </v-row>
-          </v-card>
-        </v-col> -->
       </v-row>
     </div>
     <!-- pagination -->
@@ -226,6 +176,7 @@ export default {
   },
   data() {
     return {
+      emptyOrder: false,
       loadImage: true,
       isLoading: true,
       empty: "",
@@ -270,7 +221,7 @@ export default {
         }
       });
       if (e.length < 1) {
-        this.empty = "No Sales Recorded Yet";
+        this.emptyOrder = true;
       }
     });
 
@@ -285,8 +236,17 @@ export default {
     getSearchValue(params) {
       this.$store.commit("orders/getSearchValue", params);
       this.$store.commit("orders/setSearchOrder", true);
-      this.$store.dispatch("orders/searchOrders").then(() => {
-        this.isLoading = false;
+      this.$store.dispatch("orders/searchOrders").then((res) => {
+        this.isLoading = true;
+        setTimeout(() => {
+          if (res.data.data.length === 0) {
+            this.isLoading = false;
+            this.empty = "No order found";
+          } else {
+            this.empty = "";
+            this.isLoading = false;
+          }
+        }, 1000);
       });
       this.getOrder();
     },
@@ -302,6 +262,16 @@ export default {
     filterGetOrders() {
       this.$store.dispatch("orders/filterGetOrders").then((e) => {
         this.ordersItems = e.data.data;
+        this.isLoading = true;
+        setTimeout(() => {
+          if (e.data.data.length === 0) {
+            this.isLoading = false;
+            this.empty = "No order found";
+          } else {
+            this.empty = "";
+            this.isLoading = false;
+          }
+        }, 1000);
       });
     },
     // filter function
@@ -412,6 +382,22 @@ div.step-progress__step span {
   justify-content: space-between;
   align-items: center;
   margin-bottom: 40px;
+}
+
+.v-btn:not(.v-btn--round).v-size--default {
+  border-radius: 8px;
+  font-family: "Product Sans Regular";
+  font-size: 16px;
+  width: 20%;
+}
+
+@media (max-width: 650px) {
+  .v-btn:not(.v-btn--round).v-size--default.text-capitalize {
+    width: 100%;
+  }
+  .margin-top {
+    margin-top: 15%;
+  }
 }
 
 .position-abs {
