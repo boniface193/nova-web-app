@@ -23,7 +23,7 @@
             </v-card>
             <v-card
               v-if="!currentLoading"
-              class="shadow-sm elevation-0 px-2"
+              class="shadow-sm elevation-0"
               style="
                 box-shadow: 0 0.5rem 30px rgba(0, 0, 0, 0.15) !important;
                 border-radius: 15px;
@@ -91,7 +91,7 @@
             </v-card>
             <v-card
               v-if="!payment"
-              class="shadow-sm elevation-0 px-2"
+              class="shadow-sm elevation-0"
               style="
                 box-shadow: 0 0.5rem 30px rgba(0, 0, 0, 0.15) !important;
                 border-radius: 15px;
@@ -159,7 +159,7 @@
             </v-card>
             <v-card
               v-if="!sellLoading"
-              class="shadow-sm elevation-0 px-2"
+              class="shadow-sm elevation-0"
               style="
                 box-shadow: 0 0.5rem 30px rgba(0, 0, 0, 0.15) !important;
                 border-radius: 15px;
@@ -218,7 +218,7 @@
             </v-card>
             <v-card
               v-if="!rankLoading"
-              class="shadow-sm elevation-0 px-2"
+              class="shadow-sm elevation-0"
               style="
                 box-shadow: 0 0.5rem 30px rgba(0, 0, 0, 0.15) !important;
                 border-radius: 15px;
