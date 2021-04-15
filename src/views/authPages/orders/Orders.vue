@@ -387,7 +387,7 @@ div.step-progress__step span {
 }
 
 @media (max-width: 650px) {
-  .v-btn:not(.v-btn--round).v-size--default {
+  .v-btn:not(.v-btn--round).v-size--default.text-capitalize {
     width: 100%;
   }
   .margin-top{
