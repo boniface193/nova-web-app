@@ -1,9 +1,6 @@
 <template>
   <div>
-    <div
-      style="background: #fafafa; min-height: 100%; margin-top: -40px"
-      class="pt-sm-10 pt-16"
-    >
+    <div class="secondary-container pt-sm-10 pt-16">
       <div v-if="!loader">
         <!-- go to previous page -->
         <router-link
@@ -529,6 +526,14 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
+.secondary-container {
+  position: absolute;
+  width: 100%;
+  top: -20px;
+  left: 0;
+  background: #fafafa;
+  min-height: 100%;
+}
 .image-container {
   width: 80%;
   background: #fff;

@@ -2,15 +2,12 @@
   <div
     class="sidebar-container mobile-sidebar"
     :class="{
-      'hide-sidebar': drawer == false,
-      'hide-mobile-sidebar': drawer == false,
+      'mobile-sidebar--active': drawer == true,
     }"
   >
     <div class="sidebar">
       <div class="sidebar-content">
-        <v-container
-          class="px-5 my-10 d-flex align-center justify-space-between"
-        >
+        <div class="px-7 my-10 d-flex align-end justify-space-between">
           <router-link :to="{ name: 'Home' }">
             <div class="nova-logo d-flex align-center">
               <img src="@/assets/images/primary-logo.png" />
@@ -20,16 +17,15 @@
             color="primary"
             size="32"
             @click="closeDrawer"
-            style="cursor: pointer"
+            class="close-drawer"
             >mdi-close</v-icon
           >
-        </v-container>
+        </div>
 
         <!-- routes links -->
         <v-list class="pa-0" nav tile>
           <v-list-item-group mandatory>
             <v-list-item
-             
               v-for="item in items"
               :key="item.key"
               link
@@ -74,6 +70,7 @@
         </div>
       </div>
     </div>
+    <div class="overlay" @click="closeDrawer"></div>
     <!-- modal for dialog messages -->
     <modal :dialog="dialog" width="120">
       <div class="text-center dialog white">Loging Out...</div>
@@ -85,9 +82,9 @@ import modal from "@/components/modal.vue";
 export default {
   name: "Sidebar",
   components: { modal },
-  props: ["drawer"],
   data: () => ({
     dialog: false,
+    drawer: false,
     items: [
       {
         title: "Inventory",
@@ -117,10 +114,13 @@ export default {
   }),
   methods: {
     closeDrawer() {
-      this.$emit("closeDrawer");
+      this.drawer = false;
+    },
+    openDrawer() {
+      this.drawer = true;
     },
     checkScreen() {
-      if (window.screen.width < 1260) {
+      if (window.screen.width <= 1000) {
         this.closeDrawer();
       }
     },
@@ -139,17 +139,15 @@ export default {
 </script>
 <style lang="scss" scoped>
 .sidebar-container {
-  min-width: 250px;
-  width: 250px;
   height: 100%;
-  overflow: hidden;
-  transition: 0.5s ease;
   z-index: 10;
-  position: fixed;
-
+  min-width: 225px;
+  overflow: hidden;
   .sidebar {
-    min-width: 250px;
-    width: 250px;
+    transition: 0.5s ease;
+    min-width: 225px;
+    width: 225px;
+    position: fixed;
     height: 100vh;
     top: 0px;
     max-height: calc(100% - 0px);
@@ -166,37 +164,46 @@ export default {
           width: 100%;
         }
       }
+      .close-drawer {
+        display: none;
+        cursor: pointer;
+      }
     }
   }
 }
-.hide-sidebar {
-  margin-left: -250px;
-}
-@media (max-width: 1260px) {
+@media (max-width: 1000px) {
   .mobile-sidebar {
-    margin-left: 0px;
-    min-width: 100%;
-    width: 100%;
-    position: fixed;
-    &::before {
-      opacity: 0.46;
-      background-color: #212121;
-      position: absolute;
-      width: 100%;
-      z-index: -1;
-      height: 100%;
-      content: "";
+    min-width: auto; 
+    .sidebar{
+      margin-left: -225px;
     }
-  }
-  .hide-mobile-sidebar {
-    margin-left: -250px;
-    min-width: 250px;
-    width: 250px;
+    &--active {
+      position: fixed;
+      min-width: 100%;
+      .overlay {
+        height: 100%;
+        width: 100%;
+        opacity: 0.46;
+        background-color: #212121;
+        z-index: -1;
+        position: fixed;
+        top: 0;
+      }
+      .sidebar {
+        margin-left: 0px;
+        &-content {
+          .close-drawer {
+            display: block !important;
+          }
+        }
+      }
+    }
   }
 }
 </style>
 <style lang="scss">
-.v-list--nav .v-list-item, .v-list--nav .v-list-item:before {
-    border-radius: 0px !important;
+.v-list--nav .v-list-item,
+.v-list--nav .v-list-item:before {
+  border-radius: 0px !important;
 }
 </style>

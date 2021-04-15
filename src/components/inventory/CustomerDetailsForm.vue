@@ -1,5 +1,5 @@
 <template>
-  <div class="px-2 px-md-7 customer-details">
+  <div class="customer-details">
     <div
       class="d-flex align-center justify-center mb-8"
       style="position: relative"

@@ -1,13 +1,20 @@
 <template>
-    <div class="pt-9 pt-lg-3">
-        <!-- title -->
-        <h2 class="ml-2 ml-md-7">Settings</h2>
-        <!-- pages -->
-        <router-view />
-    </div>
+  <div>
+    <!-- title -->
+    <h2 class="title mb-5">Settings</h2>
+    <!-- pages -->
+    <router-view />
+  </div>
 </template>
 <script>
 export default {
-    name: "Settings"
-}
+  name: "Settings",
+};
 </script>
+<style lang="scss" scoped>
+@media (max-width: 1000px) {
+  .title {
+    display: none;
+  }
+}
+</style>

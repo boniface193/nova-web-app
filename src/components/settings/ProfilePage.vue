@@ -1,5 +1,5 @@
 <template>
-  <div class="profilePage-container px-2 px-md-7">
+  <div class="profilePage-container">
     <div class="profile-section pt-3">
       <div
         class="d-flex justify-space-between py-3"

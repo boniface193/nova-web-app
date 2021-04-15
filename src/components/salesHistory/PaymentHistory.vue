@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="px-2 px-md-7">
+    <div>
       <!-- title section  -->
       <div
         class="d-flex align-center justify-center mb-8"
@@ -15,10 +15,10 @@
       </div>
 
       <!-- contents -->
-      <div class="pt-10 pb-5" v-show="!fetchingData">
+      <div class="pb-5" v-show="!fetchingData">
         <div class="">
           <v-row>
-            <v-col sm="4" md="6" v-for="item in paymentHistory" :key="item.id">
+            <v-col class="col-12 col-lg-3 col-sm-6 mb-4" v-for="item in paymentHistory" :key="item.id">
               <v-card outlined class="rounded-lg py-3">
                 <v-row class="px-3">
                   <!-- <v-col cols="5">
@@ -31,10 +31,10 @@
                     </div>
                   </v-col> -->
 
-                  <v-col cols="12" class="pr-2 my-lg-3 my-md-3">
+                  <v-col cols="12">
                     <div class="order-item-font mt-1">
                       Order ID:
-                      <span class="order-no-grey mx-1"> {{ item.id }}</span>
+                      <span class="primary--text mx-1"> {{ item.id }}</span>
                     </div>
                     <div class="order-item-font mt-1">
                       Settlement Status:

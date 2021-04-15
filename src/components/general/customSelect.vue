@@ -32,7 +32,7 @@
           <input
             type="text"
             v-model="searchValue"
-            placeholder="Search Category"
+            placeholder="Search bank"
           />
           <v-icon class="primary--text">mdi-magnify</v-icon>
         </div>

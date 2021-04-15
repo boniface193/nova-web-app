@@ -5,7 +5,7 @@
         class="d-flex align-center justify-center mb-8"
         style="position: relative"
       >
-        <router-link :to="{ path: '/dashboard' }" style="text-decoration: none">
+        <router-link :to="{ name: 'ProfilePage' }" style="text-decoration: none">
           <span class="back-btn">
             <v-icon style="font-size: 25px">mdi-chevron-left</v-icon>
           </span>

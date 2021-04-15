@@ -1,7 +1,7 @@
 <template>
   <div class="dashboard-container">
-    <div class="primary pt-16 pb-8">
-      <div class="px-8 mt-8">
+    <div class="primary pt-16 pb-8 px-5 px-md-7">
+      <div class="mt-8">
         <!-- <Calender class="float-right" autoApply @updateDate="dateValue" /> -->
         <div class="welcome-text">Hello,</div>
         <div class="welcome-text-sm">{{ userInfo.name }}</div>
@@ -431,7 +431,10 @@ export default {
 
 <style lang="scss" scoped>
 .dashboard-container {
-  margin-top: -40px !important;
+  top: -40px !important;
+  position: absolute;
+  width: 100%;
+  left: 0px;
 }
 .welcome-text {
   font-family: "Product Sans" Medium;
@@ -447,11 +450,11 @@ export default {
 }
 .row-properties {
   position: absolute;
-  width: 70%;
+  width: 90%;
 }
-@media (max-width: 500px) {
+@media (max-width: 1000px) {
   .row-properties {
-    width: 90%;
+    width: 96%;
   }
 }
 .round-img-bg-danger {
@@ -504,5 +507,10 @@ export default {
   color: #979797;
   font-family: "Product Sans" Light;
   font-size: 8px;
+}
+@media (max-width:1000px) {
+  .dashboard-container {
+    top:60px;
+  }
 }
 </style>

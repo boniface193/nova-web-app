@@ -1,5 +1,5 @@
 <template>
-  <div class="px-2 px-md-7 pt-7 my-2 pb-16 store-width">
+  <div class="store-width">
 
     <div class="d-flex align-center justify-center mb-8" style="position: relative">
       <router-link :to="{ name: 'ProfilePage' }" style="text-decoration: none">

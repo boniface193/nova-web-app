@@ -1,30 +1,32 @@
 <template>
-  <div class="px-2 px-md-7 pt-16 pt-md-0 pb-16">
-    <div class="d-flex align-center" style="justify-content: flex-end">
-      <div class="search-container">
-        <SearchProduct />
-      </div>
+  <div class="pb-5">
+    <div class="inventory-header">
+      <div class="d-flex align-center" style="justify-content: flex-end">
+        <div class="search-container">
+          <SearchProduct />
+        </div>
 
-      <FilterProducts class="ml-1" />
-    </div>
-    <div class="mt-6 mx-auto category-container">
-      <CategoryList class="mx-auto"/>
+        <FilterProducts class="ml-1" />
+      </div>
+      <div class="mt-8 mt-md-6 mx-auto category-container">
+        <CategoryList class="mx-auto" />
+      </div>
     </div>
 
     <div
-      class="pt-12 pb-5 products-container"
+      class="pt-8 pb-5 products-container"
       v-show="products.length !== 0 && !inventoryLoader"
     >
-      <div class="d-flex flex-wrap">
+      <div class="d-flex flex-wrap justify-center" style="margin-right:-24px">
         <ProductCard
-          class="mb-5"
+          class="mb-5 mr-6"
           v-for="product in products"
           :key="product.id"
           :product="product"
         />
       </div>
       <!-- pagination -->
-      <div class="d-flex justify-space-between px-4 align-center flex-wrap">
+      <div class="d-flex justify-space-between align-center flex-wrap">
         <div class="d-flex justify-space-between align-center flex-wrap">
           <p class="mb-2 mr-5">
             Page {{ pageDetails.current_page }} of {{ pageDetails.last_page }}
@@ -212,16 +214,20 @@ export default {
 </script>
 <style lang="scss" scoped>
 .products-container {
-  width: 1050px;
+  width: auto;
   margin: auto;
+  max-width: 1250px;
 }
 .search-container {
   width: 400px;
 }
-.category-container{
+.category-container {
   max-width: 100%;
   //overflow-x: auto;
   position: relative;
+}
+.pagination{
+  max-width: 280px;
 }
 .status-img {
   width: 140px;
@@ -229,31 +235,31 @@ export default {
     width: 100%;
   }
 }
-@media (max-width: 1300px) {
-  .products-container {
-    width: 840px;
-  }
-}
-@media (max-width: 860px) {
-  .products-container {
-    width: 630px;
-  }
-}
-@media (max-width: 650px) {
-  .products-container {
-    width: 400px;
-  }
-}
-@media (max-width: 410px) {
-  .products-container {
-    width: 100%;
-  }
-}
+// @media (max-width: 1300px) {
+//   .products-container {
+//     width: 840px;
+//   }
+// }
+// @media (max-width: 860px) {
+//   .products-container {
+//     width: 630px;
+//   }
+// }
+// @media (max-width: 650px) {
+//   .products-container {
+//     width: 400px;
+//   }
+// }
+// @media (max-width: 410px) {
+//   .products-container {
+//     width: 100%;
+//   }
+// }
 @media (max-width: 500px) {
   .search-container {
     max-width: -webkit-fill-available;
     width: -webkit-fill-available;
-    min-width: 300px;
+    min-width: auto;
   }
 }
 </style>

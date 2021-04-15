@@ -5,7 +5,7 @@
   >
     <div class="category-container">
       <div
-        class="mr-3 px-4 category secondary--text"
+        class="mr-3 px-6 category secondary--text"
         :class="{
           'category--active': (activeLink || selectedCategory) == '',
         }"

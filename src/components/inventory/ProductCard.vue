@@ -46,10 +46,9 @@ export default {
 </script>
 <style lang="scss" scoped>
 .card-container {
-  min-width: 200px;
+  min-width: 190px;
   min-height: 340px;
   position: relative;
-  margin: auto 5px;
   cursor: pointer;
   &:hover {
     transform: scale(1.02);
@@ -97,12 +96,12 @@ export default {
       display: none;
     }
     .product-name {
-          height: 22px;
-    overflow: hidden;
-    word-break: break-all;
-    text-overflow: ellipsis;
-    width: 100%;
-    white-space: nowrap;
+      height: 22px;
+      overflow: hidden;
+      word-break: break-all;
+      text-overflow: ellipsis;
+      width: 100%;
+      white-space: nowrap;
     }
   }
   .points {
@@ -119,8 +118,13 @@ export default {
 }
 @media (max-width: 650px) {
   .card-container {
-    min-width: 48.4%;
-    margin: auto 0.8%;
+    min-height: 340px;
+    min-width: 170px;
+  }
+}
+@media (max-width: 595px) {
+  .card-container {
+    min-width: 150px;
     min-height: 240px;
     &:hover {
       transform: scale(1);
@@ -157,6 +161,28 @@ export default {
       }
       .sell-now {
         display: none !important;
+      }
+    }
+  }
+}
+@media (max-width: 365px) {
+  .card-container {
+    min-width: 120px;
+    min-height: 230px;
+    .card-top {
+      height: 130px;
+      .image-container {
+        height: 80px;
+        img {
+          width: 85%;
+        }
+      }
+    }
+    .card-bottom {
+      padding-top: 90px;
+      .sell-now-secondary {
+        bottom: 35px;
+        right: 5px;
       }
     }
   }

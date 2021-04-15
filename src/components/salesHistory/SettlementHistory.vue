@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="px-2 px-md-7">
+    <div>
       <!-- title section  -->
       <div
         class="d-flex align-center justify-center mb-8"
