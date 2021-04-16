@@ -32,7 +32,7 @@
       <div class="privacy-body py-5">
         <div class="d-flex align-center">
           <div class="logo">
-            <img src="@/assets/images/privacy-logo.svg" alt="" />
+            <img src="@/assets/images/privacy-and -security.svg" alt="" />
           </div>
           <router-link :to="{ name: 'Privacy' }" style="text-decoration: none">
             <p class="mb-0 ash-color">Privacy & Security</p>
@@ -50,7 +50,7 @@
       <div class="privacy-body py-5">
         <div class="d-flex align-center">
           <div class="logo">
-            <img src="@/assets/images/privacy-logo.svg" alt="" />
+            <img src="@/assets/images/Accounts.svg" alt="" />
           </div>
           <router-link
             :to="{ name: 'AddBankDetails' }"
