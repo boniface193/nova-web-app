@@ -308,7 +308,7 @@ export default {
   },
 };
 </script>
-<style lang="scss" scoped>
+<style lang="scss">
 .header {
   color: #2b2b2b;
   font-size: 14px;
@@ -384,12 +384,12 @@ div.step-progress__step span {
   margin-bottom: 40px;
 }
 
-.v-btn:not(.v-btn--round).v-size--default {
-  border-radius: 8px;
-  font-family: "Product Sans Regular";
-  font-size: 16px;
-  width: 20%;
-}
+// .v-btn:not(.v-btn--round).v-size--default {
+//   border-radius: 8px;
+//   font-family: "Product Sans Regular";
+//   font-size: 16px;
+//   width: 20%;
+// }
 
 @media (max-width: 650px) {
   .v-btn:not(.v-btn--round).v-size--default.text-capitalize {
