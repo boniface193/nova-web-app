@@ -308,7 +308,7 @@ export default {
   },
 };
 </script>
-<style lang="scss" >
+<style lang="scss" scoped>
 .header {
   color: #2b2b2b;
   font-size: 14px;

@@ -235,26 +235,6 @@ export default {
     width: 100%;
   }
 }
-// @media (max-width: 1300px) {
-//   .products-container {
-//     width: 840px;
-//   }
-// }
-// @media (max-width: 860px) {
-//   .products-container {
-//     width: 630px;
-//   }
-// }
-// @media (max-width: 650px) {
-//   .products-container {
-//     width: 400px;
-//   }
-// }
-// @media (max-width: 410px) {
-//   .products-container {
-//     width: 100%;
-//   }
-// }
 @media (max-width: 500px) {
   .search-container {
     max-width: -webkit-fill-available;
