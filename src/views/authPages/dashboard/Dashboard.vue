@@ -1,5 +1,5 @@
 <template>
-  <div class="dashboard-container">
+  <div class="dashboard-container mx-auto">
     <div class="primary pt-16 pb-8 px-5 px-md-7">
       <div class="mt-8">
         <!-- <Calender class="float-right" autoApply @updateDate="dateValue" /> -->
