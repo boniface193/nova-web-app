@@ -3,7 +3,7 @@
     class="d-flex justify-center align-center py-5 px-5"
     style="height: 100%"
   >
-    <div>
+    <div class="text-center">
       <div class="mb-7 mt-5 mx-auto status-img">
         <v-img :src="statusImage"></v-img>
       </div>
@@ -12,7 +12,7 @@
         Congratulation! Your Payment was Successfully
       </h3>
 
-      <v-btn class="primary mx-auto my-3" @click="viewOrderStatus"
+      <v-btn class="primary mx-auto" @click="viewOrderStatus"
         >Track your order here</v-btn
       >
     </div>

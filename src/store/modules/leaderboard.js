@@ -1,4 +1,4 @@
-import axios from "../../axios/reward"
+import axios from "../../axios/dashboard"
 
 // set the number of item you want to show on table
 const setItemPerPage = (itemPerPage, per_page, from_page) => {
@@ -36,11 +36,7 @@ const getters = {
 const actions = {
     getLeaderboard(context) {
         return new Promise((resolve, reject) => {
-            axios.get("/leaderboard/seller", {
-                headers: {
-                    Authorization: `Bearer ${localStorage.getItem("accessToken")}`
-                }
-            })
+            axios.get("/leaderboard/seller")
                 .then(response => {
                     context.commit("setLeaderboard", response.data.data)
                     context.commit("setPageDetails", response.data.meta);
@@ -58,12 +54,7 @@ const actions = {
         let perPage = ((state.itemPerPage) ? `per_page=${state.itemPerPage}` : "");
         let route = (state.searchValue !== "") ? `/search?query=${state.searchValue}&${page}&${perPage}` : ""
         return new Promise((resolve, reject) => {
-            axios.get(`/leaderboard/seller${route}`,
-                {
-                    headers: {
-                        Authorization: `Bearer ${localStorage.getItem("accessToken")}`
-                    }
-                }).then(response => {
+            axios.get(`/leaderboard/seller${route}`).then(response => {
                     context.commit("setLeaderboard", response.data.data);
                     console.log(response.data)
                     context.commit("setPageDetails", response.data.meta);

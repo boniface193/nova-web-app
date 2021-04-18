@@ -3,14 +3,14 @@
     class="d-flex justify-center align-center py-5 px-5"
     style="height: 100%"
   >
-    <div>
+    <div class="text-center">
       <div class="mb-7 mt-5 mx-auto status-img">
         <v-img :src="statusImage"></v-img>
       </div>
 
       <h3>Sorry!, Your Payment failed</h3>
 
-      <v-btn class="primary mx-auto my-3" @click="goCheckoutDetails"
+      <v-btn class="primary mx-auto" @click="goCheckoutDetails"
         >Go back</v-btn
       >
     </div>

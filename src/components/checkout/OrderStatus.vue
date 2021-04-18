@@ -104,7 +104,13 @@
           </div>
           <div class="text-center mt-5">
             <p class="primary--text" v-show="orderDetails.delivery_confirmed">
-              <span style="color:#FFA500;">Order Status:</span> <span class="ml-2 py-2 px-3 primary white--text" style="border-radius:5px"> Confirmed</span>
+              <span style="color: #ffa500">Order Status:</span>
+              <span
+                class="ml-2 py-2 px-3 primary white--text"
+                style="border-radius: 5px"
+              >
+                Confirmed</span
+              >
             </p>
           </div>
         </div>
@@ -268,10 +274,14 @@ export default {
         this.pageLoader = false;
         this.dialog = true;
         this.statusImage = failedImage;
-        if (error.response) {
-          this.dialogMessage = "Sorry, this data does not Exist";
-        } else {
-          this.dialogMessage = "No internet Connection!";
+        if (error.response.status === (422 || 400)) {
+          this.dialogMessage = error.response.data.message;
+        } else if (error.response.status === 404) {
+          this.dialogMessage = "404 not found";
+        } else if (error.response.status === 500) {
+          this.dialogMessage = "Something went wrong, please try again";
+        } else if (!navigator.onLine) {
+          this.dialogMessage = "No internet connection!";
         }
       });
   },
@@ -317,14 +327,14 @@ export default {
           this.dialog = true;
           this.loading2 = false;
           this.statusImage = failedImage;
-          if (error.response) {
-            if(error.response.status === 400){
-              this.dialogMessage = error.response.data.message
-            }else{
-              this.dialogMessage = "Something went wrong, pls try again";
-            }
-          } else {
-            this.dialogMessage = "No internet Connection!";
+          if (error.response.status === (422 || 400)) {
+            this.dialogMessage = error.response.data.message;
+          } else if (error.response.status === 404) {
+            this.dialogMessage = "404 not found";
+          } else if (error.response.status === 500) {
+            this.dialogMessage = "Something went wrong, please try again";
+          } else if (!navigator.onLine) {
+            this.dialogMessage = "No internet connection!";
           }
         });
     },
@@ -346,10 +356,14 @@ export default {
         .catch((error) => {
           this.errorMessage = true;
           this.resendOTPLoader = false;
-          if (error.response) {
+          if (error.response.status === (422 || 400)) {
             this.otpErrorMessage = error.response.errors.email[0];
-          } else {
-            this.otpErrorMessage = "No internet Connection!";
+          } else if (error.response.status === 404) {
+            this.otpErrorMessage = "404 not found";
+          } else if (error.response.status === 500) {
+            this.otpErrorMessage = "Something went wrong, please try again";
+          } else if (!navigator.onLine) {
+            this.otpErrorMessage = "No internet connection!";
           }
         });
     },
@@ -372,10 +386,15 @@ export default {
           .catch((error) => {
             this.otpLoader = false;
             this.otpError = true;
-            if (error.response) {
-              this.otpErrorMessage = error.response.data.otp;
-            } else {
-              this.otpErrorMessage = "No internet connection";
+
+            if (error.response.status === (422 || 400)) {
+              this.otpErrorMessage = error.response.data.message;
+            } else if (error.response.status === 404) {
+              this.otpErrorMessage = "404 not found";
+            } else if (error.response.status === 500) {
+              this.otpErrorMessage = "Something went wrong, please try again";
+            } else if (!navigator.onLine) {
+              this.otpErrorMessage = "No internet connection!";
             }
           });
       } else {

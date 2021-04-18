@@ -17,7 +17,7 @@
       class="pt-8 pb-5 products-container"
       v-show="products.length !== 0 && !inventoryLoader"
     >
-      <div class="d-flex flex-wrap justify-center" style="margin-right:-24px">
+      <div class="d-flex flex-wrap justify-center" >
         <ProductCard
           class="mb-5 mr-6"
           v-for="product in products"
@@ -145,12 +145,10 @@ export default {
         })
         .catch((error) => {
           this.$store.commit("inventory/setInventoryLoader", false);
-          this.dialog = true;
-          this.statusImage = failedImage;
-          if (error.response) {
-            this.dialogMessage = "Sorry, this data does not Exist";
-          } else {
-            this.dialogMessage = "No internet Connection!";
+          if (error.response.status === (422 || 400)) {
+            this.statusImage = failedImage;
+            this.dialog = true;
+            this.dialogMessage = error.response.data.message;
           }
         });
     },
@@ -183,13 +181,11 @@ export default {
         .dispatch("inventory/getfilteredProducts")
         .then(() => this.$store.commit("inventory/setInventoryLoader", false))
         .catch((error) => {
-          this.statusImage = failedImage;
           this.$store.commit("inventory/setInventoryLoader", false);
-          this.dialog = true;
-          if (error.response) {
-            this.dialogMessage = "Something went wrong, pls try again!";
-          } else {
-            this.dialogMessage = "No internet Connection!";
+          if (error.response.status === (422 || 400)) {
+            this.statusImage = failedImage;
+            this.dialog = true;
+            this.dialogMessage = error.response.data.message;
           }
         });
     },
@@ -199,13 +195,11 @@ export default {
         .dispatch("inventory/searchProducts")
         .then(() => this.$store.commit("inventory/setInventoryLoader", false))
         .catch((error) => {
-          this.statusImage = failedImage;
           this.$store.commit("inventory/setInventoryLoader", false);
-          this.dialog = true;
-          if (error.response) {
-            this.dialogMessage = "Something went wrong, pls try again!";
-          } else {
-            this.dialogMessage = "No internet Connection!";
+          if (error.response.status === (422 || 400)) {
+            this.statusImage = failedImage;
+            this.dialog = true;
+            this.dialogMessage = error.response.data.message;
           }
         });
     },

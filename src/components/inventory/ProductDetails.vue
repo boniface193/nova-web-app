@@ -30,13 +30,13 @@
         </p>
       </div>
     </div>
-     <div class="d-flex py-5 text-center mx-auto" v-if="loader">
-        <v-progress-circular
-          indeterminate
-          color="primary"
-          class="mx-auto"
-        ></v-progress-circular>
-      </div>
+    <div class="d-flex py-5 text-center mx-auto" v-if="loader">
+      <v-progress-circular
+        indeterminate
+        color="primary"
+        class="mx-auto"
+      ></v-progress-circular>
+    </div>
     <!-- modal for dialog messages -->
     <modal :dialog="dialog" width="400">
       <div class="white pa-3 pb-10 text-center dialog">
@@ -66,7 +66,7 @@ export default {
       loader: false,
       statusImage: null,
       dialog: false,
-      dialogMessage: ""
+      dialogMessage: "",
     };
   },
   created() {
@@ -80,13 +80,11 @@ export default {
         this.productDetails = response.data.data;
       })
       .catch((error) => {
-        this.dialog = true;
         this.loader = false;
-        this.statusImage = failedImage;
-        if (error.response) {
-          this.dialogMessage = "Sorry, this data does not Exist";
-        } else {
-          this.dialogMessage = "No internet Connection!";
+        if (error.response.status === (422 || 400)) {
+          this.statusImage = failedImage;
+          this.dialog = true;
+          this.dialogMessage = error.response.data.message;
         }
       });
   },

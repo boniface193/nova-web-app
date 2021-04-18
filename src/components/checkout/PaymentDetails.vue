@@ -248,10 +248,14 @@ export default {
           this.dialog = true;
           this.processingLoader = false;
           this.statusImage = failedImage;
-          if (error.response) {
-            this.dialogMessage = "Sorry, this order does not Exist";
-          } else {
-            this.dialogMessage = "No internet Connection!";
+          if (error.response.status === (422 || 400)) {
+            this.dialogMessage = error.response.data.message;
+          } else if (error.response.status === 404) {
+            this.dialogMessage = "404 not found";
+          } else if (error.response.status === 500) {
+            this.dialogMessage = "Something went wrong, please try again";
+          } else if (!navigator.onLine) {
+            this.dialogMessage = "No internet connection!";
           }
         });
     },
@@ -279,10 +283,20 @@ export default {
             this.$router.push({
               path: `/payment-failed?order_id=${this.paymentDetails.orderDetails.id}`,
             });
-          } else {
+          }
+
+          if (error.response.status === 404) {
             this.dialog = true;
-            this.dialogMessage = "No internet Connection!";
             this.statusImage = failedImage;
+            this.dialogMessage = "404 not found";
+          } else if (error.response.status === 500) {
+            this.dialog = true;
+            this.statusImage = failedImage;
+            this.dialogMessage = "Something went wrong, please try again";
+          } else if (!navigator.onLine) {
+            this.dialog = true;
+            this.statusImage = failedImage;
+            this.dialogMessage = "No internet connection!";
           }
         });
     },
@@ -327,16 +341,21 @@ export default {
           this.deliveryLocation = response.data.data.delivery_location.address;
           this.deliveryFee = response.data.data.delivery_fee_label;
           this.totalPrice = response.data.data.total_price_label;
-          this.expressDeliveryFee = response.data.data.express_delivery_fee_label;
+          this.expressDeliveryFee =
+            response.data.data.express_delivery_fee_label;
         })
         .catch((error) => {
           this.dialog = true;
           this.editLoader = false;
           this.statusImage = failedImage;
-          if (error.response) {
+          if (error.response.status === (422 || 400)) {
             this.dialogMessage = error.response.data.message;
-          } else {
-            this.dialogMessage = "No internet Connection!";
+          } else if (error.response.status === 404) {
+            this.dialogMessage = "404 not found";
+          } else if (error.response.status === 500) {
+            this.dialogMessage = "Something went wrong, please try again";
+          } else if (!navigator.onLine) {
+            this.dialogMessage = "No internet connection!";
           }
         });
     },

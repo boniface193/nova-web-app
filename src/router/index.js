@@ -52,45 +52,79 @@ import OrderStatus from "@/components/checkout/OrderStatus.vue";
 
 Vue.use(VueRouter);
 
+// get user profile information and check they meet the conditions
+const getProfile = (to, from, next) => {
+  store.dispatch("onboarding/getUserProfile").then(response => {
+    const profile = response.data.data;
+    if (profile.email_verified) {
+      if (profile.status) {
+        next()
+        return
+      } else {
+        store.dispatch("onboarding/logout");
+        next({ name: "SuspensionPage" })
+      }
+    } else {
+      store.dispatch("onboarding/logout");
+      next({
+        name: 'Emailverification', params: {
+          email: profile.email,
+        },
+      });
+    }
+  }).catch((error) => {
+
+    if (error.response.status == 401) {
+      store.onboarding.commit("removeClientID");
+      store.onboarding.commit("removeRefreshToken");
+      store.onboarding.commit("setAccessToken", null)
+      store.commit("reset");
+      next({ name: "Signin" });
+    }
+  })
+}
+
 // requirement for user to log on to the authenticated pages
 const ifAuthenticated = (to, from, next) => {
-  store.commit("onboarding/tokenIsPresent");
-  if (store.getters["onboarding/tokenIsPresent"] === true) {
-    store.dispatch("onboarding/getUserProfile").then(response => {
-      const profile = response.data.data;
-      if (profile.email_verified) {
-        if (profile.status) {
-          store.commit("onboarding/setTokenExpired");
-          if (store.getters["onboarding/tokenExpired"] === false) {
-            next()
-            return
-          } else {
+  // check if client ID exists in localstorage
+  if (localStorage.getItem("clientID") && localStorage.getItem("refreshToken")) {
+    // check if accessToken is not equal to null in memory
+    if (store.state.onboarding.accessToken !== null) {
+      store.commit("onboarding/setAccessTokenExpired");
+      if (store.state.onboarding.accessTokenExpired === false) {
+        getProfile((to, from, next()));
+      } //if accesstoken as expired make a request for new accesstoken 
+      else {
+        store.dispatch("onboarding/getAccessToken").then(() => {
+          getProfile((to, from, next()));
+        }).catch((error) => {
+          if (error.response.status == 401 || error.response.status == 422) {
+            store.onboarding.commit("removeClientID");
+            store.onboarding.commit("removeRefreshToken");
+            store.onboarding.commit("setAccessToken", null)
             store.commit("reset");
-            store.commit("onboarding/removeToken");
-            next({ name: "Signin" })
+            next({ name: "Signin" });
           }
-        } else {
+        })
+      }
+    } else {
+      store.dispatch("onboarding/getAccessToken").then(() => {
+        getProfile((to, from, next()));
+      }).catch((error) => {
+        if (error.response.status == 401 || error.response.status == 422) {
+          store.onboarding.commit("removeClientID");
+          store.onboarding.commit("removeRefreshToken");
+          store.onboarding.commit("setAccessToken", null)
           store.commit("reset");
-          store.commit("onboarding/removeToken");
-          next({ name: "SuspensionPage" })
+          next({ name: "Signin" });
         }
-      } else {
-        store.commit("reset");
-        store.commit("onboarding/removeToken");
-        next({
-          name: 'Emailverification', params: {
-            email: profile.email,
-          },
-        });
-      }
-    }).catch((error) => {
-      if (error.response.status == 401) {
-        store.commit("reset");
-        store.commit("onboarding/removeToken");
-        next({ name: "Signin" });
-      }
-    })
+      })
+    }
   } else {
+    store.onboarding.commit("removeClientID");
+    store.onboarding.commit("removeRefreshToken");
+    store.onboarding.commit("setAccessToken", null)
+    store.commit("reset");
     next({ name: 'Signin' });
   }
 }
@@ -98,8 +132,9 @@ const ifAuthenticated = (to, from, next) => {
 
 // redirect when a user is already logged in
 const AlreadyLogin = (to, from, next) => {
-  store.commit("onboarding/tokenIsPresent");
-  if (store.getters["onboarding/tokenIsPresent"] === true) {
+  if (localStorage.getItem("clientID") &&
+    localStorage.getItem("refreshToken") &&
+    store.state.onboarding.accessToken !== null) {
     next({ name: 'InventoryHome' })
   } else {
     next();

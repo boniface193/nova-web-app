@@ -26,11 +26,7 @@ const actions = {
     getUserProfile(context) {
         return new Promise((resolve, reject) => {
             
-            axios.get("profile", {
-                headers: {
-                    Authorization: `Bearer ${localStorage.getItem("accessToken")}`
-                }
-            }).then(response => {
+            axios.get("profile").then(response => {
                 context.commit("setUserProfile", response.data.data);
                 resolve(response);
             }).catch((error)=>{
@@ -41,11 +37,7 @@ const actions = {
     // edit user profile
     editUserProfile(context, data) {
         return new Promise((resolve, reject) => {
-            axios.post("profile", data, {
-                headers: {
-                    Authorization: `Bearer ${localStorage.getItem("accessToken")}`
-                }
-            }).then(response => {
+            axios.post("profile", data).then(response => {
                 context.commit("setUserProfile", response.data.data)
                 resolve(response);
             })
@@ -57,11 +49,7 @@ const actions = {
     // reset password
     resetPassword(context, data) {
         return new Promise((resolve, reject) => {
-            axios.post("security/password", data, {
-                headers: {
-                    Authorization: `Bearer ${localStorage.getItem("accessToken")}`
-                }
-            }).then(response => {
+            axios.post("security/password", data).then(response => {
                 resolve(response);
             })
                 .catch(error => {

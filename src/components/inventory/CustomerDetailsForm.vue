@@ -145,9 +145,9 @@ export default {
         (v) => /.+@.+\..+/.test(v) || "E-mail must be valid",
       ],
       phoneNumberRules: [
-       //verifies phone number satisfies the requirement
+        //verifies phone number satisfies the requirement
         (v) => !!v || "This field is required",
-        (v) => v.substring(0,1) != 0 || "Phone number cannot begin with 0",
+        (v) => v.substring(0, 1) != 0 || "Phone number cannot begin with 0",
         (v) => v.length > 9 || "Number should 10 digits or more",
         (v) => v.length <= 11 || "Maximum 11 digits or more",
       ],
@@ -262,13 +262,11 @@ export default {
             });
           })
           .catch((error) => {
-            this.dialog = true;
             this.loading = false;
-            this.statusImage = failedImage;
-            if (error.response) {
+            if (error.response.status === (422 || 400)) {
+              this.statusImage = failedImage;
+              this.dialog = true;
               this.dialogMessage = error.response.data.message;
-            } else {
-              this.dialogMessage = "No internet Connection!";
             }
           });
       }

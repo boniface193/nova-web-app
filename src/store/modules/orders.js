@@ -1,4 +1,4 @@
-import axios from "@/axios/order.js";
+import orderHttpClient from "@/axios/order.js";
 
 // set the number of item you want to show on table
 // const setItemPerPage = (itemPerPage, per_page, from_page) => {
@@ -51,11 +51,7 @@ const getters = {
 const actions = {
     getOrders(context) {
         return new Promise((resolve, reject) => {
-            axios.get("/orders", {
-                headers: {
-                    Authorization: `Bearer ${localStorage.getItem("accessToken")}`
-                }
-            })
+            orderHttpClient.get("/orders")
                 .then(response => {
                     context.commit("setOrders", response.data.data)
                     context.commit("setPageDetails", response.data.meta);
@@ -70,12 +66,7 @@ const actions = {
     filterGetOrders(context) {
         let priceRange = ((state.filter.maxPrice) ? `price_between=${state.filter.minPrice},${state.filter.maxPrice}` : "");
         return new Promise((resolve, reject) => {
-            axios.get(`/orders?${priceRange}`,
-                {
-                    headers: {
-                        Authorization: `Bearer ${localStorage.getItem("accessToken")}`
-                    }
-                }).then(response => {
+            orderHttpClient.get(`/orders?${priceRange}`).then(response => {
                     context.commit("setOrders", response.data.data);
                     context.commit("setPageDetails", response.data.meta);
                     resolve(response);
@@ -89,7 +80,7 @@ const actions = {
     // get order details
     getOrdersDetail(context, data) {
         return new Promise((resolve, reject) => {
-            axios.get(`/orders/${data.id}`).then(response => {
+            orderHttpClient.get(`/orders/${data.id}`).then(response => {
                 context.commit("setOrders", response.data.data);
                 resolve(response);
             })
@@ -104,12 +95,7 @@ const actions = {
         let perPage = ((state.itemPerPage) ? `per_page=${state.itemPerPage}` : "");
         let route = (state.searchValue !== "") ? `/search?q=${state.searchValue}&${page}&${perPage}` : ""
         return new Promise((resolve, reject) => {
-            axios.get(`/orders${route}`,
-                {
-                    headers: {
-                        Authorization: `Bearer ${localStorage.getItem("accessToken")}`
-                    }
-                }).then(response => {
+            orderHttpClient.get(`/orders${route}`).then(response => {
                     context.commit("setOrders", response.data.data);
                     context.commit("setPageDetails", response.data.meta);
                     resolve(response);
@@ -122,12 +108,7 @@ const actions = {
     // create order
     createOrder(context, data) {
         return new Promise((resolve, reject) => {
-            axios.post("/orders", data,
-                {
-                    headers: {
-                        Authorization: `Bearer ${localStorage.getItem("accessToken")}`
-                    }
-                }).then(response => {
+            orderHttpClient.post("/orders", data).then(response => {
                     resolve(response);
                 })
                 .catch(error => {
@@ -139,12 +120,7 @@ const actions = {
     // pay for order
     payForOrder(context, data) {
         return new Promise((resolve, reject) => {
-            axios.post(`/orders/${data.id}/pay`, {},
-                {
-                    headers: {
-                        Authorization: `Bearer ${localStorage.getItem("accessToken")}`
-                    }
-                }).then(response => {
+            orderHttpClient.post(`/orders/${data.id}/pay`, {}).then(response => {
                     resolve(response);
                 })
                 .catch(error => {
@@ -156,7 +132,7 @@ const actions = {
     //verify Payment
     verifyPayment(context, data) {
         return new Promise((resolve, reject) => {
-            axios.post(`/orders/${data.orderId}/verify?trx_ref=${data.trx_ref}&trx_id=${data.trx_id}`, data,).then(response => {
+            orderHttpClient.post(`/orders/${data.orderId}/verify?trx_ref=${data.trx_ref}&trx_id=${data.trx_id}`, data,).then(response => {
                 resolve(response);
             })
                 .catch(error => {
@@ -168,7 +144,7 @@ const actions = {
     // edit order address
     editOrderAddress(context, data) {
         return new Promise((resolve, reject) => {
-            axios.post(`/orders/${data.order_id}/location`, data).then(response => {
+            orderHttpClient.post(`/orders/${data.order_id}/location`, data).then(response => {
                 resolve(response);
             })
                 .catch(error => {
@@ -180,7 +156,7 @@ const actions = {
     // confirm order
     sendConfirmOrderOTP(context, data) {
         return new Promise((resolve, reject) => {
-            axios.post(`/orders/${data.orderId}/confirm-delivery/send-otp`, data).then(response => {
+            orderHttpClient.post(`/orders/${data.orderId}/confirm-delivery/send-otp`, data).then(response => {
                 resolve(response);
             })
                 .catch(error => {
@@ -191,7 +167,7 @@ const actions = {
     },
     submitConfirmOrderOTP(context, data) {
         return new Promise((resolve, reject) => {
-            axios.post(`/orders/${data.orderId}/confirm-delivery`, data).then(response => {
+            orderHttpClient.post(`/orders/${data.orderId}/confirm-delivery`, data).then(response => {
                 resolve(response);
             })
                 .catch(error => {

@@ -1,4 +1,4 @@
-import axios from "@/axios/bankServices.js";
+import bankServiceHttpClient from "@/axios/bankServices.js";
 
 //holds the state properties
 const state = {
@@ -17,11 +17,7 @@ const actions = {
     // get bank list
     getBankList(context) {
         return new Promise((resolve, reject) => {
-            axios.get("/banks", {
-                headers: {
-                    Authorization: `Bearer ${localStorage.getItem("accessToken")}`
-                }
-            }).then(response => {
+            bankServiceHttpClient.get("/banks").then(response => {
                 resolve(response);
             })
                 .catch(error => {
@@ -32,11 +28,7 @@ const actions = {
     },
     validateBankAccount(context, data) {
         return new Promise((resolve, reject) => {
-            axios.post("/banks/verify-account", data, {
-                headers: {
-                    Authorization: `Bearer ${localStorage.getItem("accessToken")}`
-                }
-            }).then(response => {
+            bankServiceHttpClient.post("/banks/verify-account", data).then(response => {
                 resolve(response);
             })
                 .catch(error => {
@@ -47,11 +39,7 @@ const actions = {
     },
     setAccountDetails(context, data) {
         return new Promise((resolve, reject) => {
-            axios.post("/bank-accounts", data, {
-                headers: {
-                    Authorization: `Bearer ${localStorage.getItem("accessToken")}`
-                }
-            }).then(response => {
+            bankServiceHttpClient.post("/bank-accounts", data).then(response => {
                 resolve(response);
             })
                 .catch(error => {
@@ -62,11 +50,7 @@ const actions = {
     },
     getUserBankDetails(context, data) {
         return new Promise((resolve, reject) => {
-            axios.get(`/bank-accounts/${data.user_id}`, {
-                headers: {
-                    Authorization: `Bearer ${localStorage.getItem("accessToken")}`
-                }
-            }).then(response => {
+            bankServiceHttpClient.get(`/bank-accounts/${data.user_id}`).then(response => {
                 resolve(response);
             })
                 .catch(error => {
@@ -77,11 +61,7 @@ const actions = {
     },
     withdrawFunds(context) {
         return new Promise((resolve, reject) => {
-            axios.post("/settlements/withdraw", {}, {
-                headers: {
-                    Authorization: `Bearer ${localStorage.getItem("accessToken")}`
-                }
-            }).then(response => {
+            bankServiceHttpClient.post("/settlements/withdraw", {}).then(response => {
                 resolve(response);
             })
                 .catch(error => {
@@ -93,11 +73,7 @@ const actions = {
     getRevenueDetails(context, data) {
         // let dateRange = (state.dateRange.endDate !== null) ? `date_between=${state.dateRange.startDate},${state.dateRange.endDate}` : ""
         return new Promise((resolve, reject) => {
-            axios.get(`/metrics/${data.sellerId}/total-revenue`, {
-                headers: {
-                    Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
-                },
-            })
+            bankServiceHttpClient.get(`/metrics/${data.sellerId}/total-revenue`)
                 .then((response) => {
                     resolve(response)
                 })

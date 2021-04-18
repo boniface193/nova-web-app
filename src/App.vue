@@ -48,5 +48,9 @@ body {
       color: #029b97;
     }
   }
+  .v-btn:not(.v-btn--round).v-size--default {
+    height: 40px;
+    border-radius: 8px;
+  }
 }
 </style>

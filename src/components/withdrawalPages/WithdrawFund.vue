@@ -5,7 +5,10 @@
         class="d-flex align-center justify-center mb-8"
         style="position: relative"
       >
-        <router-link :to="{ name: 'ProfilePage' }" style="text-decoration: none">
+        <router-link
+          :to="{ name: 'ProfilePage' }"
+          style="text-decoration: none"
+        >
           <span class="back-btn">
             <v-icon style="font-size: 25px">mdi-chevron-left</v-icon>
           </span>
@@ -262,12 +265,10 @@ export default {
         .catch((error) => {
           this.confirmationDialog = false;
           this.withdrawLoader = false;
-          this.dialog = true;
-          this.statusImage = failedImage;
-          if (error.response) {
+          if (error.response.status === (422 || 400)) {
+            this.statusImage = failedImage;
+            this.dialog = true;
             this.dialogMessage = error.response.data.message;
-          } else {
-            this.dialogMessage = "No internet Connection!";
           }
         });
     },
@@ -282,13 +283,11 @@ export default {
           this.fetchingBalance = false;
         })
         .catch((error) => {
-          this.dialog = true;
           this.fetchingBalance = false;
-          this.statusImage = failedImage;
-          if (error.response) {
+          if (error.response.status === (422 || 400)) {
+            this.statusImage = failedImage;
+            this.dialog = true;
             this.dialogMessage = error.response.data.message;
-          } else {
-            this.dialogMessage = "No internet Connection!";
           }
         });
     },

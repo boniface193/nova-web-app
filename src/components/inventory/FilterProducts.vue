@@ -76,13 +76,12 @@ export default {
         .then(() => this.$store.commit("inventory/setInventoryLoader", false))
         .catch((error) => {
           this.$store.commit("inventory/setInventoryLoader", false);
-          this.statusImage = failedImage;
-          if (error.response) {
-            this.dialogMessage = "Something went wrong, pls try again!";
-          } else {
-            this.dialogMessage = "No internet Connection!";
+          if (error.response.status === (422 || 400)) {
+            this.statusImage = failedImage;
+            this.dialog = true;
+            this.dialogMessage = error.response.data.message;
           }
-          this.dialog = true;
+         
         });
     },
     // filterTable

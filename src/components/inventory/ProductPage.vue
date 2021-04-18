@@ -421,13 +421,11 @@ export default {
         this.getStoreDetails();
       })
       .catch((error) => {
-        this.dialog = true;
         this.loader = false;
-        this.statusImage = failedImage;
-        if (error.response) {
-          this.dialogMessage = "Sorry, this data does not Exist";
-        } else {
-          this.dialogMessage = "No internet Connection!";
+        if (error.response.status === (422 || 400)) {
+          this.statusImage = failedImage;
+          this.dialog = true;
+          this.dialogMessage = error.response.data.message;
         }
       });
   },
@@ -478,12 +476,10 @@ export default {
         })
         .catch((error) => {
           this.loader = false;
-          this.dialog = true;
-          this.statusImage = failedImage;
-          if (error.response) {
-            this.dialogMessage = "Sorry, this data does not Exist";
-          } else {
-            this.dialogMessage = "No internet Connection!";
+          if (error.response.status === (422 || 400)) {
+            this.statusImage = failedImage;
+            this.dialog = true;
+            this.dialogMessage = error.response.data.message;
           }
         });
     },

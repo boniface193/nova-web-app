@@ -19,11 +19,7 @@ const getters = {
 const actions = {
     getSellerPoint(context) {
         return new Promise((resolve, reject) => {
-            axios.get('/leaderboard/seller/dashboard', {
-                headers: {
-                    Authorization: `Bearer ${localStorage.getItem("accessToken")}`
-                }
-            }).then((response) => {
+            axios.get('/leaderboard/seller/dashboard').then((response) => {
                 context.commit('setDashboard', response.data.data)
                 resolve(response.data.data)
             })
@@ -38,11 +34,7 @@ const actions = {
         let dateRange = ((state.dateRange.startDate || state.dateRange.endDate !== null) ? `created_between=${state.dateRange.startDate},${state.dateRange.endDate}` : "");
 
         return new Promise((resolve, reject) => {
-            axios.get(`/leaderboard/seller/dashboard?${dateRange}`, {
-                headers: {
-                    Authorization: `Bearer ${localStorage.getItem("accessToken")}`
-                }
-            }).then((response) => {
+            axios.get(`/leaderboard/seller/dashboard?${dateRange}`).then((response) => {
                 context.commit('setDashboard', response.data.data)
                 resolve(response.data.data)
             }).catch((error) => {
@@ -54,11 +46,7 @@ const actions = {
 
     getSellerRank(context) {
         return new Promise((resolve, reject) => {
-            axios.get('/leaderboard/seller/rank', {
-                headers: {
-                    Authorization: `Bearer ${localStorage.getItem("accessToken")}`
-                }
-            }).then((response) => {
+            axios.get('/leaderboard/seller/rank').then((response) => {
                 context.commit('setDashboard', response.data.data)
                 resolve(response.data.data)
             })
@@ -74,11 +62,7 @@ const actions = {
         let dateRange = ((state.dateRange.startDate || state.dateRange.endDate !== null) ? `created_between=${state.dateRange.startDate},${state.dateRange.endDate}` : "");
 
         return new Promise((resolve, reject) => {
-            axios.get(`/leaderboard/seller/rank?${dateRange}`, {
-                headers: {
-                    Authorization: `Bearer ${localStorage.getItem("accessToken")}`
-                }
-            }).then((response) => {
+            axios.get(`/leaderboard/seller/rank?${dateRange}`).then((response) => {
                 context.commit('setDashboard', response.data.data)
                 resolve(response.data.data)
             }).catch((error) => {
@@ -90,11 +74,7 @@ const actions = {
 
     getSellerTotalSale(context) {
         return new Promise((resolve, reject) => {
-            orderService.get('/metrics/seller-total-sales', {
-                headers: {
-                    Authorization: `Bearer ${localStorage.getItem("accessToken")}`
-                }
-            }).then((response) => {
+            orderService.get('/metrics/seller-total-sales').then((response) => {
                 context.commit('setDashboard', response.data.data)
                 resolve(response.data.data)
             })
@@ -109,11 +89,7 @@ const actions = {
         let dateRange = ((state.dateRange.startDate || state.dateRange.endDate !== null) ? `created_between=${state.dateRange.startDate},${state.dateRange.endDate}` : "");
 
         return new Promise((resolve, reject) => {
-            orderService.get(`/metrics/seller-total-sales?${dateRange}`, {
-                headers: {
-                    Authorization: `Bearer ${localStorage.getItem("accessToken")}`
-                }
-            }).then((response) => {
+            orderService.get(`/metrics/seller-total-sales?${dateRange}`).then((response) => {
                 context.commit('setDashboard', response.data.data)
                 resolve(response.data.data)
             }).catch((error) => {
@@ -127,11 +103,7 @@ const actions = {
         let dateRange = ((state.dateRange.startDate || state.dateRange.endDate !== null) ? `created_between=${state.dateRange.startDate},${state.dateRange.endDate}` : "");
 
         return new Promise((resolve, reject) => {
-            payment.get(`/metrics/${data.id}/total-revenue?${dateRange}`, {
-                headers: {
-                    Authorization: `Bearer ${localStorage.getItem("accessToken")}`
-                }
-            }).then((response) => {
+            payment.get(`/metrics/${data.id}/total-revenue?${dateRange}`).then((response) => {
                 context.commit('setDashboard', response.data.data)
                 resolve(response.data.data)
             })

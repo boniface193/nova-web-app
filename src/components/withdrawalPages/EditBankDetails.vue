@@ -139,7 +139,7 @@
             <!-- button container -->
             <div class="pa-0 mt-1" style="width: 100%">
               <v-btn
-                class="primary py-5 mb-5 mx-auto"
+                class="primary mb-5 mx-auto"
                 :loading="loading"
                 :disabled="loading"
                 @click="setAccountDetails()"
@@ -220,12 +220,10 @@ export default {
         })
         .catch((error) => {
           this.pageLoader = false;
-          this.dialog = true;
-          this.statusImage = failedImage;
-          if (error.response) {
+          if (error.response.status === (422 || 400)) {
+            this.statusImage = failedImage;
+            this.dialog = true;
             this.dialogMessage = error.response.data.message;
-          } else {
-            this.dialogMessage = "No internet Connection!";
           }
         });
     },
@@ -264,14 +262,12 @@ export default {
             this.fetchingAccountDetails = false;
           })
           .catch((error) => {
-            this.error = true;
             this.accountVerified = false;
             this.newAccountDetails = {};
             this.fetchingAccountDetails = false;
-            if (error.response) {
+            if (error.response.status === (422 || 400)) {
+              this.error = true;
               this.errorMsg = error.response.data.message;
-            } else {
-              this.errorMsg = "No internet Connection!";
             }
           });
       }
@@ -294,18 +290,14 @@ export default {
             location.reload();
           })
           .catch((error) => {
-            this.passwordError = true;
             this.loading = false;
-            if (error.response) {
+            if (error.response.status === (422 || 400)) {
+              this.passwordError = true;
               if (error.response.data.password) {
                 this.passwordErrorMsg = error.response.data.password[0];
               } else if (error.response.data.account_number) {
                 this.passwordErrorMsg = error.response.data.account_number[0];
-              } else {
-                this.passwordErrorMsg = "Something went wrong, pls try again";
               }
-            } else {
-              this.passwordErrorMsg = "No internet Connection!";
             }
           });
       }

@@ -1,4 +1,4 @@
-import axios from "@/axios/inventory.js";
+import inventoryHttpClient from "@/axios/inventory.js";
 
 // set the number of item you want to show on table
 const setItemPerPage = (itemPerPage, per_page, from_page) => {
@@ -50,11 +50,7 @@ const actions = {
     // get product form inventory 
     getProducts(context) {
         return new Promise((resolve, reject) => {
-            axios.get("/products", {
-                headers: {
-                    Authorization: `Bearer ${localStorage.getItem("accessToken")}`
-                }
-            }).then(response => {
+            inventoryHttpClient.get("/products").then(response => {
                 context.commit("setProducts", response.data.data);
                 context.commit("setPageDetails", response.data.meta);
                 resolve(response);
@@ -67,7 +63,7 @@ const actions = {
     // get a product detail
     getProductDetail(context, data) {
         return new Promise((resolve, reject) => {
-            axios.get(`/products/${data.id}`).then(response => {
+            inventoryHttpClient.get(`/products/${data.id}`).then(response => {
                 resolve(response);
             })
                 .catch(error => {
@@ -84,16 +80,11 @@ const actions = {
         let perPage = ((state.itemPerPage) ? `per_page=${state.itemPerPage}` : "");
         let route = (state.searchValue !== "") ? `/search?q=${state.searchValue}&${page}&${perPage}` : ""
         return new Promise((resolve, reject) => {
-            axios.get(`/products${route}`,
-                {
-                    headers: {
-                        Authorization: `Bearer ${localStorage.getItem("accessToken")}`
-                    }
-                }).then(response => {
-                    context.commit("setProducts", response.data.data);
-                    context.commit("setPageDetails", response.data.meta);
-                    resolve(response);
-                })
+            inventoryHttpClient.get(`/products${route}`).then(response => {
+                context.commit("setProducts", response.data.data);
+                context.commit("setPageDetails", response.data.meta);
+                resolve(response);
+            })
                 .catch(error => {
                     reject(error);
                 })
@@ -109,16 +100,11 @@ const actions = {
         let category = (state.category !== "") ? `category=${state.category}` : ""
 
         return new Promise((resolve, reject) => {
-            axios.get(`/products?${page}&${perPage}&${priceRange}&${category}`,
-                {
-                    headers: {
-                        Authorization: `Bearer ${localStorage.getItem("accessToken")}`
-                    }
-                }).then(response => {
-                    context.commit("setProducts", response.data.data);
-                    context.commit("setPageDetails", response.data.meta);
-                    resolve(response);
-                })
+            inventoryHttpClient.get(`/products?${page}&${perPage}&${priceRange}&${category}`).then(response => {
+                context.commit("setProducts", response.data.data);
+                context.commit("setPageDetails", response.data.meta);
+                resolve(response);
+            })
                 .catch(error => {
                     reject(error);
                 })
@@ -127,18 +113,10 @@ const actions = {
     // get product categories
     getProductCategories(context) {
         return new Promise((resolve, reject) => {
-            axios.get(`/categories`,
-                {
-                    headers: {
-                        Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
-                    }
-                }).then(response => {
+            inventoryHttpClient.get(`/categories`).then(response => {
                     resolve(response);
                 })
                 .catch(error => {
-                    // if (error.response.status == 401) {
-                    //     store.commit("onboarding/setTokenAuthorizeStatus", false);
-                    // }
                     context.commit("doNothing");
                     reject(error);
                 })

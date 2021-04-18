@@ -72,10 +72,13 @@ export default {
       orderDetails: {
         delivery_location: {},
         customer: {},
+        variants: []
       },
-      productDetails: {},
+      productDetails: {
+        description: ""
+      },
       storeDetails: {
-        refund_policy: {}
+        refund_policy: {},
       },
       pageLoader: false,
     };
@@ -100,12 +103,16 @@ export default {
       })
       .catch((error) => {
         this.pageLoader = false;
-        this.dialog = true;
         this.statusImage = failedImage;
-        if (error.response) {
-          this.dialogMessage = "Sorry, this data does not Exist";
-        } else {
-          this.dialogMessage = "No internet Connection!";
+        this.dialog = true;
+        if (error.response.status == (422 || 400)) {
+          this.dialogMessage = error.response.data.message;
+        } else if (error.response.status == 404) {
+          this.dialogMessage = "404 not found";
+        } else if (error.response.status == 500) {
+          this.dialogMessage = "Something went wrong, please try again";
+        } else if (!navigator.onLine) {
+          this.dialogMessage = "No internet connection!";
         }
       });
   },
@@ -121,12 +128,16 @@ export default {
         })
         .catch((error) => {
           this.pageLoader = false;
-          this.dialog = true;
           this.statusImage = failedImage;
-          if (error.response) {
-            this.dialogMessage = "Sorry, this data does not Exist";
-          } else {
-            this.dialogMessage = "No internet Connection!";
+          this.dialog = true;
+          if (error.response.status === (422 || 400)) {
+            this.dialogMessage = error.response.data.message;
+          } else if (error.response.status === 404) {
+            this.dialogMessage = "404 not found";
+          } else if (error.response.status === 500) {
+            this.dialogMessage = "Something went wrong, please try again";
+          } else if (!navigator.onLine) {
+            this.dialogMessage = "No internet connection!";
           }
         });
     },
@@ -141,12 +152,16 @@ export default {
         })
         .catch((error) => {
           this.pageLoader = false;
-          this.dialog = true;
           this.statusImage = failedImage;
-          if (error.response) {
-            this.dialogMessage = "Sorry, this data does not Exist";
-          } else {
-            this.dialogMessage = "No internet Connection!";
+          this.dialog = true;
+          if (error.response.status === (422 || 400)) {
+            this.dialogMessage = error.response.data.message;
+          } else if (error.response.status === 404) {
+            this.dialogMessage = "404 not found";
+          } else if (error.response.status === 500) {
+            this.dialogMessage = "Something went wrong, please try again";
+          } else if (!navigator.onLine) {
+            this.dialogMessage = "No internet connection!";
           }
         });
     },

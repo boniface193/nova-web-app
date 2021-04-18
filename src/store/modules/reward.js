@@ -1,4 +1,4 @@
-import axios from "../../axios/reward"
+import axios from "../../axios/dashboard";
 
 const state = {
     reward: [],
@@ -13,11 +13,7 @@ const getters = {
 const actions = {
     getReward(context) {
         return new Promise((resolve, reject) => {
-            axios.get("/reward", {
-                headers: {
-                    Authorization: `Bearer ${localStorage.getItem("accessToken")}`
-                }
-            })
+            axios.get("/reward")
                 .then(response => {
                     context.commit("setRewards", response.data)
                     resolve(response.data)

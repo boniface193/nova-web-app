@@ -88,7 +88,7 @@ export default {
     position: absolute;
     box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
     .v-btn:not(.v-btn--round).v-size--default {
-      height: 25px;
+      height: 25px !important;
       min-width: 100%;
       padding: 0 16px;
     }

@@ -124,15 +124,18 @@ export default {
         this.closeDrawer();
       }
     },
+    // logout
     logout() {
-      this.$store.commit("reset");
-      this.$store.commit("onboarding/removeToken");
       this.dialog = true;
-      setTimeout(() => {
-        this.$router.push({
-          name: "Signin",
-        });
-      }, 1000);
+      this.$store
+        .dispatch("onboarding/logout")
+        .then(() => {
+          this.dialog = false;
+          this.$router.push({
+            name: "Signin",
+          });
+        })
+        .catch(() => (this.dialog = false));
     },
   },
 };
@@ -173,8 +176,8 @@ export default {
 }
 @media (max-width: 1000px) {
   .mobile-sidebar {
-    min-width: auto; 
-    .sidebar{
+    min-width: auto;
+    .sidebar {
       margin-left: -225px;
     }
     &--active {
