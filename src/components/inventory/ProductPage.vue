@@ -176,10 +176,7 @@
               </div>
               <p class="mb-5">
                 <span class="mr-2" style="font-weight: 600">
-                  profit (&#8358;)
-                  <span class="primary--text" style="font-weight: 300"
-                    >(Inclusive of 7.5% VAT):
-                  </span> </span
+                  profit (&#8358;): </span
                 ><span class="secondary--text">{{
                   numberWithCommas(computedPrices.yourProfit)
                 }}</span>

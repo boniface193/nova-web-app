@@ -15,7 +15,7 @@ import Emailverification from "@/components/onboarding/Emailverification.vue";
 import Forgotpasswordverification from "@/components/onboarding/Forgotpasswordverification.vue";
 import Onboarding from "@/views/onboarding/Onboarding.vue";
 // dashbord
-import dashboardView from "@/views/authPages/dashboard/dashboardView.vue";
+import Layout from "@/views/authPages/Layout.vue";
 import Dashboard from "@/views/authPages/dashboard/Dashboard.vue";
 import Reward from "@/views/authPages/dashboard/Reward.vue";
 import Leaderboard from "@/views/authPages/dashboard/Leaderboard.vue";
@@ -174,7 +174,7 @@ const routes = [
   // dashboard 
   {
     path: "/dashboard",
-    component: dashboardView,
+    component: Layout,
     beforeEnter: ifAuthenticated,
     children: [
       // dashboard

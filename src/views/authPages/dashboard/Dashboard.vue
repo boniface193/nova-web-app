@@ -1,15 +1,160 @@
 <template>
   <div class="dashboard-container mx-auto">
-    <div class="primary pt-16 pb-8 px-5 px-md-7">
-      <div class="mt-8">
+    <div class="primary pt-16 pb-16" style="height: 280px">
+      <div class="mt-8 px-5 px-md-7">
         <!-- <Calender class="float-right" autoApply @updateDate="dateValue" /> -->
         <div class="welcome-text">Hello,</div>
         <div class="welcome-text-sm">{{ userInfo.name }}</div>
       </div>
-      <div class="mt-16 d-flex justify-center">
-        <v-row class="row-properties">
-          <!-- current sales -->
-          <v-col cols="6" sm="4" md="" lg="">
+      <div
+        class="mt-16 pb-16 px-5 px-md-7 d-flex flex-wrap justify-space-between card-container"
+      >
+        <!-- current sales -->
+        <div class="card mr-0 mr-sm-4 mb-6">
+          <v-skeleton-loader type="article" v-if="currentLoading">
+          </v-skeleton-loader>
+          <div v-if="!currentLoading">
+            <div
+              class="content-img"
+              style="background: #ffecec 0% 0% no-repeat padding-box"
+            >
+              <img src="@/assets/images/shopping.png" />
+            </div>
+
+            <h3>&#8358; 10000</h3>
+            <p class="card-sale mb-1">In sales</p>
+
+            <p
+              class="card-success mb-0"
+              :class="{
+                'card-error':
+                  awaitingSettlement == 0 || awaitingSettlement.includes('-'),
+              }"
+            >
+              {{ awaitingSettlement }}
+            </p>
+            <!-- settlements link -->
+            <router-link
+              :to="{ name: 'SettlementHistory' }"
+              style="text-decoration: none"
+              class="card-history my-1"
+            >
+              Settlement history<v-icon size="12" class="primary--text ml-1"
+                >mdi-arrow-right</v-icon
+              ></router-link
+            >
+          </div>
+        </div>
+        <!-- payment total revenue -->
+        <div class="card mr-0 mr-sm-4 mb-6">
+          <v-skeleton-loader type="article" v-if="payment"></v-skeleton-loader>
+          <div v-if="!payment">
+            <div
+              class="content-img"
+              style="background: #dbffdc 0% 0% no-repeat padding-box"
+            >
+              <img src="@/assets/images/money.svg" />
+            </div>
+            <h3>&#8358; {{ totalRevenue }}</h3>
+            <p class="card-sale mb-1">In profits</p>
+
+            <p
+              class="card-success mb-0"
+              :class="{
+                'card-error':
+                  awaitingSettlement == 0 || awaitingSettlement.includes('-'),
+              }"
+            >
+              {{ awaitingSettlement }}
+              <span class="awaiting">(awaiting settlements)</span>
+            </p>
+            <!-- withdraw fund link -->
+            <router-link
+              :to="{ name: 'AddBankDetails' }"
+              style="text-decoration: none"
+              class="card-history my-1"
+            >
+              Withdraw funds<v-icon size="12" class="primary--text ml-1"
+                >mdi-arrow-right</v-icon
+              ></router-link
+            >
+          </div>
+        </div>
+        <!-- sale point -->
+        <div class="card mr-0 mr-sm-4 mb-6">
+          <v-skeleton-loader
+            type="article"
+            v-if="sellLoading"
+          ></v-skeleton-loader>
+          <div v-if="!sellLoading">
+            <div
+              class="content-img"
+              style="background: #eaecf9 0% 0% no-repeat padding-box"
+            >
+              <img src="@/assets/images/group.svg" />
+            </div>
+            <h3>&#8358; {{ diffSales }}</h3>
+            <p class="card-sale mb-1">Lifetime Sales Points</p>
+            <p
+              class="card-success mb-0"
+              :class="{
+                'card-error': cSales == 0 || cSales.includes('-'),
+              }"
+            >
+              {{ diffSales }}
+              <span class="awaiting">( available points )</span>
+            </p>
+            <!-- reward link -->
+            <router-link
+              :to="{ name: 'reward' }"
+              style="text-decoration: none"
+              class="card-history my-1"
+            >
+              Claim reward<v-icon size="12" class="primary--text ml-1"
+                >mdi-arrow-right</v-icon
+              ></router-link
+            >
+          </div>
+        </div>
+        <!-- sellers rank-->
+        <div class="card mr-0 mr-sm-4 mb-6">
+          <v-skeleton-loader
+            type="article"
+            v-if="rankLoading"
+          ></v-skeleton-loader>
+          <div v-if="!rankLoading">
+            <div
+              class="content-img"
+              style="background: #fff4d2 0% 0% no-repeat padding-box"
+            >
+              <img src="@/assets/images/cup.svg" />
+            </div>
+            <h3>{{ pRank || "-" }}</h3>
+            <p class="card-sale mb-1">On leaderboard</p>
+            <p
+              class="card-success mb-0"
+              :class="{
+                'card-error': diffRank === '0' || diffRank.includes('-'),
+              }"
+            >
+              {{ diffRank || "-" }}
+            </p>
+            <!-- leaderboard link -->
+            <router-link
+              :to="{ name: 'leaderboard' }"
+              style="text-decoration: none"
+              class="card-history my-1"
+            >
+              View Leaderboard<v-icon size="12" class="primary--text ml-1"
+                >mdi-arrow-right</v-icon
+              ></router-link
+            >
+          </div>
+        </div>
+      </div>
+      <!-- <v-row class="row-properties ">
+          current sales -->
+      <!-- <v-col cols="6" sm="4" md="" lg="">
             <v-card
               v-if="currentLoading"
               class="shadow-sm elevation-0 px-2"
@@ -73,11 +218,11 @@
                 </div>
               </div>
             </v-card>
-          </v-col>
-          <!-- current sale -->
+          </v-col> -->
+      <!-- current sale -->
 
-          <!-- payment total revenue -->
-          <v-col cols="6" sm="4" md="" lg="">
+      <!-- payment total revenue -->
+      <!-- <v-col cols="6" sm="4" md="" lg="">
             <v-card
               v-if="payment"
               class="shadow-sm elevation-0 px-2"
@@ -141,11 +286,11 @@
                 </div>
               </div>
             </v-card>
-          </v-col>
-          <!-- payment total Revenue -->
+          </v-col> -->
+      <!-- payment total Revenue -->
 
-          <!-- sale point -->
-          <v-col cols="6" sm="4" md="" lg="">
+      <!-- sale point -->
+      <!-- <v-col cols="6" sm="4" md="" lg="">
             <v-card
               v-if="sellLoading"
               class="shadow-sm elevation-0 px-2"
@@ -200,11 +345,11 @@
                 </div>
               </div>
             </v-card>
-          </v-col>
-          <!-- end of sale point -->
+          </v-col> -->
+      <!-- end of sale point -->
 
-          <!-- sallers rank-->
-          <v-col cols="6" sm="4" md="" lg="">
+      <!-- sallers rank-->
+      <!-- <v-col cols="6" sm="4" md="" lg="">
             <v-card
               v-if="rankLoading"
               class="shadow-sm elevation-0 px-2"
@@ -258,10 +403,9 @@
                 </div>
               </div>
             </v-card>
-          </v-col>
-          <!-- end of sallers rank -->
-        </v-row>
-      </div>
+          </v-col> -->
+      <!-- end of sallers rank -->
+      <!-- </v-row> -->
     </div>
   </div>
 </template>
@@ -332,12 +476,6 @@ export default {
       this.diffRank = resObj.difference;
       this.rankLoading = false;
     });
-    // .catch((error) => {
-    //   if (error.status === 401 || error.status === 403) {
-    //     localStorage.removeItem("accessToken");
-    //     window.location.href = "/signin";
-    //   }
-    // });
 
     this.$store.dispatch("dashboard/getSellerTotalSale").then((res) => {
       let resObj = {
@@ -348,12 +486,6 @@ export default {
       this.diffCurrentSales = resObj.curentSale;
       this.currentLoading = false;
     });
-    // .catch((error) => {
-    //   if (error.status === 401 || error.status === 403) {
-    //     localStorage.removeItem("accessToken");
-    //     window.location.href = "/signin";
-    //   }
-    // });
 
     if (this.userInfo.id === "") {
       this.$store.dispatch("settings/getUserProfile").then(() => {
@@ -438,15 +570,63 @@ export default {
   font-size: 16px;
   color: #ffffff;
 }
-.row-properties {
-  position: absolute;
+.card-container {
   width: 90%;
-}
-@media (max-width: 1000px) {
-  .row-properties {
-    width: 96%;
+  margin-left: auto;
+  margin-right: auto;
+  .card {
+    width: 23%;
+    background: white;
+    padding: 12px;
+    min-height: 186px;
+    box-shadow: 0 0.5rem 30px rgba(0, 0, 0, 0.15) !important;
+    border-radius: 15px;
+    text-align: center;
+    .content-img {
+      width: 55px;
+      height: 55px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 10px auto;
+      img {
+        width: 40%;
+      }
+    }
   }
 }
+@media (max-width: 1240px) {
+  .card-container {
+    width: 96%;
+    .card {
+      width: 30%;
+    }
+  }
+}
+@media (max-width: 850px) {
+  .card-container {
+    width: 96%;
+    .card {
+      width: 45%;
+      //height: 200px;
+    }
+  }
+}
+@media (max-width: 550px) {
+  .card-container {
+    width: 100%;
+    .card {
+      width: 47%;
+      //height: 186px;
+    }
+  }
+}
+// @media (max-width: 1000px) {
+//   .row-properties {
+//     width: 96%;
+//   }
+// }
 .round-img-bg-danger {
   background: #ffecec 0% 0% no-repeat padding-box;
   border-radius: 50%;
@@ -477,31 +657,30 @@ export default {
 .card-sale {
   color: #979797;
   font-family: "Product Sans" Light;
-  font-size: 12px;
+  font-size: 14px;
 }
 .card-success {
   color: #29db58;
-  font-size: 10px;
+  font-size: 12px;
   font-family: "Product Sans" Bold;
 }
 .card-error {
   color: #ff3b3b;
-  font-size: 10px;
+  font-size: 12px;
   font-family: "Product Sans" Bold;
 }
 .card-history {
-  color: #5063ca;
   font-family: "Product Sans" Medium;
-  font-size: 10px;
+  font-size: 12px;
 }
 .awaiting {
   color: #979797;
   font-family: "Product Sans" Light;
-  font-size: 8px;
+  font-size: 10px;
 }
-@media (max-width:1000px) {
+@media (max-width: 1000px) {
   .dashboard-container {
-    top:60px;
+    top: 60px;
   }
 }
 </style>
