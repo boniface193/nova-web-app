@@ -37,14 +37,14 @@
             <span class="ml-8 mb-4 primary--text"
               >Item would be delivered within 24hrs</span
             >
-            <v-radio
+            <!-- <v-radio
               class="primary--text mb-0"
               :label="`Standard Delivery (₦${standardDeliveryFee})`"
               value="standard"
             ></v-radio>
             <span class="ml-8 mb-0 primary--text"
               >Item would be delivered within 3 working days</span
-            >
+            > -->
           </v-radio-group>
         </div>
         <!-- shipping details -->
