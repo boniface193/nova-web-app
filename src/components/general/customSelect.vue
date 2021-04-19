@@ -158,6 +158,7 @@ export default {
         outline: none;
         padding-left: 2px;
         width: -webkit-fill-available;
+        width: -moz-available;
         background: transparent;
         &::placeholder {
           color: rgba(0, 0, 0, 0.38);
