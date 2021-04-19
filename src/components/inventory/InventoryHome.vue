@@ -217,6 +217,7 @@ export default {
 }
 .category-container {
   max-width: 100%;
+  width: fit-content;
   //overflow-x: auto;
   position: relative;
 }

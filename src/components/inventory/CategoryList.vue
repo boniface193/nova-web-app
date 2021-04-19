@@ -1,6 +1,10 @@
 <template>
   <div
-    style="position: relative; max-width: fit-content; max-width: -moz-fit-content;"
+    style="
+      position: relative;
+      max-width: fit-content;
+      max-width: -moz-fit-content;
+    "
     @mouseleave="closeDropDown()"
   >
     <div class="category-container">
@@ -31,7 +35,7 @@
 
     <!-- sub catgeory section -->
     <div>
-      <div class="sub-category-container" v-if="hover">
+      <div class="sub-category-container sub-category-container--mobile" v-if="hover">
         <div
           class="sub-category"
           v-for="(subCategory, index2) in subCategories"
@@ -226,6 +230,11 @@ export default {
     color: black;
   }
   &:hover > .sub-category-container &::-webkit-scrollbar {
+    display: none;
+  }
+}
+@media (max-width: 700px) {
+  .sub-category-container--mobile{
     display: none;
   }
 }
