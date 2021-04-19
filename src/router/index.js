@@ -72,7 +72,6 @@ const getProfile = (to, from, next) => {
       store.commit("onboarding/removeRefreshToken");
       store.commit("onboarding/setAccessToken", null)
       store.commit("reset");
-      
       router.push({
         name: 'Emailverification', params: {
           email: profile.email,
@@ -140,8 +139,7 @@ const ifAuthenticated = (to, from, next) => {
 // redirect when a user is already logged in
 const AlreadyLogin = (to, from, next) => {
   if (localStorage.getItem("clientID") &&
-    localStorage.getItem("refreshToken") &&
-    store.state.onboarding.accessToken !== null) {
+    localStorage.getItem("refreshToken")) {
     next({ name: 'InventoryHome' })
   } else {
     next();
