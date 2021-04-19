@@ -248,11 +248,11 @@ export default {
           this.dialog = true;
           this.processingLoader = false;
           this.statusImage = failedImage;
-          if (error.response.status === (422 || 400)) {
-            this.dialogMessage = error.response.data.message;
-          } else if (error.response.status === 404) {
+          if (error.status == 422 || error.status == 400) {
+            this.dialogMessage = error.data.message;
+          } else if (error.status === 404) {
             this.dialogMessage = "404 not found";
-          } else if (error.response.status === 500) {
+          } else if (error.status === 500) {
             this.dialogMessage = "Something went wrong, please try again";
           } else if (!navigator.onLine) {
             this.dialogMessage = "No internet connection!";
@@ -285,11 +285,11 @@ export default {
             });
           }
 
-          if (error.response.status === 404) {
+          if (error.status === 404) {
             this.dialog = true;
             this.statusImage = failedImage;
             this.dialogMessage = "404 not found";
-          } else if (error.response.status === 500) {
+          } else if (error.status === 500) {
             this.dialog = true;
             this.statusImage = failedImage;
             this.dialogMessage = "Something went wrong, please try again";
@@ -348,11 +348,11 @@ export default {
           this.dialog = true;
           this.editLoader = false;
           this.statusImage = failedImage;
-          if (error.response.status === (422 || 400)) {
-            this.dialogMessage = error.response.data.message;
-          } else if (error.response.status === 404) {
+          if (error.status == 422 || error.status == 400) {
+            this.dialogMessage = error.data.message;
+          } else if (error.status === 404) {
             this.dialogMessage = "404 not found";
-          } else if (error.response.status === 500) {
+          } else if (error.status === 500) {
             this.dialogMessage = "Something went wrong, please try again";
           } else if (!navigator.onLine) {
             this.dialogMessage = "No internet connection!";

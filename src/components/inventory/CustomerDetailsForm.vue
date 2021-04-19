@@ -149,7 +149,7 @@ export default {
         (v) => !!v || "This field is required",
         (v) => v.substring(0, 1) != 0 || "Phone number cannot begin with 0",
         (v) => v.length > 9 || "Number should 10 digits or more",
-        (v) => v.length <= 11 || "Maximum 11 digits or more",
+        (v) => v.length < 11 || "Maximum 11 digits or more",
       ],
       addressRules: [
         //verifies phone number satisfies the requirement
@@ -263,10 +263,11 @@ export default {
           })
           .catch((error) => {
             this.loading = false;
-            if (error.response.status === (422 || 400)) {
+            if (error.status === 422 || error.status === 400) {
+              console.log(error.data.customer)
               this.statusImage = failedImage;
               this.dialog = true;
-              this.dialogMessage = error.response.data.message;
+              this.dialogMessage = error.data.customer;
             }
           });
       }

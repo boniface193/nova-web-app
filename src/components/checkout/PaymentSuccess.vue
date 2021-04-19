@@ -12,7 +12,7 @@
         Congratulation! Your Payment was Successfully
       </h3>
 
-      <v-btn class="primary mx-auto" @click="viewOrderStatus"
+      <v-btn class="primary mx-auto mt-4" @click="viewOrderStatus"
         >Track your order here</v-btn
       >
     </div>

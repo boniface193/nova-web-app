@@ -34,13 +34,13 @@ export default {
       if (this.searchValue !== "") {
         this.$store.commit("inventory/setSearchProduct", true);
         this.$router.push({
-          name: "InventoryHome",
+          //name: "InventoryHome",
           query: { search: this.searchValue, page: 1 },
         });
       } else {
         this.$store.commit("inventory/setSearchProduct", false);
         this.$router.push({
-          name: "InventoryHome",
+          //name: "InventoryHome",
           query: { page: 1 },
         });
       }
@@ -54,10 +54,10 @@ export default {
         .then(() => this.$store.commit("inventory/setInventoryLoader", false))
         .catch((error) => {
           this.$store.commit("inventory/setInventoryLoader", false);
-          if (error.response.status === (422 || 400)) {
+          if (error.status == 422 || error.status == 400) {
             this.statusImage = failedImage;
             this.dialog = true;
-            this.dialogMessage = error.response.data.message;
+            this.dialogMessage = error.data.message;
           }
         });
     },

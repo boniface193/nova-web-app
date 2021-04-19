@@ -97,10 +97,16 @@ export default {
         .catch((error) => {
           this.error = true;
           this.loading = false;
-          if (error.response) {
+          if (error.status == 422) {
             this.errorMessage = `This Account does not Exist`;
-          } else {
-            this.errorMessage = `No internet Connection!`;
+          } else if (error.status == 400) {
+            this.errorMessage = error.data.message;
+          } else if (error.status == 404) {
+            this.message = "404 not found";
+          } else if (error.status == 500) {
+            this.message = "Something went wrong, please try again";
+          } else if (!navigator.onLine) {
+            this.message = "No internet connection!";
           }
         });
     },

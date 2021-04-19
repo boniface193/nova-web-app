@@ -40,12 +40,12 @@ orderHttpClient.interceptors.response.use(
                     return store.dispatch("onboarding/getAccessToken").then(res => {
                         store.commit("onboarding/setRefreshingToken", false);
                         // Change Authorization header
-                        axios.defaults.headers.common['Authorization'] = 'Bearer ' + res.data.token;
+                        orderHttpClient.defaults.headers.common['Authorization'] = 'Bearer ' + res.data.token;
                         // return originalRequest object with Axios.                           
-                        return axios(originalRequest);
+                        return orderHttpClient(originalRequest);
                     }).catch(() => store.commit("onboarding/setRefreshingToken", false))
                 }else {
-                    return axios(error.config)
+                    return orderHttpClient(error.config)
                 }
             } else if (error.response.status === 404) {
                 store.commit("onboarding/setErrorTracker", {

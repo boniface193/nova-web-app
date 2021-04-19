@@ -252,10 +252,17 @@ export default {
             .catch((error) => {
               this.error = true;
               this.loading1 = false;
-              if (error.response) {
-                this.errorMessage = error.response.data.errors.email[0];
-              } else {
-                this.errorMessage = "No internet Connection!";
+
+              if (error.status == 422) {
+                this.errorMessage = error.data.errors.email[0];
+              } else if (error.status == 400) {
+                this.errorMessage = error.data.message;
+              } else if (error.status == 404) {
+                this.errorMessage = "404 not found";
+              } else if (error.status == 500) {
+                this.errorMessage = "Something went wrong, please try again";
+              } else if (!navigator.onLine) {
+                this.errorMessage = "No internet connection!";
               }
             });
         } else if (formNum == 2) {
@@ -288,7 +295,6 @@ export default {
           this.loading2 = false;
           if (response.data.message === "Registeration successful.") {
             this.$store.commit("onboarding/setPresentSignupForm", "form1");
-            // this.$store.commit("onboarding/accessEmailVerifcationPage", true);
             this.$router.push({
               name: "Emailverification",
               params: {
@@ -300,10 +306,16 @@ export default {
         .catch((error) => {
           this.error = true;
           this.loading2 = false;
-          if (error.response) {
-            this.errorMessage = error.response.data.errors.email[0];
-          } else {
-            this.errorMessage = "No internet Connection!";
+          if (error.status == 422) {
+            this.errorMessage = error.data.errors.email[0];
+          } else if (error.status == 400) {
+            this.errorMessage = error.data.message;
+          } else if (error.status == 404) {
+            this.errorMessage = "404 not found";
+          } else if (error.status == 500) {
+            this.errorMessage = "Something went wrong, please try again";
+          } else if (!navigator.onLine) {
+            this.errorMessage = "No internet connection!";
           }
         });
     },

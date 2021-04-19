@@ -74,10 +74,10 @@ const getProfile = (to, from, next) => {
     }
   }).catch((error) => {
 
-    if (error.response.status == 401) {
-      store.onboarding.commit("removeClientID");
-      store.onboarding.commit("removeRefreshToken");
-      store.onboarding.commit("setAccessToken", null)
+    if (error.status == 401) {
+      store.commit("onboarding/removeClientID");
+      store.commit("onboarding/removeRefreshToken");
+      store.commit("onboarding/setAccessToken", null)
       store.commit("reset");
       next({ name: "Signin" });
     }
@@ -98,10 +98,10 @@ const ifAuthenticated = (to, from, next) => {
         store.dispatch("onboarding/getAccessToken").then(() => {
           getProfile((to, from, next()));
         }).catch((error) => {
-          if (error.response.status == 401 || error.response.status == 422) {
-            store.onboarding.commit("removeClientID");
-            store.onboarding.commit("removeRefreshToken");
-            store.onboarding.commit("setAccessToken", null)
+          if (error.status == 401 || error.status == 422) {
+            store.commit("onboarding/removeClientID");
+            store.commit("onboarding/removeRefreshToken");
+            store.commit("onboarding/setAccessToken", null)
             store.commit("reset");
             next({ name: "Signin" });
           }
@@ -111,19 +111,19 @@ const ifAuthenticated = (to, from, next) => {
       store.dispatch("onboarding/getAccessToken").then(() => {
         getProfile((to, from, next()));
       }).catch((error) => {
-        if (error.response.status == 401 || error.response.status == 422) {
-          store.onboarding.commit("removeClientID");
-          store.onboarding.commit("removeRefreshToken");
-          store.onboarding.commit("setAccessToken", null)
+        if (error.status == 401 || error.status == 422) {
+          store.commit("onboarding/removeClientID");
+          store.commit("onboarding/removeRefreshToken");
+          store.commit("onboarding/setAccessToken", null)
           store.commit("reset");
           next({ name: "Signin" });
         }
       })
     }
   } else {
-    store.onboarding.commit("removeClientID");
-    store.onboarding.commit("removeRefreshToken");
-    store.onboarding.commit("setAccessToken", null)
+    store.commit("onboarding/removeClientID");
+    store.commit("onboarding/removeRefreshToken");
+    store.commit("onboarding/setAccessToken", null)
     store.commit("reset");
     next({ name: 'Signin' });
   }

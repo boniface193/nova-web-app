@@ -107,6 +107,7 @@ export default {
   display: flex;
   .page-content {
     width: -webkit-fill-available;
+    width: -moz-available;
     transition: 0.5s ease;
     position: relative;
     &--header {

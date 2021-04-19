@@ -72,10 +72,10 @@ export default {
       orderDetails: {
         delivery_location: {},
         customer: {},
-        variants: []
+        variants: [],
       },
       productDetails: {
-        description: ""
+        description: "",
       },
       storeDetails: {
         refund_policy: {},
@@ -105,11 +105,11 @@ export default {
         this.pageLoader = false;
         this.statusImage = failedImage;
         this.dialog = true;
-        if (error.response.status == (422 || 400)) {
-          this.dialogMessage = error.response.data.message;
-        } else if (error.response.status == 404) {
+        if (error.status == 422 || error.status == 400) {
+          this.dialogMessage = error.data.message;
+        } else if (error.status == 404) {
           this.dialogMessage = "404 not found";
-        } else if (error.response.status == 500) {
+        } else if (error.status == 500) {
           this.dialogMessage = "Something went wrong, please try again";
         } else if (!navigator.onLine) {
           this.dialogMessage = "No internet connection!";
@@ -130,11 +130,11 @@ export default {
           this.pageLoader = false;
           this.statusImage = failedImage;
           this.dialog = true;
-          if (error.response.status === (422 || 400)) {
-            this.dialogMessage = error.response.data.message;
-          } else if (error.response.status === 404) {
+          if (error.status == 422 || error.status == 400) {
+            this.dialogMessage = error.data.message;
+          } else if (error.status === 404) {
             this.dialogMessage = "404 not found";
-          } else if (error.response.status === 500) {
+          } else if (error.status === 500) {
             this.dialogMessage = "Something went wrong, please try again";
           } else if (!navigator.onLine) {
             this.dialogMessage = "No internet connection!";
@@ -154,11 +154,11 @@ export default {
           this.pageLoader = false;
           this.statusImage = failedImage;
           this.dialog = true;
-          if (error.response.status === (422 || 400)) {
-            this.dialogMessage = error.response.data.message;
-          } else if (error.response.status === 404) {
+          if (error.status == 422 || error.status == 400) {
+            this.dialogMessage = error.data.message;
+          } else if (error.status === 404) {
             this.dialogMessage = "404 not found";
-          } else if (error.response.status === 500) {
+          } else if (error.status === 500) {
             this.dialogMessage = "Something went wrong, please try again";
           } else if (!navigator.onLine) {
             this.dialogMessage = "No internet connection!";

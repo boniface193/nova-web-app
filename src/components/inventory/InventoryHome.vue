@@ -145,10 +145,10 @@ export default {
         })
         .catch((error) => {
           this.$store.commit("inventory/setInventoryLoader", false);
-          if (error.response.status === (422 || 400)) {
+          if (error.status == 422 || error.status == 400) {
             this.statusImage = failedImage;
             this.dialog = true;
-            this.dialogMessage = error.response.data.message;
+            this.dialogMessage = error.data.message;
           }
         });
     },
@@ -182,10 +182,10 @@ export default {
         .then(() => this.$store.commit("inventory/setInventoryLoader", false))
         .catch((error) => {
           this.$store.commit("inventory/setInventoryLoader", false);
-          if (error.response.status === (422 || 400)) {
+          if (error.status == 422 || error.status == 400) {
             this.statusImage = failedImage;
             this.dialog = true;
-            this.dialogMessage = error.response.data.message;
+            this.dialogMessage = error.data.message;
           }
         });
     },
@@ -196,10 +196,10 @@ export default {
         .then(() => this.$store.commit("inventory/setInventoryLoader", false))
         .catch((error) => {
           this.$store.commit("inventory/setInventoryLoader", false);
-          if (error.response.status === (422 || 400)) {
+          if (error.status == 422 || error.status == 400) {
             this.statusImage = failedImage;
             this.dialog = true;
-            this.dialogMessage = error.response.data.message;
+            this.dialogMessage = error.data.message;
           }
         });
     },

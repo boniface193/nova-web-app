@@ -8,7 +8,6 @@
       @resetFilter="resetFilter"
     />
     <!-- do not remove -->
-   
 
     <!--------------------------- modal for dialog messages ------------------------------>
     <Modal :dialog="dialog" width="400">
@@ -62,13 +61,13 @@ export default {
   methods: {
     // get products
     getProducts() {
-       const params = new URLSearchParams(window.location.search);
+      const params = new URLSearchParams(window.location.search);
       this.$store.commit("inventory/setSearchProduct", false);
-      if(params.get("search") || params.get("page")){
+      if (params.get("search") || params.get("page")) {
         this.$router.push({
-        name: "InventoryHome",
-        query: {},
-      });
+          name: "InventoryHome",
+          query: {},
+        });
       }
       this.$store.commit("inventory/setInventoryLoader", true);
       this.$store
@@ -76,12 +75,11 @@ export default {
         .then(() => this.$store.commit("inventory/setInventoryLoader", false))
         .catch((error) => {
           this.$store.commit("inventory/setInventoryLoader", false);
-          if (error.response.status === (422 || 400)) {
+          if (error.status == 422 || error.status == 400) {
             this.statusImage = failedImage;
             this.dialog = true;
-            this.dialogMessage = error.response.data.message;
+            this.dialogMessage = error.data.message;
           }
-         
         });
     },
     // filterTable
@@ -116,7 +114,7 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-.row{
+.row {
   margin: 0px !important;
 }
 .status-img {

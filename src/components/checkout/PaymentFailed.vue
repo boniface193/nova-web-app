@@ -10,7 +10,7 @@
 
       <h3>Sorry!, Your Payment failed</h3>
 
-      <v-btn class="primary mx-auto" @click="goCheckoutDetails"
+      <v-btn class="primary mx-auto mt-4" @click="goCheckoutDetails"
         >Go back</v-btn
       >
     </div>

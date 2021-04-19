@@ -1,7 +1,9 @@
 <template>
   <div class="store-width">
-
-    <div class="d-flex align-center justify-center mb-8" style="position: relative">
+    <div
+      class="d-flex align-center justify-center mb-8"
+      style="position: relative"
+    >
       <router-link :to="{ name: 'ProfilePage' }" style="text-decoration: none">
         <span class="back-btn">
           <v-icon style="font-size: 25px">mdi-chevron-left</v-icon>
@@ -122,9 +124,7 @@ export default {
         //verifies password satisfies the requirement
         (v) => !!v || "New password is required",
         (v) =>
-          /^(?=.*[A-Za-z])(?=.*\d).{8,}$/.test(
-            v
-          ) ||
+          /^(?=.*[A-Za-z])(?=.*\d).{8,}$/.test(v) ||
           "Password must contain a minimum of 8 character, at least one uppercase, one lowercase, one number",
       ],
       confirmPasswordRules: [
@@ -155,12 +155,11 @@ export default {
           .catch((error) => {
             this.dialog = true;
             this.loading = false;
-            this.statusImage = failedImage
-            if (error.response) {
-              console.log(error.response)
-              this.dialogMessage = error.response.data.errors.old_password[0];
-            } else {
-              this.dialogMessage = "No internet connection!";
+            this.statusImage = failedImage;
+            if (error.status == 422) {
+              this.dialogMessage = error.data.errors.old_password[0];
+            } else if (error.status == 400) {
+              this.dialogMessage = error.data.message;
             }
           });
       }
@@ -178,10 +177,10 @@ export default {
 .store-width {
   width: 50%;
 }
-.back-btn{
-    position: absolute;
-    left: 0px;
-    top:0
+.back-btn {
+  position: absolute;
+  left: 0px;
+  top: 0;
 }
 @media (max-width: 950px) {
   .store-width {

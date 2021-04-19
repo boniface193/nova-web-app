@@ -1,6 +1,6 @@
 <template>
   <div
-    style="position: relative; max-width: fit-content"
+    style="position: relative; max-width: fit-content; max-width: -moz-fit-content;"
     @mouseleave="closeDropDown()"
   >
     <div class="category-container">
@@ -14,7 +14,7 @@
       >
         All
       </div>
-      
+
       <div
         class="mr-3 px-4 category secondary--text"
         v-for="(category, index) in productCategories"
@@ -37,10 +37,7 @@
           v-for="(subCategory, index2) in subCategories"
           :key="index2"
         >
-          <p
-            class="mb-1"
-            @click.stop="itemSelected(subCategory.name)"
-          >
+          <p class="mb-1" @click.stop="itemSelected(subCategory.name)">
             {{ subCategory.name }}
           </p>
           <hr class="mb-2" />
@@ -112,7 +109,7 @@ export default {
     },
     itemSelected(categoryName) {
       this.closeDropDown();
-      this.selectedCategory = categoryName
+      this.selectedCategory = categoryName;
       // commit values for filter
       this.$store.commit("inventory/setFilter", {
         minPrice: 0,
@@ -145,12 +142,11 @@ export default {
         .catch((error) => {
           this.$store.commit("inventory/setInventoryLoader", false);
           this.statusImage = failedImage;
-          if (error.response.status === (422 || 400)) {
+          if (error.status === 422 || error.status === 400) {
             this.statusImage = failedImage;
             this.dialog = true;
             this.dialogMessage = error.response.data.message;
           }
-         
         });
     },
   },
@@ -168,6 +164,7 @@ export default {
   max-width: 100%;
   display: flex;
   width: fit-content;
+  width: -moz-fit-content;
   margin: auto;
   .category {
     border: 1px solid #bebebe;
@@ -178,6 +175,7 @@ export default {
     align-items: center;
     flex-wrap: nowrap;
     min-width: fit-content;
+    min-width: -moz-fit-content;
     cursor: pointer;
     &:hover {
       color: var(--v-primary-base) !important;

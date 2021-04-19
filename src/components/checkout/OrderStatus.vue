@@ -274,11 +274,11 @@ export default {
         this.pageLoader = false;
         this.dialog = true;
         this.statusImage = failedImage;
-        if (error.response.status === (422 || 400)) {
-          this.dialogMessage = error.response.data.message;
-        } else if (error.response.status === 404) {
+        if (error.status == 422 || error.status == 400) {
+          this.dialogMessage = error.data.message;
+        } else if (error.status === 404) {
           this.dialogMessage = "404 not found";
-        } else if (error.response.status === 500) {
+        } else if (error.status === 500) {
           this.dialogMessage = "Something went wrong, please try again";
         } else if (!navigator.onLine) {
           this.dialogMessage = "No internet connection!";
@@ -327,11 +327,11 @@ export default {
           this.dialog = true;
           this.loading2 = false;
           this.statusImage = failedImage;
-          if (error.response.status === (422 || 400)) {
-            this.dialogMessage = error.response.data.message;
-          } else if (error.response.status === 404) {
+          if (error.status == 422 || error.status == 400) {
+            this.dialogMessage = error.data.message;
+          } else if (error.status === 404) {
             this.dialogMessage = "404 not found";
-          } else if (error.response.status === 500) {
+          } else if (error.status === 500) {
             this.dialogMessage = "Something went wrong, please try again";
           } else if (!navigator.onLine) {
             this.dialogMessage = "No internet connection!";
@@ -356,11 +356,11 @@ export default {
         .catch((error) => {
           this.errorMessage = true;
           this.resendOTPLoader = false;
-          if (error.response.status === (422 || 400)) {
-            this.otpErrorMessage = error.response.errors.email[0];
-          } else if (error.response.status === 404) {
+          if (error.status == 422 || error.status == 400) {
+            this.otpErrorMessage = error.data.errors.email[0];
+          } else if (error.status === 404) {
             this.otpErrorMessage = "404 not found";
-          } else if (error.response.status === 500) {
+          } else if (error.status === 500) {
             this.otpErrorMessage = "Something went wrong, please try again";
           } else if (!navigator.onLine) {
             this.otpErrorMessage = "No internet connection!";
@@ -387,11 +387,11 @@ export default {
             this.otpLoader = false;
             this.otpError = true;
 
-            if (error.response.status === (422 || 400)) {
-              this.otpErrorMessage = error.response.data.message;
-            } else if (error.response.status === 404) {
+            if (error.status == 422 || error.status == 400) {
+              this.otpErrorMessage = error.data.message;
+            } else if (error.status === 404) {
               this.otpErrorMessage = "404 not found";
-            } else if (error.response.status === 500) {
+            } else if (error.status === 500) {
               this.otpErrorMessage = "Something went wrong, please try again";
             } else if (!navigator.onLine) {
               this.otpErrorMessage = "No internet connection!";

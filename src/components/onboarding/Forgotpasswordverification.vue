@@ -41,9 +41,9 @@
 
       <!-- button container -->
       <div class="pa-0 mt-10" style="width: 100%">
-        <p style="color: #979797; font-size: 14px;">
+        <p style="color: #979797; font-size: 14px">
           Didn't receive the code?
-          <a style="text-decoration: none; font-size: 14px;">
+          <a style="text-decoration: none; font-size: 14px">
             <span v-show="!resendOTPLoader && !showOTPTimer" @click="resendOTP"
               >Resend Code</span
             >
@@ -60,7 +60,10 @@
             >
           </a>
         </p>
-        <v-btn height="48px" block depressed
+        <v-btn
+          height="48px"
+          block
+          depressed
           class="primary mb-5 mx-auto"
           @click="submitCode()"
           :loading="loading"
@@ -145,10 +148,16 @@ export default {
           .catch((error) => {
             this.loading = false;
             this.errorMessage = true;
-            if (error.response) {
-              this.message = "OTP is invalid or expired";
-            } else {
-              this.message = "No internet Connection!";
+            if (error.status == 422) {
+              this.message = error.data.errors.otp[0];
+            } else if (error.status == 400) {
+              this.message = error.data.message;
+            } else if (error.status == 404) {
+              this.message = "404 not found";
+            } else if (error.status == 500) {
+              this.message = "Something went wrong, please try again";
+            } else if (!navigator.onLine) {
+              this.message = "No internet connection!";
             }
           });
       } else {
@@ -178,10 +187,16 @@ export default {
         .catch((error) => {
           this.errorMessage = true;
           this.resendOTPLoader = false;
-          if (error.response) {
-            this.message = error.response.errors.email[0];
-          } else {
-            this.message = "No internet Connection!";
+          if (error.status == 422) {
+            this.message = error.data.errors.email[0];
+          } else if (error.status == 400) {
+            this.message = error.data.message;
+          } else if (error.status == 404) {
+            this.message = "404 not found";
+          } else if (error.status == 500) {
+            this.message = "Something went wrong, please try again";
+          } else if (!navigator.onLine) {
+            this.message = "No internet connection!";
           }
         });
     },
@@ -196,12 +211,12 @@ export default {
     width: 90%;
     margin: auto;
   }
-    .headings {
+  .headings {
     font-size: 20px;
     font-family: "Product Sans" Medium;
     color: #2b2b2b;
   }
-  .sub-headings{
+  .sub-headings {
     font-size: 16px;
     font-family: "Product Sans" Medium;
     color: #2b2b2b;
@@ -217,7 +232,7 @@ export default {
 }
 .v-btn:not(.v-btn--round).v-size--default {
   border-radius: 8px;
-  font-family: 'Product Sans Regular';
+  font-family: "Product Sans Regular";
   font-size: 16px;
 }
 .status-img {

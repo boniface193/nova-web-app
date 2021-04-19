@@ -40,12 +40,12 @@ bankServiceHttpClient.interceptors.response.use(
                     return store.dispatch("onboarding/getAccessToken").then(res => {
                         store.commit("onboarding/setRefreshingToken", false);
                         // Change Authorization header
-                        axios.defaults.headers.common['Authorization'] = 'Bearer ' + res.data.token;
+                        bankServiceHttpClient.defaults.headers.common['Authorization'] = `Bearer ${res.data.token}`
                         // return originalRequest object with Axios.                           
-                        return axios(originalRequest);
+                        return bankServiceHttpClient(originalRequest);
                     }).catch(() => store.commit("onboarding/setRefreshingToken", false))
                 } else {
-                    return axios(error.config)
+                    return bankServiceHttpClient(error.config)
                 }
             }
             else if (error.response.status === 500) {

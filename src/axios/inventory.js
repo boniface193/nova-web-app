@@ -41,12 +41,12 @@ inventoryHttpClient.interceptors.response.use(
                     return store.dispatch("onboarding/getAccessToken").then(res => {
                         store.commit("onboarding/setRefreshingToken", false);
                         // Change Authorization header
-                        axios.defaults.headers.common['Authorization'] = 'Bearer ' + res.data.token;
+                        inventoryHttpClient.defaults.headers.common['Authorization'] = 'Bearer ' + res.data.token;
                         // return originalRequest object with Axios.                           
-                        return axios(originalRequest);
+                        return inventoryHttpClient(originalRequest);
                     }).catch(() => store.commit("onboarding/setRefreshingToken", false))
                 } else {
-                    return axios(error.config)
+                    return inventoryHttpClient(error.config)
                 }
             } else if (error.response.status === 404) {
                 store.commit("onboarding/setErrorTracker", {

@@ -36,7 +36,8 @@ const state = {
         minPrice: 0,
         maxPrice: 0,
     },
-    category: ''
+    category: '',
+    doNothing: null
 };
 
 //returns the state properties
@@ -140,6 +141,8 @@ const mutations = {
     setFilter: (state, filter) => (state.filter = filter),
     setProductCategories: (state, productCategories) => (state.productCategories = productCategories),
     setCategory: (state, category) => (state.category = category),
+     // commit nothing
+     doNothing: (state) => (state.doNothing = null),
 };
 
 

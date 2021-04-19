@@ -43,7 +43,7 @@
       <!-- button container -->
       <div class="pa-0 mt-5" style="width: 100%">
         <v-btn
-        height="48px"
+          height="48px"
           block
           depressed
           class="primary mb-5 mx-auto"
@@ -150,10 +150,16 @@ export default {
           this.loading = false;
           this.error = true;
           this.statusImage = failedImage;
-          if (error.response) {
-            this.errorMessage = "something went wrong, pls try again";
-          } else {
-            this.errorMessage = "No internet Connection!";
+          if (error.status == 422) {
+            this.errorMessage = error.data.errors.email[0];
+          } else if (error.status == 400) {
+            this.errorMessage = error.data.message;
+          } else if (error.status == 404) {
+            this.errorMessage = "404 not found";
+          } else if (error.status == 500) {
+            this.errorMessage = "Something went wrong, please try again";
+          } else if (!navigator.onLine) {
+            this.errorMessage = "No internet connection!";
           }
         });
     },

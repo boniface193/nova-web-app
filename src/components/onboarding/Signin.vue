@@ -54,7 +54,10 @@
 
       <!-- button container -->
       <div class="pa-0 mt-5">
-        <v-btn height="48px" block depressed
+        <v-btn
+          height="48px"
+          block
+          depressed
           class="primary mb-5 mx-auto"
           @click="validateForm"
           :loading="loading"
@@ -63,7 +66,13 @@
         >
 
         <!-- create account link -->
-        <p style="font-size: 16px; font-family: 'Product Sans' Light; color: #646464;">
+        <p
+          style="
+            font-size: 16px;
+            font-family: 'Product Sans' Light;
+            color: #646464;
+          "
+        >
           Don't have an account?
           <router-link to="/signup" style="text-decoration: none"
             >Create Account</router-link
@@ -120,10 +129,16 @@ export default {
         .catch((error) => {
           this.error = true;
           this.loading = false;
-          if (error.response) {
+          if (error.status == 422) {
             this.errorMessage = `Incorrect email address or password`;
-          } else {
-            this.errorMessage = "No internet Connection!";
+          } else if (error.status == 400) {
+            this.errorMessage = error.data.message;
+          } else if (error.status == 404) {
+            this.errorMessage = "404 not found";
+          } else if (error.status == 500) {
+            this.errorMessage = "Something went wrong, please try again";
+          } else if (!navigator.onLine) {
+            this.errorMessage = "No internet connection!";
           }
         });
     },
@@ -157,8 +172,7 @@ export default {
 }
 .v-btn:not(.v-btn--round).v-size--default {
   border-radius: 8px;
-  font-family: 'Product Sans Regular';
+  font-family: "Product Sans Regular";
   font-size: 16px;
-  
 }
 </style>

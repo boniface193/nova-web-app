@@ -212,10 +212,10 @@ export default {
         })
         .catch((error) => {
           this.pageLoader = false;
-          if (error.response.status === (422 || 400)) {
+          if (error.status == 422 || error.status == 400) {
             this.statusImage = failedImage;
             this.dialog = true;
-            this.dialogMessage = error.response.data.message;
+            this.dialogMessage = error.data.message;
           }
         });
     },
@@ -255,9 +255,9 @@ export default {
             this.accountDetails = {};
             this.fetchingAccountDetails = false;
 
-            if (error.response.status === (422 || 400)) {
+            if (error.status == 422 || error.status == 400) {
               this.error = true;
-              this.errorMsg = error.response.data.message;
+              this.errorMsg = error.data.message;
             }
           });
       }
@@ -281,13 +281,13 @@ export default {
             location.reload();
           })
           .catch((error) => {
-            this.passwordError = true;
             this.loading = false;
-            if (error.response.status === (422 || 400)) {
-              if (error.response.data.password) {
-                this.passwordErrorMsg = error.response.data.password[0];
-              } else if (error.response.data.account_number) {
-                this.passwordErrorMsg = error.response.data.account_number[0];
+            if (error.status == 422 || error.status == 400) {
+              this.passwordError = true;
+              if (error.data.password) {
+                this.passwordErrorMsg = error.data.password[0];
+              } else if (error.data.account_number) {
+                this.passwordErrorMsg = error.data.account_number[0];
               }
             }
           });
