@@ -21,7 +21,7 @@
               <img src="@/assets/images/shopping.png" />
             </div>
 
-            <h3>&#8358; {{curentSale}}</h3>
+            <h3>&#8358; {{ curentSale }}</h3>
             <p class="card-sale mb-1">In sales</p>
 
             <p

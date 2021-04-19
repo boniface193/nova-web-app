@@ -85,7 +85,7 @@
 <script>
 import modal from "@/components/modal.vue";
 import successImage from "@/assets/images/success-img.svg";
-import failedImage from "@/assets/images/failed-img.svg";
+//import failedImage from "@/assets/images/failed-img.svg";
 export default {
   name: "Recoverpassword",
   components: { modal },
@@ -149,7 +149,6 @@ export default {
         .catch((error) => {
           this.loading = false;
           this.error = true;
-          this.statusImage = failedImage;
           if (error.status == 422) {
             this.errorMessage = error.data.errors.email[0];
           } else if (error.status == 400) {
