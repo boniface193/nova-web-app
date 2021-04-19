@@ -61,12 +61,19 @@ const getProfile = (to, from, next) => {
         next()
         return
       } else {
-        store.dispatch("onboarding/logout");
-        next({ name: "SuspensionPage" })
+        store.commit("onboarding/removeClientID");
+        store.commit("onboarding/removeRefreshToken");
+        store.commit("onboarding/setAccessToken", null)
+        store.commit("reset");
+        router.push({ name: "SuspensionPage" })
       }
     } else {
-      store.dispatch("onboarding/logout");
-      next({
+      store.commit("onboarding/removeClientID");
+      store.commit("onboarding/removeRefreshToken");
+      store.commit("onboarding/setAccessToken", null)
+      store.commit("reset");
+      
+      router.push({
         name: 'Emailverification', params: {
           email: profile.email,
         },
@@ -79,7 +86,7 @@ const getProfile = (to, from, next) => {
       store.commit("onboarding/removeRefreshToken");
       store.commit("onboarding/setAccessToken", null)
       store.commit("reset");
-      next({ name: "Signin" });
+      router.push({ name: "Signin" });
     }
   })
 }
@@ -144,7 +151,7 @@ const AlreadyLogin = (to, from, next) => {
 
 // verify if access has been given to a user to view email verification page
 const ifAccessEmailVerifcationPage = (to, from, next) => {
-  if (from.name === "Signup" || from.name === "Signin") {
+  if (from.name == "Signup" || from.name == "Signin" || from.name == "InventoryHome") {
     next()
     return
   }

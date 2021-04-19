@@ -19,7 +19,7 @@
     >
       <div class="d-flex flex-wrap justify-center" >
         <ProductCard
-          class="mb-5 mr-6"
+          class="mb-5 mr-4 mr-sm-6"
           v-for="product in products"
           :key="product.id"
           :product="product"

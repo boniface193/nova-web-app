@@ -265,7 +265,7 @@ export default {
             this.accountVerified = false;
             this.newAccountDetails = {};
             this.fetchingAccountDetails = false;
-            if (error.status == 422 || error.status == 400) {
+             if (error.status == 422 || error.status == 400) {
               this.error = true;
               this.errorMsg = error.data.message;
             }
