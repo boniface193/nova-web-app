@@ -116,6 +116,7 @@
             color="primary"
             v-model="computedInfo.currentAddress"
             :disabled="editAddress == false"
+            id="autocomplete"
             required
           >
           </v-text-field>
@@ -129,7 +130,7 @@
           <!-- done btn -->
           <span
             class="edit-btn"
-            v-show="editAddress && !phoneNumLoader"
+            v-show="editAddress && !addressLoader"
             @click="editInfo('editAddress')"
             >Done</span
           >
@@ -201,6 +202,11 @@ export default {
       phoneNumLoader: false,
       nameLoader: false,
       addressLoader: false,
+      address: "",
+      lat: "",
+      lng: "",
+      validAddress: false,
+      autocomplete: "",
       inputRules: [(v) => !!v || "This field is required"],
       phoneRules: [
         //verifies phone number satisfies the requirement
@@ -211,6 +217,20 @@ export default {
       ],
       loader: false,
     };
+  },
+  mounted() {
+    this.autocomplete = new window.google.maps.places.Autocomplete(
+      document.getElementById("autocomplete"),
+      {
+        bounds: new window.google.maps.LatLngBounds(
+          new window.google.maps.LatLng(6.5244, 3.3792)
+        ),
+        componentRestrictions: { country: ["NG"] },
+        fields: ["geometry", "name", "formatted_address"],
+      }
+    );
+
+    this.autocomplete.addListener("place_changed", this.onPlaceChanged);
   },
   computed: {
     ...mapGetters({
@@ -239,6 +259,19 @@ export default {
     },
   },
   methods: {
+    onPlaceChanged() {
+      let place = this.autocomplete.getPlace();
+      if (!place.geometry) {
+        // User did not select a prediction; reset the input field
+        this.validAddress = false;
+      } else {
+        //Display details about the valid place
+        this.computedInfo.currentAddress = place.name + " " + place.formatted_address;
+        this.validAddress = true;
+        this.lat = place.geometry.location.lat();
+        this.lng = place.geometry.location.lng();
+      }
+    },
     // submits the edited information
     editInfo(input_field) {
       // check if the edit input field is the admin name
@@ -260,10 +293,8 @@ export default {
               this.dialog = true;
             })
             .catch((error) => {
-              if (error.response) {
-                this.dialogMessage = "";
-              } else {
-                this.dialogMessage = "No internet connection!";
+              if (error.status == 400 || error.status == 422) {
+                this.dialogMessage = error.data.message;
               }
               this.nameLoader = false;
               this.statusImage = failedImage;
@@ -297,10 +328,10 @@ export default {
               this.dialog = true;
             })
             .catch((error) => {
-              if (error.response) {
-                this.dialogMessage = error.response.data.errors.phone_number[0];
-              } else {
-                this.dialogMessage = "No internet connection!";
+              if (error.status == 422) {
+                this.dialogMessage = error.data.errors.phone_number[0];
+              }else if (error.status == 400){
+                this.dialogMessage = error.data.message;
               }
               this.phoneNumLoader = false;
               this.statusImage = failedImage;
@@ -308,6 +339,40 @@ export default {
             });
         } else {
           this.editPhoneNum = false;
+        }
+      }
+      // check if the edit input field is the admin name
+      if (
+        input_field === "editAddress" &&
+        this.computedInfo.currentAddress !== ""
+      ) {
+        if (this.computedInfo.currentAddress !== this.computedInfo.address) {
+          this.addressLoader = true;
+          this.$store
+            .dispatch("settings/editUserProfile", {
+              location: {
+                address: this.computedInfo.currentAddress,
+                lat: this.lat,
+                lng: this.lng,
+              },
+            })
+            .then(() => {
+              this.dialogMessage = "Store address changed successfully!";
+              this.editAddress = false;
+              this.addressLoader = false;
+              this.statusImage = successImage;
+              this.dialog = true;
+            })
+            .catch((error) => {
+              if (error.status == 400 || error.status == 422) {
+                this.dialogMessage = error.data.message;
+              }
+              this.addressLoader = false;
+              this.statusImage = failedImage;
+              this.dialog = true;
+            });
+        } else {
+          this.editAddress = false;
         }
       }
     },

@@ -203,7 +203,7 @@ export default {
         (v) => !!v || "This field is required",
         (v) => v.substring(0, 1) != 0 || "Phone number cannot begin with 0",
         (v) => v.length > 9 || "Number should 10 digits or more",
-        (v) => v.length <= 11 || "Maximum 11 digits or more",
+        (v) => v.length < 11 || "Maximum 11 digits or more",
       ],
       createPasswordRules: [
         //verifies password satisfies the requirement

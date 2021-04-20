@@ -21,7 +21,9 @@
         v-model="createPassword"
         :rules="createPasswordRules"
         label="Create Password"
-        type="password"
+        :append-icon="showPassword ? 'mdi-eye-off' : 'mdi-eye'"
+        @click:append="() => (showPassword = !showPassword)"
+        :type="showPassword ? 'password' : 'text'"
         color="primary"
         required
         @keyup.enter="$refs.input2.focus"
@@ -33,7 +35,9 @@
         v-model="confirmPassword"
         :rules="confirmPasswordRules"
         label="Confirm Password"
-        type="password"
+         :append-icon="showConfirmPassword ? 'mdi-eye-off' : 'mdi-eye'"
+        @click:append="() => (showConfirmPassword = !showConfirmPassword)"
+        :type="showConfirmPassword ? 'password' : 'text'"
         color="primary"
         required
         ref="input2"
@@ -99,6 +103,8 @@ export default {
       loading: false,
       createPassword: "",
       confirmPassword: "",
+       showPassword: true,
+      showConfirmPassword: true,
       createPasswordRules: [
         //verifies password satisfies the requirement
         (v) => !!v || "Password is required",

@@ -1,7 +1,7 @@
-import axios from "../../axios/dashboard";
+import axios from "@/axios/dashboard";
 
 const state = {
-    reward: [],
+    reward: { data: [] },
     rewardHistory: [],
     redeem_airtime: [],
 };
@@ -17,26 +17,22 @@ const actions = {
                 .then(response => {
                     context.commit("setRewards", response.data)
                     resolve(response.data)
-                    
+
                 })
                 .catch(error => {
                     reject(error)
                 })
-            })
-        },
-        
-        redeemReward(context, data) {
-            let redeemAirtime = (state.redeem_airtime !== "") ? `?reward_id=${state.redeem_airtime}` : ""
-            return new Promise((resolve, reject) => {
-                axios.post(`/reward/get${redeemAirtime}`, data, {
-                    headers: {
-                        Authorization: `Bearer ${localStorage.getItem("accessToken")}`
-                    }
-                })
+        })
+    },
+
+    redeemReward(context) {
+        let redeemAirtime = (state.redeem_airtime !== "") ? `?reward_id=${state.redeem_airtime}` : ""
+        return new Promise((resolve, reject) => {
+            axios.post(`/reward/get${redeemAirtime}`)
                 .then(response => {
                     context.commit("setRewards", response.data.data)
                     resolve(response.data.data)
-                    
+
                 })
                 .catch(error => {
                     reject(error)
@@ -46,14 +42,10 @@ const actions = {
 
     getHistory(context) {
         return new Promise((resolve, reject) => {
-            axios.get("/reward/history", {
-                headers: {
-                    Authorization: `Bearer ${localStorage.getItem("accessToken")}`
-                }
-            })
+            axios.get("/reward/history")
                 .then(response => {
                     context.commit("setHistory", response.data.data)
-                    resolve(response.data.data)
+                    resolve(response)
                 })
                 .catch(error => {
                     reject(error)
