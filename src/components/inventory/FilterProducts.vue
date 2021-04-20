@@ -9,7 +9,7 @@
     />
     <!-- do not remove -->
 
-    <!--------------------------- modal for dialog messages ------------------------------>
+    <!--------------------------- Modal for dialog messages ------------------------------>
     <Modal :dialog="dialog" width="400">
       <div class="white pa-3 pb-10 text-center dialog">
         <div class="d-flex justify-end">
@@ -29,7 +29,7 @@
 </template>
 <script>
 import BasicFilter from "@/components/general/BasicFilter.vue";
-import Modal from "@/components/modal.vue";
+import Modal from "@/components/general/Modal.vue";
 import failedImage from "@/assets/images/failed-img.svg";
 import { mapState } from "vuex";
 export default {

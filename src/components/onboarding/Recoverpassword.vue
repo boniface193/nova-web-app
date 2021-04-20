@@ -55,8 +55,8 @@
       </div>
     </v-form>
 
-    <!-- modal for dialog messages -->
-    <modal :dialog="dialog" width="400">
+    <!-- Modal for dialog messages -->
+    <Modal :dialog="dialog" width="400">
       <div class="white pa-3 pb-10 text-center dialog">
         <div class="d-flex justify-end">
           <v-icon
@@ -79,16 +79,16 @@
 
         <h4>{{ dialogMessage }}</h4>
       </div>
-    </modal>
+    </Modal>
   </div>
 </template>
 <script>
-import modal from "@/components/modal.vue";
+import Modal from "@/components/general/Modal.vue";
 import successImage from "@/assets/images/success-img.svg";
 //import failedImage from "@/assets/images/failed-img.svg";
 export default {
   name: "Recoverpassword",
-  components: { modal },
+  components: { Modal },
   data: function () {
     return {
       dialog: false,

@@ -270,8 +270,8 @@
             </div>
           </div>
         </div>
-        <!-- modal for dialog messages -->
-        <modal :dialog="shareDialog" width="250">
+        <!-- Modal for dialog messages -->
+        <Modal :dialog="shareDialog" width="250">
           <div class="white pa-3 pb-5 text-center dialog">
             <div class="d-flex justify-end">
               <v-icon class="error--text close-btn" @click="shareDialog = false"
@@ -283,26 +283,27 @@
               <whats-app
                 class="mt-3 mr-3"
                 :url="createLink.url"
-                title="Buy on NOVA"
+                :title="`Pay for ${productDetails.name} from ${sellerName} on Kuuzza`"
                 scale="2"
               ></whats-app>
               <twitter
                 class="mt-3 mr-3"
                 :url="createLink.url"
-                title="Buy on NOVA"
+                :title="`Pay for ${productDetails.name} from ${sellerName} on Kuuzza`"
                 scale="2"
               ></twitter>
               <facebook
                 class="mt-3 mr-3"
                 :url="createLink.url"
                 scale="2"
+                :title="`Pay for ${productDetails.name} from ${sellerName} on Kuuzza`"
               ></facebook>
             </div>
             <p class="mt-4 mb-0 secondary--text">
               Share products with customers on social media
             </p>
           </div>
-        </modal>
+        </Modal>
       </div>
 
       <div class="row mt-8 mx-5" v-else>
@@ -316,8 +317,8 @@
         </div>
         <div class="col-5"></div>
       </div>
-      <!-- modal for dialog messages -->
-      <modal :dialog="dialog" width="400">
+      <!-- Modal for dialog messages -->
+      <Modal :dialog="dialog" width="400">
         <div class="white pa-3 pb-10 text-center dialog">
           <div class="d-flex justify-end">
             <v-icon class="error--text close-btn" @click="dialog = false"
@@ -331,19 +332,20 @@
 
           <h4>{{ dialogMessage }}</h4>
         </div>
-      </modal>
+      </Modal>
     </div>
   </div>
 </template>
 <script>
 import failedImage from "@/assets/images/failed-img.svg";
-import modal from "@/components/modal.vue";
+import Modal from "@/components/general/Modal.vue";
 import { Facebook } from "vue-socialmedia-share";
 import { Twitter } from "vue-socialmedia-share";
 import { WhatsApp } from "vue-socialmedia-share";
+import { mapState } from 'vuex';
 export default {
   name: "Product",
-  components: { modal, Facebook, Twitter, WhatsApp },
+  components: { Modal, Facebook, Twitter, WhatsApp },
   data: function () {
     return {
       quantity: 1,
@@ -407,6 +409,9 @@ export default {
         };
       }
     },
+    ...mapState({
+      sellerName: state =>  state.settings.profile.name 
+    })
   },
   created() {
     this.loader = true;

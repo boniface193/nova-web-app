@@ -93,7 +93,7 @@
             >
               <img src="@/assets/images/group.svg" />
             </div>
-            <h3>&#8358; {{ diffSales }}</h3>
+            <h3>{{ diffSales }}</h3>
             <p class="card-sale mb-1">Lifetime Sales Points</p>
             <p
               class="card-success mb-0"

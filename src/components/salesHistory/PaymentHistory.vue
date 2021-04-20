@@ -86,8 +86,8 @@
         ></v-progress-circular>
       </div>
 
-      <!--------------------------- modal for dialog messages ------------------------------>
-      <modal :dialog="dialog" width="400">
+      <!--------------------------- Modal for dialog messages ------------------------------>
+      <Modal :dialog="dialog" width="400">
         <div class="white pa-3 pb-10 text-center dialog">
           <div class="d-flex justify-end">
             <v-icon class="error--text close-btn" @click="dialog = false"
@@ -101,17 +101,17 @@
 
           <h4>{{ dialogMessage }}</h4>
         </div>
-      </modal>
+      </Modal>
     </div>
   </div>
 </template>
 <script>
 import axios from "@/axios/bankServices.js";
 import failedImage from "@/assets/images/failed-img.svg";
-import modal from "@/components/modal.vue";
+import Modal from "@/components/general/Modal.vue";
 export default {
   name: "PaymentHistory",
-  components: { modal },
+  components: { Modal },
   data: function () {
     return {
       fetchingData: false,

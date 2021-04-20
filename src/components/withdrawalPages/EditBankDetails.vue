@@ -72,7 +72,7 @@
           </div>
 
           <v-btn
-            class="primary py-6 px-4"
+            class="primary px-4"
             :disabled="
               !accountVerified || this.getAccountDetails.accNumber.length !== 10
             "
@@ -90,8 +90,8 @@
         class="mx-auto"
       ></v-progress-circular>
     </div>
-    <!-- modal for dialog messages -->
-    <modal :dialog="dialog" width="400">
+    <!-- Modal for dialog messages -->
+    <Modal :dialog="dialog" width="400">
       <div class="white pa-3 pb-10 text-center dialog">
         <div class="d-flex justify-end">
           <v-icon class="error--text close-btn" @click="dialog = false"
@@ -104,9 +104,9 @@
 
         <h4>{{ dialogMessage }}</h4>
       </div>
-    </modal>
-    <!-- modal for dialog messages -->
-    <modal :dialog="passwordDialog" width="300">
+    </Modal>
+    <!-- Modal for dialog messages -->
+    <Modal :dialog="passwordDialog" width="300">
       <div class="white pa-3 pb-2 dialog">
         <div class="d-flex justify-end">
           <v-icon class="error--text close-btn" @click="passwordDialog = false"
@@ -150,17 +150,17 @@
           </v-form>
         </div>
       </div>
-    </modal>
+    </Modal>
   </div>
 </template>
 <script>
 import customSelect from "@/components/general/customSelect.vue";
 import { mapGetters } from "vuex";
 import failedImage from "@/assets/images/failed-img.svg";
-import modal from "@/components/modal.vue";
+import Modal from "@/components/general/Modal.vue";
 export default {
   name: "EditBankDetails",
-  components: { customSelect, modal },
+  components: { customSelect, Modal },
   props: ["accountDetails"],
   data: function () {
     return {
@@ -343,6 +343,11 @@ export default {
 @media (max-width: 750px) {
   .bank-container {
     width: 100%;
+  }
+}
+@media (max-width: 500px) {
+  .v-btn:not(.v-btn--round).v-size--default {
+    min-width: 100%;
   }
 }
 </style>

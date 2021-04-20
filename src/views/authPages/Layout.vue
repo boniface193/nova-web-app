@@ -62,7 +62,7 @@
 <script>
 import Sidebar from "@/components/layout/Sidebar.vue";
 import failedImage from "@/assets/images/failed-img.svg";
-import modal from "@/components/modal.vue";
+import modal from "@/components/general/Modal.vue";
 import { mapState } from "vuex";
 export default {
   components: {

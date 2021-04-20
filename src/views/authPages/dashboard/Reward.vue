@@ -1,12 +1,71 @@
 <template>
-  <v-container>
-    <div class="max-width">
-      <div class="chOder" style="margin: 0 0 20px 0">
+  <div>
+    <div>
+      <!-- title section  -->
+      <div
+        class="d-flex align-center justify-center mb-8"
+        style="position: relative"
+      >
+        <router-link :to="{ path: '/dashboard' }" style="text-decoration: none">
+          <span class="back-btn">
+            <v-icon style="font-size: 25px">mdi-chevron-left</v-icon>
+          </span>
+        </router-link>
+        <h3 class="align-self-center">Rewards</h3>
+      </div>
+
+      <div class="reward-content">
+        <div class="reward-container">
+          <div class="reward-card">
+            <img src="@/assets/images/reward.svg" alt="" />
+            <div class="card-text px-8 py-6">
+              <h2 class="debt-card-name white--text">Reward Debit Balance</h2>
+
+              <p class="white--text" style="position: absolute; bottom: 45%">
+                {{ rewards.data.total_points }} Points
+              </p>
+              <p class="white--text" style="position: absolute; bottom: 5%">
+                {{ userInfo.name }}
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="mt-5">
+          <div class="d-flex align-center">
+            <div
+              class="navigator"
+              :class="{ 'navigator--active': activeTab == 'Redeem' }"
+              @click="changeTab('Redeem')"
+            >
+              <p
+                class="mb-0"
+                :class="{ 'white--text': activeTab == 'Redeem' }"
+              >
+                Redeem
+              </p>
+            </div>
+            <div
+              class="navigator"
+              :class="{ 'navigator--active': activeTab == 'History' }"
+              @click="changeTab('History')"
+            >
+              <p
+                class="mb-0"
+                :class="{ 'white--text': activeTab == 'History' }"
+              >
+                History
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- <div class="chOder">
         <router-link :to="{ path: '/dashboard' }">
           <v-icon class="float-left">mdi-chevron-left</v-icon>
         </router-link>
       </div>
-        <h5 class="chOder offset-5">Rewards</h5>
+      <h5 class="chOder offset-5">Rewards</h5>
 
       <v-row class="mt-8" v-if="isLoading">
         <v-col class="offset-5">
@@ -15,13 +74,13 @@
             indeterminate
           ></v-progress-circular>
         </v-col>
-      </v-row>
+      </v-row> -->
       <!-- loader ends here -->
 
-      <v-row v-if="!isLoading">
-        <v-col offset-lg="3" offset-md="3" offset-sm="3">
-          <!-- card -->
-          <div class="center">
+      <!-- <v-row v-if="!isLoading">
+        <v-col offset-lg="3" offset-md="3" offset-sm="3"> -->
+      <!-- card -->
+      <!-- <div class="center">
             <div class="overlay pa-8">
               <div class="card-title text-left">Reward Debit Balance</div>
               <div class="card-point mt-7 text-left">
@@ -34,9 +93,9 @@
             <div class="mb-8 pr-4 w-100">
               <v-img src="@/assets/images/reward.svg"></v-img>
             </div>
-          </div>
+          </div> -->
 
-          <v-row>
+      <!-- <v-row>
             <v-col lg="7" xl="7" md="8" sm="7">
               <v-tabs
                 height="40"
@@ -52,9 +111,9 @@
                 <v-tab href="#tab-2" class="text-format"> History </v-tab>
               </v-tabs>
             </v-col>
-          </v-row>
+          </v-row> -->
 
-          <v-tabs-items v-model="tab" class="my-3">
+      <!-- <v-tabs-items v-model="tab" class="my-3">
             <v-tab-item transition="false" id="tab-1" value="tab-1">
               <v-row
                 class="leader-text my-2"
@@ -93,9 +152,9 @@
                 >
               </v-row>
             </v-tab-item>
-            <!-- history -->
+             history 
             <v-tab-item transition="false" id="tab-2" value="tab-2">
-              <!-- loader ends here -->
+               loader ends here 
               <v-row>
                 <v-col
                   cols="12"
@@ -128,9 +187,9 @@
                 </v-col>
               </v-row>
             </v-tab-item>
-          </v-tabs-items>
+          </v-tabs-items> 
         </v-col>
-      </v-row>
+      </v-row> -->
       <Modal :dialog="this.dialog" width="300">
         <v-card class="rounded-lg">
           <v-icon
@@ -213,11 +272,11 @@
         </v-card>
       </Modal>
     </div>
-  </v-container>
+  </div>
 </template>
 
 <script>
-import Modal from "@/components/modal.vue";
+import Modal from "@/components/general/Modal.vue";
 import { mapGetters } from "vuex";
 export default {
   name: "orderDetails",
@@ -234,6 +293,7 @@ export default {
       isLoading: true,
       alert: "",
       successful: false,
+      activeTab: "Redeem",
     };
   },
   computed: {
@@ -258,6 +318,9 @@ export default {
     },
     openModal() {
       this.dialog = true;
+    },
+    changeTab(tabName) {
+      this.activeTab = tabName;
     },
     filterById(id) {
       this.filteredArray = Object.values(this.rewards.data.rewards).find(
@@ -287,6 +350,66 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.back-btn {
+  position: absolute;
+  left: 0px;
+  top: 0px;
+}
+.reward-content {
+  width: 42%;
+  margin: auto;
+  .reward-container {
+    width: 100%;
+    position: relative;
+    .reward-card {
+      width: 100%;
+      border-radius: 20px;
+      overflow: hidden;
+      position: relative;
+      img {
+        width: 100%;
+      }
+      .card-text {
+        position: absolute;
+        height: 100%;
+        top: 0px;
+        h2 {
+          font-size: 23px;
+        }
+        p {
+          font-size: 18px;
+        }
+      }
+      .debt-card-name {
+      }
+    }
+  }
+  .navigator {
+    width: 50%;
+    height: 40px;
+    border-radius: 8px;
+    border: 1px solid rgba(0, 0, 0, 0.12);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    cursor: pointer;
+    &--active {
+      background: #029b97 !important;
+      border-color: #029b97 !important;
+    }
+  }
+}
+@media (max-width: 1150px) {
+  .reward-content {
+    width: 55%;
+  }
+}
+@media (max-width: 700px) {
+  .reward-content {
+    width: 100%;
+  }
+}
 .chOder {
   color: #2b2b2b;
   font-size: 20px;

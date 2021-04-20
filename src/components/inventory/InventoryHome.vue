@@ -55,8 +55,8 @@
     <div class="text-center pt-10 pb-5" v-show="inventoryLoader">
       <v-progress-circular indeterminate color="primary"></v-progress-circular>
     </div>
-    <!--------------------------- modal for dialog messages ------------------------------>
-    <modal :dialog="dialog" width="400">
+    <!--------------------------- Modal for dialog messages ------------------------------>
+    <Modal :dialog="dialog" width="400">
       <div class="white pa-3 pb-10 text-center dialog">
         <div class="d-flex justify-end">
           <v-icon class="error--text close-btn" @click="dialog = false"
@@ -70,7 +70,7 @@
 
         <h4>{{ dialogMessage }}</h4>
       </div>
-    </modal>
+    </Modal>
   </div>
 </template>
 <script>
@@ -79,7 +79,7 @@ import FilterProducts from "@/components/inventory/FilterProducts.vue";
 import CategoryList from "@/components/inventory/CategoryList.vue";
 import ProductCard from "@/components/inventory/ProductCard.vue";
 import failedImage from "@/assets/images/failed-img.svg";
-import modal from "@/components/modal.vue";
+import Modal from "@/components/general/Modal.vue";
 import { mapGetters, mapState } from "vuex";
 export default {
   name: "InventoryHome",
@@ -88,7 +88,7 @@ export default {
     FilterProducts,
     CategoryList,
     ProductCard,
-    modal,
+    Modal,
   },
   data: function () {
     return {

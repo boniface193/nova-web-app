@@ -71,17 +71,17 @@
       </div>
     </div>
     <div class="overlay" @click="closeDrawer"></div>
-    <!-- modal for dialog messages -->
-    <modal :dialog="dialog" width="120">
+    <!-- Modal for dialog messages -->
+    <Modal :dialog="dialog" width="120">
       <div class="text-center dialog white">Loging Out...</div>
-    </modal>
+    </Modal>
   </div>
 </template>
 <script>
-import modal from "@/components/modal.vue";
+import Modal from "@/components/general/Modal.vue";
 export default {
   name: "Sidebar",
-  components: { modal },
+  components: { Modal },
   data: () => ({
     dialog: false,
     drawer: false,

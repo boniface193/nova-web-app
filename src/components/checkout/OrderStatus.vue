@@ -125,8 +125,8 @@
       </div>
     </div>
 
-    <!-- modal for dialog messages -->
-    <modal :dialog="dialog2" width="400">
+    <!-- Modal for dialog messages -->
+    <Modal :dialog="dialog2" width="400">
       <div class="white pa-3 px-5 dialog">
         <div class="d-flex justify-end">
           <v-icon class="error--text close-btn" @click="dialog2 = false"
@@ -198,10 +198,10 @@
           </div>
         </v-form>
       </div>
-    </modal>
+    </Modal>
 
-    <!-- modal for dialog messages -->
-    <modal :dialog="dialog" width="400">
+    <!-- Modal for dialog messages -->
+    <Modal :dialog="dialog" width="400">
       <div class="white pa-3 pb-10 text-center dialog">
         <div class="d-flex justify-end">
           <v-icon class="error--text close-btn" @click="dialog = false"
@@ -215,20 +215,20 @@
 
         <h4>{{ dialogMessage }}</h4>
       </div>
-    </modal>
+    </Modal>
   </div>
 </template>
 <script>
 import failedImage from "@/assets/images/failed-img.svg";
 import StepProgress from "vue-step-progress";
-import modal from "@/components/modal.vue";
+import Modal from "@/components/general/Modal.vue";
 import OtpInput from "@/components/onboarding/verifyInput";
 import successImage from "@/assets/images/success-img.svg";
 // import the css (OPTIONAL - you can provide your own design)
 import "vue-step-progress/dist/main.css";
 export default {
   name: "OrderStatus",
-  components: { modal, StepProgress, "v-otp-input": OtpInput },
+  components: { Modal, StepProgress, "v-otp-input": OtpInput },
   data: function () {
     return {
       loading2: false,

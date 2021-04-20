@@ -1,10 +1,10 @@
 <template>
   <div>
-    <div class="mx-3 text-center margin-top" v-show="emptyOrder">
+    <div class="mx-3 text-center" v-show="emptyOrder">
       <div class="text-h4 text-lg-h3">Orders</div>
       <img
         class="text-center my-lg-8 my-md-16 my-sm-10 margin-top"
-        src="../../../assets/images/orders.svg"
+        src="@/assets/images/orders.svg"
         width="30%"
       />
       <div class="text-body-1 text-lg-h5 margin-top">No orders yet.</div>
@@ -24,7 +24,7 @@
     </div>
 
     <div class="mx-3">
-      <p class="sub-header pt-8">
+      <p class="sub-header">
         You have
         <span class="font-weight-bold">{{ ordersItems.length }}</span> orders.
       </p>
@@ -394,9 +394,6 @@ div.step-progress__step span {
 @media (max-width: 650px) {
   .v-btn:not(.v-btn--round).v-size--default.text-capitalize {
     width: 100%;
-  }
-  .margin-top {
-    margin-top: 15%;
   }
 }
 

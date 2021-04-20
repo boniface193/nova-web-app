@@ -79,14 +79,14 @@
         <p class="mb-0 error--text">Log Out</p>
       </div>
     </div>
-    <!-- modal for dialog messages -->
-    <modal :dialog="dialog" width="120">
+    <!-- Modal for dialog messages -->
+    <Modal :dialog="dialog" width="120">
       <div class="text-center dialog white">Loging Out...</div>
-    </modal>
+    </Modal>
   </div>
 </template>
 <script>
-import modal from "@/components/modal.vue";
+import Modal from "@/components/general/Modal.vue";
 import { mapGetters } from "vuex";
 export default {
   name: "ProfilePage",
@@ -95,7 +95,7 @@ export default {
       dialog: false,
     };
   },
-  components: { modal },
+  components: { Modal },
   computed: {
     ...mapGetters({
       userInfo: "settings/profile",

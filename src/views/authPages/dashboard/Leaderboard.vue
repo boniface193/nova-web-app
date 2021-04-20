@@ -179,7 +179,7 @@
 
 <script>
 import Search from "@/components/general/SearchBar.vue";
-import Modal from "@/components/modal.vue";
+import Modal from "@/components/general/Modal.vue";
 import { mapGetters, mapState } from "vuex";
 export default {
   name: "orderDetails",

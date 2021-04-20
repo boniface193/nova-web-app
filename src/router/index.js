@@ -24,8 +24,8 @@ import PaymentHistory from "@/components/salesHistory/PaymentHistory.vue";
 import SettlementHistory from "@/components/salesHistory/SettlementHistory.vue";
 // order routes
 import orderView from "@/views/authPages/orders/orderView.vue";
-import Orders from "@/views/authPages/orders/Orders.vue";
-import orderDetails from "@/views/authPages/orders/orderDetails.vue";
+import Orders from "@/components/orders/Orders.vue";
+import orderDetails from "@/components/orders/orderDetails.vue";
 // Settings
 import Settings from "@/views/authPages/Settings.vue";
 import ProfilePage from "@/components/settings/ProfilePage.vue";
