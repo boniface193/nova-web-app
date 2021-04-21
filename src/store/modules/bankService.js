@@ -59,6 +59,17 @@ const actions = {
                 })
         })
     },
+    getWithdrawalFees() {
+        return new Promise((resolve, reject) => {
+            bankServiceHttpClient.post("/settlements/withdrawal-fees",
+                {}).then(response => {
+                    resolve(response);
+                })
+                .catch(error => {
+                    reject(error);
+                })
+        })
+    },
     withdrawFunds(context) {
         return new Promise((resolve, reject) => {
             bankServiceHttpClient.post("/settlements/withdraw", {}).then(response => {
@@ -100,4 +111,4 @@ export default {
     getters,
     actions,
     mutations
-};  
+};

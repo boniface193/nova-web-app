@@ -49,8 +49,7 @@
           class="nav-item white--text"
           >List your products
         </a>
-        <a @click="gotoFaqMobile()" class="nav-item white--text"
-          >FAQs</a>
+        <a @click="gotoFaqMobile()" class="nav-item white--text">FAQs</a>
         <router-link :to="{ path: '/signin' }" class="nav-item white--text"
           >Sign In</router-link
         >
@@ -80,12 +79,12 @@ export default {
       this.mobileNav = !this.mobileNav;
     },
     gotoFaq() {
-      this.$root.$refs.faq.gotoFaq()
+      this.$root.$refs.faq.gotoFaq();
     },
-    gotoFaqMobile(){
+    gotoFaqMobile() {
       this.toggleMobileNav();
       this.gotoFaq();
-    }
+    },
   },
 };
 </script>
@@ -146,6 +145,9 @@ export default {
   .menu-icon {
     display: none;
     color: black;
+  }
+  .v-btn:not(.v-btn--round).v-size--default {
+    height: 40px !important;
   }
 }
 @media (max-width: 959px) {
