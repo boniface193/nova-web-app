@@ -5,16 +5,11 @@
       style="position: relative"
     >
       <!-- go to previous page -->
-      <router-link
-        :to="{
-          path: '/openSelling',
-        }"
-        style="text-decoration: none"
-      >
-        <span class="back-btn">
+      
+        <span class="back-btn" style="cursor: pointer;" @click="$router.back()">
           <v-icon style="font-size: 25px">mdi-chevron-left</v-icon>
         </span>
-      </router-link>
+      
       <!-- title -->
       <h3 class="align-self-center">Customer Details</h3>
     </div>

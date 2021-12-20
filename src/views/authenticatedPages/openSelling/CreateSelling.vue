@@ -407,7 +407,7 @@ export default {
             "&pickupLong=" + this.lng
           )}`;
           this.$router.push({
-            path: `openSelling/customer-form?${encodedURLQuery}`,
+            path: `open-selling/customer-form?${encodedURLQuery}`,
           });
         }
       } else {
