@@ -1,0 +1,126 @@
+.dashboard-container {
+    top: -40px !important;
+    position: absolute;
+    width: 100%;
+    left: 0px;
+  }
+  .welcome-text {
+    color: #ffffff;
+    font-size: 24px;
+  }
+  .welcome-text-sm {
+    font-variant: normal;
+    letter-spacing: 0.8px;
+    font-size: 16px;
+    color: #ffffff;
+  }
+  .card-container {
+    width: 90%;
+    margin-left: auto;
+    margin-right: auto;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    .card {
+      width: 27%;
+      background: white;
+      padding: 12px;
+      min-height: 186px;
+      box-shadow: 0 0.5rem 30px rgba(0, 0, 0, 0.15) !important;
+      border-radius: 15px;
+      text-align: center;
+      .content-img {
+        width: 55px;
+        height: 55px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 10px auto;
+        img {
+          width: 40%;
+        }
+      }
+    }
+  }
+  @media (max-width: 1240px) {
+    .card-container {
+      width: 96%;
+      .card {
+        width: 30%;
+      }
+    }
+  }
+  @media (max-width: 850px) {
+    .card-container {
+      width: 96%;
+      justify-content: space-between;
+      .card {
+        width: 45%;
+        //height: 200px;
+      }
+    }
+  }
+  @media (max-width: 550px) {
+    .card-container {
+      width: 100%;
+      .card {
+        width: 47%;
+        //height: 186px;
+      }
+    }
+  }
+  
+  .round-img-bg-danger {
+    background: #ffecec 0% 0% no-repeat padding-box;
+    border-radius: 50%;
+    width: 30%;
+  }
+  .round-img-bg-success {
+    background: #dbffdc 0% 0% no-repeat padding-box;
+    border-radius: 50%;
+    width: 30%;
+  }
+  .round-img-bg-primary {
+    background: #eaecf9 0% 0% no-repeat padding-box;
+    border-radius: 50%;
+    width: 30%;
+  }
+  .round-img-bg-warning {
+    background: #fff4d2 0% 0% no-repeat padding-box;
+    border-radius: 50%;
+    width: 30%;
+  }
+  .card-header {
+    color: #2b2b2b;
+    font-size: 17px;
+    font-family: "Product Sans" Bold;
+    margin: 10px 0px 0px 0px;
+    font-weight: bold;
+  }
+  .card-sale {
+    color: #979797;
+    font-family: "Product Sans" Light;
+    font-size: 14px;
+  }
+  .card-success {
+    color: #29db58;
+    font-size: 12px;
+  }
+  .card-error {
+    color: #ff3b3b;
+    font-size: 12px;
+  }
+  .card-history {
+    font-family: "Product Sans" Medium;
+    font-size: 12px;
+  }
+  .awaiting {
+    color: #979797;
+    font-size: 10px;
+  }
+  @media (max-width: 1000px) {
+    .dashboard-container {
+      top: 60px;
+    }
+  }

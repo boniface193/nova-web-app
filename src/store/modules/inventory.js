@@ -1,4 +1,4 @@
-import axios from "@/axios/inventory.js";
+import inventoryHttpClient from "@/services/inventory.service.js";
 
 // set the number of item you want to show on table
 const setItemPerPage = (itemPerPage, per_page, from_page) => {
@@ -25,7 +25,10 @@ const setItemPerPage = (itemPerPage, per_page, from_page) => {
 //holds the state properties
 const state = {
     products: [],
+    FMCGProducts: [],
+    productForLandingPage: [],
     productCategories: [],
+    FMCGProductCategories: [],
     searchProduct: false,
     searchValue: "",
     page: 1,
@@ -36,13 +39,18 @@ const state = {
         minPrice: 0,
         maxPrice: 0,
     },
-    category: ''
+    category: '',
+    FMCGCategory: '',
+    doNothing: null
 };
 
 //returns the state properties
 const getters = {
     products: state => state.products,
-    productCategories: state => state.productCategories
+    FMCGProducts: state => state.FMCGProducts,
+    productCategories: state => state.productCategories,
+    FMCGProductCategories: state => state.FMCGProductCategories,
+    getProductForLandingPage: state => state.productForLandingPage,
 };
 
 //fetch data 
@@ -50,12 +58,22 @@ const actions = {
     // get product form inventory 
     getProducts(context) {
         return new Promise((resolve, reject) => {
-            axios.get("/products", {
-                headers: {
-                    Authorization: `Bearer ${localStorage.getItem("accessToken")}`
-                }
-            }).then(response => {
+            inventoryHttpClient.get("/products").then(response => {
                 context.commit("setProducts", response.data.data);
+                context.commit("setPageDetails", response.data.meta);
+                resolve(response);
+            })
+                .catch(error => {
+                    reject(error);
+                })
+        })
+    },
+    // get product form FMCG inventory 
+    getFMCGProducts(context) {
+        let category = (state.FMCGCategory !== "") ? `category=${state.FMCGCategory}` : "";
+        return new Promise((resolve, reject) => {
+            inventoryHttpClient.get(`/products?is_fmcg=1&${category}`).then(response => {
+                context.commit("setFMCGProducts", response.data.data);
                 context.commit("setPageDetails", response.data.meta);
                 resolve(response);
             })
@@ -67,7 +85,7 @@ const actions = {
     // get a product detail
     getProductDetail(context, data) {
         return new Promise((resolve, reject) => {
-            axios.get(`/products/${data.id}`).then(response => {
+            inventoryHttpClient.get(`/products/${data.id}`).then(response => {
                 resolve(response);
             })
                 .catch(error => {
@@ -78,20 +96,20 @@ const actions = {
     },
     // search products
     searchProducts(context) {
+        document.body.scrollTop = 0; // For Safari
+        document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
+        const baseUrl = window.location
+        let fmcgUrl = baseUrl.pathname.includes('/inventory/FMCGInventory') ? '&is_fmcg=1' : '';
         let page = ((state.page) ? `page=${state.page}` : "");
         let perPage = ((state.itemPerPage) ? `per_page=${state.itemPerPage}` : "");
         let route = (state.searchValue !== "") ? `/search?q=${state.searchValue}&${page}&${perPage}` : ""
         return new Promise((resolve, reject) => {
-            axios.get(`/products${route}`,
-                {
-                    headers: {
-                        Authorization: `Bearer ${localStorage.getItem("accessToken")}`
-                    }
-                }).then(response => {
-                    context.commit("setProducts", response.data.data);
-                    context.commit("setPageDetails", response.data.meta);
-                    resolve(response);
-                })
+            inventoryHttpClient.get(`/products${route}${fmcgUrl}`).then(response => {
+                context.commit("setProducts", response.data.data);
+                context.commit("setFMCGProducts", response.data.data);
+                context.commit("setPageDetails", response.data.meta);
+                resolve(response);
+            })
                 .catch(error => {
                     reject(error);
                 })
@@ -99,22 +117,22 @@ const actions = {
     },
     // filter products 
     getfilteredProducts(context) {
+        document.body.scrollTop = 0; // For Safari
+        document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
+        const baseUrl = window.location
+        let fmcgUrl = baseUrl.pathname.includes('/inventory/FMCGInventory') ? 'is_fmcg=1' : '';
         let page = ((state.page) ? `page=${state.page}` : "");
         let perPage = ((state.itemPerPage) ? `per_page=${state.itemPerPage}` : "");
         let priceRange = ((state.filter.maxPrice) ? `price_between=${state.filter.minPrice},${state.filter.maxPrice}` : "");
         let category = (state.category !== "") ? `category=${state.category}` : ""
 
         return new Promise((resolve, reject) => {
-            axios.get(`/products?${page}&${perPage}&${priceRange}&${category}`,
-                {
-                    headers: {
-                        Authorization: `Bearer ${localStorage.getItem("accessToken")}`
-                    }
-                }).then(response => {
-                    context.commit("setProducts", response.data.data);
-                    context.commit("setPageDetails", response.data.meta);
-                    resolve(response);
-                })
+            inventoryHttpClient.get(`/products?${fmcgUrl}&${page}&${perPage}&${priceRange}&${category}`).then(response => {
+                context.commit("setProducts", response.data.data);
+                context.commit("setFMCGProducts", response.data.data);
+                context.commit("setPageDetails", response.data.meta);
+                resolve(response);
+            })
                 .catch(error => {
                     reject(error);
                 })
@@ -123,28 +141,33 @@ const actions = {
     // get product categories
     getProductCategories(context) {
         return new Promise((resolve, reject) => {
-            axios.get(`/categories`,
-                {
-                    headers: {
-                        Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
-                    }
-                }).then(response => {
-                    resolve(response);
-                })
+            inventoryHttpClient.get(`/categories`).then(response => {
+                resolve(response);
+            })
                 .catch(error => {
-                    // if (error.response.status == 401) {
-                    //     store.commit("onboarding/setTokenAuthorizeStatus", false);
-                    // }
                     context.commit("doNothing");
                     reject(error);
                 })
         })
-    }
+    },
+    // get product categories for fmcg
+    getFMCGProductCategories(context) {
+        return new Promise((resolve, reject) => {
+            inventoryHttpClient.get(`/categories?is_fmcg=1`).then(response => {
+                resolve(response);
+            })
+                .catch(error => {
+                    context.commit("doNothing");
+                    reject(error);
+                })
+        })
+    },
 };
 
 //updates the different state properties
 const mutations = {
     setProducts: (state, data) => (state.products = data),
+    setFMCGProducts: (state, data) => (state.FMCGProducts = data),
     setSearchProduct: (state, status) => (state.searchProduct = status),
     setSearchValue: (state, value) => (state.searchValue = value),
     setPageDetails: (state, data) => (state.pageDetails = data),
@@ -157,7 +180,11 @@ const mutations = {
     setInventoryLoader: (state, status) => (state.inventoryLoader = status),
     setFilter: (state, filter) => (state.filter = filter),
     setProductCategories: (state, productCategories) => (state.productCategories = productCategories),
+    setFMCGProductCategories: (state, productCategories) => (state.FMCGProductCategories = productCategories),
     setCategory: (state, category) => (state.category = category),
+    setFMCGCategory: (state, category) => (state.FMCGCategory = category),
+    // commit nothing
+    doNothing: (state) => (state.doNothing = null),
 };
 
 

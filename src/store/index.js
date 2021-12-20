@@ -6,6 +6,9 @@ import orders from "./modules/orders"
 import settings from "./modules/settings";
 import reward from "./modules/reward";
 import leaderboard from "./modules/leaderboard";
+import bankService from "./modules/bankService";
+import dashboard from "./modules/dashboard";
+import referral from "./modules/referral";
 
 // initial state
 const initialState = {
@@ -15,6 +18,9 @@ const initialState = {
   settings: settings.state,
   reward: reward.state,
   leaderboard: leaderboard.state,
+  bankService: bankService.state,
+  dashboard: dashboard.state,
+  referral: referral.state
 }
 
 //Convert object in string 
@@ -28,8 +34,11 @@ export default new Vuex.Store({
     inventory: inventory,
     orders: orders,
     settings: settings,
-    reward: reward, 
+    reward: reward,
     leaderboard: leaderboard,
+    bankService: bankService,
+    dashboard: dashboard,
+    referral: referral
   },
   mutations: {
     reset(state) {
@@ -38,7 +47,6 @@ export default new Vuex.Store({
       Object.keys(state).forEach(key => {
         Object.assign(state[key], copyState[key]);
       })
-      console.log(state)
     }
   }
 });

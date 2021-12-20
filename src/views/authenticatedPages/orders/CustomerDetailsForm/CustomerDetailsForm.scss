@@ -1,0 +1,84 @@
+.customer-details {
+    width: 50%;
+  }
+  .input-field {
+    width: 100%;
+  }
+  .back-btn {
+    position: absolute;
+    left: 0px;
+    top: 0;
+  }
+  .v-btn:not(.v-btn--round).v-size--default {
+    height: 48px;
+    border-radius: 8px;
+    font-family: "Product Sans Regular";
+    font-size: 16px;
+  }
+  .status-img {
+    width: 140px;
+    .v-image {
+      width: 100%;
+    }
+  }
+  .phone-format {
+    position: absolute;
+    margin-top: 16px;
+  }
+  .link {
+    margin: auto 20px;
+    color: #029b97;
+    text-align: center;
+    border-radius: 8px;
+    border: 1px solid #029b97;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    word-break: break-all;
+    img {
+      margin-right: 10px;
+    }
+    .copy-btn {
+      cursor: pointer;
+      &:hover {
+        color: #03a09b;
+      }
+    }
+    .copy-status {
+      position: absolute;
+      bottom: 100%;
+      background: #e0e7ff;
+      word-break: none;
+      width: 90px;
+      right: 0;
+      border-radius: 8px;
+    }
+  }
+  
+  .position-modal {
+    position: absolute;
+    bottom: 30%;
+    width: 40%;
+    left: 30%;
+    border-radius: 8px !important;
+  }
+  @media (max-width: 950px) {
+    .customer-details {
+      width: 100%;
+    }
+  }
+  @media (max-width: 750px) {
+    .input-field {
+      width: 100%;
+    }
+    .v-btn:not(.v-btn--round).v-size--default {
+      width: 100%;
+    }
+    .position-modal {
+      position: absolute;
+      bottom: 0;
+      right: 0;
+      width: 100%;
+      left: 0;
+    }
+  }

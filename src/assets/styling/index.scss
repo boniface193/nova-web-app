@@ -1,0 +1,50 @@
+@font-face {
+    font-family: "Product Sans Regular";
+    src: local("Product Sans Regular"),
+      url("~@/assets/fonts/Product Sans Regular.ttf") format("truetype");
+}
+* {
+    box-sizing: border-box;
+    font-family: "Product Sans Regular";
+}
+body {
+    padding: 0;
+    margin: auto;
+}
+#app {
+    max-width: 1800px;
+    margin: auto;
+    .v-btn {
+        text-transform: capitalize;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        .v-btn__loader {
+            color: #029b97;
+        }
+    }
+    .v-btn:not(.v-btn--round).v-size--default {
+        height: 45px;
+        border-radius: 8px;
+        font-size: 16px;
+    }
+    img {
+        object-fit: cover;
+    }
+}
+.phone-field
+    > .v-text-field
+    > .v-input__control
+    > .v-input__slot
+    > .v-text-field__slot {
+    padding-left: 40px;
+}
+.phone-field > .v-input .v-label {
+  padding-left: 40px;
+}
+.status-img {
+  width: 140px;
+  .v-image {
+    width: 100%;
+  }
+}

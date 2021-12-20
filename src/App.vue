@@ -1,5 +1,6 @@
 <template>
   <v-app>
+    <!-- app root -->
     <router-view />
   </v-app>
 </template>
@@ -7,46 +8,33 @@
 <script>
 export default {
   name: "App",
+  metaInfo() {
+    return {
+      title:
+        "Kuuzza Seller | Gain access to thousands of products at zero cost and start selling!",
+      meta: [
+        {
+          name: "description",
+          content:
+            "Kuuzza Seller | Gain access to thousands of products at zero cost and start selling!",
+        },
+        {
+          property: "og:title",
+          content:
+            "Kuuzza Seller | Gain access to thousands of products at zero cost and start selling!",
+        },
+        {
+          property: "og:site_name",
+          content:
+            "Gain access to thousands of products at zero cost and start selling!",
+        },
+        { property: "og:type", content: "website" },
+        { name: "robots", content: "index,follow" },
+      ],
+    };
+  },
 };
 </script>
 <style lang="scss">
-@font-face {
-  font-family: "Product Sans Bold";
-  src: local("Product Sans Bold"),
-    url("~@/assets/fonts/Product Sans Bold.ttf") format("truetype");
-}
-@font-face {
-  font-family: "Product Sans Regular";
-  src: local("Product Sans Regular"),
-    url("~@/assets/fonts/Product Sans Regular.ttf") format("truetype");
-}
-* {
-  box-sizing: border-box;
-  font-family: "Product Sans Regular";
-}
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-  font-family: "Product Sans Bold";
-}
-body {
-  padding: 0;
-  margin: auto;
-}
-#app {
-  max-width: 1800px;
-  margin: auto;
-  .v-btn {
-    text-transform: capitalize;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    .v-btn__loader {
-      color: #029b97;
-    }
-  }
-}
+@import "./assets/styling/index.scss";
 </style>

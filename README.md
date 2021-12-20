@@ -1,4 +1,4 @@
-# nova_web_app
+# kuuzza_seller
 
 ## Project setup
 ```

@@ -1,0 +1,18 @@
+.store-width {
+    width: 50%;
+  }
+  .back-btn {
+    position: absolute;
+    left: 0px;
+    top: 0;
+  }
+  @media (max-width: 950px) {
+    .store-width {
+      width: 100%;
+    }
+  }
+  @media (max-width: 500px) {
+    .v-btn:not(.v-btn--round).v-size--default {
+      min-width: 100%;
+    }
+  }
