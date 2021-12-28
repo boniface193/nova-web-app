@@ -1,8 +1,8 @@
 <template>
   <div class="checkout-page__details" id="checkout-page__details">
     <p class="secondary--text small-font-size mb-3">
-      {{ pageDetails.orderDetails.cart_items.length }}
-      {{ pageDetails.orderDetails.cart_items.length > 1 ? "items" : "item" }}
+      {{ pageDetails.orderDetails.items.length }}
+      {{ pageDetails.orderDetails.items.length > 1 ? "items" : "item" }}
     </p>
     <div class="checkout-page__details__content">
       <div class="checkout-page__details__content__image-view">
@@ -17,7 +17,7 @@
               :key="index"
               @click="setinViewProduct(index)"
             >
-              <img :src="item.product.product_image_url" alt="" />
+              <img :src="item.product_image_url" alt="" />
             </div>
           </div>
           <div
@@ -57,7 +57,7 @@
               @click="setinViewProduct(index)"
               :key="index"
             >
-              <img :src="item.product.product_image_url" alt="" />
+              <img :src="item.product_image_url" alt="" />
             </div>
           </div>
           <div
@@ -93,7 +93,7 @@
             show-arrows-on-hover
           >
             <v-carousel-item
-              v-for="(slide, index) in inViewProduct.product.other_images"
+              v-for="(slide, index) in inViewProduct.other_images"
               :key="index"
             >
               <img :src="slide" alt="" />
@@ -103,14 +103,14 @@
       </div>
       <!-- product details section -->
       <div class="checkout-page__details__content__text-view">
-        <h2 class="mb-3">{{ inViewProduct.product.product_name }}</h2>
+        <h2 class="mb-3">{{ inViewProduct.product_name }}</h2>
         <h4>Description</h4>
         <p
           class="secondary--text mb-1 text-truncate"
           v-if="!readMoreActivated"
           style="font-size: 14px"
         >
-          {{ inViewProduct.product.product_description.slice(0, 200) }}
+          {{ inViewProduct.product_description.slice(0, 200) }}
         </p>
         <a
           class="primary--text"
@@ -123,7 +123,7 @@
           v-if="readMoreActivated"
           style="font-size: 14px"
         >
-          {{ inViewProduct.product.product_description }}
+          {{ inViewProduct.product_description }}
         </p>
         <a
           class="primary--text"
@@ -133,7 +133,7 @@
         >
         <h4 class="mt-3">No. of items:</h4>
         <p class="secondary--text small-font-size">
-          {{ inViewProduct.product.total_items }}
+          {{ inViewProduct.total_items }}
         </p>
 
         <div class="btn-container mt-5">
@@ -146,7 +146,7 @@
             policy here after.
           </div>
 
-          <v-btn class="primary" @click="gotoDeliveryPage"
+          <v-btn class="primary mt-3" @click="gotoDeliveryPage"
             >Checkout
             <v-icon class="white--text ml-1" style="font-size: 20px"
               >mdi-arrow-right</v-icon
@@ -178,6 +178,7 @@ export default {
     },
   },
   created() {
+    console.log(this.pageDetails)
     this.addImageToOtherImages(0);
   },
   methods: {
@@ -192,15 +193,15 @@ export default {
     },
     addImageToOtherImages() {
       this.pageDetails.orderDetails.items.forEach((item, index) => {
-        let mainImage = item.product.product_image_url;
-        this.pageDetails.orderDetails.items[index].product.other_images.unshift(
+        let mainImage = item.product_image_url;
+        this.pageDetails.orderDetails.items[index].other_images.unshift(
           mainImage
         );
         let uniqueImage = new Set(
-          this.pageDetails.orderDetails.items[index].product.other_images
+          this.pageDetails.orderDetails.items[index].other_images
         );
         uniqueImage = Array.from(uniqueImage);
-        this.pageDetails.orderDetails.items[index].product.other_images =
+        this.pageDetails.orderDetails.items[index].other_images =
           uniqueImage;
       });
       this.setinViewProduct(0);

@@ -5,11 +5,11 @@
       style="position: relative"
     >
       <!-- go to previous page -->
-      
-        <span class="back-btn" style="cursor: pointer;" @click="$router.back()">
-          <v-icon style="font-size: 25px">mdi-chevron-left</v-icon>
-        </span>
-      
+
+      <span class="back-btn" style="cursor: pointer" @click="$router.back()">
+        <v-icon style="font-size: 25px">mdi-chevron-left</v-icon>
+      </span>
+
       <!-- title -->
       <h3 class="align-self-center">Customer Details</h3>
     </div>
@@ -82,7 +82,10 @@
           <div class="mb-5 input-field">
             <p class="mb-1">
               Address*
-              <span class="primary--text">(Delivery locations are lagos, Abuja, Rivers, Oyo, ondo andkwara only)</span>
+              <span class="primary--text"
+                >(Delivery locations are lagos, Abuja, Rivers, Oyo, ondo
+                andkwara only)</span
+              >
             </p>
             <v-text-field
               outlined
@@ -280,7 +283,7 @@ export default {
         OYO: "Oyo",
         KWARA: "Kwara",
         ONDO: "Ondo",
-        OGUN: "Ogun"
+        OGUN: "Ogun",
       },
       autocomplete: "",
       nameRules: [
@@ -301,7 +304,8 @@ export default {
       addressRules: [
         //verifies phone number satisfies the requirement
         (v) => !!v || "Address is required",
-        () => this.validAddress || "please select a location that we deliver to",
+        () =>
+          this.validAddress || "please select a location that we deliver to",
       ],
     };
   },
@@ -313,7 +317,7 @@ export default {
           new window.google.maps.LatLng(6.5244, 3.3792)
         ),
         componentRestrictions: { country: ["NG"] },
-         fields: ["geometry", "name", "formatted_address", "address_components"],
+        fields: ["geometry", "name", "formatted_address", "address_components"],
       }
     );
 
@@ -362,9 +366,9 @@ export default {
       }
     },
     checkLocation() {
-      this.validAddress = false
-      for (let key in this.allowedLocation){
-        if(this.allowedLocation[key] === this.state){
+      this.validAddress = false;
+      for (let key in this.allowedLocation) {
+        if (this.allowedLocation[key] === this.state) {
           this.validAddress = true;
           this.stateKey = key;
         }
@@ -424,14 +428,19 @@ export default {
             state: this.stateKey,
           },
           payment_link: `${baseUrl}open-selling-checkout-details`,
-          product_name: urlQuery.pname,
-          product_description: urlQuery.pdis,
-          product_image_url: imageURL[0].image,
-          product_price: checkProductPrice.includes(" ")
-            ? checkProductPrice.trim()
-            : checkProductPrice,
-          total_items: urlQuery.qty,
-          other_images: removeImgArr,
+          items: [
+            {
+              product_name: urlQuery.pname,
+              product_description: urlQuery.pdis,
+              product_image_url: imageURL[0].image,
+              product_price: checkProductPrice.includes(" ")
+                ? checkProductPrice.trim()
+                : checkProductPrice,
+              total_items: urlQuery.qty,
+              other_images: removeImgArr,
+            },
+          ],
+
           pickup_name: checkPickupName.includes(" ")
             ? checkPickupName.trim()
             : checkPickupName,

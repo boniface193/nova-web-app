@@ -555,6 +555,7 @@ export default {
     },
     getOpenOrder() {
       this.$store.dispatch("orders/getOpensellingDetails").then((e) => {
+        console.log(e)
         this.isOpenSellingLoading = false;
         this.openSelling = e;
         e.forEach((i) => {

@@ -104,9 +104,10 @@ export default {
           });
         } else {
           this.orderDetails = response.data.data;
-          this.orderDetails.other_images.push(
-            this.orderDetails.product_image_url
-          );
+          console.log(this.orderDetails)
+          // this.orderDetails.other_images.push(
+          //   this.orderDetails.product_image_url
+          // );
           this.getSellerDetails(this.orderDetails.seller_id);
         }
       })
