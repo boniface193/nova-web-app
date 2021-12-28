@@ -124,7 +124,7 @@ export const allowOpenSellingPayment = (to, from, next) => {
         next();
         return
     } else {
-        next({ path: `/openSellingCheckout-details?OpenOrder_id=${openOrderId}` })
+        next({ path: `/open-selling-checkout-details?OpenOrder_id=${openOrderId}` })
     }
 }
 

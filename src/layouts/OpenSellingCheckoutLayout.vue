@@ -25,19 +25,7 @@
       </div>
     </div>
     <!-- go to previous page -->
-    <router-link
-      :to="{
-        path: `/openSellingCheckout-details?OpenOrder_id=${this.orderDetails.id}`,
-      }"
-      style="text-decoration: none"
-      class="mx-5"
-      v-if="this.$route.name === 'PaymentDetails'"
-    >
-      <span class="back-btn">
-        <v-icon color="black" style="font-size: 25px">mdi-chevron-left</v-icon>
-      </span>
-    </router-link>
-
+    
     <div class="d-flex py-5 text-center" v-if="pageLoader">
       <v-progress-circular
         indeterminate
@@ -46,9 +34,13 @@
       ></v-progress-circular>
     </div>
 
-    <router-view v-else :orderDetails="orderDetails" :sellerDetails="sellerDetails" />
+    <router-view
+      v-else
+      :orderDetails="orderDetails"
+      :sellerDetails="sellerDetails"
+    />
     <!-- page loader -->
-    
+
     <!-- Modal for dialog messages -->
     <Modal :dialog="dialog" width="400">
       <div class="white pa-3 pb-10 text-center dialog">
@@ -104,7 +96,6 @@ export default {
           });
         } else {
           this.orderDetails = response.data.data;
-          console.log(this.orderDetails)
           // this.orderDetails.other_images.push(
           //   this.orderDetails.product_image_url
           // );

@@ -1,80 +1,136 @@
 <template>
   <div>
-    <div class="container pb-8 px-8">
-      <div class="d-flex align-baseline justify-space-between">
-        <h3>Address Details</h3>
-        <!-- change address -->
-        <p
-          class="primary--text"
-          style="font-size: 12px; cursor: Pointer"
-          @click="openEditAddressModal"
-        >
-          Change Delivery Location
-        </p>
+    <div class="" style="padding: 30px 9%">
+      <div class="my-8">
+        <span @click="$router.back()" style="cursor: pointer">
+          <v-icon size="20" color="black">mdi-arrow-left</v-icon>
+          back
+        </span>
       </div>
-      <div class="mt-2">
-        <div class="mb-4">
-          <h4>{{ pageDetails.orderDetails.customer.name }}</h4>
-          <p class="secondary--text mb-0">
-            {{ deliveryLocation }}<br />{{
-              pageDetails.orderDetails.customer.phone
-            }}
-          </p>
-        </div>
-        <!-- delivery method  -->
-        <div class="mb-0">
-          <h4>Select a delivery method:</h4>
-          <v-radio-group
-            v-model="deliveryMethod"
-            class="mt-1"
-            @change="changeDeliveryMethod()"
-          >
-            <v-radio
-              class="primary--text mb-0"
-              :label="`Express Delivery (₦${expressDeliveryFee})`"
-              value="express"
-            ></v-radio>
-            <span class="ml-8 mb-4 primary--text"
-              >Item would be delivered within 24hrs</span
+
+      <v-row>
+        <v-col sm="6" cols="">
+          <div class="d-flex align-baseline justify-space-between">
+            <h3 class="text-uppercase">Address Details</h3>
+            <!-- change address -->
+            <h3
+              class="primary--text text-uppercase"
+              style="cursor: Pointer"
+              @click="openEditAddressModal"
             >
-          </v-radio-group>
-        </div>
-        <!-- shipping details -->
-        <div class="mb-4">
-          <h4>Order Details</h4>
-          <p class="secondary--text mb-0">
-            <span style="font-weight: 600; color: black"
-              >{{ pageDetails.orderDetails.total_items }}
-            </span>
-            <span class="mx-2">X</span>
-            <span> {{ pageDetails.orderDetails.product_name }}</span>
-          </p>
-        </div>
-        <!-- payment summary -->
-        <div class="mb-3 summary-container">
-          <h4 class="mb-1">Summary</h4>
-          <div class="d-flex align-center justify-space-between mb-2">
-            <p class="secondary--text mb-0">Item</p>
-            <h4>&#8358;{{ pageDetails.orderDetails.subtotal_label }}</h4>
+              Change
+            </h3>
           </div>
-          <div class="d-flex align-center justify-space-between mb-2">
-            <p class="secondary--text mb-0">Shipping fee</p>
-            <h4>&#8358;{{ deliveryFee }}</h4>
-          </div>
-          <div class="d-flex align-center justify-space-between mb-2 mt-2">
-            <h3 class="mb-0">Total</h3>
-            <h3 class="primary--text">&#8358;{{ totalPrice }}</h3>
-          </div>
-          <!-- payment btn -->
-          <v-btn
-            class="primary py-3 mt-5 elevation-0"
-            :loading="processingLoader"
-            :disabled="processingLoader"
-            @click="payForItem"
-            >Pay now</v-btn
+          <!-- edit address -->
+          <div
+            class="py-3 px-4 mb-3 text-center dialog"
+            v-show="editAddressDialog"
+            style="border: 1px solid rgba(43, 43, 43, 0.1); border-radius: 8px"
           >
-        </div>
-      </div>
+            <div class="d-flex justify-end">
+              <v-icon class="error--text" @click="editAddressDialog = false"
+                >mdi-close</v-icon
+              >
+            </div>
+            <!-- description -->
+            <h4 style="font-weight: normal" class="mt-5 text-left">
+              Change your delivery location
+              <span class="primary--text"
+                >(Delivery locations are lagos, Abuja, Rivers, Oyo, ondo, kwara,
+                and Ogun only)</span
+              >
+            </h4>
+            <v-form ref="addressForm">
+              <!-- Address field -->
+              <div class="my-5">
+                <v-text-field
+                  color="primary"
+                  placeholder="Street address"
+                  v-model="address"
+                  :rules="addressRules"
+                  ref="deliveryAddress"
+                  id="deliveryAddress"
+                  required
+                >
+                </v-text-field>
+                <v-text-field style="display: none"></v-text-field>
+              </div>
+            </v-form>
+            <!-- edit address btn -->
+            <v-btn
+              class="primary elevation-0"
+              :loading="editLoader"
+              :disabled="editLoader"
+              @click="editOrderAddress()"
+              >Update</v-btn
+            >
+          </div>
+          <div class="my-4">
+            <h3>{{ pageDetails.orderDetails.customer.name }}</h3>
+            <p class="secondary--text mb-0">
+              {{ deliveryLocation }}<br />{{
+                pageDetails.orderDetails.customer.phone
+              }}
+            </p>
+          </div>
+          <!-- delivery method  -->
+          <div>
+            <h3 class="text-uppercase">delivery method:</h3>
+            <h4 class="my-3">Select a delivery method</h4>
+            <v-radio-group
+              v-model="deliveryMethod"
+              class="mt-1"
+              @change="changeDeliveryMethod()"
+            >
+              <v-radio
+                class="primary--text mb-0"
+                :label="`Express Delivery (₦${expressDeliveryFee})`"
+                value="express"
+              ></v-radio>
+              <span class="ml-8 mb-4 primary--text"
+                >Item would be delivered within 24hrs</span
+              >
+            </v-radio-group>
+          </div>
+        </v-col>
+        <v-col sm="6" cols="">
+          <!-- shipping details -->
+          <!-- <div class="mb-4">
+            <h3 class="text-uppercase">Order Details</h3>
+            <p class="secondary--text mb-0">
+              <span style="font-weight: 600; color: black"
+                >{{ pageDetails.orderDetails.total_product_price_label }}
+              </span>
+              <span class="mx-2">X</span>
+              <span> {{ pageDetails.orderDetails.product_name }}</span>
+            </p>
+          </div> -->
+          <!-- payment summary -->
+          <div class="mb-3 summary-container">
+            <h3 class="mb-1 text-uppercase">Summary</h3>
+            <div class="d-flex align-center justify-space-between mb-2">
+              <p class="secondary--text mb-0">Item</p>
+              <h4>&#8358;{{ pageDetails.orderDetails.subtotal_label }}</h4>
+            </div>
+            <div class="d-flex align-center justify-space-between mb-2">
+              <p class="secondary--text mb-0">Shipping fee</p>
+              <h4>&#8358;{{ deliveryFee }}</h4>
+            </div>
+            <div class="d-flex align-center justify-space-between mb-2 mt-2">
+              <h3 class="mb-0 text-uppercase">Total</h3>
+              <h3 class="primary--text">&#8358;{{ totalPrice }}</h3>
+            </div>
+            <!-- payment btn -->
+            <v-btn
+              class="primary py-3 mt-5 elevation-0"
+              :loading="processingLoader"
+              :disabled="processingLoader"
+              @click="payForItem"
+              >Pay now</v-btn
+            >
+          </div>
+        </v-col>
+      </v-row>
     </div>
 
     <!-- Modal for dialog messages -->
@@ -93,52 +149,12 @@
         <h4>{{ dialogMessage }}</h4>
       </div>
     </Modal>
-
-    <!-- edit address Modal -->
-    <div class="white pa-3 px-5 edit-address-dialog" v-show="editAddressDialog">
-      <div>
-        <div class="d-flex justify-end">
-          <v-icon
-            class="error--text close-btn"
-            @click="editAddressDialog = false"
-            >mdi-close</v-icon
-          >
-        </div>
-
-        <!-- description -->
-        <h3 class="mt-5">Change your delivery location</h3>
-        <v-form ref="addressForm">
-          <!-- Address field -->
-          <div class="my-5">
-            <p class="mb-1">Enter your delivery address *</p>
-            <v-text-field
-              color="primary"
-              placeholder="Street address"
-              v-model="address"
-              :rules="addressRules"
-              ref="autocomplete"
-              id="autocomplete"
-              required
-            >
-            </v-text-field>
-            <v-text-field style="display: none"></v-text-field>
-          </div>
-        </v-form>
-        <!-- edit address btn -->
-        <v-btn
-          class="primary elevation-0"
-          :loading="editLoader"
-          :disabled="editLoader"
-          @click="editOrderAddress()"
-          >Update</v-btn
-        >
-      </div>
-    </div>
   </div>
 </template>
 <script>
 import failedImage from "@/assets/images/failed-img.svg";
 import Modal from "@/components/secondary/Modal.vue";
+import { searchKeyInObject, search } from "@/helpers/general.js";
 export default {
   name: "DeliveryPage",
   components: {
@@ -170,6 +186,17 @@ export default {
       lat: this.orderDetails.delivery_location.lat,
       lng: this.orderDetails.delivery_location.lng,
       address: this.orderDetails.delivery_location.address,
+      allowedLocation: {
+        LAGOS: "Lagos",
+        ABUJA: "Federal Capital Territory",
+        RIVERS: "Rivers",
+        OYO: "Oyo",
+        KWARA: "Kwara",
+        OGUN: "Ogun State",
+        ONDO: "Ondo",
+      },
+      deliveryState: null,
+      deliveryAddressAutocomplete: "",
       validAddress: false,
       autocomplete: "",
       addressRules: [
@@ -180,18 +207,23 @@ export default {
     };
   },
   mounted() {
-    this.autocomplete = new window.google.maps.places.Autocomplete(
-      document.getElementById("autocomplete"),
-      {
-        bounds: new window.google.maps.LatLngBounds(
-          new window.google.maps.LatLng(6.5244, 3.3792)
-        ),
-        componentRestrictions: { country: ["NG"] },
-        fields: ["geometry", "name", "formatted_address"],
-      }
-    );
+    let region = {
+      bounds: new window.google.maps.LatLngBounds(
+        new window.google.maps.LatLng(6.5244, 3.3792)
+      ),
+      componentRestrictions: { country: ["NG"] },
+      fields: ["geometry", "name", "formatted_address", "address_components"],
+    };
 
-    this.autocomplete.addListener("place_changed", this.onPlaceChanged);
+    this.deliveryAddressAutocomplete =
+      new window.google.maps.places.Autocomplete(
+        document.getElementById("deliveryAddress"),
+        region
+      );
+    this.deliveryAddressAutocomplete.addListener("place_changed", () => {
+      this.onPlaceChanged("delivery");
+    });
+    // this.autocomplete.addListener("place_changed", this.onPlaceChanged);
   },
   computed: {
     paymentOption() {
@@ -285,6 +317,31 @@ export default {
         this.changeOrderAddressOrDeliveryMethod();
       }
     },
+
+    onPlaceChanged() {
+      let place = this.deliveryAddressAutocomplete.getPlace();
+      if (!place.geometry) {
+        // User did not select a prediction; reset the input field
+        this.validAddress = false;
+      } else {
+        //Display details about the valid place
+        this.validAddress = true;
+        this.address = place.name + " " + place.formatted_address;
+        this.lat = place.geometry.location.lat();
+        this.lng = place.geometry.location.lng();
+        this.deliveryState = search(
+          "administrative_area_level_1",
+          place.address_components
+        ).long_name;
+        let locationDetails = searchKeyInObject(
+          this.deliveryState,
+          this.allowedLocation
+        );
+        this.validDeliveryAddress = locationDetails.status;
+        this.deliveryState = locationDetails.key;
+      }
+    },
+
     changeOrderAddressOrDeliveryMethod() {
       const params = new URLSearchParams(window.location.search);
       const orderId = params.get("OpenOrder_id");
@@ -295,6 +352,7 @@ export default {
               address: this.address,
               lat: this.lat,
               lng: this.lng,
+              state: this.deliveryState,
             },
           },
           id: orderId,
@@ -323,19 +381,6 @@ export default {
             this.dialogMessage = "No internet connection!";
           }
         });
-    },
-    onPlaceChanged() {
-      let place = this.autocomplete.getPlace();
-      if (!place.geometry) {
-        // User did not select a prediction; reset the input field
-        this.validAddress = false;
-      } else {
-        //Display details about the valid place
-        this.validAddress = true;
-        this.address = place.name + " " + place.formatted_address;
-        this.lat = place.geometry.location.lat();
-        this.lng = place.geometry.location.lng();
-      }
     },
   },
 };

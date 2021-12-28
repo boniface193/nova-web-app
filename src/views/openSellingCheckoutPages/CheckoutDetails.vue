@@ -178,7 +178,6 @@ export default {
     },
   },
   created() {
-    console.log(this.pageDetails)
     this.addImageToOtherImages(0);
   },
   methods: {

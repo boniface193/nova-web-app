@@ -9,7 +9,7 @@
       </div>
 
       <h3>
-        Congratulation! Your Payment was Successfully
+        Congratulation! Your Payment was Successful
       </h3>
 
       <v-btn class="primary mx-auto mt-4" @click="viewOrderStatus"
