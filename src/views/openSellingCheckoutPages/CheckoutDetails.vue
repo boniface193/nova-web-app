@@ -163,7 +163,6 @@ export default {
   props: ["orderDetails", "sellerDetails"],
   data: function () {
     return {
-      // quantity: 0,
       activeImageIndex: 0,
       readMoreActivated: false,
       inViewProduct: { product: {}, variants: [] },
@@ -178,7 +177,6 @@ export default {
     },
   },
   created() {
-    console.log(this.pageDetails)
     this.addImageToOtherImages(0);
   },
   methods: {
@@ -435,94 +433,4 @@ export default {
     }
   }
 }
-// .image-container {
-//   width: 80%;
-//   background: #fff;
-//   margin: auto;
-//   border-radius: 12px;
-//   position: relative;
-//   img {
-//     width: 100%;
-//   }
-// }
-// .profile-container {
-//   width: 80px;
-//   height: 80px;
-//   border-radius: 50%;
-//   display: flex;
-//   justify-content: center;
-//   align-items: center;
-//   overflow: hidden;
-//   text-align: center;
-//   background: #ddf8f7;
-//   img {
-//     width: 100%;
-//     height: 100%;
-//   }
-// }
-// .verified-container {
-//   width: 20px;
-//   margin-left: 10px;
-//   align-items: center;
-//   display: flex;
-//   img {
-//     width: 100%;
-//   }
-// }
-// .seller-image {
-//   width: 35px;
-//   height: 35px;
-//   display: flex;
-//   align-items: center;
-//   justify-content: center;
-//   border-radius: 50%;
-//   overflow: hidden;
-//   margin-right: 15px;
-//   img {
-//     width: 100%;
-//     height: 100%;
-//   }
-// }
-// .add-btn {
-//   border-radius: 50%;
-//   background: #029b97;
-//   width: 25px;
-//   height: 25px;
-//   display: flex;
-//   align-items: center;
-//   color: #fff;
-//   justify-content: center;
-//   cursor: pointer;
-// }
-// .minus-btn {
-//   border-radius: 50%;
-//   background: #f3f5ff;
-//   width: 25px;
-//   height: 25px;
-//   display: flex;
-//   align-items: center;
-//   color: #029b97;
-//   justify-content: center;
-//   cursor: pointer;
-// }
-
-// .v-btn:not(.v-btn--round).v-size--default {
-//   height: 40px;
-//   min-width: 200px;
-//   padding: 0 16px;
-// }
-// .status-img {
-//   width: 140px;
-//   .v-image {
-//     width: 100%;
-//   }
-// }
-// @media (max-width: 500px) {
-//   .btn-container {
-//     text-align: center;
-//   }
-//   .v-btn:not(.v-btn--round).v-size--default {
-//     min-width: 100%;
-//   }
-// }
 </style>

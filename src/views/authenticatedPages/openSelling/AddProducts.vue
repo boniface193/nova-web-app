@@ -209,14 +209,14 @@ export default {
     removeImgFromUploadedImg(productIndex, imageIndex) {
       this.items[productIndex].other_images.splice(imageIndex, 1);
     },
-    emitProducts(){
-      let newItems = this.items
-      newItems.forEach((item, index)=> {
+    emitProducts() {
+      let newItems = this.items;
+      newItems.forEach((item, index) => {
         newItems[index].product_image_url = item.other_images[0];
         newItems[index].other_images.shift();
       });
       this.$emit("productsDetails", newItems);
-    }
+    },
   },
 };
 </script>

@@ -334,7 +334,7 @@ export default {
         payment_link: `${window.location.origin}/open-selling-checkout-details`,
         vehicle_type: this.selectedTransportMethod,
         pickup_phone: "+234" + this.pickUpNumber,
-        pickup_name: "null"
+        pickup_name: "null",
       };
       this.$emit("customerDetails", customerDetails);
     },
