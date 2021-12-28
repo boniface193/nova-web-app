@@ -74,8 +74,8 @@
         <p class="mb-1">
           Address*
           <span class="primary--text"
-            >(Delivery location are Lagos, Abuja, Rivers, Oyo, Kwara, Ogun and Ondo
-            only)</span
+            >(Delivery location are Lagos, Abuja, Rivers, Oyo, Kwara, Ogun and
+            Ondo only)</span
           >
         </p>
         <v-text-field
@@ -217,7 +217,7 @@ import failedImage from "@/assets/images/failed-img.svg";
 import Modal from "@/components/secondary/Modal.vue";
 import { Facebook } from "vue-socialmedia-share";
 import { Twitter } from "vue-socialmedia-share";
-import { WhatsApp } from "vue-socialmedia-share"
+import { WhatsApp } from "vue-socialmedia-share";
 export default {
   name: "CustomerDetailsForm",
   components: { Modal, Facebook, Twitter, WhatsApp },
@@ -247,7 +247,7 @@ export default {
         OYO: "Oyo",
         KWARA: "Kwara",
         ONDO: "Ondo",
-        OGUN: "Ogun"
+        OGUN: "Ogun",
       },
       autocomplete: "",
       nameRules: [
@@ -313,9 +313,9 @@ export default {
       }
     },
     checkLocation() {
-      this.validAddress = false
-      for (let key in this.allowedLocation){
-        if(this.allowedLocation[key] === this.state){
+      this.validAddress = false;
+      for (let key in this.allowedLocation) {
+        if (this.allowedLocation[key] === this.state) {
           this.validAddress = true;
           this.stateKey = key;
         }
@@ -348,7 +348,7 @@ export default {
                 address: this.address,
                 lat: this.lat,
                 lng: this.lng,
-                state: this.stateKey
+                state: this.stateKey,
               },
             },
             payment_link: `${baseUrl}checkout-details`,

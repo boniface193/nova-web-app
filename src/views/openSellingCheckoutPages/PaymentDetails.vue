@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="payment-page pb-8 px-8">
+    <div class="container pb-8 px-8">
       <div class="d-flex align-baseline justify-space-between">
         <h3>Address Details</h3>
         <!-- change address -->

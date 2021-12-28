@@ -1,5 +1,29 @@
 <template>
-  <div class="px-4 py-5" style="background: #fafafa; height: 100%">
+  <div>
+    <div class="checkout-page__header">
+      <!-- logo section -->
+      <div class="checkout-page__header__logo">
+        <img src="@/assets/images/primary-logo.png" alt="" />
+      </div>
+      <div class="checkout-page__header__message-section">
+        <div class="d-flex align-center mb-3">
+          <p class="secondary--text mr-1 mb-0">Chat Seller:</p>
+
+          <a
+            :href="
+              '//' +
+              `api.whatsapp.com/send?text=Hello my name is ${orderDetails.customer.name}&phone=${sellerDetails.phone_number}`
+            "
+            target="_blank"
+            style="text-decoration: none"
+            class="primary--text d-flex align-center"
+          >
+            <img class="mr-2" src="@/assets/icons/whatsapp-icon.svg" alt="" />
+            <span class="seller-name">{{ sellerDetails.name }}</span>
+          </a>
+        </div>
+      </div>
+    </div>
     <!-- go to previous page -->
     <router-link
       :to="{
@@ -14,53 +38,6 @@
       </span>
     </router-link>
 
-    <v-row v-show="!pageLoader">
-      <v-col class="col-12 col-md-6 pt-5 pt-md-15 px-5">
-        <div
-          class="image-container pa-10"
-          :class="this.$route.name === 'PaymentDetails' ? 'hide-image' : ''"
-        >
-          <img
-            :src="selectedImg || orderDetails.product_image_url"
-            alt=""
-          />
-        </div>
-        <!-- sliding images -->
-        <v-sheet class="mx-auto" max-width="800">
-          <v-slide-group
-            v-model="model"
-            class="pa-sm-4 py-4"
-            mandatory
-            show-arrows
-          >
-            <v-slide-item
-              v-for="n in orderDetails.other_images"
-              :key="n.id"
-              v-slot="{ active, toggle }"
-            >
-              <v-card
-                :color="active ? 'primary' : 'grey lighten-1'"
-                class="ma-4 elevation-0"
-                height="100"
-                width="100"
-                @click="toggle"
-                v-on:click="selectByImage(n)"
-              >
-                <v-img :src="n" height="100" width="100"></v-img>
-              </v-card>
-            </v-slide-item>
-          </v-slide-group>
-        </v-sheet>
-        <!-- sliding images -->
-      </v-col>
-      <v-col class="col-12 col-md-6 pt-5 pt-md-15 pr-0">
-        <router-view
-          :orderDetails="orderDetails"
-          :sellerDetails="sellerDetails"
-        />
-      </v-col>
-    </v-row>
-    <!-- page loader -->
     <div class="d-flex py-5 text-center" v-if="pageLoader">
       <v-progress-circular
         indeterminate
@@ -68,6 +45,10 @@
         class="mx-auto"
       ></v-progress-circular>
     </div>
+
+    <router-view v-else :orderDetails="orderDetails" :sellerDetails="sellerDetails" />
+    <!-- page loader -->
+    
     <!-- Modal for dialog messages -->
     <Modal :dialog="dialog" width="400">
       <div class="white pa-3 pb-10 text-center dialog">
@@ -102,7 +83,7 @@ export default {
       orderDetails: {
         delivery_location: {},
         customer: {},
-        product_description: ""
+        product_description: "",
       },
       sellerDetails: {},
       pageLoader: false,
@@ -123,7 +104,10 @@ export default {
           });
         } else {
           this.orderDetails = response.data.data;
-          this.orderDetails.other_images.push(this.orderDetails.product_image_url);
+          console.log(this.orderDetails)
+          // this.orderDetails.other_images.push(
+          //   this.orderDetails.product_image_url
+          // );
           this.getSellerDetails(this.orderDetails.seller_id);
         }
       })
@@ -180,18 +164,24 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-.image-container {
-  width: 80%;
-  background: #fff;
-  margin: auto;
-  border-radius: 12px;
-  position: relative;
-  @media (max-width: 750px) {
-    width: 90%;
-  }
-  img {
-    min-width: 90%;
-    max-width: 100%;
+.checkout-page {
+  &__header {
+    position: sticky;
+    height: 80px;
+    border-bottom: 1px solid rgba(43, 43, 43, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    top: 0;
+    z-index: 3;
+    background: var(--v-white-base);
+    padding: 20px 9% 0px 9%;
+    &__logo {
+      width: 100px;
+      img {
+        width: 100%;
+      }
+    }
   }
 }
 .status-img {

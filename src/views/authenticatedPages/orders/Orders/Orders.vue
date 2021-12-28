@@ -319,7 +319,7 @@
                   <span>
                     <router-link
                       :to="{
-                        name: 'OpenOrderDetailsByID',
+                        name: 'OpenOrderDetails',
                         params: { id: orders.id },
                       }"
                       style="text-decoration: none"
@@ -555,6 +555,7 @@ export default {
     },
     getOpenOrder() {
       this.$store.dispatch("orders/getOpensellingDetails").then((e) => {
+        console.log(e)
         this.isOpenSellingLoading = false;
         this.openSelling = e;
         e.forEach((i) => {
