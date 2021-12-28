@@ -38,8 +38,7 @@ import ViewReferrals from "@/views/authenticatedPages/dashboard/Referral/ViewRef
 import ReferFriends from "@/views/authenticatedPages/dashboard/Referral/ReferFriends.vue";
 import { ifAuthenticated, allowEditBankAccount } from "./controller.js";
 //open selling 
-import CreateSelling from "@/views/authenticatedPages/openSelling/CreateSelling.vue";
-import OpenSellingCustomerDetailForm from "@/views/authenticatedPages/openSelling/CustomerDetailsForm.vue";
+import OpenSellingPage from "@/views/authenticatedPages/openSelling/OpenSellingPage.vue";
 
 export const authenticatedRoutes = {
     path: "/dashboard",
@@ -212,14 +211,9 @@ export const authenticatedRoutes = {
             children: [
                 {
                     path: "",
-                    name: "CreateSelling",
-                    component: CreateSelling
-                },
-                {
-                    path: "customer-form",
-                    name: "OpenSellingCustomerDetailForm",
-                    component: OpenSellingCustomerDetailForm,
-                },
+                    name: "OpenSellingPage",
+                    component: OpenSellingPage
+                }
             ]
         },
     ]
