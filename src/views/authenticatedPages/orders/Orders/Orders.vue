@@ -319,7 +319,7 @@
                   <span>
                     <router-link
                       :to="{
-                        name: 'OpenOrderDetailsByID',
+                        name: 'OpenOrderDetails',
                         params: { id: orders.id },
                       }"
                       style="text-decoration: none"

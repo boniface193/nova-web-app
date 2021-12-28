@@ -421,8 +421,9 @@ export default {
             address: this.address,
             lng: this.lng,
             lat: this.lat,
+            state: this.stateKey,
           },
-          payment_link: `${baseUrl}openSellingCheckout-details`,
+          payment_link: `${baseUrl}open-selling-checkout-details`,
           product_name: urlQuery.pname,
           product_description: urlQuery.pdis,
           product_image_url: imageURL[0].image,
@@ -444,6 +445,7 @@ export default {
             address: urlQuery.pickupAdd,
             lng: longitude,
             lat: latitude,
+            state: this.stateKey,
           },
         };
         this.$store
