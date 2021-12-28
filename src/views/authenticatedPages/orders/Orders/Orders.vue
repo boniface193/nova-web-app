@@ -111,7 +111,7 @@
                   <span>
                     <router-link
                       :to="{
-                        name: 'orderDetails',
+                        name: 'OrderDetails',
                         params: { id: orders.id },
                       }"
                       style="text-decoration: none"
