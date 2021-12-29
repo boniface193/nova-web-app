@@ -9,7 +9,7 @@
       @change="onImagePicked"
     />
 
-    <div @click="openImageModal" style="height:70px">
+    <div @click="openImageModal" style="height: 70px">
       <!-- <label for="" class="text-field">Upload product pictures</label> -->
       <v-card class="text-center pa-4" link outlined width="70">
         <v-icon color="primary">mdi-plus-circle</v-icon>
@@ -266,17 +266,14 @@ export default {
     },
     uploadImage(data) {
       this.status = "uploading";
-      mediaServiceHttpClient.post(
-          "/media/upload",
-          data,
-          {
-            onUploadProgress: (uploadEvent) => {
-              this.uploadProgress = String(
-                Math.round((uploadEvent.loaded / uploadEvent.total) * 100) + "%"
-              );
-            },
-          }
-        )
+      mediaServiceHttpClient
+        .post("/media/upload", data, {
+          onUploadProgress: (uploadEvent) => {
+            this.uploadProgress = String(
+              Math.round((uploadEvent.loaded / uploadEvent.total) * 100) + "%"
+            );
+          },
+        })
         .then(() => {
           this.status = "uploaded";
           this.uploadProgress = "0%";

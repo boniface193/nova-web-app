@@ -36,7 +36,7 @@
   </div>
 </template>
 <script>
-import imageUploader from "@/components/secondary/imageUploader2.vue";
+import imageUploader from "@/components/secondary/ImageUploader2.vue";
 export default {
   name: "KycProfileUplaod",
   components: { imageUploader },
