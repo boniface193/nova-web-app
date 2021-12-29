@@ -6,7 +6,7 @@
         Please provide the following product details
       </p>
       <div v-for="(item, index) in items" :key="index">
-        <v-form :ref="`form${0}`">
+        <v-form :ref="`form${index}`">
           <!-- tab-section -->
           <div v-if="currentForm !== index" class="product-tab">
             <h4>
@@ -97,6 +97,13 @@
                   >
                 </div>
               </div>
+              <p
+                class="error--text pl-3"
+                style="font-size: 12px"
+                v-show="items[index].imageError == true"
+              >
+                At least one image is required
+              </p>
             </div>
             <!-- product price -->
             <div>
@@ -166,6 +173,7 @@ export default {
           total_items: "",
           product_image_url: null,
           other_images: [],
+          imageError: false
         },
       ],
       currentForm: 0,
@@ -183,21 +191,26 @@ export default {
         total_items: "",
         product_image_url: null,
         other_images: [],
+        imageError: false
       });
       this.currentForm = this.items.length - 1;
     },
     validateProducts() {
-      //let formName = `form${this.currentForm}`;
-      //this.$refs[`form${this.currentForm}`].validate();
-      // for (let index = 0; index < this.items.length; index++) {
-      //   console.log(index)
-      //   this.$refs.form.validate();
-      //   if (!this.$refs.form.validate()) {
-      //     this.currentForm = index;
-      //     break;
-      //   }
-      // }
-      this.emitProducts();
+      for (let index = 0; index < this.items.length; index++) {
+        this.$refs[`form${index}`][0].validate();
+        if (!this.$refs[`form${index}`][0].validate()) {
+          this.currentForm = index;
+          break;
+        }
+        if (this.items[index].other_images.length === 0) {
+          this.items[index].imageError = true;
+          this.currentForm = index;
+          break;
+        }
+        if (index === this.items.length - 1) {
+          this.emitProducts();
+        }
+      }
     },
     deleteForm(formIndex) {
       this.items.splice(formIndex, 1);
@@ -205,18 +218,20 @@ export default {
     },
     setImageUrl(params, formIndex) {
       this.items[formIndex].other_images.push(params.imageUrl);
+      this.items[formIndex].imageError = false;
     },
     removeImgFromUploadedImg(productIndex, imageIndex) {
       this.items[productIndex].other_images.splice(imageIndex, 1);
     },
-    emitProducts(){
-      let newItems = this.items
-      newItems.forEach((item, index)=> {
+    emitProducts() {
+      const newItems = JSON.parse(JSON.stringify(this.items));
+      newItems.forEach((item, index) => {
         newItems[index].product_image_url = item.other_images[0];
         newItems[index].other_images.shift();
+        delete newItems[index].imageError;
       });
       this.$emit("productsDetails", newItems);
-    }
+    },
   },
 };
 </script>

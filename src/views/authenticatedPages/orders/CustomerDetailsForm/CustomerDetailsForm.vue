@@ -74,8 +74,8 @@
         <p class="mb-1">
           Address*
           <span class="primary--text"
-            >(Delivery location are Lagos, Abuja, Rivers, Oyo, Kwara, Ogun and Ondo
-            only)</span
+            >(Delivery location are Lagos, Abuja, Rivers, Oyo, Kwara, Ogun and
+            Ondo only)</span
           >
         </p>
         <v-text-field
@@ -217,7 +217,8 @@ import failedImage from "@/assets/images/failed-img.svg";
 import Modal from "@/components/secondary/Modal.vue";
 import { Facebook } from "vue-socialmedia-share";
 import { Twitter } from "vue-socialmedia-share";
-import { WhatsApp } from "vue-socialmedia-share"
+import { WhatsApp } from "vue-socialmedia-share";
+import { searchKeyInObject, search } from "@/helpers/general.js";
 export default {
   name: "CustomerDetailsForm",
   components: { Modal, Facebook, Twitter, WhatsApp },
@@ -247,7 +248,7 @@ export default {
         OYO: "Oyo",
         KWARA: "Kwara",
         ONDO: "Ondo",
-        OGUN: "Ogun"
+        OGUN: "Ogun State",
       },
       autocomplete: "",
       nameRules: [
@@ -305,27 +306,16 @@ export default {
         this.validAddress = true;
         this.lat = place.geometry.location.lat();
         this.lng = place.geometry.location.lng();
-        this.state = this.search(
+        this.state = search(
           "administrative_area_level_1",
           place.address_components
         ).long_name;
-        this.checkLocation();
-      }
-    },
-    checkLocation() {
-      this.validAddress = false
-      for (let key in this.allowedLocation){
-        if(this.allowedLocation[key] === this.state){
-          this.validAddress = true;
-          this.stateKey = key;
-        }
-      }
-    },
-    search(nameKey, myArray) {
-      for (let i = 0; i < myArray.length; i++) {
-        if (myArray[i].types[0] === nameKey) {
-          return myArray[i];
-        }
+        let locationDetails = searchKeyInObject(
+          this.state,
+          this.allowedLocation
+        );
+        this.validAddress = locationDetails.status;
+        this.stateKey = locationDetails.key;
       }
     },
     submitCustomerDetails() {
@@ -348,7 +338,7 @@ export default {
                 address: this.address,
                 lat: this.lat,
                 lng: this.lng,
-                state: this.stateKey
+                state: this.stateKey,
               },
             },
             payment_link: `${baseUrl}checkout-details`,
@@ -376,7 +366,6 @@ export default {
     copyToClipBoard() {
       navigator.clipboard.writeText(this.url);
       this.copyStatus = true;
-      this.returnHome();
       setTimeout(() => {
         this.copyStatus = false;
       }, 1000);
