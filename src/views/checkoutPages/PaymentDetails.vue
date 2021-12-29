@@ -277,6 +277,7 @@ export default {
               address: this.address,
               lat: this.lat,
               lng: this.lng,
+              state: this.stateKey
             },
           },
           order_id: orderId,
