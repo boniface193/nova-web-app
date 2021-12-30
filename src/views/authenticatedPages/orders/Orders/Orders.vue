@@ -173,7 +173,7 @@
                       <span class="order-no-blue">
                         <router-link
                           :to="{
-                            name: 'orderDetails',
+                            name: 'OrderDetails',
                             params: { id: orders.id },
                           }"
                           style="text-decoration: none"
@@ -277,7 +277,7 @@
           </p>
           <div class="d-flex justify-center">
             <v-btn
-              :to="{ path: 'openSelling' }"
+              :to="{ path: 'open-selling' }"
               class="text-capitalize mt-8"
               height="48px"
               depressed
@@ -380,7 +380,7 @@
                       <span class="order-no-blue">
                         <router-link
                           :to="{
-                            name: 'OpenOrderDetailsByID',
+                            name: 'OpenOrderDetails',
                             params: { id: orders.id },
                           }"
                           style="text-decoration: none"
