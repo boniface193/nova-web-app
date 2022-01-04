@@ -1,126 +1,184 @@
 <template>
-  <div style="height: 100%">
-    <div class="order-details-container">
-      <div class="order-details pa-3" v-show="!pageLoader">
-        <h3>Order status</h3>
+  <div>
+    <div class="checkout-page__details">
+      <div v-show="!pageLoader">
+        <h3 class="text-center">Order status</h3>
+        <p class="mb-8">
+          {{ this.orderDetails.items.length }}
+          {{ this.orderDetails.items.length > 1 ? "items" : "item" }}
+        </p>
         <div>
-          <step-progress
-            :steps="['Processing', 'Shipped', 'Delivered']"
-            :current-step="
-              orderDetails.delivery_status_label == 'Processing' ||
-              orderDetails.delivery_status_label == 'Shipped'
-                ? 1
-                : 3
-            "
-            icon-class="fa fa-check"
-            :line-thickness="lineThickness"
-            active-color="#FFA500"
-            :active-thickness="activeThickness"
-            :passive-thickness="passiveThickness"
-            passive-color="#5E5E5E1A"
-            class="my-4"
-          ></step-progress>
-          <v-row class="mt-10">
-            <v-col class="col-12 col-sm-5">
-              <div class="image-container">
-                <img :src="orderDetails.product_image_url" alt="" />
-              </div>
-            </v-col>
-            <v-col class="col-12 col-sm-7">
-              <div>
-                <p class="mb-0" style="font-size: 14px">
-                  <span style="font-weight: 600">Order No: </span
-                  ><span class="primary--text">{{ orderDetails.id }}</span>
-                </p>
-                <p class="mb-0" style="font-size: 14px">
-                  <span style="font-weight: 600">Customer: </span
-                  ><span class="secondary--text">{{
-                    orderDetails.customer.name
-                  }}</span>
-                </p>
-                <p class="mb-0" style="font-size: 14px">
-                  <span style="font-weight: 600">Payment status: </span
-                  ><span class="secondary--text">{{
-                    orderDetails.payment_status_label
-                  }}</span>
-                </p>
-                <p class="mb-0" style="font-size: 14px">
-                  <span style="font-weight: 600">Total price paid: </span
-                  ><span class="secondary--text"
-                    >&#8358;{{ orderDetails.total_price_label }}</span
+          <div class="checkout-page__details__content">
+            <div class="checkout-page__details__content__image-view">
+              <div
+                class="checkout-page__details__content__image-view__multiple"
+              >
+                <div class="items-container" ref="items_container">
+                  <div
+                    class="
+                      checkout-page__details__content__image-view__multiple__item
+                    "
+                    v-for="(item, index) in orderDetails.items"
+                    :class="{ active: activeImageIndex == index }"
+                    :key="index"
+                    @click="setinViewProduct(index)"
                   >
-                </p>
-                <p class="mb-0" style="font-size: 14px">
-                  <span style="font-weight: 600">Time: </span
-                  ><span class="secondary--text mr-2">{{
-                    orderDetails.created_at.slice(0, -6)
-                  }}</span>
-                  <span class="secondary--text mr-2">{{
-                    orderDetails.created_at.slice(10)
-                  }}</span>
-                </p>
-
-                <p class="mb-0" style="font-size: 14px">
-                  <span style="font-weight: 600">Delivery location: </span
-                  ><span class="secondary--text mr-2">{{
-                    orderDetails.delivery_location.address
-                  }}</span>
-                </p>
+                    <img :src="item.product_image_url" alt="" />
+                  </div>
+                </div>
+                <div
+                  class="
+                    checkout-page__details__content__image-view__multiple__up-btn
+                    scroll-btn
+                  "
+                  @click="scrollUp()"
+                >
+                  <v-icon class="primary--text" style="font-size: 20px"
+                    >mdi-arrow-up</v-icon
+                  >
+                </div>
+                <div
+                  class="
+                    checkout-page__details__content__image-view__multiple__down-btn
+                    scroll-btn
+                  "
+                  @click="scrollDown()"
+                >
+                  <v-icon class="primary--text" style="font-size: 20px"
+                    >mdi-arrow-down</v-icon
+                  >
+                </div>
               </div>
-            </v-col>
-          </v-row>
-          <div class="d-flex align-center justify-center mt-5">
-            <p class="secondary--text mr-1 mb-0" style="font-size: 14px">
-              Chat Seller:
-            </p>
+              <!-- this view shows only on mobile -->
+              <div
+                class="
+                  checkout-page__details__content__image-view__multiple--mobile
+                "
+              >
+                <div class="items-container" ref="items_container__mobile">
+                  <div
+                    class="
+                      checkout-page__details__content__image-view__multiple--mobile__item
+                    "
+                    :class="{ active: activeImageIndex == index }"
+                    v-for="(item, index) in orderDetails.items"
+                    @click="setinViewProduct(index)"
+                    :key="index"
+                  >
+                    <img :src="item.product_image" alt="" />
+                  </div>
+                </div>
+                <div
+                  class="
+                    checkout-page__details__content__image-view__multiple--mobile__left-btn
+                    scroll-btn
+                  "
+                  @click="scrollLeft()"
+                >
+                  <v-icon class="primary--text" style="font-size: 20px"
+                    >mdi-arrow-left</v-icon
+                  >
+                </div>
+                <div
+                  class="
+                    checkout-page__details__content__image-view__multiple--mobile__right-btn
+                    scroll-btn
+                  "
+                  @click="scrollRight()"
+                >
+                  <v-icon class="primary--text" style="font-size: 20px"
+                    >mdi-arrow-right</v-icon
+                  >
+                </div>
+              </div>
 
-            <a
-              :href="
-                '//' +
-                `api.whatsapp.com/send?text=''&phone=${sellerDetails.phone_number}`
-              "
-              target="_blank"
-              style="text-decoration: none"
-            >
-              <v-icon color="#64B161" class="ml-2 mr-2" style="cursor: pointer"
-                >mdi-whatsapp</v-icon
-              >
-              {{ orderDetails.seller_name }}
-            </a>
-          </div>
-          <!-- <div class="text-left" v-show="!orderDetails.delivery_confirmed">
-            <div class="d-flex align-center text-left mt-3">
-              <v-checkbox v-model="acceptTerms"></v-checkbox>
-              <p class="mb-0 text-left" style="">
-                I agree to Kuuzza
-                <a
-                  style="text-decoration: none"
-                  href="https://develop-landing.kuuzza.com/return-refund-policy"
-                  target="_blank"
-                  class="primary--text"
-                  >Return and Refund Policy
-                </a>
-              </p>
+              <div class="checkout-page__details__content__image-view__single">
+                <v-carousel
+                  class="carousel-content"
+                  height="100%"
+                  cycle
+                  hide-delimiter-background
+                >
+                  <v-carousel-item
+                    v-for="(slide, index) in inViewProduct.other_images"
+                    :key="index"
+                  >
+                    <img style="width: 100%" :src="slide" alt="" />
+                  </v-carousel-item>
+                </v-carousel>
+              </div>
             </div>
-            <v-btn
-              class="primary mt-1 mx-auto mb-3 px-16"
-              :disabled="!acceptTerms || loading2"
-              :loading="loading2"
-              @click="confirmOrder()"
-              >Confirm Order</v-btn
-            >
-          </div> -->
-          <!-- <div class="text-center mt-5">
-            <p class="primary--text" v-show="orderDetails.delivery_confirmed">
-              <span style="color: #ffa500">Order Status:</span>
-              <span
-                class="ml-2 py-2 px-3 primary white--text"
-                style="border-radius: 5px"
-              >
-                Confirmed</span
-              >
-            </p>
-          </div> -->
+            <!-- product details section -->
+            <div class="checkout-page__details__content__text-view">
+              <p>
+                <span class=""><h4>Order No:</h4></span
+                ><span class="primary--text text-md-h6 text-body-1">{{
+                  orderDetails.id
+                }}</span>
+              </p>
+              <div class="d-flex">
+                <div><h4 class="mr-2">Product Name:</h4></div>
+                <div class="small-font-size secondary--text">
+                  {{ inViewProduct.product_name }}
+                </div>
+              </div>
+              <div class="d-flex">
+                <div><h4 class="mr-2">Customer Name:</h4></div>
+                <div class="small-font-size secondary--text">
+                  {{ orderDetails.customer.name }}
+                </div>
+              </div>
+              <div class="d-flex">
+                <div><h4 class="mr-2">Total Price:</h4></div>
+                <div class="small-font-size primary--text">
+                  &#8358;{{ orderDetails.total_price_label }}
+                </div>
+              </div>
+              <div class="d-flex">
+                <div><h4 class="mr-2">Delivery Location:</h4></div>
+                <div class="small-font-size secondary--text">
+                  {{ orderDetails.delivery_location.address }}
+                </div>
+              </div>
+              <div class="d-flex">
+                <div><h4 class="mr-2">Payment Status:</h4></div>
+                <div class="small-font-size primary--text">
+                  {{ orderDetails.is_paid ? "Paid" : "Not paid" }}
+                </div>
+              </div>
+              <div class="d-flex">
+                <div><h4 class="mr-2">Delivery Status:</h4></div>
+                <div class="small-font-size primary--text">
+                  {{ deliveryStatus }}
+                </div>
+              </div>
+              <!-- <h4 class="mt-4">Shipping and returns</h4>
+              <p class="secondary--text small-font-size mb-1">
+                Returns are {{inViewProduct.return_window == 0 ? 'not' : '' }} allowed for this product
+              </p> -->
+              <div class="d-flex">
+                <h4>Chat Seller:</h4>
+
+                <a
+                  :href="
+                    '//' +
+                    `api.whatsapp.com/send?text=''&phone=${sellerDetails.phone_number}`
+                  "
+                  target="_blank"
+                  style="text-decoration: none"
+                >
+                  <v-icon
+                    color="#64B161"
+                    class="ml-2 mr-2"
+                    style="cursor: pointer"
+                    >mdi-whatsapp</v-icon
+                  >
+                  {{ orderDetails.pickup_name }}
+                </a>
+              </div>
+            </div>
+          </div>
+          <div class="d-flex align-center justify-center"></div>
         </div>
       </div>
       <!-- page loader -->
@@ -228,15 +286,16 @@
 </template>
 <script>
 import failedImage from "@/assets/images/failed-img.svg";
-import StepProgress from "vue-step-progress";
 import Modal from "@/components/secondary/Modal.vue";
 import OtpInput from "@/components/secondary/verifyInput";
 import successImage from "@/assets/images/success-img.svg";
-// import the css (OPTIONAL - you can provide your own design)
-import "vue-step-progress/dist/main.css";
 export default {
   name: "OrderStatus",
-  components: { Modal, StepProgress, "v-otp-input": OtpInput },
+  components: {
+    Modal,
+    //  StepProgress,
+    "v-otp-input": OtpInput,
+  },
   data: function () {
     return {
       loading2: false,
@@ -244,7 +303,7 @@ export default {
       resendOTPLoader: false,
       showOTPTimer: true,
       timer: 60,
-      acceptTerms: false,
+      // acceptTerms: false,
       otpLoader: false,
       verifyOTP: false,
       otp: "",
@@ -257,27 +316,31 @@ export default {
       sellerDetails: {},
       orderDetails: {
         delivery_location: {},
-        customer: {},
-        created_at: "",
+        items: [],
+        customer: {}
       },
       pageLoader: false,
-      lineThickness: 1,
-      activeThickness: 3,
-      passiveThickness: 3,
-      mySteps: ["Step 1", "Step 2", "Step 3"],
+      // main
+      initialScrollViewDown: 0,
+      initialScrollViewUp: 0,
+      inViewProduct: { product: {}, variants: [] },
+      deliveryStatus: "",
+      activeImageIndex: 0,
+      activeCarousel: [],
     };
   },
   created() {
     this.pageLoader = true;
     const params = new URLSearchParams(window.location.search);
-    const orderId = params.get("OpenOrder_id");
+    const orderId = params.get("session_id");
     this.$store
       .dispatch("orders/getOpenSellingById", {
         id: orderId,
       })
       .then((response) => {
         this.orderDetails = response.data.data;
-        this.getSellerDetails(this.orderDetails.seller_id);
+        this.addImageToOtherImages(0);
+        this.pageLoader = false;
       })
       .catch((error) => {
         this.pageLoader = false;
@@ -295,6 +358,39 @@ export default {
       });
   },
   methods: {
+    setinViewProduct(index) {
+      this.inViewProduct = this.orderDetails.items[index];
+      this.activeImageIndex = index;
+      this.deliveryStatus =
+        this.orderDetails.items[index].delivery_status;
+    },
+    addImageToOtherImages() {
+      this.orderDetails.items.forEach((item, index) => {
+        let mainImage = item.product_image_url;
+        this.orderDetails.items[index].other_images.unshift(
+          mainImage
+        );
+        let uniqueImage = new Set(
+          this.orderDetails.items[index].other_images
+        );
+        uniqueImage = Array.from(uniqueImage);
+        this.orderDetails.items[index].other_images = uniqueImage;
+      });
+      this.setinViewProduct(0);
+    },
+    scrollDown() {
+      this.$refs.items_container.scrollBy(0, 150);
+    },
+    scrollUp() {
+      this.$refs.items_container.scrollBy(0, -150);
+    },
+    scrollRight() {
+      this.$refs.items_container__mobile.scrollBy(150, 0);
+    },
+    scrollLeft() {
+      this.$refs.items_container__mobile.scrollBy(-150, 0);
+    },
+
     // check if code changes
     handleOnChange(value) {
       this.otp = value;
@@ -344,33 +440,33 @@ export default {
           }
         });
     },
-    confirmOrder() {
-      this.loading2 = true;
-      this.$store
-        .dispatch("orders/sendConfirmOrderOTP", {
-          orderId: this.orderDetails.id,
-        })
-        .then(() => {
-          this.loading2 = false;
-          this.otp.length > 0 ? this.$refs.otpInput1.clearInput() : "";
-          this.dialog2 = true;
-          this.setOTPTimer();
-        })
-        .catch((error) => {
-          this.dialog = true;
-          this.loading2 = false;
-          this.statusImage = failedImage;
-          if (error.status == 422 || error.status == 400) {
-            this.dialogMessage = error.data.message;
-          } else if (error.status === 404) {
-            this.dialogMessage = "404 not found";
-          } else if (error.status === 500) {
-            this.dialogMessage = "Something went wrong, please try again";
-          } else if (!navigator.onLine) {
-            this.dialogMessage = "No internet connection!";
-          }
-        });
-    },
+    // confirmOrder() {
+    //   this.loading2 = true;
+    //   this.$store
+    //     .dispatch("orders/sendConfirmOrderOTP", {
+    //       orderId: this.orderDetails.id,
+    //     })
+    //     .then(() => {
+    //       this.loading2 = false;
+    //       this.otp.length > 0 ? this.$refs.otpInput1.clearInput() : "";
+    //       this.dialog2 = true;
+    //       this.setOTPTimer();
+    //     })
+    //     .catch((error) => {
+    //       this.dialog = true;
+    //       this.loading2 = false;
+    //       this.statusImage = failedImage;
+    //       if (error.status == 422 || error.status == 400) {
+    //         this.dialogMessage = error.data.message;
+    //       } else if (error.status === 404) {
+    //         this.dialogMessage = "404 not found";
+    //       } else if (error.status === 500) {
+    //         this.dialogMessage = "Something went wrong, please try again";
+    //       } else if (!navigator.onLine) {
+    //         this.dialogMessage = "No internet connection!";
+    //       }
+    //     });
+    // },
     // resend OTP
     resendOTP() {
       this.resendOTPLoader = true;
@@ -440,87 +536,209 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-.order-details-container {
-  background: #fafafa;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-  height: 100%;
-
-  .order-details {
-    background: #fff;
-    border-radius: 12px;
-    width: 600px;
-    margin: auto;
+.checkout-page__details {
+  padding: 30px 9%;
+  &__content {
+    display: flex;
+    flex-wrap: wrap;
+    padding-bottom: 150px;
+    &__image-view {
+      width: 50%;
+      padding-right: 25px;
+      position: sticky;
+      top: 110px;
+      height: 350px;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      &__multiple {
+        &--mobile {
+          display: none;
+        }
+        width: 23%;
+        overflow: auto;
+        position: relative;
+        overflow: initial;
+        height: 100%;
+        .items-container {
+          overflow: auto;
+          max-height: 100%;
+          scroll-behavior: smooth;
+          &::-webkit-scrollbar {
+            display: none;
+          }
+        }
+        &__item {
+          height: 100px;
+          width: 100%;
+          margin-bottom: 10px;
+          border: 1px solid rgba(43, 43, 43, 0.1);
+          cursor: pointer;
+          &.active {
+            border: 2px solid var(--v-primary-base);
+          }
+          img {
+            height: 100%;
+            width: 100%;
+          }
+        }
+        .scroll-btn {
+          width: 30px;
+          height: 30px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          color: var(--v-primary-base);
+          background: var(--v-white-base);
+          box-shadow: 0px 0.632653px 2.53061px rgba(0, 0, 0, 0.25);
+          border-radius: 50%;
+          z-index: 2;
+          position: absolute;
+          cursor: pointer;
+          left: 0;
+          right: 0;
+          margin: auto;
+        }
+        &__up-btn {
+          top: -15px;
+        }
+        &__down-btn {
+          bottom: -15px;
+        }
+      }
+      &__single {
+        width: 73%;
+        height: 100%;
+        img {
+          width: 100%;
+          height: 100%;
+        }
+      }
+    }
+    &__text-view {
+      width: 50%;
+      padding-left: 25px;
+    }
   }
-  .image-container {
-    width: 80%;
-    background: #fff;
-    margin: auto;
-    border-radius: 12px;
-    position: relative;
-    img {
-      width: 100%;
-      border-radius: 8px;
+  &__footer {
+    position: fixed;
+    padding: 15px 9%;
+    border-top: 1px solid rgba(43, 43, 43, 0.1);
+    bottom: 0;
+    width: 100%;
+    left: 0;
+    display: flex;
+    z-index: 2;
+    background: var(--v-white-base);
+    &__left {
+      width: 50%;
+      padding-right: 25px;
+    }
+    &__right {
+      width: 50%;
+      padding-left: 25px;
     }
   }
 }
-.status-img {
-  width: 140px;
-  .v-image {
-    width: 100%;
+.small-font-size {
+  font-size: 14px;
+}
+@media (max-width: 959px) {
+  .checkout-page__details {
+    padding: 20px 5%;
+    &__content {
+      &__image-view {
+        width: 100%;
+        position: relative;
+        height: auto;
+        top: auto;
+        padding-right: 0px;
+      }
+      &__text-view {
+        width: 100%;
+        margin-top: 30px;
+        padding-left: 0px;
+      }
+    }
+    &__footer {
+      padding: 15px 5%;
+      &__left {
+        width: 0%;
+        padding-right: 0px;
+      }
+      &__right {
+        width: 100%;
+        padding-left: 0px;
+      }
+    }
   }
 }
-div.step-progress__step span {
-  color: var(--passiveColor);
-  transition: 0.3s ease;
-  display: none !important;
-  font-size: 50px;
-  transform: translateZ(0) scale(1) perspective(1000px);
-  font-weight: 900;
-  text-align: center;
-  opacity: 1;
-}
-
-.step-progress__step-label {
-  position: absolute;
-  top: calc(100% + 25px);
-  left: 50%;
-  transform: translateX(-50%) perspective(1000px);
-  white-space: nowrap;
-  font-size: 10px;
-  font-weight: normal;
-  color: #979797 !important;
-  transition: 0.3s ease;
-  font-family: "Product Sans Regular";
-}
-
-.step-progress__step:after {
-  width: 13px;
-  height: 13px;
-}
-
-.step-progress__bar {
-  width: 100%;
-  display: flex;
-  height: 15px;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 40px;
-}
-
-.position-abs {
-  position: absolute !important;
-  color: #029b97;
-  font-size: 20px !important;
-  opacity: 0.5;
-}
-@media (max-width: 599px) {
-  .order-details-container {
-    padding: 0px 5%;
-    .order-details {
-      width: 100%;
+@media (max-width: 550px) {
+  .checkout-page__details {
+    &__content {
+      &__image-view {
+        &__multiple {
+          display: none;
+          &--mobile {
+            display: flex;
+            width: 100%;
+            height: 100px;
+            overflow: auto;
+            position: relative;
+            overflow: initial;
+            .items-container {
+              overflow: auto;
+              max-width: 100%;
+              scroll-behavior: smooth;
+              display: flex;
+              &::-webkit-scrollbar {
+                display: none;
+              }
+            }
+            &__item {
+              height: 100px;
+              min-width: 100px;
+              margin-right: 10px;
+              border: 1px solid rgba(43, 43, 43, 0.1);
+              cursor: pointer;
+              .active {
+                border: 2px solid var(--v-primary-base);
+              }
+              img {
+                height: 100%;
+                width: 100%;
+              }
+            }
+            .scroll-btn {
+              width: 30px;
+              height: 30px;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              color: var(--v-primary-base);
+              background: var(--v-white-base);
+              box-shadow: 0px 0.632653px 2.53061px rgba(0, 0, 0, 0.25);
+              border-radius: 50%;
+              z-index: 2;
+              position: absolute;
+              cursor: pointer;
+              top: 0;
+              bottom: 0;
+              margin: auto;
+            }
+            &__left-btn {
+              left: -15px;
+            }
+            &__right-btn {
+              right: -15px;
+            }
+          }
+        }
+        &__single {
+          width: 100%;
+          height: 350px;
+        }
+      }
     }
   }
 }
