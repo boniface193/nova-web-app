@@ -39,8 +39,12 @@
             >
           </div>
           <!-- description -->
-          <h4 style="font-weight:normal" class="mt-5 text-left">Change your delivery location 
-            <span class="primary--text">(Delivery locations are lagos, Abuja, Rivers, Oyo, ondo and kwara only)</span>
+          <h4 style="font-weight: normal" class="mt-5 text-left">
+            Change your delivery location
+            <span class="primary--text"
+              >(Delivery locations are lagos, Abuja, Rivers, Oyo, ondo and kwara
+              only)</span
+            >
           </h4>
           <v-form ref="addressForm">
             <!-- Address field -->
@@ -170,6 +174,7 @@
 <script>
 import failedImage from "@/assets/images/failed-img.svg";
 import Modal from "@/components/secondary/Modal.vue";
+import { searchKeyInObject, search } from "@/helpers/general.js";
 export default {
   name: "PaymentDetails",
   props: ["orderDetails"],
@@ -204,12 +209,14 @@ export default {
         OYO: "Oyo",
         KWARA: "Kwara",
         ONDO: "Ondo",
+        OGUN: "Ogun State",
       },
       autocomplete: "",
       addressRules: [
         //verifies phone number satisfies the requirement
         (v) => !!v || "Address is required",
-        () => this.validAddress || "please select a location that we deliver to",
+        () =>
+          this.validAddress || "please select a location that we deliver to",
       ],
     };
   },
@@ -270,6 +277,7 @@ export default {
               address: this.address,
               lat: this.lat,
               lng: this.lng,
+              state: this.stateKey
             },
           },
           order_id: orderId,
@@ -360,27 +368,16 @@ export default {
         this.validAddress = true;
         this.lat = place.geometry.location.lat();
         this.lng = place.geometry.location.lng();
-        this.state = this.search(
+        this.state = search(
           "administrative_area_level_1",
           place.address_components
         ).long_name;
-        this.checkLocation();
-      }
-    },
-    checkLocation() {
-      this.validAddress = false
-      for (let key in this.allowedLocation){
-        if(this.allowedLocation[key] === this.state){
-          this.validAddress = true;
-          this.stateKey = key;
-        }
-      }
-    },
-    search(nameKey, myArray) {
-      for (let i = 0; i < myArray.length; i++) {
-        if (myArray[i].types[0] === nameKey) {
-          return myArray[i];
-        }
+        let locationDetails = searchKeyInObject(
+          this.state,
+          this.allowedLocation
+        );
+        this.validAddress = locationDetails.status;
+        this.stateKey = locationDetails.key;
       }
     },
     routeToCheckoutDetails() {
