@@ -191,6 +191,32 @@ const actions = {
                 });
         });
     },
+    sendConfirmOpenOrderOTP(context, data) {
+        return new Promise((resolve, reject) => {
+            orderHttpClient
+                .post(`/open-order/${data.orderId}/confirm-delivery/send-otp`, data)
+                .then(response => {
+                    resolve(response);
+                })
+                .catch(error => {
+                    context.commit("doNothing");
+                    reject(error);
+                });
+        });
+    },
+    submitConfirmOpenOrderOTP(context, data) {
+        return new Promise((resolve, reject) => {
+            orderHttpClient
+                .post(`/open-order/${data.orderId}/confirm-delivery`, data)
+                .then(response => {
+                    resolve(response);
+                })
+                .catch(error => {
+                    context.commit("doNothing");
+                    reject(error);
+                });
+        });
+    },
     addProductToCart(context, data) {
         return new Promise((resolve, reject) => {
             orderHttpClient

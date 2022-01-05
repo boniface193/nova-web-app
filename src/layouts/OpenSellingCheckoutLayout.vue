@@ -84,7 +84,7 @@ export default {
   created() {
     this.pageLoader = true;
     const params = new URLSearchParams(window.location.search);
-    const orderId = params.get("OpenOrder_id");
+    const orderId = params.get("session_id");
     this.$store
       .dispatch("orders/getOpenSellingById", {
         id: orderId,
@@ -92,7 +92,7 @@ export default {
       .then((response) => {
         if (response.data.data.payment_status === "PAID") {
           this.$router.push({
-            path: `/openOrder-status?OpenOrder_id=${orderId}`,
+            path: `/openOrder-status?session_id=${orderId}`,
           });
         } else {
           this.orderDetails = response.data.data;
