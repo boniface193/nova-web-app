@@ -149,7 +149,7 @@
               <div class="d-flex">
                 <div><h4 class="mr-2">Delivery Status:</h4></div>
                 <div class="small-font-size primary--text">
-                  {{ deliveryStatus }}
+                  {{ orderDetails.delivery_status }}
                 </div>
               </div>
               <!-- <h4 class="mt-4">Shipping and returns</h4>
@@ -176,6 +176,10 @@
                   {{ orderDetails.pickup_name }}
                 </a>
               </div>
+              <p class="mb-0 mt-3">Please confirm you have successfully received your order</p>
+              <v-btn width="300" class="primary" :disabled="loading2 || (orderDetails.delivery_status !== 'delivered')"
+              :loading="loading2"
+               @click="confirmOrder()">Confirm order</v-btn>
             </div>
           </div>
           <div class="d-flex align-center justify-center"></div>
@@ -416,19 +420,22 @@ export default {
         }
       }, 1000);
     },
-    getSellerDetails(seller_id) {
+    confirmOrder() {
+      this.loading2 = true;
       this.$store
-        .dispatch("onboarding/getSellerDetails", {
-          id: seller_id,
+        .dispatch("orders/sendConfirmOpenOrderOTP", {
+          orderId: this.orderDetails.id,
         })
-        .then((response) => {
-          this.sellerDetails = response.data.data;
-          this.pageLoader = false;
+        .then(() => {
+          this.loading2 = false;
+          this.otp.length > 0 ? this.$refs.otpInput1.clearInput() : "";
+          this.dialog2 = true;
+          this.setOTPTimer();
         })
         .catch((error) => {
-          this.pageLoader = false;
-          this.statusImage = failedImage;
           this.dialog = true;
+          this.loading2 = false;
+          this.statusImage = failedImage;
           if (error.status == 422 || error.status == 400) {
             this.dialogMessage = error.data.message;
           } else if (error.status === 404) {
@@ -440,38 +447,11 @@ export default {
           }
         });
     },
-    // confirmOrder() {
-    //   this.loading2 = true;
-    //   this.$store
-    //     .dispatch("orders/sendConfirmOrderOTP", {
-    //       orderId: this.orderDetails.id,
-    //     })
-    //     .then(() => {
-    //       this.loading2 = false;
-    //       this.otp.length > 0 ? this.$refs.otpInput1.clearInput() : "";
-    //       this.dialog2 = true;
-    //       this.setOTPTimer();
-    //     })
-    //     .catch((error) => {
-    //       this.dialog = true;
-    //       this.loading2 = false;
-    //       this.statusImage = failedImage;
-    //       if (error.status == 422 || error.status == 400) {
-    //         this.dialogMessage = error.data.message;
-    //       } else if (error.status === 404) {
-    //         this.dialogMessage = "404 not found";
-    //       } else if (error.status === 500) {
-    //         this.dialogMessage = "Something went wrong, please try again";
-    //       } else if (!navigator.onLine) {
-    //         this.dialogMessage = "No internet connection!";
-    //       }
-    //     });
-    // },
     // resend OTP
     resendOTP() {
       this.resendOTPLoader = true;
       this.$store
-        .dispatch("orders/sendConfirmOrderOTP", {
+        .dispatch("orders/sendConfirmOpenOrderOTP", {
           orderId: this.orderDetails.id,
         })
         .then(() => {
@@ -500,7 +480,7 @@ export default {
       if (this.verifyOTP) {
         this.otpLoader = true;
         this.$store
-          .dispatch("orders/submitConfirmOrderOTP", {
+          .dispatch("orders/submitConfirmOpenOrderOTP", {
             otp: this.otp,
             orderId: this.orderDetails.id,
           })

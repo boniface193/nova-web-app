@@ -4,7 +4,7 @@
       <div v-show="!pageLoader">
         <h3 class="text-center">Order status</h3>
         <p class="mb-8">
-          {{this.orderDetails.cart_items.length }}
+          {{ this.orderDetails.cart_items.length }}
           {{ this.orderDetails.cart_items.length > 1 ? "items" : "item" }}
         </p>
         <div>
@@ -176,9 +176,21 @@
                   {{ orderDetails.seller_name }}
                 </a>
               </div>
+              <p class="mb-0 mt-3">
+                Please confirm you have successfully received your order
+              </p>
+              <v-btn
+                width="300"
+                class="primary"
+                :disabled="
+                  loading2 || orderDetails.delivery_status !== 'delivered'
+                "
+                :loading="loading2"
+                @click="confirmOrder()"
+                >Confirm order</v-btn
+              >
             </div>
           </div>
-          <div class="d-flex align-center justify-center"></div>
         </div>
       </div>
       <!-- page loader -->
@@ -316,7 +328,7 @@ export default {
       sellerDetails: {},
       orderDetails: {
         delivery_location: {},
-        cart_items: []
+        cart_items: [],
       },
       pageLoader: false,
       // main
@@ -361,7 +373,7 @@ export default {
       this.inViewProduct = this.orderDetails.cart_items[index];
       this.activeImageIndex = index;
       this.deliveryStatus =
-        this.orderDetails.order.items[index].delivery_status;
+        this.orderDetails.cart_items[index].delivery_status;
     },
     addImageToOtherImages() {
       this.orderDetails.cart_items.forEach((item, index) => {
@@ -439,33 +451,33 @@ export default {
           }
         });
     },
-    // confirmOrder() {
-    //   this.loading2 = true;
-    //   this.$store
-    //     .dispatch("orders/sendConfirmOrderOTP", {
-    //       orderId: this.orderDetails.id,
-    //     })
-    //     .then(() => {
-    //       this.loading2 = false;
-    //       this.otp.length > 0 ? this.$refs.otpInput1.clearInput() : "";
-    //       this.dialog2 = true;
-    //       this.setOTPTimer();
-    //     })
-    //     .catch((error) => {
-    //       this.dialog = true;
-    //       this.loading2 = false;
-    //       this.statusImage = failedImage;
-    //       if (error.status == 422 || error.status == 400) {
-    //         this.dialogMessage = error.data.message;
-    //       } else if (error.status === 404) {
-    //         this.dialogMessage = "404 not found";
-    //       } else if (error.status === 500) {
-    //         this.dialogMessage = "Something went wrong, please try again";
-    //       } else if (!navigator.onLine) {
-    //         this.dialogMessage = "No internet connection!";
-    //       }
-    //     });
-    // },
+    confirmOrder() {
+      this.loading2 = true;
+      this.$store
+        .dispatch("orders/sendConfirmOrderOTP", {
+          orderId: this.orderDetails.id,
+        })
+        .then(() => {
+          this.loading2 = false;
+          this.otp.length > 0 ? this.$refs.otpInput1.clearInput() : "";
+          this.dialog2 = true;
+          this.setOTPTimer();
+        })
+        .catch((error) => {
+          this.dialog = true;
+          this.loading2 = false;
+          this.statusImage = failedImage;
+          if (error.status == 422 || error.status == 400) {
+            this.dialogMessage = error.data.message;
+          } else if (error.status === 404) {
+            this.dialogMessage = "404 not found";
+          } else if (error.status === 500) {
+            this.dialogMessage = "Something went wrong, please try again";
+          } else if (!navigator.onLine) {
+            this.dialogMessage = "No internet connection!";
+          }
+        });
+    },
     // resend OTP
     resendOTP() {
       this.resendOTPLoader = true;

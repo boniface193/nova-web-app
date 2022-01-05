@@ -30,7 +30,7 @@ export default {
       const params = new URLSearchParams(window.location.search);
       const orderId = params.get("order_id");
       this.$router.push({
-        path: `/open-selling-checkout-details?order_id=${orderId}`,
+        path: `/open-selling-checkout-details?session_id=${orderId}`,
       });
     },
   },

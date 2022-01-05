@@ -182,7 +182,7 @@ export default {
   methods: {
     gotoDeliveryPage() {
       this.$router.push({
-        path: `/open-selling-payment-details?OpenOrder_id=${this.orderDetails.id}`,
+        path: `/open-selling-payment-details?session_id=${this.orderDetails.id}`,
       });
     },
     setinViewProduct(index) {
