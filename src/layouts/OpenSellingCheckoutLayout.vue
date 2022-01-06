@@ -92,7 +92,7 @@ export default {
       .then((response) => {
         if (response.data.data.payment_status === "PAID") {
           this.$router.push({
-            path: `/openOrder-status?session_id=${orderId}`,
+            path: `/open-order-status?session_id=${orderId}`,
           });
         } else {
           this.orderDetails = response.data.data;
