@@ -143,7 +143,7 @@
               <div class="d-flex">
                 <div><h4 class="mr-2">Payment Status:</h4></div>
                 <div class="small-font-size primary--text">
-                  {{ orderDetails.is_paid ? "Paid" : "Not paid" }}
+                  {{ orderDetails.payment_status }}
                 </div>
               </div>
               <div class="d-flex">

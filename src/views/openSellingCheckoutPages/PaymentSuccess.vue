@@ -30,7 +30,7 @@ export default {
   methods: {
     viewOrderStatus() {
       const params = new URLSearchParams(window.location.search);
-      const orderId = params.get("OpenOrder_id");
+      const orderId = params.get("session_id");
       this.$router.push({
         path: `/open-order-status?session_id=${orderId}`,
       });
