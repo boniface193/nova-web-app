@@ -189,11 +189,11 @@ export default {
       allowedLocation: {
         LAGOS: "Lagos",
         ABUJA: "Federal Capital Territory",
-        RIVERS: "Rivers",
-        OYO: "Oyo",
-        KWARA: "Kwara",
-        OGUN: "Ogun State",
-        ONDO: "Ondo",
+        //RIVERS: "Rivers",
+        //OYO: "Oyo",
+        //KWARA: "Kwara",
+        //OGUN: "Ogun State",
+        //ONDO: "Ondo",
       },
       deliveryState: null,
       deliveryAddressAutocomplete: "",
@@ -254,7 +254,7 @@ export default {
     payForItem() {
       this.processingLoader = true;
       const params = new URLSearchParams(window.location.search);
-      const orderId = params.get("OpenOrder_id");
+      const orderId = params.get("session_id");
       this.$store
         .dispatch("orders/payForOpenSellingOrder", {
           id: orderId,
