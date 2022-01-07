@@ -35,6 +35,16 @@
           </div>
 
           <div v-show="currentForm === index">
+            <div class="d-flex justify-end" v-if="items.length > 1">
+              <!-- delete icon -->
+              <img
+                class="ml-2"
+                @click="deleteForm(index)"
+                style="cursor: pointer"
+                src="@/assets/icons/trash.svg"
+                alt="remove"
+              />
+            </div>
             <!-- product name -->
             <div>
               <label class="mb-1 d-block">Enter product name</label>
@@ -173,7 +183,7 @@ export default {
           total_items: "",
           product_image_url: null,
           other_images: [],
-          imageError: false
+          imageError: false,
         },
       ],
       currentForm: 0,
@@ -191,7 +201,7 @@ export default {
         total_items: "",
         product_image_url: null,
         other_images: [],
-        imageError: false
+        imageError: false,
       });
       this.currentForm = this.items.length - 1;
     },

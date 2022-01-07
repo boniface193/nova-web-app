@@ -183,7 +183,7 @@
                 width="300"
                 class="primary"
                 :disabled="
-                  loading2 || orderDetails.delivery_status !== 'delivered'
+                  loading2 || orderDetails.order.delivery_status !== 'delivered'
                 "
                 :loading="loading2"
                 @click="confirmOrder()"
