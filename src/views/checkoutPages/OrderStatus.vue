@@ -465,7 +465,7 @@ export default {
       this.loading2 = true;
       this.$store
         .dispatch("orders/sendConfirmOrderOTP", {
-          orderId: this.orderDetails.id,
+          orderId: this.orderDetails.order.id,
         })
         .then(() => {
           this.loading2 = false;
@@ -493,7 +493,7 @@ export default {
       this.resendOTPLoader = true;
       this.$store
         .dispatch("orders/sendConfirmOrderOTP", {
-          orderId: this.orderDetails.id,
+          orderId: this.orderDetails.order.id,
         })
         .then(() => {
           this.resendOtpSuccess = true;
@@ -523,7 +523,7 @@ export default {
         this.$store
           .dispatch("orders/submitConfirmOrderOTP", {
             otp: this.otp,
-            orderId: this.orderDetails.id,
+            orderId: this.orderDetails.order.id,
           })
           .then((response) => {
             this.otpLoader = false;
