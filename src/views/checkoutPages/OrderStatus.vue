@@ -176,7 +176,7 @@
                   {{ orderDetails.seller_name }}
                 </a>
               </div>
-              <div v-if="!orderDetails.delivery_confirmed" class="mt-3">
+              <div v-if="!orderDetails.order.delivery_confirmed" class="mt-3">
                 <p class="mb-0 mt-3">
                   Please confirm you have successfully received your order
                 </p>
@@ -529,7 +529,7 @@ export default {
             this.otpLoader = false;
             this.statusImage = successImage;
             this.dialogMessage = "Order successfully confirmed";
-            this.orderDetails = response.data.data;
+            this.orderDetails.order.delivery_confirmed = response.data.data.delivery_confirmed;
             this.dialog2 = false;
             this.dialog = true;
           })
