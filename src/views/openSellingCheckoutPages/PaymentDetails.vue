@@ -299,7 +299,7 @@ export default {
     },
     closedPaymentModal() {
       const params = new URLSearchParams(window.location.search);
-      const orderId = params.get("OpenOrder_id");
+      const orderId = params.get("session_id");
       this.$router.push({
         path: `/open-selling-checkout-details?session_id=${orderId}`,
       });
