@@ -356,6 +356,7 @@ export default {
       this.$router.push({
         path: `/payment-details?session_id=${orderId}`,
       });
+      window.location.reload();
     },
     onPlaceChanged() {
       let place = this.autocomplete.getPlace();

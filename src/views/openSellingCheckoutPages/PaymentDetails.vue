@@ -282,9 +282,6 @@ export default {
     payViaService() {
       this.payWithFlutterwave(this.paymentOption);
     },
-    makePaymentCallback(response) {
-      this.verifyPayment(response);
-    },
     confirmPaymentStatus(response) {
       if (response.status == "successful") {
         this.$router.push({
@@ -303,6 +300,7 @@ export default {
       this.$router.push({
         path: `/open-selling-checkout-details?session_id=${orderId}`,
       });
+      window.location.reload();
     },
     openEditAddressModal() {
       this.editAddressDialog = true;
