@@ -66,8 +66,7 @@
           <label class="mb-1">
             Delivery Address*
             <span class="primary--text"
-              >(Delivery locations are Lagos, Abuja, Rivers, Oyo, Ondo, Ogun and
-              Kwara only)</span
+              >(Delivery locations are Lagos and Abuja only)</span
             >
           </label>
           <v-text-field
@@ -135,8 +134,7 @@
           <label class="mb-1">
             Pickup Address
             <span class="primary--text"
-              >(Pick up locations are Lagos, Abuja, Rivers, Oyo, Ondo, Ogun and
-              kwara only)</span
+              >(Pick up locations are Lagos and Abuja only</span
             >
           </label>
           <v-text-field

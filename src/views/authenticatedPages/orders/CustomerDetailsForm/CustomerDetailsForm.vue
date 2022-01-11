@@ -74,8 +74,7 @@
         <p class="mb-1">
           Address*
           <span class="primary--text"
-            >(Delivery location are Lagos, Abuja, Rivers, Oyo, Kwara, Ogun and
-            Ondo only)</span
+            >(Delivery location are Lagos and Abuja only)</span
           >
         </p>
         <v-text-field
