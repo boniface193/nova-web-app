@@ -37,6 +37,8 @@ import ReferralEarnings from "@/views/authenticatedPages/dashboard/Referral/Refe
 import ViewReferrals from "@/views/authenticatedPages/dashboard/Referral/ViewReferrals.vue";
 import ReferFriends from "@/views/authenticatedPages/dashboard/Referral/ReferFriends.vue";
 import { ifAuthenticated, allowEditBankAccount } from "./controller.js";
+// your store
+import SetupPage from "@/views/authenticatedPages/yourStore/setup/Setup.vue"
 //open selling 
 import OpenSellingPage from "@/views/authenticatedPages/openSelling/OpenSellingPage.vue";
 
@@ -214,6 +216,14 @@ export const authenticatedRoutes = {
                     name: "OpenSellingPage",
                     component: OpenSellingPage
                 }
+            ]
+        },
+        //your store
+        {
+            path: "/yourStore",
+            component: SetupPage,
+            children: [
+
             ]
         },
     ]

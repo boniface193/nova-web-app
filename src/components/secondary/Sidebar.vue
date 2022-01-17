@@ -122,6 +122,12 @@ export default {
         routes: "/dashboard",
       },
       {
+        title: "Your Store",
+        icon: "mdi-storefront-outline",
+        icons: true,
+        routes: "/yourStore",
+      },
+      {
         title: "Orders",
         icon: "mdi-shopping",
         icons: true,

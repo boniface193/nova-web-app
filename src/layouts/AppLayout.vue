@@ -14,7 +14,7 @@
             this.$route.path == '/dashboard' ||
             this.$route.name == 'InventoryHome' ||
             this.$route.name == 'ProfilePage' ||
-            this.$route.path == '/orders'
+            this.$route.path == '/orders' || this.$route.path == '/yourStore'
           "
         >
           <div class="d-flex align-center">
