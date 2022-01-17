@@ -11,9 +11,8 @@
       <div class="justify-center d-flex" style="margin-top: 40px">
         <v-btn
           color="primary"
-          style="border-radius: 4px"
           dark
-          class="elevation-0"
+          class="elevation-0 setup-page-page__radius"
           width="200px"
           height="48px"
           @click="openDialog"
@@ -29,17 +28,41 @@
               >mdi-close</v-icon
             >
           </v-card-title>
-          <v-divider></v-divider>
+          <v-divider class="mb-3"></v-divider>
           <div class="container">
             <v-form ref="form" v-model="valid" lazy-validation class="px-3">
-              <label for="" class="mb-6">Store Name</label>
-              <v-text-field
-                outlined
-                v-model="name"
-                :rules="nameRules"
-                dense
-                required
-              ></v-text-field>
+              <div>
+                <label for="">Store Name</label>
+                <v-text-field
+                  outlined
+                  v-model="storeName"
+                  :rules="nameRules"
+                  dense
+                  required
+                  class="mt-2"
+                ></v-text-field>
+              </div>
+              <div>
+                <label for="">User Name</label>
+                <v-text-field
+                  outlined
+                  v-model="username"
+                  :rules="nameRules"
+                  dense
+                  required
+                  class="mt-2"
+                ></v-text-field>
+              </div>
+              <div>
+                <label for="">Store Discription</label>
+                <v-textarea outlined v-model="storeDiscrip" class="mt-2" height="119px">
+
+                </v-textarea>
+              </div>
+              <div class="mb-5 d-flex justify-end">
+                <v-btn outlined @click="dialog = false" color="primary" width="133px" height="38px" class="elevation-0 setup-page-page__radius setup-page-page__radius_font">Cancel</v-btn>
+                <v-btn color="primary" width="133px" height="38px" class="ml-2 elevation-0 setup-page-page__radius setup-page-page__radius_font">Complete Setup</v-btn>
+              </div>
             </v-form>
           </div>
         </v-card>

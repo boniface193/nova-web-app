@@ -32,4 +32,12 @@
     padding-top: 131px;
   }
   }
+
+  &__radius {
+    border-radius: 4px !important
+  }
+  &__radius_font {
+font-size: 12px !important;
+line-height: 18px;
+  }
 }
