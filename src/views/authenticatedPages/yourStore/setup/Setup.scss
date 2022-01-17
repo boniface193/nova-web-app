@@ -1,0 +1,35 @@
+.setup-page-page {
+  &__header {
+    width: 509px;
+    align-content: center;
+    text-align: center;
+    padding-top: 240px;
+  }
+  &__text-heading{
+    font-style: normal;
+    font-size: 20px;
+    line-height: 28px;
+    color: rgba(43, 43, 43, 0.8);
+  }
+  &__text-subheading {
+    font-style: normal;
+    font-weight: normal;
+    font-size: 16px;
+    line-height: 28px;
+    color: rgba(43, 43, 43, 0.8);
+  }
+
+  &__modalTitle{ 
+      font-weight: bold;
+        font-size: 16px;
+  }
+
+  @media(max-width: 1000px) {
+      &__header {
+    width: 509px;
+    align-content: center;
+    text-align: center;
+    padding-top: 131px;
+  }
+  }
+}
