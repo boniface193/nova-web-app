@@ -1,9 +1,9 @@
 <template>
   <div class="justify-center d-flex">
     <div class="setup-page-page__header">
-      <h3 class="setup-page-page__text-heading font-weight-bold">
+      <h4 class="setup-page-page__text-heading">
         You have not setup your store yet!
-      </h3>
+      </h4>
       <p class="setup-page-page__text-subheading mt-1">
         By setting up your personal store, customer’s would be able to buy
         products easily and faster.
@@ -32,7 +32,7 @@
           <div class="container">
             <v-form ref="form" v-model="valid" lazy-validation class="px-3">
               <div>
-                <label for="">Store Name</label>
+                <label for="" class="font-weight-medium">Store Name</label>
                 <v-text-field
                   outlined
                   v-model="storeName"
@@ -43,7 +43,7 @@
                 ></v-text-field>
               </div>
               <div>
-                <label for="">User Name</label>
+                <label for="" class="font-weight-medium">User Name</label>
                 <v-text-field
                   outlined
                   v-model="username"
@@ -54,7 +54,7 @@
                 ></v-text-field>
               </div>
               <div>
-                <label for="">Store Discription</label>
+                <label for="" class="font-weight-medium">Store Discription</label>
                 <v-textarea outlined v-model="storeDiscrip" class="mt-2" height="119px">
 
                 </v-textarea>
