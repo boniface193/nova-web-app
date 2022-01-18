@@ -16,7 +16,9 @@ import OpenSellingPaymentSuccess from "@/views/openSellingCheckoutPages/PaymentS
 import OpenSellingPaymentFailed from "@/views/openSellingCheckoutPages/PaymentFailed.vue";
 import OpenOrderStatus from "@/views/openSellingCheckoutPages/OrderStatus.vue";
 // store catalog
-import StoreCatalog from "@/views/buyersPage/publicCatalogPage/Catalog.vue"
+import StoreCatalog from "@/views/buyersPage/publicCatalogPage/Catalog.vue";
+import productDatail from "@/views/buyersPage/productPage/productDetail/ProductDetail.vue";
+
 import { allowPayment, allowOpenSellingPayment } from "./controller.js";
 
 export const unAuthenticatedRoutes = {
@@ -97,7 +99,12 @@ export const unAuthenticatedRoutes = {
           path: "",
           name: "storeCatalog",
           component: StoreCatalog
-        }
+        },
+        {
+          path: ":id",
+          name: "productDetail",
+          component: productDatail
+        },
       ]
     }
   ]

@@ -56,7 +56,7 @@
 </template>
 
 <script>
-import ProductCard from "../productPage/ProductCard.vue";
+import ProductCard from "../productPage/productCard/ProductCard.vue";
 export default {
   components: {
     ProductCard,
