@@ -4,6 +4,7 @@ import InventoryLayout from "@/layouts/InventoryLayout.vue";
 import OrderLayout from "@/layouts/OrderLayout.vue";
 import SettingsLayout from "@/layouts/SettingsLayout.vue";
 import OpenSellingLayout from "@/layouts/OpenSellingLayout.vue";
+import StoreLayout from "@/layouts/StoreLayout.vue"
 // inventory pages
 import InventoryHome from "@/views/authenticatedPages/inventory/InventoryHome/InventoryHome.vue";
 import FMCGInventory from "@/views/authenticatedPages/inventory/FMCGInventory/FMCGInventory.vue";
@@ -220,10 +221,14 @@ export const authenticatedRoutes = {
         },
         //your store
         {
-            path: "/yourStore",
-            component: SetupPage,
+            path: "/your-store",
+            component: StoreLayout,
             children: [
-
+                {
+                    path: "",
+                    name: "store",
+                    component: SetupPage,
+                }
             ]
         },
     ]
