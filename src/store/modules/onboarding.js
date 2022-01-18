@@ -179,8 +179,9 @@ const actions = {
     },
     // get seller details
     getSellerDetails(context, data){
+        let urlPath = (data.userType === "vendor") ? `/vendors/${data.id}`: `/sellers/${data.id}`
         return new Promise((resolve, reject) => {
-            onboardingHttpClient.get(`/sellers/${data.id}`).then(response => {
+            onboardingHttpClient.get(urlPath).then(response => {
                 resolve(response);
             })
                 .catch(error => {
