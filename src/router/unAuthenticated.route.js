@@ -2,6 +2,7 @@
 import UnAuthenticatedLayout from "@/layouts/UnAuthenticatedLayout.vue";
 import CheckoutLayout from "@/layouts/CheckoutLayout.vue";
 import OpenSellingCheckoutLayout from "@/layouts/OpenSellingCheckoutLayout.vue";
+import CatalogLayout from "@/layouts/CatalogLayout.vue"
 // inventory checkout routes
 import PaymentDetails from "@/views/checkoutPages/PaymentDetails.vue";
 import CheckoutDetails from "@/views/checkoutPages/CheckoutDetails.vue";
@@ -14,6 +15,8 @@ import OpenSellingCheckoutDetails from "@/views/openSellingCheckoutPages/Checkou
 import OpenSellingPaymentSuccess from "@/views/openSellingCheckoutPages/PaymentSuccess.vue";
 import OpenSellingPaymentFailed from "@/views/openSellingCheckoutPages/PaymentFailed.vue";
 import OpenOrderStatus from "@/views/openSellingCheckoutPages/OrderStatus.vue";
+// store catalog
+import StoreCatalog from "@/views/buyersPage/publicCatalogPage/Catalog.vue"
 import { allowPayment, allowOpenSellingPayment } from "./controller.js";
 
 export const unAuthenticatedRoutes = {
@@ -86,5 +89,16 @@ export const unAuthenticatedRoutes = {
       name: "OpenOrderStatus",
       component: OpenOrderStatus
     },
+    {
+      path: "/store-catalog",
+      component: CatalogLayout,
+      children: [
+        {
+          path: "",
+          name: "storeCatalog",
+          component: StoreCatalog
+        }
+      ]
+    }
   ]
 }

@@ -125,7 +125,7 @@ export default {
         title: "Your Store",
         icon: "mdi-storefront-outline",
         icons: true,
-        routes: "/yourStore",
+        routes: "/your-store",
       },
       {
         title: "Orders",
