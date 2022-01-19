@@ -205,11 +205,11 @@ export default {
       allowedLocation: {
         LAGOS: "Lagos",
         ABUJA: "Federal Capital Territory",
-        RIVERS: "Rivers",
-        OYO: "Oyo",
-        KWARA: "Kwara",
-        ONDO: "Ondo",
-        OGUN: "Ogun State",
+        //RIVERS: "Rivers",
+        //OYO: "Oyo",
+        //KWARA: "Kwara",
+        //ONDO: "Ondo",
+        //OGUN: "Ogun State",
       },
       autocomplete: "",
       addressRules: [
@@ -356,6 +356,7 @@ export default {
       this.$router.push({
         path: `/payment-details?session_id=${orderId}`,
       });
+      window.location.reload();
     },
     onPlaceChanged() {
       let place = this.autocomplete.getPlace();

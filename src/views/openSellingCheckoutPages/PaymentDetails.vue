@@ -189,11 +189,11 @@ export default {
       allowedLocation: {
         LAGOS: "Lagos",
         ABUJA: "Federal Capital Territory",
-        RIVERS: "Rivers",
-        OYO: "Oyo",
-        KWARA: "Kwara",
-        OGUN: "Ogun State",
-        ONDO: "Ondo",
+        //RIVERS: "Rivers",
+        //OYO: "Oyo",
+        //KWARA: "Kwara",
+        //OGUN: "Ogun State",
+        //ONDO: "Ondo",
       },
       deliveryState: null,
       deliveryAddressAutocomplete: "",
@@ -254,7 +254,7 @@ export default {
     payForItem() {
       this.processingLoader = true;
       const params = new URLSearchParams(window.location.search);
-      const orderId = params.get("OpenOrder_id");
+      const orderId = params.get("session_id");
       this.$store
         .dispatch("orders/payForOpenSellingOrder", {
           id: orderId,
@@ -282,27 +282,25 @@ export default {
     payViaService() {
       this.payWithFlutterwave(this.paymentOption);
     },
-    makePaymentCallback(response) {
-      this.verifyPayment(response);
-    },
     confirmPaymentStatus(response) {
       if (response.status == "successful") {
         this.$router.push({
-          path: `/open-selling-payment-success?OpenOrder_id=${this.pageDetails.orderDetails.id}`,
+          path: `/open-selling-payment-success?session_id=${this.pageDetails.orderDetails.id}`,
         });
         location.reload();
       } else {
         this.$router.push({
-          path: `/open-selling-payment-failed?OpenOrder_id=${this.paymentDetails.orderDetails.id}`,
+          path: `/open-selling-payment-failed?session_id=${this.paymentDetails.orderDetails.id}`,
         });
       }
     },
     closedPaymentModal() {
       const params = new URLSearchParams(window.location.search);
-      const orderId = params.get("OpenOrder_id");
+      const orderId = params.get("session_id");
       this.$router.push({
-        path: `/open-selling-checkout-details?OpenOrder_id=${orderId}`,
+        path: `/open-selling-checkout-details?session_id=${orderId}`,
       });
+      window.location.reload();
     },
     openEditAddressModal() {
       this.editAddressDialog = true;
@@ -344,7 +342,7 @@ export default {
 
     changeOrderAddressOrDeliveryMethod() {
       const params = new URLSearchParams(window.location.search);
-      const orderId = params.get("OpenOrder_id");
+      const orderId = params.get("session_id");
       this.$store
         .dispatch("orders/updateDeliveryLoationAndMethod", {
           customer: {

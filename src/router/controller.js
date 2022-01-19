@@ -119,12 +119,12 @@ export const allowPayment = (to, from, next) => {
 // check conditon before allowing user to route to open selling payment page 
 export const allowOpenSellingPayment = (to, from, next) => {
     const params = new URLSearchParams(window.location.search);
-    const openOrderId = params.get("OpenOrder_id");
+    const openOrderId = params.get("session_id");
     if (from.name === "OpenSellingCheckoutDetails") {
         next();
         return
     } else {
-        next({ path: `/open-selling-checkout-details?OpenOrder_id=${openOrderId}` })
+        next({ path: `/open-selling-checkout-details?session_id=${openOrderId}` })
     }
 }
 

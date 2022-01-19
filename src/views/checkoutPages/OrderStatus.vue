@@ -143,7 +143,7 @@
               <div class="d-flex">
                 <div><h4 class="mr-2">Delivery Status:</h4></div>
                 <div class="small-font-size primary--text">
-                  {{ deliveryStatus }}
+                  {{ orderDetails.order.delivery_status_label }}
                 </div>
               </div>
               <div class="d-flex">
@@ -176,19 +176,29 @@
                   {{ orderDetails.seller_name }}
                 </a>
               </div>
-              <p class="mb-0 mt-3">
-                Please confirm you have successfully received your order
-              </p>
-              <v-btn
-                width="300"
-                class="primary"
-                :disabled="
-                  loading2 || orderDetails.delivery_status !== 'delivered'
-                "
-                :loading="loading2"
-                @click="confirmOrder()"
-                >Confirm order</v-btn
+              <div v-if="!orderDetails.order.delivery_confirmed" class="mt-3">
+                <p class="mb-0 mt-3">
+                  Please confirm you have successfully received your order
+                </p>
+                <v-btn
+                  width="300"
+                  class="primary"
+                  :disabled="
+                    loading2 ||
+                    orderDetails.order.delivery_status_label !== 'Delivered'
+                  "
+                  :loading="loading2"
+                  @click="confirmOrder()"
+                  >Confirm order</v-btn
+                >
+              </div>
+              <div
+                v-else
+                class="text-center primary px-3 py-1 white--text mt-3"
+                style="width: 200px; border-radius: 5px"
               >
+                Order confirmed
+              </div>
             </div>
           </div>
         </div>
@@ -329,6 +339,7 @@ export default {
       orderDetails: {
         delivery_location: {},
         cart_items: [],
+        order: {},
       },
       pageLoader: false,
       // main
@@ -372,8 +383,7 @@ export default {
     setinViewProduct(index) {
       this.inViewProduct = this.orderDetails.cart_items[index];
       this.activeImageIndex = index;
-      this.deliveryStatus =
-        this.orderDetails.cart_items[index].delivery_status;
+      this.deliveryStatus = this.orderDetails.cart_items[index].delivery_status;
     },
     addImageToOtherImages() {
       this.orderDetails.cart_items.forEach((item, index) => {
@@ -455,7 +465,7 @@ export default {
       this.loading2 = true;
       this.$store
         .dispatch("orders/sendConfirmOrderOTP", {
-          orderId: this.orderDetails.id,
+          orderId: this.orderDetails.order.id,
         })
         .then(() => {
           this.loading2 = false;
@@ -483,7 +493,7 @@ export default {
       this.resendOTPLoader = true;
       this.$store
         .dispatch("orders/sendConfirmOrderOTP", {
-          orderId: this.orderDetails.id,
+          orderId: this.orderDetails.order.id,
         })
         .then(() => {
           this.resendOtpSuccess = true;
@@ -513,13 +523,13 @@ export default {
         this.$store
           .dispatch("orders/submitConfirmOrderOTP", {
             otp: this.otp,
-            orderId: this.orderDetails.id,
+            orderId: this.orderDetails.order.id,
           })
           .then((response) => {
             this.otpLoader = false;
             this.statusImage = successImage;
             this.dialogMessage = "Order successfully confirmed";
-            this.orderDetails = response.data.data;
+            this.orderDetails.order.delivery_confirmed = response.data.data.delivery_confirmed;
             this.dialog2 = false;
             this.dialog = true;
           })

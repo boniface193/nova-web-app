@@ -143,7 +143,7 @@
               <div class="d-flex">
                 <div><h4 class="mr-2">Payment Status:</h4></div>
                 <div class="small-font-size primary--text">
-                  {{ orderDetails.is_paid ? "Paid" : "Not paid" }}
+                  {{ orderDetails.payment_status }}
                 </div>
               </div>
               <div class="d-flex">
@@ -176,10 +176,30 @@
                   {{ orderDetails.pickup_name }}
                 </a>
               </div>
-              <p class="mb-0 mt-3">Please confirm you have successfully received your order</p>
-              <v-btn width="300" class="primary" :disabled="loading2 || (orderDetails.delivery_status !== 'delivered')"
-              :loading="loading2"
-               @click="confirmOrder()">Confirm order</v-btn>
+              <div v-if="!orderDetails.delivery_confirmed" class="mt-3">
+                <p class="mb-0">
+                  Please confirm you have successfully received your order
+                </p>
+
+                <v-btn
+                  width="300"
+                  class="primary"
+                  :disabled="
+                    loading2 ||
+                    orderDetails.delivery_status_label !== 'Delivered'
+                  "
+                  :loading="loading2"
+                  @click="confirmOrder()"
+                  >Confirm order</v-btn
+                >
+              </div>
+              <div
+                v-else
+                class="text-center primary px-3 py-1 white--text mt-3"
+                style="width: 200px; border-radius: 5px"
+              >
+                Order confirmed
+              </div>
             </div>
           </div>
           <div class="d-flex align-center justify-center"></div>
@@ -321,7 +341,7 @@ export default {
       orderDetails: {
         delivery_location: {},
         items: [],
-        customer: {}
+        customer: {},
       },
       pageLoader: false,
       // main
@@ -365,18 +385,13 @@ export default {
     setinViewProduct(index) {
       this.inViewProduct = this.orderDetails.items[index];
       this.activeImageIndex = index;
-      this.deliveryStatus =
-        this.orderDetails.items[index].delivery_status;
+      this.deliveryStatus = this.orderDetails.items[index].delivery_status;
     },
     addImageToOtherImages() {
       this.orderDetails.items.forEach((item, index) => {
         let mainImage = item.product_image_url;
-        this.orderDetails.items[index].other_images.unshift(
-          mainImage
-        );
-        let uniqueImage = new Set(
-          this.orderDetails.items[index].other_images
-        );
+        this.orderDetails.items[index].other_images.unshift(mainImage);
+        let uniqueImage = new Set(this.orderDetails.items[index].other_images);
         uniqueImage = Array.from(uniqueImage);
         this.orderDetails.items[index].other_images = uniqueImage;
       });
