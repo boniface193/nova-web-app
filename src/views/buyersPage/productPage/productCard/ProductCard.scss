@@ -9,6 +9,7 @@
   .sell-now{
     border-radius: 4px !important;
     height: 28px;
+    width: "162px";
     font-style: normal;
     font-weight: normal;
     font-size: 12px !important;
@@ -55,9 +56,6 @@
       height: 25px !important;
       min-width: 100%;
       padding: 0 16px;
-    }
-    .sell-now-secondary {
-      display: none;
     }
     .product-name {
       height: 24px;
@@ -113,32 +111,13 @@
     }
     .card-bottom {
       padding-top: 95px;
-      height: 163px;
-
-      .sell-now-secondary {
-        display: block;
-        position: absolute;
-        width: 30px;
-        height: 30px;
-        border-radius: 50%;
-        color: white;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 12px;
-        position: absolute;
-        bottom: 25px;
-        right: 15px;
-      }
-      .sell-now {
-        display: none !important;
-      }
+      height: 182px;
     }
   }
 }
 @media (max-width: 365px) {
   .card-container {
-    min-width: 120px;
+    min-width: 135px;
     min-height: 230px;
     .card-top {
       height: 149px;
@@ -151,10 +130,6 @@
     }
     .card-bottom {
       padding-top: 90px;
-      .sell-now-secondary {
-        bottom: 35px;
-        right: 5px;
-      }
     }
   }
 }

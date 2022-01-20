@@ -22,16 +22,9 @@
 
         <v-btn
           class="primary sell-now"
-          width="162px"
-          height="28px"
           @click.prevent.stop="showAddtoCartModal()"
           depressed
           >Add to cart</v-btn
-        >
-        <span
-          class="primary sell-now-secondary"
-          @click.prevent.stop="showAddtoCartModal()"
-          >+</span
         >
       </div>
       <p class="points">{{ product.points }}pts</p>

@@ -2,13 +2,8 @@
   <div>
     <div class="secondary-container pt-sm-10 pt-16">
       <div>
-        <v-app-bar
-          app
-          color="#fafafa"
-          elevation="0"
-          class="px-3 px-sm-8"
-        >
-           <span
+        <v-app-bar app color="#fafafa" elevation="0" class="px-3 px-sm-8">
+          <span
             class="back-btn"
             @click="$router.back()"
             style="cursor: pointer"
@@ -18,7 +13,7 @@
             >
           </span>
           <v-spacer></v-spacer>
-          <div class="secondary-container__header__cart">
+          <div class="secondary-container__header__cart" @click="$router.push({name: 'shoppingCart'})">
             <img
               width="29.84px"
               height="20.11px"
@@ -30,7 +25,7 @@
         </v-app-bar>
 
         <v-row>
-          <v-col class="col-12 col-md-6  px-5 pb-5" style="padding: 90px 0">
+          <v-col class="col-12 col-md-6 px-5 pb-5" style="padding: 90px 0">
             <div class="image-container pt-10">
               <div class="image-container__main">
                 <img
@@ -141,9 +136,9 @@
                 Returns are not allowed for this product
               </p>
 
-              <v-btn class="primary" width="300" @click="addToCart"
-                >Add to cart</v-btn
-              >
+              <v-btn class="primary elevation-0" width="300" :disabled="addToCartLoad" @click="addToCart"
+                >Add to Cart
+              </v-btn>
             </div>
           </v-col>
         </v-row>
@@ -156,11 +151,8 @@
         </div> -->
       </div>
       <!-- add to cart dialog modal -->
-      <AddToCartModal
-        :product="productDetails"
-        :addToCartDialog="addToCartDialog"
-        @closeAddToCartDialog="addToCartDialog = false"
-      />
+      <addToCartLoader :addToCartLoad="addToCartLoad" />
+
       <!-- Modal for dialog messages -->
       <Modal :dialog="dialog" width="400">
         <div class="white pa-3 pb-10 text-center dialog">
@@ -181,22 +173,22 @@
   </div>
 </template>
 <script>
-// import failedImage from "@/assets/images/failed-img.svg";
+import failedImage from "@/assets/images/failed-img.svg";
 import Modal from "@/components/secondary/Modal.vue";
-import AddToCartModal from "@/components/secondary/inventory/AddToCartModal";
+import addToCartLoader from "@/views/buyersPage/productPage/cart/AddToCartLoader";
 //import { Facebook } from "vue-socialmedia-share";
 //import { Twitter } from "vue-socialmedia-share";
 //import { WhatsApp } from "vue-socialmedia-share";
-// import { mapState } from "vuex";
+import { mapState } from "vuex";
 export default {
   name: "Product",
-  components: { Modal, AddToCartModal }, //Facebook, Twitter, WhatsApp },
+  components: { Modal, addToCartLoader }, //Facebook, Twitter, WhatsApp },
   data: function () {
     return {
       model: null,
       selectedImg: "",
-      addToCartDialog: false,
       allImg: [],
+      addToCartLoad: false,
       productDetails: {
         description: "",
         min_order_quantity: 1,
@@ -213,82 +205,82 @@ export default {
       copyStatus: false,
     };
   },
-  // computed: {
-  //   createLink() {
-  //     const params = new URLSearchParams(window.location.search);
-  //     const link = new URLSearchParams(
-  //       decodeURIComponent(window.location.search)
-  //     );
-  //     if (params.get("createLink")) {
-  //       const linkStatus = params.get("createLink");
-  //       const url = link.get("link");
-  //       return {
-  //         status: linkStatus,
-  //         url: url,
-  //       };
-  //     } else {
-  //       return {
-  //         status: false,
-  //       };
-  //     }
-  //   },
-  //   ...mapState({
-  //     sellerName: (state) => state.settings.profile.name,
-  //     totalNumberOfProductsInCart: (state) =>
-  //       state.orders.totalNumberOfProductsInCart,
-  //   }),
-  // },
-  // created() {
-  //   this.loader = true;
-  //   this.$store
-  //     .dispatch("inventory/getProductDetail", {
-  //       id: this.$route.params.id,
-  //     })
-  //     .then((response) => {
-  //       this.productDetails = response.data.data;
-  //       this.productDetails.other_images.push(this.productDetails.image);
-  //       this.getStoreDetails();
-  //     })
-  //     .catch((error) => {
-  //       this.loader = false;
-  //       if (error.status == 422 || error.status == 400) {
-  //         this.statusImage = failedImage;
-  //         this.dialog = true;
-  //         this.dialogMessage = error.data.message;
-  //       }
-  //     });
-  // },
-  // methods: {
-  //   addToCart() {
-  //     this.addToCartDialog = true;
-  //   },
-  //   selectByImage(params) {
-  //     this.selectedImg = this.productDetails.other_images.find(
-  //       (item) => item == params
-  //     );
-  //   },
-  //   getStoreDetails() {
-  //     this.$store
-  //       .dispatch("onboarding/getStoreDetails", {
-  //         id: this.productDetails.store_id,
-  //       })
-  //       .then((response) => {
-  //         this.storeDetails = response.data.data;
-  //         this.loader = false;
-  //       })
-  //       .catch((error) => {
-  //         this.loader = false;
-  //         if (error.status == 422 || error.status == 400) {
-  //           this.statusImage = failedImage;
-  //           this.dialog = true;
-  //           this.dialogMessage = error.data.message;
-  //         }
-  //       });
-  //   },
-  //   removeHttp(url) {
-  //     return url.replace(/(^\w+:|^)\/\//, "");
-  //   },
-  // },
+  computed: {
+    createLink() {
+      const params = new URLSearchParams(window.location.search);
+      const link = new URLSearchParams(
+        decodeURIComponent(window.location.search)
+      );
+      if (params.get("createLink")) {
+        const linkStatus = params.get("createLink");
+        const url = link.get("link");
+        return {
+          status: linkStatus,
+          url: url,
+        };
+      } else {
+        return {
+          status: false,
+        };
+      }
+    },
+    ...mapState({
+      sellerName: (state) => state.settings.profile.name,
+      totalNumberOfProductsInCart: (state) =>
+        state.orders.totalNumberOfProductsInCart,
+    }),
+  },
+  created() {
+    this.loader = true;
+    this.$store
+      .dispatch("inventory/getProductDetail", {
+        id: this.$route.params.id,
+      })
+      .then((response) => {
+        this.productDetails = response.data.data;
+        this.productDetails.other_images.push(this.productDetails.image);
+        this.getStoreDetails();
+      })
+      .catch((error) => {
+        this.loader = false;
+        if (error.status == 422 || error.status == 400) {
+          this.statusImage = failedImage;
+          this.dialog = true;
+          this.dialogMessage = error.data.message;
+        }
+      });
+  },
+  methods: {
+    addToCart() {
+      this.addToCartLoad = true;
+    },
+    selectByImage(params) {
+      this.selectedImg = this.productDetails.other_images.find(
+        (item) => item == params
+      );
+    },
+    getStoreDetails() {
+      this.$store
+        .dispatch("onboarding/getStoreDetails", {
+          id: this.productDetails.store_id,
+        })
+        .then((response) => {
+          this.storeDetails = response.data.data;
+          this.loader = false;
+        })
+        .catch((error) => {
+          this.loader = false;
+          if (error.status == 422 || error.status == 400) {
+            this.statusImage = failedImage;
+            this.dialog = true;
+            this.dialogMessage = error.data.message;
+          }
+        });
+    },
+    removeHttp(url) {
+      return url.replace(/(^\w+:|^)\/\//, "");
+    },
+  },
 };
 </script>
 <style lang="scss" scoped>

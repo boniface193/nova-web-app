@@ -8,7 +8,7 @@
         height="32.1px"
       />
       <v-spacer></v-spacer>
-      <div class="catalog__cart">
+      <div class="catalog__cart" @click="$router.push({name: 'shoppingCart'})">
         <img
           width="29.84px"
           height="20.11px"
@@ -38,7 +38,7 @@
             v-for="(product, index) in products"
             :key="product.id"
           >
-            <ProductCard class="mb-9" :product="product" :index="index" />
+            <ProductCard class="mb-9" :product="product" :index="index" @addToCart="addToCart"/>
           </v-col>
         </v-row>
       </div>
@@ -52,17 +52,22 @@
         </div>
       </div>
     </div>
+    
+    <!-- add to cart dialog modal -->
+      <addToCartLoader :addToCartLoad="addToCartLoad" />
   </div>
 </template>
 
 <script>
 import ProductCard from "../productPage/productCard/ProductCard.vue";
+import addToCartLoader from "@/views/buyersPage/productPage/cart/AddToCartLoader";
 export default {
   components: {
-    ProductCard,
+    ProductCard, addToCartLoader
   },
   data() {
     return {
+      addToCartLoad: false,
       products: [
         {
           image: require("@/assets/images/primary-logo.png"),
@@ -147,6 +152,12 @@ export default {
       ],
     };
   },
+
+  methods: {
+    addToCart() {
+      this.addToCartLoad = true
+    }
+  }
 };
 </script>
 
