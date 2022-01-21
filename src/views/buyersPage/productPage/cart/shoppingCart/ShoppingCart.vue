@@ -79,16 +79,16 @@
                 >
               </div>
             </div>
-            <div class="mt-3">
-              <p class="d-flex" style="max-width: 400px">
-                <span>Total price to be paid (&#8358;):</span>
+          </div>
+          <div class="mt-3">
+            <p class="d-flex" style="max-width: 400px">
+              <span>Total price to be paid (&#8358;):</span>
 
-                <span class="primary--text ml-2">{{ overallTotalCost }}</span>
-              </p>
-              <router-link :to="{ name: 'CustomerDetailsForm' }">
-                <v-btn class="primary elevation-0" width="300">Sell</v-btn>
-              </router-link>
-            </div>
+              <span class="primary--text ml-2">{{ overallTotalCost }}</span>
+            </p>
+            <router-link :to="{ name: 'CustomerDetailsForm' }">
+              <v-btn class="primary elevation-0" width="300">Sell</v-btn>
+            </router-link>
           </div>
         </div>
       </div>
