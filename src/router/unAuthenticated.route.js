@@ -16,7 +16,10 @@ import OpenSellingPaymentSuccess from "@/views/openSellingCheckoutPages/PaymentS
 import OpenSellingPaymentFailed from "@/views/openSellingCheckoutPages/PaymentFailed.vue";
 import OpenOrderStatus from "@/views/openSellingCheckoutPages/OrderStatus.vue";
 // store catalog
-import StoreCatalog from "@/views/buyersPage/publicCatalogPage/Catalog.vue"
+import StoreCatalog from "@/views/buyersPage/publicCatalogPage/Catalog.vue";
+import ProductDatail from "@/views/buyersPage/productPage/productDetail/ProductDetail.vue";
+import ShoppingCart from "@/views/buyersPage/productPage/cart/shoppingCart/ShoppingCart.vue"
+
 import { allowPayment, allowOpenSellingPayment } from "./controller.js";
 
 export const unAuthenticatedRoutes = {
@@ -94,9 +97,19 @@ export const unAuthenticatedRoutes = {
       component: CatalogLayout,
       children: [
         {
-          path: "",
+          path: "/",
           name: "storeCatalog",
           component: StoreCatalog
+        },
+        {
+          path: ":id",
+          name: "productDetail",
+          component: ProductDatail
+        },
+        {
+          path: "cart",
+          name: "shoppingCart",
+          component: ShoppingCart
         }
       ]
     }
