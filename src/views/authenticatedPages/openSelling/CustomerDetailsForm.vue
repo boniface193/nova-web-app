@@ -66,7 +66,7 @@
           <label class="mb-1">
             Delivery Address*
             <span class="primary--text"
-              >(Delivery locations are Lagos and Abuja only)</span
+              >(Delivery locations are Lagos, Ogun, Oyo, Kwara, Rivers, Ondo and Abuja only)</span
             >
           </label>
           <v-text-field
@@ -134,7 +134,7 @@
           <label class="mb-1">
             Pickup Address
             <span class="primary--text"
-              >(Pick up locations are Lagos and Abuja only</span
+              >(Pick up locations are Lagos, Ogun, Oyo, Kwara, Rivers, Ondo and Abuja only</span
             >
           </label>
           <v-text-field
@@ -196,11 +196,11 @@ export default {
       allowedLocation: {
         LAGOS: "Lagos",
         ABUJA: "Federal Capital Territory",
-        //RIVERS: "Rivers",
-        //OYO: "Oyo",
-        //KWARA: "Kwara",
-        //OGUN: "Ogun State",
-        //ONDO: "Ondo",
+        RIVERS: "Rivers",
+        OYO: "Oyo",
+        KWARA: "Kwara",
+        OGUN: "Ogun State",
+        ONDO: "Ondo",
       },
       deliveryAddressAutocomplete: "",
       pickupAutocomplete: "",
