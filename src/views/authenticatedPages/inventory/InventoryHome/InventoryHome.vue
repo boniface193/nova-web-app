@@ -45,6 +45,7 @@
           :product="product"
           :index="index"
           @addToCart="addToCart"
+          @addToStore="addToStore"
         />
       </div>
       <!-- pagination -->
@@ -99,6 +100,12 @@
       :addToCartDialog="addToCartDialog"
       @closeAddToCartDialog="addToCartDialog = false"
     />
+    <!-- add to store dialog modal -->
+    <AddToStoreModal
+      :product="currentProduct"
+      :addToStoreDialog="addToStoreDialog"
+      @closeAddToStoreDialog="addToStoreDialog = false"
+    />
   </div>
 </template>
 <script>
@@ -109,6 +116,7 @@ import ProductCard from "@/components/secondary/inventory/ProductCard.vue";
 import failedImage from "@/assets/images/failed-img.svg";
 import Modal from "@/components/secondary/Modal.vue";
 import AddToCartModal from "@/components/secondary/inventory/AddToCartModal";
+import AddToStoreModal from "@/components/secondary/inventory/AddToStoreModal";
 import { mapGetters, mapState } from "vuex";
 export default {
   name: "InventoryHome",
@@ -119,6 +127,7 @@ export default {
     ProductCard,
     Modal,
     AddToCartModal,
+    AddToStoreModal,
   },
   metaInfo() {
     return {
@@ -151,6 +160,7 @@ export default {
         max_profit: 0,
       },
       addToCartDialog: false,
+      addToStoreDialog: false,
     };
   },
   created() {
@@ -196,6 +206,10 @@ export default {
     addToCart(product) {
       this.currentProduct = product;
       this.addToCartDialog = true;
+    },
+    addToStore(product) {
+      this.currentProduct = product;
+      this.addToStoreDialog = true;
     },
     getProducts() {
       // set category

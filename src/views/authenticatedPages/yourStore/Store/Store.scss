@@ -1,0 +1,18 @@
+.store-page{
+    &__header{
+        display: flex;
+        justify-content: end;
+        position: relative;
+        height: 50px;
+        align-items: center;
+        .store-name{
+            position: absolute;
+            margin: auto;
+            color: #FFA500;
+            width: max-content;
+            font-weight: normal;
+            left:0;
+            right: 0;
+        }
+    }
+}

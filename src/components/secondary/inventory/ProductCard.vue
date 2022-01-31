@@ -31,17 +31,33 @@
           Recommended profit
         </p>
 
-        <v-btn
+        <!-- <v-btn
           class="primary sell-now"
           @click.prevent.stop="showAddtoCartModal()"
           depressed
           >Add to cart</v-btn
-        >
-        <span
-          class="primary sell-now-secondary"
-          @click.prevent.stop="showAddtoCartModal()"
-          >+</span
-        >
+        > -->
+        <div class="actions-section">
+          <span
+            class="primary actions-section__btn"
+            @click.prevent.stop="() => {}"
+            >+</span
+          >
+          <div class="actions-section__dropdown">
+            <a
+              class="actions-section__dropdown__item"
+              @click.prevent.stop="showAddToCartModal()"
+              >Add to cart
+              <img class="ml-2" src="@/assets/icons/mini-cart-icon.svg"
+            /></a>
+            <a
+              class="actions-section__dropdown__item"
+              @click.prevent.stop="showAddToStoreModal()"
+              >Add to your store
+              <img class="ml-2" src="@/assets/icons/mini-store-icon.svg"
+            /></a>
+          </div>
+        </div>
       </div>
       <p class="points">{{ product.points }}pts</p>
     </router-link>
@@ -55,8 +71,11 @@ export default {
     return {};
   },
   methods: {
-    showAddtoCartModal() {
+    showAddToCartModal() {
       this.$emit("addToCart", this.product);
+    },
+    showAddToStoreModal() {
+      this.$emit("addToStore", this.product);
     },
   },
 };
@@ -64,11 +83,11 @@ export default {
 <style lang="scss" scoped>
 .card-container {
   min-width: 190px;
-  min-height: 340px;
+  min-height: 310px;
   position: relative;
   cursor: pointer;
   &:hover {
-    transform: scale(1.02);
+    //transform: scale(1.01);
   }
   .card-top {
     width: 85%;
@@ -96,8 +115,8 @@ export default {
   }
   .card-bottom {
     width: 100%;
-    height: 250px;
-    padding: 110px 7.5% 12px 7.5%;
+    height: 185px;
+    padding: 75px 7.5% 12px 7.5%;
     bottom: 0;
     background: #fff;
     border-radius: 12px;
@@ -109,8 +128,49 @@ export default {
       min-width: 100%;
       padding: 0 16px;
     }
-    .sell-now-secondary {
-      display: none;
+    .actions-section {
+      position: absolute;
+      right: 7.5%;
+      bottom: -50px;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: end;
+      z-index: 4;
+      &__btn {
+        width: 34px;
+        height: 34px;
+        border-radius: 50%;
+        color: white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 25px;
+        padding: 0 0 2px 0px;
+        cursor: pointer;
+      }
+      &__dropdown {
+        box-shadow: 0px 4px 10px rgba(43, 43, 43, 0.25);
+        border-radius: 4px;
+        background: white;
+        padding: 15px 15px 10px 15px;
+        width: 100%;
+        margin-top: 3px;
+        visibility: hidden;
+        &__item {
+          margin-bottom: 5px;
+          display: block;
+          font-size: 13px;
+          cursor: pointer;
+          color: #2b2b2b;
+          display: flex;
+          align-items: center;
+        }
+      }
+      &:hover {
+        .actions-section__dropdown {
+          visibility: visible;
+        }
+      }
     }
     .product-name {
       height: 22px;

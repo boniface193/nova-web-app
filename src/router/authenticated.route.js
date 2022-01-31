@@ -37,9 +37,10 @@ import Referral from "@/views/authenticatedPages/dashboard/Referral/Referral.vue
 import ReferralEarnings from "@/views/authenticatedPages/dashboard/Referral/ReferralEarnings.vue";
 import ViewReferrals from "@/views/authenticatedPages/dashboard/Referral/ViewReferrals.vue";
 import ReferFriends from "@/views/authenticatedPages/dashboard/Referral/ReferFriends.vue";
-import { ifAuthenticated, allowEditBankAccount } from "./controller.js";
+import { ifAuthenticated, allowEditBankAccount, allowSellerToAccessStore, allowSellerToAccessStoreSetup} from "./controller.js";
 // your store
-import SetupPage from "@/views/authenticatedPages/yourStore/setup/Setup.vue"
+import StoreSetup from "@/views/authenticatedPages/yourStore/Setup/Setup.vue";
+import Store from "@/views/authenticatedPages/yourStore/Store/Store.vue";
 //open selling 
 import OpenSellingPage from "@/views/authenticatedPages/openSelling/OpenSellingPage.vue";
 
@@ -226,8 +227,15 @@ export const authenticatedRoutes = {
             children: [
                 {
                     path: "",
-                    name: "store",
-                    component: SetupPage,
+                    name: "Store",
+                    component: Store,
+                    beforeEnter: allowSellerToAccessStore
+                },
+                {
+                    path: "setup",
+                    name: "StoreSetup",
+                    component: StoreSetup,
+                    beforeEnter: allowSellerToAccessStoreSetup
                 }
             ]
         },

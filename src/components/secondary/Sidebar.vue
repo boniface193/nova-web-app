@@ -88,7 +88,7 @@
             <v-icon class="mx-4 primary--text mb-2" size="25"
               >mdi-logout</v-icon
             >
-            Log Out
+            Log out
           </div>
         </div>
       </div>
@@ -96,7 +96,7 @@
     <div class="overlay" @click="closeDrawer"></div>
     <!-- Modal for dialog messages -->
     <Modal :dialog="dialog" width="120">
-      <div class="text-center dialog white">Loging Out...</div>
+      <div class="text-center dialog white">Loging out...</div>
     </Modal>
   </div>
 </template>
@@ -122,7 +122,7 @@ export default {
         routes: "/dashboard",
       },
       {
-        title: "Your Store",
+        title: "Your store",
         icon: "mdi-storefront-outline",
         icons: true,
         routes: "/your-store",

@@ -3,14 +3,6 @@
     <div class="secondary-container pt-sm-10 pt-16">
       <div>
         <div class="secondary-container__header">
-          <!-- go to previous page -->
-          <!-- <router-link
-            :to="{
-              name: 'InventoryHome',
-            }"
-            style="text-decoration: none"
-            class="mx-5"
-          > -->
           <span
             class="back-btn"
             @click="$router.back()"
@@ -175,6 +167,9 @@
               <v-btn class="primary" width="300" @click="addToCart"
                 >Add to cart</v-btn
               >
+              <v-btn class="background mt-3" width="300" @click="addToStore"
+                >Add to store</v-btn
+              >
             </div>
           </v-col>
         </v-row>
@@ -192,41 +187,41 @@
         :addToCartDialog="addToCartDialog"
         @closeAddToCartDialog="addToCartDialog = false"
       />
-      <!-- Modal for dialog messages -->
-      <Modal :dialog="dialog" width="400">
-        <div class="white pa-3 pb-10 text-center dialog">
-          <div class="d-flex justify-end">
-            <v-icon class="error--text close-btn" @click="dialog = false"
-              >mdi-close</v-icon
-            >
-          </div>
+      <!-- add to store dialog modal -->
+      <AddToStoreModal
+        :product="productDetails"
+        :addToStoreDialog="addToStoreDialog"
+        @closeAddToStoreDialog="addToStoreDialog = false"
+      />
 
-          <div class="mb-7 mt-5 mx-auto status-img">
-            <v-img :src="statusImage"></v-img>
-          </div>
-
-          <h4>{{ dialogMessage }}</h4>
-        </div>
-      </Modal>
+      <!-- Response Modal -->
+      <ResponseModal
+        :dialog="dialog"
+        :status="statusImage"
+        :dialogMessage="dialogMessage"
+        @closeDialog="
+          () => {
+            this.dialog = false;
+          }
+        "
+      />
     </div>
   </div>
 </template>
 <script>
-import failedImage from "@/assets/images/failed-img.svg";
-import Modal from "@/components/secondary/Modal.vue";
 import AddToCartModal from "@/components/secondary/inventory/AddToCartModal";
-//import { Facebook } from "vue-socialmedia-share";
-//import { Twitter } from "vue-socialmedia-share";
-//import { WhatsApp } from "vue-socialmedia-share";
+import AddToStoreModal from "@/components/secondary/inventory/AddToStoreModal";
+import ResponseModal from "@/components/secondary/ResponseModal.vue";
 import { mapState } from "vuex";
 export default {
   name: "Product",
-  components: { Modal, AddToCartModal }, //Facebook, Twitter, WhatsApp },
+  components: { ResponseModal, AddToCartModal, AddToStoreModal},
   data: function () {
     return {
       model: null,
       selectedImg: "",
       addToCartDialog: false,
+      addToStoreDialog: false,
       allImg: [],
       productDetails: {
         description: "",
@@ -241,7 +236,6 @@ export default {
       statusImage: null,
       dialog: false,
       dialogMessage: "",
-      copyStatus: false,
     };
   },
   computed: {
@@ -283,7 +277,7 @@ export default {
       .catch((error) => {
         this.loader = false;
         if (error.status == 422 || error.status == 400) {
-          this.statusImage = failedImage;
+          this.statusImage = false;
           this.dialog = true;
           this.dialogMessage = error.data.message;
         }
@@ -292,6 +286,9 @@ export default {
   methods: {
     addToCart() {
       this.addToCartDialog = true;
+    },
+    addToStore() {
+      this.addToStoreDialog = true;
     },
     selectByImage(params) {
       this.selectedImg = this.productDetails.other_images.find(
@@ -310,7 +307,7 @@ export default {
         .catch((error) => {
           this.loader = false;
           if (error.status == 422 || error.status == 400) {
-            this.statusImage = failedImage;
+            this.statusImage = false;
             this.dialog = true;
             this.dialogMessage = error.data.message;
           }
