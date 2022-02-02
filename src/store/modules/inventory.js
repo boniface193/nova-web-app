@@ -176,6 +176,16 @@ const actions = {
                     reject(error);
                 })
         })
+    },
+    getProductsInstore() {
+        return new Promise((resolve, reject) => {
+            inventoryHttpClient.post("catalogue/view").then(response => {
+                resolve(response);
+            })
+                .catch(error => {
+                    reject(error);
+                })
+        })
     }
 };
 
