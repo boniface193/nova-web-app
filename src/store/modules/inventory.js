@@ -177,7 +177,7 @@ const actions = {
                 })
         })
     },
-    getProductsInstore() {
+    getSellerStoreProducts() {
         return new Promise((resolve, reject) => {
             inventoryHttpClient.post("catalogue/view").then(response => {
                 resolve(response);

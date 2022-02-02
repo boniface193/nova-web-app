@@ -29,7 +29,6 @@ const actions = {
     // get profile informations
     getUserProfile(context) {
         return new Promise((resolve, reject) => {
-
             onboardingHttpClient.get("profile").then(response => {
                 context.commit("setUserProfile", response.data.data);
                 resolve(response);

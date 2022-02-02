@@ -3,7 +3,7 @@ import router from "./index";
 
 // get user profile information and check they meet the conditions
 export const getProfile = (to, from, next) => {
-    store.dispatch("onboarding/getUserProfile").then(response => {
+    store.dispatch("settings/getUserProfile").then(response => {
         const profile = response.data.data;
         if (profile.email_verified) {
             if (profile.status) {
