@@ -79,11 +79,8 @@ export const alreadyLogin = (to, from, next) => {
 
 // verify if access has been given to a user to view email verification page
 export const ifAccessEmailVerifcationPage = (to, from, next) => {
-    if (from.name == "Signup" || from.name == "Signin" || from.name == "InventoryHome") {
-        next()
-        return
-    }
-    next({ name: 'Signup' })
+    next()
+    return
 }
 
 // verify if access has been given to a user to view password verification page
