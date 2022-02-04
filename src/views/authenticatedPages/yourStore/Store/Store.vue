@@ -104,11 +104,7 @@
       v-show="products.length == 0 && !loading"
     >
       <p class="mb-0 secondary--text mx-auto" style="max-width: 500px">
-        {{
-          (initialpage = 1
-            ? "Your store is empty. please click on the button below to start adding products to your store"
-            : "Opps no product found")
-        }}
+        Your store is empty. please click on the button below to start adding products to your store
       </p>
       <router-link to="/inventory">
         <v-btn class="primary mx-auto mt-3">Add products</v-btn>
