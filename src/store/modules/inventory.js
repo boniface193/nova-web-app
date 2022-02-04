@@ -191,6 +191,7 @@ const actions = {
     updateStoreName(context, data) {
         return new Promise((resolve, reject) => {
             inventoryHttpClient.post("seller-store/update", data).then(response => {
+                context.commit("setSellerStoreDetails", response.data.data);
                 resolve(response);
             })
                 .catch(error => {
