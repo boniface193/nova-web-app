@@ -177,12 +177,13 @@ const actions = {
                 })
         })
     },
-    getSellerStoreProducts() {
+    getSellerStoreProducts(context, data) {
         return new Promise((resolve, reject) => {
-            inventoryHttpClient.get("catalogue/view").then(response => {
+            inventoryHttpClient.get(`catalogue/view?page=${data.page}`).then(response => {
                 resolve(response);
             })
                 .catch(error => {
+                    context.commit("doNothing");
                     reject(error);
                 })
         })
@@ -210,8 +211,9 @@ const actions = {
         });
     },
     deleteBulkProductInStore(context, data) {
+        console.log(data.ids)
         return new Promise((resolve, reject) => {
-            inventoryHttpClient.post(`catalogue/removeBulk?ids=${data.ids}`, ).then(response => {
+            inventoryHttpClient.delete(`catalogue/removeBulk?ids=${data.ids}`, {}).then(response => {
                 resolve(response);
             })
                 .catch(error => {

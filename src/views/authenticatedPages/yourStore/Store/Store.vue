@@ -22,7 +22,13 @@
           :disabled="!editMode"
         />
       </h3>
-      <v-btn width="150px" class="secondary--text">Copy link</v-btn>
+      <v-btn
+        width="150px"
+        class="secondary--text"
+        :class="{ 'primary white--text': copyStatus }"
+        v-on:click="copyToClipBoard"
+        >{{ copyStatus ? "Copied" : "Copy link" }}</v-btn
+      >
     </div>
 
     <div class="d-flex justify-space-between" :class="{ 'mb-8': editMode }">
@@ -74,6 +80,22 @@
           @updateProductProfit="updateProductProfit($event, index)"
         />
       </div>
+      <!-- pagination -->
+      <div class="d-flex justify-space-between align-center flex-wrap">
+        <div class="d-flex justify-space-between align-center flex-wrap">
+          <p class="mb-2 mr-5">
+            Page {{ pageDetails.current_page }} of {{ pageDetails.last_page }}
+          </p>
+        </div>
+        <div class="pagination mb-2">
+          <v-pagination
+            v-model="getCurrentPage.currentPage"
+            :length="pageDetails.last_page"
+            @input="setCurentPage"
+            circle
+          ></v-pagination>
+        </div>
+      </div>
     </div>
 
     <!-- no data -->
@@ -82,8 +104,7 @@
       v-show="products.length == 0 && !loading"
     >
       <p class="mb-0 secondary--text mx-auto" style="max-width: 500px">
-        Your store is empty. please click on the button below to start adding
-        products to your store
+        Your store is empty. please click on the button below to start adding products to your store
       </p>
       <router-link to="/inventory">
         <v-btn class="primary mx-auto mt-3">Add products</v-btn>
@@ -108,18 +129,32 @@ export default {
       selectedProducts: [],
       storeName: this.$store.getters["inventory/sellerStoreDetails"].name,
       deletingProducts: false,
+      copyStatus: false,
+      url: `https://${this.$store.getters["inventory/sellerStoreDetails"].username}.kuuzza.store`,
+      pageDetails: {},
+      initialpage: 1,
     };
   },
   created() {
     this.loading = true;
-    this.getSellerStoreProducts();
+    const params = new URLSearchParams(window.location.search);
+    this.initialpage = params.get("page") ? params.get("page") : 1;
+    this.getSellerStoreProducts(this.initialpage);
+  },
+  computed: {
+    getCurrentPage() {
+      return {
+        currentPage: this.pageDetails.current_page,
+      };
+    },
   },
   methods: {
-    getSellerStoreProducts() {
+    getSellerStoreProducts(page) {
       this.$store
-        .dispatch("inventory/getSellerStoreProducts")
+        .dispatch("inventory/getSellerStoreProducts", { page: page })
         .then((response) => {
           this.products = response.data.data;
+          this.pageDetails = response.data.meta;
           this.loading = false;
         })
         .catch(() => {
@@ -140,11 +175,11 @@ export default {
           ids: this.selectedProducts,
         })
         .then(() => {
-          //this.deletingProducts = false;
-          //this.selectedProducts.forEach((item)=>{
-          //  let productIndex = this.selectedProducts.indexOf(item);
-          //  this.selectedProducts.splice(productIndex);
-          //});
+          this.deletingProducts = false;
+          this.selectedProducts.forEach((item) => {
+            let productIndex = this.products.findIndex((x) => x.id === item);
+            this.products.splice(productIndex, 1);
+          });
           this.selectedProducts = [];
         })
         .catch(() => {
@@ -164,8 +199,28 @@ export default {
         this.selectedProducts.push(product_id);
       } else {
         let productIndex = this.selectedProducts.indexOf(product_id);
-        this.selectedProducts.splice(productIndex);
+        this.selectedProducts.splice(productIndex, 1);
       }
+    },
+    // set current page
+    setCurentPage() {
+      const params = new URLSearchParams(window.location.search);
+      if (this.getCurrentPage.currentPage != params.get("page")) {
+        this.$router.push({
+          name: "Store",
+          query: {
+            page: this.getCurrentPage.currentPage,
+          },
+        });
+        this.getSellerStoreProducts(this.getCurrentPage.currentPage);
+      }
+    },
+    copyToClipBoard() {
+      navigator.clipboard.writeText(this.url);
+      this.copyStatus = true;
+      setTimeout(() => {
+        this.copyStatus = false;
+      }, 3000);
     },
   },
 };
