@@ -137,7 +137,7 @@ export default {
             this.loading = false;
             if (response.data.message === "OTP verified successfully.") {
               this.$router.push({
-                name: "Recoverpassword",
+                name: "RecoverPassword",
                 params: {
                   otp: response.data.otp,
                   email: this.$route.params.email,

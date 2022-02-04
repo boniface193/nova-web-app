@@ -176,6 +176,49 @@ const actions = {
                     reject(error);
                 })
         })
+    },
+    getSellerStoreProducts() {
+        return new Promise((resolve, reject) => {
+            inventoryHttpClient.get("catalogue/view").then(response => {
+                resolve(response);
+            })
+                .catch(error => {
+                    reject(error);
+                })
+        })
+    },
+    updateStoreName(context, data) {
+        return new Promise((resolve, reject) => {
+            inventoryHttpClient.post("seller-store/update", data).then(response => {
+                resolve(response);
+            })
+                .catch(error => {
+                    context.commit("doNothing");
+                    reject(error);
+                })
+        });
+    },
+    updateProductProfit(context, data) {
+        return new Promise((resolve, reject) => {
+            inventoryHttpClient.put(`/catalogue/${data.product_id}`, data).then(response => {
+                resolve(response);
+            })
+                .catch(error => {
+                    context.commit("doNothing");
+                    reject(error);
+                })
+        });
+    },
+    deleteBulkProductInStore(context, data) {
+        return new Promise((resolve, reject) => {
+            inventoryHttpClient.post("catalogue/removeBulk", data).then(response => {
+                resolve(response);
+            })
+                .catch(error => {
+                    context.commit("doNothing");
+                    reject(error);
+                })
+        });
     }
 };
 

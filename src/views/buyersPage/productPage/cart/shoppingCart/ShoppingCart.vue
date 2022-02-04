@@ -93,15 +93,6 @@
         </div>
       </div>
 
-      <!-- loader section -->
-      <!-- <div class="d-flex py-5 text-center mx-auto" v-if="loader">
-      <v-progress-circular
-        indeterminate
-        color="primary"
-        class="mx-auto"
-      ></v-progress-circular>
-    </div> -->
-
       <!-- no data -->
       <div
         class="text-center pt-10 pb-5"
@@ -147,7 +138,6 @@ export default {
       this.$store
         .dispatch("orders/deleteProductFromCart", { id: productId })
         .then(() => {
-          console.log(this.cartProducts);
           this.deleteLoaderIndex = -1;
           this.deleteLoader = false;
         })

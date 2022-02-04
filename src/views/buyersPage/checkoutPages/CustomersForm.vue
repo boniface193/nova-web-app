@@ -74,7 +74,8 @@
         <p class="mb-1">
           Address*
           <span class="primary--text"
-            >(Delivery location are Lagos, Ogun, Oyo, Kwara, Rivers, Ondo and Abuja only)</span
+            >(Delivery location are Lagos, Abuja, Rivers, Oyo, Kwara, Ogun and
+            Ondo only)</span
           >
         </p>
         <v-text-field
@@ -212,15 +213,12 @@
   </div>
 </template>
 <script>
-import failedImage from "@/assets/images/failed-img.svg";
+//import failedImage from "@/assets/images/failed-img.svg";
 import Modal from "@/components/secondary/Modal.vue";
-import { Facebook } from "vue-socialmedia-share";
-import { Twitter } from "vue-socialmedia-share";
-import { WhatsApp } from "vue-socialmedia-share";
 import { searchKeyInObject, search } from "@/helpers/general.js";
 export default {
   name: "CustomerDetailsForm",
-  components: { Modal, Facebook, Twitter, WhatsApp },
+  components: { Modal },
   data: function () {
     return {
       showLink: false,
@@ -321,54 +319,47 @@ export default {
       this.$refs.form.validate();
       if (this.$refs.form.validate() && this.validAddress) {
         this.loading = true;
-        let getUrl = window.location;
-        let baseUrl = getUrl.protocol + "//" + getUrl.host + "/";
-        this.$store
-          .dispatch("orders/createOrder", {
-            customer: {
-              name: this.name,
-              email:
-                this.email == "" || this.email == null ? undefined : this.email,
-              phone:
-                this.phoneNumber.substring(0, 1) == "0"
-                  ? "+234" + this.phoneNumber.substring(1)
-                  : "+234" + this.phoneNumber,
-              location: {
-                address: this.address,
-                lat: this.lat,
-                lng: this.lng,
-                state: this.stateKey,
-              },
-            },
-            payment_link: `${baseUrl}checkout-details`,
-          })
-          .then((response) => {
-            this.loading = false;
-            this.url = response.data.data.payment_link;
-            this.showLink = true;
-            this.$store.commit("orders/setTotalNumberOfProductsInCart", 0);
-          })
-          .catch((error) => {
-            this.loading = false;
-            if (error.status === 422) {
-              this.statusImage = failedImage;
-              this.dialog = true;
-              this.dialogMessage = error.data.customer;
-            } else if (error.status === 400) {
-              this.statusImage = failedImage;
-              this.dialog = true;
-              this.dialogMessage = error.data.message;
-            }
-          });
+        //let getUrl = window.location;
+        //let baseUrl = getUrl.protocol + "//" + getUrl.host + "/";
+        // this.$store
+        //   .dispatch("orders/createOrder", {
+        //     customer: {
+        //       name: this.name,
+        //       email:
+        //         this.email == "" || this.email == null ? undefined : this.email,
+        //       phone:
+        //         this.phoneNumber.substring(0, 1) == "0"
+        //           ? "+234" + this.phoneNumber.substring(1)
+        //           : "+234" + this.phoneNumber,
+        //       location: {
+        //         address: this.address,
+        //         lat: this.lat,
+        //         lng: this.lng,
+        //         state: this.stateKey,
+        //       },
+        //     },
+        //     payment_link: `${baseUrl}checkout-details`,
+        //   })
+        //   .then((response) => {
+        //     this.loading = false;
+        //     this.url = response.data.data.payment_link;
+        //     this.showLink = true;
+        //     this.$store.commit("orders/setTotalNumberOfProductsInCart", 0);
+        //   })
+        //   .catch((error) => {
+        //     this.loading = false;
+        //     if (error.status === 422) {
+        //       this.statusImage = failedImage;
+        //       this.dialog = true;
+        //       this.dialogMessage = error.data.customer;
+        //     } else if (error.status === 400) {
+        //       this.statusImage = failedImage;
+        //       this.dialog = true;
+        //       this.dialogMessage = error.data.message;
+        //     }
+        //   });
       }
-    },
-    copyToClipBoard() {
-      navigator.clipboard.writeText(this.url);
-      this.copyStatus = true;
-      setTimeout(() => {
-        this.copyStatus = false;
-      }, 1000);
-    },
+    }
   },
 };
 </script>

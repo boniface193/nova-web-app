@@ -127,6 +127,10 @@
               </router-link>
 
               <h4 class="mt-4 mb-2">Shipping and returns</h4>
+              <p class="mb-2">
+                <span style="font-weight: 600">Store location:</span>
+                {{ storeDetails.location.state }}
+              </p>
               <p
                 v-show="storeDetails.refund_policy.return_allowed == 'true'"
                 style="font-size: 14px"
@@ -231,6 +235,7 @@ export default {
       },
       storeDetails: {
         refund_policy: {},
+        location: {},
       },
       loader: false,
       statusImage: null,
