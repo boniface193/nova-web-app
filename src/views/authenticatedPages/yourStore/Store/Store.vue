@@ -104,8 +104,11 @@
       v-show="products.length == 0 && !loading"
     >
       <p class="mb-0 secondary--text mx-auto" style="max-width: 500px">
-        Your store is empty. please click on the button below to start adding
-        products to your store
+        {{
+          (initialpage = 1
+            ? "Your store is empty. please click on the button below to start adding products to your store"
+            : "Opps no product found")
+        }}
       </p>
       <router-link to="/inventory">
         <v-btn class="primary mx-auto mt-3">Add products</v-btn>
@@ -133,11 +136,14 @@ export default {
       copyStatus: false,
       url: `https://${this.$store.getters["inventory/sellerStoreDetails"].username}.kuuzza.store`,
       pageDetails: {},
+      initialpage: 1,
     };
   },
   created() {
     this.loading = true;
-    this.getSellerStoreProducts(1);
+    const params = new URLSearchParams(window.location.search);
+    this.initialpage = params.get("page") ? params.get("page") : 1;
+    this.getSellerStoreProducts(this.initialpage);
   },
   computed: {
     getCurrentPage() {
