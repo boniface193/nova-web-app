@@ -68,7 +68,7 @@ const setNextRoute = () => {
 // redirect when a user is already logged in
 export const alreadyLogin = (to, from, next) => {
     if (localStorage.getItem("clientID") &&
-        localStorage.getItem("refreshToken") && to.name !== "Emailverification") {
+        localStorage.getItem("refreshToken") && to.name !== "EmailVerification") {
         next({ name: 'InventoryHome' })
     } else {
         next();
@@ -78,11 +78,8 @@ export const alreadyLogin = (to, from, next) => {
 
 // verify if access has been given to a user to view email verification page
 export const ifAccessEmailVerifcationPage = (to, from, next) => {
-    if (from.name == "Signup" || from.name == "Signin" || from.name == "InventoryHome") {
-        next()
-        return
-    }
-    next({ name: 'Signup' })
+    next()
+    return
 }
 
 // verify if access has been given to a user to view password verification page

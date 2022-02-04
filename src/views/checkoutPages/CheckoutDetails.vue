@@ -109,8 +109,11 @@
         <p class="secondary--text small-font-size mb-1">
           Inventory: {{ inViewProduct.product.store_name }}
         </p>
-        <p class="secondary--text small-font-size">
+        <p class="secondary--text small-font-size mb-1">
           Order quantity: {{ inViewProduct.quantity }}
+        </p>
+        <p class="secondary--text small-font-size">
+          Store location: {{ inViewProduct.product.pickup_location.state }}
         </p>
 
         <h4>Description</h4>
@@ -207,7 +210,7 @@ export default {
       acceptTerms: false,
       initialScrollViewDown: 0,
       initialScrollViewUp: 0,
-      inViewProduct: { product: {}, variants: [] },
+      inViewProduct: { product: {pickup_location:{}}, variants: [] },
       activeImageIndex: 0,
       activeCarousel: [],
     };

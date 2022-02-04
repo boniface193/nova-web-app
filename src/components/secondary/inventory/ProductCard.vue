@@ -3,7 +3,7 @@
     <router-link
       :to="{
         name: 'ProductPage',
-        params: { id: product.id, createLink: false },
+        params: { id: product.id },
       }"
       style="text-decoration: none"
     >

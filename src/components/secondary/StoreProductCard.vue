@@ -1,43 +1,85 @@
 <template>
   <div class="card-container">
-    <router-link
-      :to="{
-        name: 'ProductPage',
-        params: { id: product.id },
-      }"
-      style="text-decoration: none"
-    >
+    <a @click="routeToProductDetails(product.product_id)">
       <div class="card-top">
         <div class="image-container">
-          <img :src="product.image" alt="" />
+          <img :src="product.product.image" alt="" />
         </div>
       </div>
       <div class="card-bottom">
         <h4 class="mb-1 product-name">
-          {{ product.name }}sshhjshj sss
+          {{ product.product.name }}
         </h4>
-        <p class="secondary--text mb-1" style="font-size: 12px">
-          Your profit: <span>&#8358;10000</span>
+        <p
+          class="d-flex align-center secondary--text mb-1"
+          style="font-size: 12px"
+        >
+          <span>
+            Profit:
+            <span v-if="!editMode" style="color: black"
+              >&#8358;{{ product.profit_label }}</span
+            ></span
+          >
+          <!-- edit profit input filed -->
+          <input
+            v-if="editMode"
+            class="ml-2 edit-mode-input"
+            placeholder="profit"
+            v-model="product.profit"
+            @change="updateProductProfit(product)"
+            :disabled="!editMode"
+          />
         </p>
         <p class="secondary--text mb-0" style="font-size: 12px">
-          Actual price: <span>&#8358;20000</span>
+          Actual price:
+          <span style="color: black"
+            >&#8358;{{ product.product.total_price_label }}</span
+          >
         </p>
         <p class="secondary--text mb-0" style="font-size: 16px">
-          Store price: <span class="primary--text">&#8358;30000</span>
+          Store price:
+          <span class="primary--text"
+            >&#8358;{{ product.total_price_label }}</span
+          >
         </p>
       </div>
-      <p class="points">{{ product.points }}pts</p>
-    </router-link>
+      <v-checkbox
+        v-show="editMode"
+        @click="addToSelectedProducts(product)"
+        v-model="productSelected"
+        class="product-select-checkbox mr-1"
+      ></v-checkbox>
+      <p class="points">{{ product.product.points }}pts</p>
+    </a>
   </div>
 </template>
 <script>
 export default {
   name: "StoreProductCard",
-  props: ["product"],
+  props: ["product", "editMode"],
   data: function () {
-    return {};
+    return {
+      productSelected: false,
+    };
   },
   methods: {
+    routeToProductDetails(product_id) {
+      if (!this.editMode) {
+        this.$router.push({
+          name: "ProductPage",
+          params: { id: product_id },
+        });
+      }
+    },
+    addToSelectedProducts(product) {
+      this.$emit("addToSelectedProducts", product.id);
+    },
+    updateProductProfit(product) {
+      this.$emit("updateProductProfit", {
+        product_id: product.id,
+        profit: product.profit,
+      });
+    },
   },
 };
 </script>
@@ -142,6 +184,16 @@ export default {
       width: 100%;
       white-space: nowrap;
     }
+    .edit-mode-input {
+      width: 100px;
+      border: none;
+      border-bottom: 1px solid #ddd;
+      padding: 0px 3px;
+      outline: none;
+      &:focus {
+        border-color: #029b97;
+      }
+    }
   }
   .points {
     background: #ffba00;
@@ -153,6 +205,11 @@ export default {
     right: 0px;
     z-index: 3;
     border-radius: 8px;
+  }
+  .product-select-checkbox {
+    position: absolute;
+    top: -50px;
+    left: 0;
   }
 }
 @media (max-width: 650px) {

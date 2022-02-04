@@ -354,7 +354,7 @@ export default {
             localStorage.removeItem("referral_id");
             this.$store.commit("onboarding/setPresentSignupForm", "form1");
             this.$router.push({
-              name: "Emailverification",
+              name: "EmailVerification",
               params: {
                 email: this.email,
               },

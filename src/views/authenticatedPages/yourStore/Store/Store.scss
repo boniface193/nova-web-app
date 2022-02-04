@@ -1,22 +1,35 @@
-.store-page{
-    &__header{
-        display: flex;
-        justify-content: end;
-        position: relative;
-        height: 50px;
-        align-items: center;
-        .store-name{
-            position: absolute;
-            margin: auto;
-            color: #FFA500;
-            width: max-content;
-            font-weight: normal;
-            left:0;
-            right: 0;
-        }
+.store-page {
+  &__header {
+    display: flex;
+    justify-content: space-between;
+    position: relative;
+    height: 50px;
+    align-items: center;
+    .store-name {
+      position: absolute;
+      margin: auto;
+      color: #ffa500;
+      width: max-content;
+      font-weight: normal;
+      left: 0;
+      right: 0;
     }
-    &__content{
-        display: flex;
-        flex-wrap: wrap;
+    a {
+      cursor: pointer;
     }
+    .edit-store-name {
+      outline: none;
+      width: 200px;
+      border: none;
+      border-bottom: 1px solid #ddd;
+      padding: 3px;
+      &:focus {
+        border-color: #029b97;
+      }
+    }
+  }
+  &__content {
+    display: flex;
+    flex-wrap: wrap;
+  }
 }

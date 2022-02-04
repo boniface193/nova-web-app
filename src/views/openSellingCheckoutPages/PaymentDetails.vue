@@ -36,8 +36,7 @@
             <h4 style="font-weight: normal" class="mt-5 text-left">
               Change your delivery location
               <span class="primary--text"
-                >(Delivery locations are lagos, Abuja, Rivers, Oyo, ondo, kwara,
-                and Ogun only)</span
+                >(Delivery locations are Lagos and Abuja only)</span
               >
             </h4>
             <v-form ref="addressForm">
