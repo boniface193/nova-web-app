@@ -55,7 +55,6 @@
             color="red"
             class="ml-1"
             size="20"
-            v-show="deleteLoader && deleteLoaderIndex == index"
           ></v-progress-circular>
         </span>
       </a>

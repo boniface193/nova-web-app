@@ -211,7 +211,7 @@ const actions = {
     },
     deleteBulkProductInStore(context, data) {
         return new Promise((resolve, reject) => {
-            inventoryHttpClient.post("catalogue/removeBulk", data).then(response => {
+            inventoryHttpClient.post(`catalogue/removeBulk?ids=${data.ids}`, ).then(response => {
                 resolve(response);
             })
                 .catch(error => {
