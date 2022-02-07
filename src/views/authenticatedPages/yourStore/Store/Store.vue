@@ -70,7 +70,8 @@
     <div v-if="products.length > 0 && !loading">
       <div class="store-page__content pt-8 mb-6">
         <StoreProductCard
-          class="mb-5 mr-4 mr-sm-6"
+          class="mb-8 mr-4 mr-sm-6"
+          :class="{ 'mb-12': editMode }"
           v-for="(product, index) in products"
           :key="product.id"
           :product="product"
@@ -104,7 +105,8 @@
       v-show="products.length == 0 && !loading"
     >
       <p class="mb-0 secondary--text mx-auto" style="max-width: 500px">
-        Your store is empty. please click on the button below to start adding products to your store
+        Your store is empty. please click on the button below to start adding
+        products to your store
       </p>
       <router-link to="/inventory">
         <v-btn class="primary mx-auto mt-3">Add products</v-btn>
@@ -169,22 +171,24 @@ export default {
         .catch(() => {});
     },
     deleteBulkProductInStore() {
-      this.deletingProducts = true;
-      this.$store
-        .dispatch("inventory/deleteBulkProductInStore", {
-          ids: this.selectedProducts,
-        })
-        .then(() => {
-          this.deletingProducts = false;
-          this.selectedProducts.forEach((item) => {
-            let productIndex = this.products.findIndex((x) => x.id === item);
-            this.products.splice(productIndex, 1);
+      if (this.selectedProducts.length > 0) {
+        this.deletingProducts = true;
+        this.$store
+          .dispatch("inventory/deleteBulkProductInStore", {
+            ids: this.selectedProducts,
+          })
+          .then(() => {
+            this.deletingProducts = false;
+            this.selectedProducts.forEach((item) => {
+              let productIndex = this.products.findIndex((x) => x.id === item);
+              this.products.splice(productIndex, 1);
+            });
+            this.selectedProducts = [];
+          })
+          .catch(() => {
+            this.deletingProducts = false;
           });
-          this.selectedProducts = [];
-        })
-        .catch(() => {
-          this.deletingProducts = false;
-        });
+      }
     },
     updateProductProfit(params, index) {
       this.$store

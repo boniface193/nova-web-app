@@ -212,9 +212,8 @@ const actions = {
         });
     },
     deleteBulkProductInStore(context, data) {
-        console.log(data.ids)
         return new Promise((resolve, reject) => {
-            inventoryHttpClient.delete(`catalogue/removeBulk?ids=${data.ids}`, {}).then(response => {
+            inventoryHttpClient.delete(`catalogue/removeBulk`, { data }).then(response => {
                 resolve(response);
             })
                 .catch(error => {
