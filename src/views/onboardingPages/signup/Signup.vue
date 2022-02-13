@@ -189,6 +189,17 @@
         </p>
       </div>
 
+      <!-- This is in the component you want to have the reCAPTCHA -->
+      <VueRecaptcha
+        ref="recaptcha"
+        @verify="onCaptchaVerified"
+        @expired="resetCaptcha"
+        size="invisible"
+        :sitekey="sitekey"
+      >
+        ></VueRecaptcha
+      >
+
       <!-- button container -->
       <div class="pa-0 mt-5" style="width: 100%">
         <v-btn
@@ -204,11 +215,14 @@
 </template>
 <script>
 import { mapState } from "vuex";
+import VueRecaptcha from "vue-recaptcha";
 export default {
   name: "Signup",
+  components: { VueRecaptcha },
   data: function () {
     return {
       websiteBaseURL: process.env.VUE_APP_WEBSITE_BASE_URL,
+      sitekey: `${process.env.VUE_APP_GOOGLE_RECAPTCHA_SITE_MAP}`,
       loading1: false,
       loading2: false,
       acceptTerms: false,
@@ -224,6 +238,7 @@ export default {
       showConfirmPassword: true,
       referralID: "",
       disabled: false,
+      recaptchaToken: null,
       fullNameRules: [
         (v) => !!v || "Name is required", // verifies name satisfies the requirement
       ],
@@ -275,8 +290,6 @@ export default {
 
     if (newURL.searchParams.get("referral_id")) {
       this.disabled = true;
-    } else {
-      this.disabled = false;
     }
   },
   methods: {
@@ -286,7 +299,7 @@ export default {
       if (this.$refs[`form${formNum}`].validate()) {
         if (formNum == 2) {
           if (this.acceptTerms) {
-            this.submit();
+            this.$refs.recaptcha.execute();
           }
         } else if (formNum == 1) {
           this.loading1 = true;
@@ -320,11 +333,6 @@ export default {
                 this.errorMessage = "No internet connection!";
               }
             });
-        } else if (formNum == 2) {
-          this.$store.commit(
-            "onboarding/setPresentSignupForm",
-            `form${formNum + 1}`
-          );
         }
       }
     },
@@ -347,6 +355,7 @@ export default {
           password: this.createPassword,
           password_confirmation: this.confirmPassword,
           referral_id: localStorage.getItem("referral_id") || this.referralID,
+          recaptcha: this.recaptchaToken,
         })
         .then((response) => {
           this.loading2 = false;
@@ -376,6 +385,13 @@ export default {
             this.errorMessage = "No internet connection!";
           }
         });
+    },
+    onCaptchaVerified(token) {
+      this.recaptchaToken = token;
+      this.submit();
+    },
+    resetCaptcha() {
+      this.$refs.recaptcha.reset();
     },
   },
 };

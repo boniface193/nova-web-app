@@ -11,6 +11,7 @@ import Flutterwave from  "flutterwave-vue-v3";
 import VueMeta from 'vue-meta';
 import VueAnalytics from 'vue-analytics';
 
+
 Vue.use(VueMeta);
 Vue.use(VueClipboard);
 Vue.use(require('vue-moment'));
@@ -20,6 +21,8 @@ Vue.use(VueAnalytics, {
   id: 'UA-198232565-2',
   router
 });
+// recaptcha site key
+//Vue.use(VueReCaptcha, { siteKey: `${process.env.VUE_APP_GOOGLE_RECAPTCHA_SITE_MAP}` })
 Vue.config.productionTip = false;
 
 new Vue({

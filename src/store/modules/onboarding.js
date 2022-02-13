@@ -75,7 +75,6 @@ const actions = {
                     resolve(response)
                 })
                 .catch(error => {
-                    context.commit("removeToken");
                     reject(error)
                 })
         })
