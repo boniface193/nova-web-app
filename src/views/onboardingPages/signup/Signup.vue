@@ -190,15 +190,15 @@
       </div>
 
       <!-- This is in the component you want to have the reCAPTCHA -->
-      <VueRecaptcha
-        ref="recaptcha"
-        @verify="onCaptchaVerified"
-        @expired="resetCaptcha"
-        size="invisible"
+      <InvisibleRecaptcha
+        ref="invisibleRecaptcha1"
         :sitekey="sitekey"
-      >
-        ></VueRecaptcha
-      >
+        :elementId="'invisibleRecaptcha1'"
+        :badgePosition="'left'"
+        :showBadgeMobile="false"
+        :showBadgeDesktop="true"
+        @recaptchaCallback="recaptchaCallback"
+      ></InvisibleRecaptcha>
 
       <!-- button container -->
       <div class="pa-0 mt-5" style="width: 100%">
@@ -215,10 +215,10 @@
 </template>
 <script>
 import { mapState } from "vuex";
-import VueRecaptcha from "vue-recaptcha";
+import InvisibleRecaptcha from "@/components/secondary/InvisibleRecaptcha.vue";
 export default {
   name: "Signup",
-  components: { VueRecaptcha },
+  components: { InvisibleRecaptcha },
   data: function () {
     return {
       websiteBaseURL: process.env.VUE_APP_WEBSITE_BASE_URL,
@@ -299,7 +299,7 @@ export default {
       if (this.$refs[`form${formNum}`].validate()) {
         if (formNum == 2) {
           if (this.acceptTerms) {
-            this.$refs.recaptcha.execute();
+            this.$refs.invisibleRecaptcha1.execute()
           }
         } else if (formNum == 1) {
           this.loading1 = true;
@@ -384,14 +384,15 @@ export default {
           } else if (!navigator.onLine) {
             this.errorMessage = "No internet connection!";
           }
+          this.resetCaptcha();
         });
     },
-    onCaptchaVerified(token) {
+    recaptchaCallback(token) {
       this.recaptchaToken = token;
       this.submit();
     },
     resetCaptcha() {
-      this.$refs.recaptcha.reset();
+      this.$refs.invisibleRecaptcha1.reset();
     },
   },
 };
