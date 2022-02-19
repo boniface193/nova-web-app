@@ -44,6 +44,17 @@
         @keyup.enter="validatePassword()"
       ></v-text-field>
 
+      <!-- This is in the component you want to have the reCAPTCHA -->
+      <InvisibleRecaptcha
+        ref="invisibleRecaptcha1"
+        :sitekey="sitekey"
+        :elementId="'invisibleRecaptcha1'"
+        :badgePosition="'left'"
+        :showBadgeMobile="false"
+        :showBadgeDesktop="true"
+        @recaptchaCallback="recaptchaCallback"
+      ></InvisibleRecaptcha>
+
       <!-- button container -->
       <div class="pa-0 mt-5" style="width: 100%">
         <v-btn
@@ -89,12 +100,14 @@
 <script>
 import Modal from "@/components/secondary/Modal.vue";
 import successImage from "@/assets/images/success-img.svg";
+import InvisibleRecaptcha from "@/components/secondary/InvisibleRecaptcha.vue";
 //import failedImage from "@/assets/images/failed-img.svg";
 export default {
   name: "Recoverpassword",
-  components: { Modal },
+  components: { Modal, InvisibleRecaptcha },
   data: function () {
     return {
+      sitekey: `${process.env.VUE_APP_GOOGLE_RECAPTCHA_SITE_MAP}`,
       dialog: false,
       statusImage: null,
       dialogMessage: "",
@@ -105,6 +118,7 @@ export default {
       confirmPassword: "",
       showPassword: true,
       showConfirmPassword: true,
+      recaptchaToken: null,
       createPasswordRules: [
         //verifies password satisfies the requirement
         (v) => !!v || "Password is required",
@@ -123,7 +137,7 @@ export default {
     validatePassword() {
       this.$refs.form.validate();
       if (this.$refs.form.validate()) {
-        this.recoverPassword();
+        this.$refs.invisibleRecaptcha1.execute()
       }
     },
     //submit password
@@ -136,6 +150,7 @@ export default {
           password_confirmation: this.confirmPassword,
           otp: this.$route.params.otp,
           type: "seller",
+          recaptcha: this.recaptchaToken,
         })
         .then((response) => {
           this.loading = false;
@@ -167,6 +182,13 @@ export default {
             this.errorMessage = "No internet connection!";
           }
         });
+    },
+    recaptchaCallback(token) {
+      this.recaptchaToken = token;
+      this.recoverPassword();
+    },
+    resetCaptcha() {
+      this.$refs.invisibleRecaptcha1.reset();
     },
   },
 };

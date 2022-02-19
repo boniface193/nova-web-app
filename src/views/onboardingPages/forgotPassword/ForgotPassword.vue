@@ -36,6 +36,17 @@
       <!-- do not remove -->
       <v-text-field style="display: none"></v-text-field>
 
+      <!-- This is in the component you want to have the reCAPTCHA -->
+      <InvisibleRecaptcha
+        ref="invisibleRecaptcha1"
+        :sitekey="sitekey"
+        :elementId="'invisibleRecaptcha1'"
+        :badgePosition="'left'"
+        :showBadgeMobile="false"
+        :showBadgeDesktop="true"
+        @recaptchaCallback="recaptchaCallback"
+      ></InvisibleRecaptcha>
+
       <!-- button container -->
       <div class="pa-0 mt-5" style="width: 100%">
         <v-btn
@@ -53,14 +64,18 @@
   </div>
 </template>
 <script>
+import InvisibleRecaptcha from "@/components/secondary/InvisibleRecaptcha.vue";
 export default {
   name: "Forgotpassword",
+  components: { InvisibleRecaptcha },
   data: function () {
     return {
+      sitekey: `${process.env.VUE_APP_GOOGLE_RECAPTCHA_SITE_MAP}`,
       error: false,
       errorMessage: "",
       loading: false,
       email: "",
+      recaptchaToken: null,
       emailRules: [
         // verifies email address satisfies the requirement
         (v) => !!v || "E-mail is required",
@@ -73,7 +88,7 @@ export default {
     validateEmail() {
       this.$refs.form.validate();
       if (this.$refs.form.validate()) {
-        this.submitEmail();
+        this.$refs.invisibleRecaptcha1.execute();
       }
     },
     //submit email
@@ -84,6 +99,7 @@ export default {
         .dispatch("onboarding/forgotPassword", {
           email: this.email,
           type: "seller",
+          recaptcha: this.recaptchaToken,
         })
         .then((response) => {
           this.loading = false;
@@ -109,6 +125,13 @@ export default {
             this.message = "No internet connection!";
           }
         });
+    },
+    recaptchaCallback(token) {
+      this.recaptchaToken = token;
+      this.submitEmail();
+    },
+    resetCaptcha() {
+      this.$refs.invisibleRecaptcha1.reset();
     },
   },
 };
