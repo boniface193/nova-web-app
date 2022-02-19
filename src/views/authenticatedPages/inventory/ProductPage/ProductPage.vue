@@ -3,14 +3,6 @@
     <div class="secondary-container pt-sm-10 pt-16">
       <div>
         <div class="secondary-container__header">
-          <!-- go to previous page -->
-          <!-- <router-link
-            :to="{
-              name: 'InventoryHome',
-            }"
-            style="text-decoration: none"
-            class="mx-5"
-          > -->
           <span
             class="back-btn"
             @click="$router.back()"
@@ -20,7 +12,6 @@
               >mdi-chevron-left</v-icon
             >
           </span>
-          <!-- </router-link> -->
 
           <router-link
             :to="{ name: 'ShoppingCart' }"
