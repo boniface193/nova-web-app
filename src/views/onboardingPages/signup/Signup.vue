@@ -299,7 +299,7 @@ export default {
       if (this.$refs[`form${formNum}`].validate()) {
         if (formNum == 2) {
           if (this.acceptTerms) {
-            this.$refs.invisibleRecaptcha1.execute()
+            this.$refs.invisibleRecaptcha1.execute();
           }
         } else if (formNum == 1) {
           this.loading1 = true;
