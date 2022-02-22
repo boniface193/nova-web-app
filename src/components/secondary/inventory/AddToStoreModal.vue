@@ -1,11 +1,11 @@
 <template>
-  <div class="add-to-cart-container">
+  <div class="add-to-store-container">
     <div
-      class="add-to-cart-container__notification"
+      class="add-to-store-container__notification"
       v-if="productNames.length > 0"
     >
       <div
-        class="add-to-cart-container__notification__message"
+        class="add-to-store-container__notification__message"
         v-for="(productName, index) in productNames"
         :key="index"
       >
@@ -16,7 +16,7 @@
             color="white mr-3"
           ></v-progress-circular>
 
-          <span>Adding {{ productName }} to to cart</span>
+          <span>Adding {{ productName }} to store</span>
           <v-icon style="cursor: pointer" class="ml-1 error--text"
             >mdi-close</v-icon
           >
@@ -46,10 +46,13 @@
           </span>
         </p>
 
-        <!-- variant form -->
         <v-form class="text-left mt-1" ref="variantForm">
-          <!-- enter profit section -->
-          <div class="d-flex mb-3" style="align-items: baseline"  v-if="product.is_fmcg == false">
+          <!-- enter profit section and also shows when a product is not FMCG-->
+          <div
+            class="d-flex mb-3"
+            style="align-items: baseline"
+            v-if="product.is_fmcg == false"
+          >
             <p class="mr-5 mb-0">Enter profit(N) per unit:</p>
             <div style="max-width: 200px">
               <v-text-field
@@ -62,84 +65,38 @@
             </div>
           </div>
 
+          <!-- show when a product is FMCG -->
           <div class="d-flex" v-else>
-            <h3 class="mr-5 mb-0">Profit(N) per unit: </h3>
-            <span>{{product.seller_profit_label}}</span>
+            <h3 class="mr-5 mb-0">Profit(N) per unit:</h3>
+            <span>{{ product.seller_profit_label }}</span>
           </div>
 
-          <div v-if="product.variants && product.variants != null">
-            <h4 class="mb-2">Variants</h4>
-            <div
-              class="ml-2"
-              v-for="(item, index) in product.variants"
-              :key="index"
-            >
-              <p class="mb-1">{{ item.name }}</p>
-              <v-radio-group
-                row
-                class="mt-1"
-                :rules="variantRules"
-                v-model="variants[index].value"
-              >
-                <v-radio
-                  class="primary--text mb-0"
-                  v-for="(value, index2) in item.values"
-                  :key="index2"
-                  :label="value"
-                  :value="value"
-                ></v-radio>
-              </v-radio-group>
-            </div>
-          </div>
+          <!-- error message -->
+          <p
+            class="error--text text-center px-3"
+            v-show="dialogMessage !== ''"
+            v-html="dialogMessage"
+          ></p>
+
           <v-btn
             height="30"
             class="primary"
-            :disabled="productIsAddedToCart || addToStoreLoader"
+            :disabled="productIsAddedToStore || addToStoreLoader"
             :loading="addToStoreLoader"
             rounded
             depressed
             @click="addToStore"
-            >{{ productIsAddedToCart ? "Added to store" : "Add to store" }}</v-btn
+            >{{ productIsAddedToStore ? "Added" : "Add to store" }}</v-btn
           >
         </v-form>
-
-        <!-- <div class="d-flex justify-space-between flex-wrap mt-3">
-          <v-btn
-            width="220"
-            class="background primary--text mb-2"
-            depressed
-            @click="closeAddToStoreDialog"
-            >Continue selling</v-btn
-          >
-          <router-link :to="{ name: 'ShoppingCart' }">
-            <v-btn width="220" class="primary mb-2" depressed>Proceed to cart</v-btn>
-          </router-link>
-        </div> -->
-      </div>
-    </Modal>
-    <!-- Modal for dialog messages -->
-    <Modal :dialog="dialog" width="400">
-      <div class="white pa-3 pb-10 text-center dialog">
-        <div class="d-flex justify-end">
-          <v-icon class="error--text close-btn" @click="dialog = false"
-            >mdi-close</v-icon
-          >
-        </div>
-        <div class="mb-7 mt-5 mx-auto status-img">
-          <v-img :src="statusImage"></v-img>
-        </div>
-
-        <h4>{{ dialogMessage }}</h4>
       </div>
     </Modal>
   </div>
 </template>
 <script>
 import Modal from "@/components/secondary/Modal.vue";
-//import failedImage from "@/assets/images/failed-img.svg";
-import { mapState } from "vuex";
 export default {
-  name: "addToStoreModal",
+  name: "AddToStoreModal",
   components: {
     Modal,
   },
@@ -147,24 +104,13 @@ export default {
   data: function () {
     return {
       statusImage: null,
-      dialog: false,
       dialogMessage: "",
-      variantDialog: false,
-      variants: [
-        {
-          name: "",
-          value: [],
-        },
-      ],
-      quantityError: false,
-      quantityErrorMsg: "",
-      quantity: this.product.min_order_quantity,
       maxProfit: 0,
       profitPerUnit: 0,
       productNames: [],
       addToStoreLoader: false,
       loaderIndex: -1,
-      productIsAddedToCart: false,
+      productIsAddedToStore: false,
       profitRules: [
         (v) => !!v || "Profit is required", // verifies name satisfies the requirement
         (v) => Math.sign(v) !== -1 || "Negative profit is not allowed",
@@ -172,19 +118,12 @@ export default {
           v <= this.maxProfit ||
           "Profit must be less than maximum recommended profit",
       ],
-      variantRules: [(v) => !!v || "Required"],
     };
   },
-  computed: {
-    ...mapState({
-      totalNumberOfProductsInCart: (state) =>
-        state.orders.totalNumberOfProductsInCart,
-    }),
-  },
+  computed: {},
   watch: {
     immediate: true,
     product: function (currentProduct) {
-      this.quantity = currentProduct.min_order_quantity;
       this.maxProfit = currentProduct.max_profit;
       this.variants = currentProduct.variants || [];
     },
@@ -194,61 +133,42 @@ export default {
       this.$emit("closeAddToStoreDialog");
       this.profitPerUnit = 0;
       this.$refs.variantForm.reset();
-      this.productIsAddedToCart = false;
+      this.productIsAddedToStore = false;
+    },
+    validateProductToBeAdded() {
+      this.$refs.variantForm.validate();
+      if (this.$refs.variantForm.validate()) this.addToStore();
     },
     addToStore() {
-      if (this.$refs.variantForm.validate()) {
-        //this.addToStoreLoader = true;
-        //this.productNames.push(this.product.name);
-        // this.$store
-        //   .dispatch("orders/addProductToCart", {
-        //     product_id: this.product.id,
-        //     quantity: this.quantity,
-        //     profit_per_unit: parseInt(this.profitPerUnit, 10),
-        //     variants: this.variants,
-        //   })
-        //   .then(() => {
-        //     let productPosition = this.removeItemFromArray(
-        //       this.productNames,
-        //       this.product.name
-        //     );
-        //     this.productNames.splice(productPosition, 1);
-        //     this.$store.commit(
-        //       "orders/setTotalNumberOfProductsInCart",
-        //       this.totalNumberOfProductsInCart + 1
-        //     );
-        //     this.productIsAddedToCart = true;
-        //     this.addToStoreLoader = false;
-        //     this.closeAddToStoreDialog()
-        //   })
-        //   .catch((error) => {
-        //     let productPosition = this.removeItemFromArray(
-        //       this.productNames,
-        //       this.product.name
-        //     );
-        //     this.productNames.splice(productPosition, 1);
-        //     this.productIsAddedToCart = false;
-        //     this.addToStoreLoader = false;
-        //     if(error.status === 400){
-        //       this.statusImage = failedImage;
-        //       this.dialog = true;
-        //       this.dialogMessage = error.data.message;
-        //     }
-        //   });
-      }
-    },
-    removeItemFromArray(arr, itemName) {
-      for (let i = 0; i < arr.length; i++) {
-        if (arr[i] === itemName) {
-          return i;
-        }
-      }
+      this.addToStoreLoader = true;
+      this.$store
+        .dispatch("inventory/addProductToStore", {
+          product_id: this.product.id,
+          profit: parseInt(this.profitPerUnit, 10),
+        })
+        .then(() => {
+          this.productIsAddedToStore = true;
+          this.addToStoreLoader = false;
+          this.closeAddToStoreDialog();
+          this.dialogMessage= "";
+        })
+        .catch((error) => {
+          this.addToStoreLoader = false;
+          if (error.status === 400) {
+            if (
+              error.data.message == "No store is associated with this account"
+            ) {
+              this.dialogMessage = `${error.data.message} <a href="/your-store/setup" class="primary--text" style="text-decoration:underline">Setup store</a>`;
+            } else this.dialogMessage = error.data.message;
+          }
+          if (error.status === 422) this.dialogMessage = error.data.message;
+        });
     },
   },
 };
 </script>
 <style lang="scss" scoped>
-.add-to-cart-container {
+.add-to-store-container {
   &__notification {
     position: fixed;
     right: 10px;
@@ -283,11 +203,5 @@ export default {
   color: #029b97;
   justify-content: center;
   cursor: pointer;
-}
-.status-img {
-  width: 140px;
-  .v-image {
-    width: 100%;
-  }
 }
 </style>

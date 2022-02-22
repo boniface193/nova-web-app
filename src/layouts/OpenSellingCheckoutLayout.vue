@@ -129,6 +129,7 @@ export default {
       this.$store
         .dispatch("onboarding/getSellerDetails", {
           id: seller_id,
+          userType: this.orderDetails.user_type
         })
         .then((response) => {
           this.sellerDetails = response.data.data;

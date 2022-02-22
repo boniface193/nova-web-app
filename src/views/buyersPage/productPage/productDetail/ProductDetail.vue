@@ -2,7 +2,7 @@
   <div>
     <div class="secondary-container pt-sm-10 pt-16">
       <div>
-        <div class="secondary-container__header">
+        <v-app-bar app color="#fafafa" elevation="0" class="px-3 px-sm-8">
           <span
             class="back-btn"
             @click="$router.back()"
@@ -12,28 +12,28 @@
               >mdi-chevron-left</v-icon
             >
           </span>
+          <v-spacer></v-spacer>
+          <div class="secondary-container__header__cart" @click="$router.push({name: 'shoppingCart'})">
+            <img
+              width="29.84px"
+              height="20.11px"
+              src="@/assets/icons/cart-icon.svg"
+              class="mr-2"
+            />
+            <span class="no-of-item-in-cart pa-1">0</span>
+          </div>
+        </v-app-bar>
 
-          <router-link
-            :to="{ name: 'ShoppingCart' }"
-            class="secondary-container__header__cart mr-5"
-          >
-            <img width="40" src="@/assets/icons/cart-icon.svg" />
-            <span class="no-of-item-in-cart">{{
-              totalNumberOfProductsInCart
-            }}</span>
-          </router-link>
-        </div>
-
-        <v-row v-if="!loader">
-          <v-col class="col-12 col-md-6 pt-md-15 px-5 pb-5">
-            <div class="image-container py-10">
+        <v-row>
+          <v-col class="col-12 col-md-6 px-5 pb-5" style="padding: 90px 0">
+            <div class="image-container pt-10">
               <div class="image-container__main">
                 <img
-                  :src="selectedImg || productDetails.image"
+                  src="@/assets/images/jean.png"
                   alt=""
                   style="height: 100%; width: 100%"
                 />
-                <span class="points">{{ productDetails.points }}pts</span>
+                <span class="points">2pts</span>
               </div>
               <!-- sliding images -->
               <v-sheet class="mx-auto" max-width="800">
@@ -44,7 +44,7 @@
                   show-arrows
                 >
                   <v-slide-item
-                    v-for="n in productDetails.other_images"
+                    v-for="n in 1"
                     :key="n"
                     v-slot="{ active, toggle }"
                   >
@@ -56,80 +56,49 @@
                       @click="toggle"
                       v-on:click="selectByImage(n)"
                     >
-                      <v-img :src="n" height="80" width="90"></v-img>
+                      <v-img
+                        src="@/assets/images/jean.png"
+                        height="80"
+                        width="90"
+                      ></v-img>
                     </v-card>
                   </v-slide-item>
                 </v-slide-group>
               </v-sheet>
               <!-- sliding images -->
-
-              <a
-                class="download-icon white--text primary"
-                :href="`http://${removeHttp(
-                  selectedImg == '' ? productDetails.image : selectedImg
-                )}`"
-                target="_blank"
-                download
-              >
-                Download image
-              </a>
             </div>
           </v-col>
           <!-- prduct details -->
           <v-col class="col-12 col-md-6 pt-md-15 px-8">
-            <h2 class="mb-4">{{ productDetails.name }}</h2>
+            <h2 class="mb-4">Kuda</h2>
             <p class="secondary--text mb-4" style="font-size: 14px">
-              <span class="mr-5"
-                >&#8358;{{ productDetails.total_price_label }}</span
-              ><span> SKU: {{ productDetails.sku }} </span
-              ><span class="mx-2">|</span
-              ><span style="font-weight: 600; color: black"
-                >{{ productDetails.quantity }} Available</span
-              >
+              <span class="mr-5">&#8358;250</span
+              ><span> SKU: gkn456254562 </span><span class="mx-2">|</span
+              ><span style="font-weight: 600; color: black">5 Available</span>
               <span class="mx-2">|</span>
               <span
                 ><span style="font-weight: 600">Minimum order quantity:</span>
-                {{ productDetails.min_order_quantity }}</span
-              >
-            </p>
-            <p class="mb-4">
-              <span class="primary--text mr-2"
-                >&#8358;{{ productDetails.min_profit_label }} - &#8358;{{
-                  productDetails.max_profit_label
-                }}</span
-              ><span class="secondary--text" style="font-size: 14px"
-                >Suggested profit</span
+                1</span
               >
             </p>
             <p class="secondary--text" style="font-size: 14px">
-              Inventory: {{ storeDetails.name }}
+              Inventory: Manapas
             </p>
             <hr class="secondary--text" />
 
             <div class="py-5">
               <h4 class="mb-4">Description</h4>
               <p class="secondary--text mb-2" style="font-size: 14px">
-                {{ productDetails.description.slice(0, 200) }}
+                Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                Possimus iusto iure veritatis sit eveniet commodi, a
+                voluptatibus officia provident pariatur aliquid id assumenda
+                ducimus excepturi consectetur, quaerat vitae? Doloremque, dolor
+                consequatur officiis architecto veritatis eius earum ea non
+                natus aut.
               </p>
               <!-- view more about product btn -->
-              <router-link
-                :to="{
-                  name: 'ProductDetails',
-                  params: {
-                    id: this.$route.params.id,
-                  },
-                }"
-                style="text-decoration: none font-size:14px"
-                class="primary--text"
-              >
-                View more
-              </router-link>
 
               <h4 class="mt-4 mb-2">Shipping and returns</h4>
-              <p class="mb-2">
-                <span style="font-weight: 600">Store location:</span>
-                {{ storeDetails.location.state }}
-              </p>
               <p
                 v-show="storeDetails.refund_policy.return_allowed == 'true'"
                 style="font-size: 14px"
@@ -167,65 +136,59 @@
                 Returns are not allowed for this product
               </p>
 
-              <v-btn class="primary" width="300" @click="addToCart"
-                >Add to cart</v-btn
-              >
-              <v-btn class="background mt-3" width="300" @click="addToStore"
-                >Add to store</v-btn
-              >
+              <v-btn class="primary elevation-0" width="300" :disabled="addToCartLoad" @click="addToCart"
+                >Add to Cart
+              </v-btn>
             </div>
           </v-col>
         </v-row>
         <!-- loader container -->
-        <div class="text-center pt-10 pb-5" v-else>
+        <!-- <div class="text-center pt-10 pb-5">
           <v-progress-circular
             indeterminate
             color="primary"
           ></v-progress-circular>
-        </div>
+        </div> -->
       </div>
       <!-- add to cart dialog modal -->
-      <AddToCartModal
-        :product="productDetails"
-        :addToCartDialog="addToCartDialog"
-        @closeAddToCartDialog="addToCartDialog = false"
-      />
-      <!-- add to store dialog modal -->
-      <AddToStoreModal
-        :product="productDetails"
-        :addToStoreDialog="addToStoreDialog"
-        @closeAddToStoreDialog="addToStoreDialog = false"
-      />
+      <addToCartLoader :addToCartLoad="addToCartLoad" />
 
-      <!-- Response Modal -->
-      <ResponseModal
-        :dialog="dialog"
-        :status="statusImage"
-        :dialogMessage="dialogMessage"
-        @closeDialog="
-          () => {
-            this.dialog = false;
-          }
-        "
-      />
+      <!-- Modal for dialog messages -->
+      <Modal :dialog="dialog" width="400">
+        <div class="white pa-3 pb-10 text-center dialog">
+          <div class="d-flex justify-end">
+            <v-icon class="error--text close-btn" @click="dialog = false"
+              >mdi-close</v-icon
+            >
+          </div>
+
+          <div class="mb-7 mt-5 mx-auto status-img">
+            <v-img :src="statusImage"></v-img>
+          </div>
+
+          <h4>{{ dialogMessage }}</h4>
+        </div>
+      </Modal>
     </div>
   </div>
 </template>
 <script>
-import AddToCartModal from "@/components/secondary/inventory/AddToCartModal";
-import AddToStoreModal from "@/components/secondary/inventory/AddToStoreModal";
-import ResponseModal from "@/components/secondary/ResponseModal.vue";
+import failedImage from "@/assets/images/failed-img.svg";
+import Modal from "@/components/secondary/Modal.vue";
+import addToCartLoader from "@/views/buyersPage/productPage/cart/AddToCartLoader";
+//import { Facebook } from "vue-socialmedia-share";
+//import { Twitter } from "vue-socialmedia-share";
+//import { WhatsApp } from "vue-socialmedia-share";
 import { mapState } from "vuex";
 export default {
   name: "Product",
-  components: { ResponseModal, AddToCartModal, AddToStoreModal},
+  components: { Modal, addToCartLoader }, //Facebook, Twitter, WhatsApp },
   data: function () {
     return {
       model: null,
       selectedImg: "",
-      addToCartDialog: false,
-      addToStoreDialog: false,
       allImg: [],
+      addToCartLoad: false,
       productDetails: {
         description: "",
         min_order_quantity: 1,
@@ -234,12 +197,12 @@ export default {
       },
       storeDetails: {
         refund_policy: {},
-        location: {},
       },
       loader: false,
       statusImage: null,
       dialog: false,
       dialogMessage: "",
+      copyStatus: false,
     };
   },
   computed: {
@@ -281,7 +244,7 @@ export default {
       .catch((error) => {
         this.loader = false;
         if (error.status == 422 || error.status == 400) {
-          this.statusImage = false;
+          this.statusImage = failedImage;
           this.dialog = true;
           this.dialogMessage = error.data.message;
         }
@@ -289,10 +252,7 @@ export default {
   },
   methods: {
     addToCart() {
-      this.addToCartDialog = true;
-    },
-    addToStore() {
-      this.addToStoreDialog = true;
+      this.addToCartLoad = true;
     },
     selectByImage(params) {
       this.selectedImg = this.productDetails.other_images.find(
@@ -311,7 +271,7 @@ export default {
         .catch((error) => {
           this.loader = false;
           if (error.status == 422 || error.status == 400) {
-            this.statusImage = false;
+            this.statusImage = failedImage;
             this.dialog = true;
             this.dialogMessage = error.data.message;
           }
@@ -324,5 +284,5 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-@import "./ProductPage.scss";
+@import "./ProductDetail.scss";
 </style>

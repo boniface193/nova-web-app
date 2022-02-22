@@ -1,0 +1,179 @@
+.secondary-container {
+    position: absolute;
+    width: 100%;
+    top: -20px;
+    left: 0;
+    padding: 40px;
+    background: #fafafa;
+    min-height: 100%;
+    &__header {
+      position: sticky;
+      top: 0;
+      display: flex;
+      justify-content: space-between;
+      &__cart {
+        position: absolute;
+        right: 0px;
+        cursor: pointer;
+        .no-of-item-in-cart {
+          background: #029b97;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          border-radius: 50%;
+          width: fit-content;
+          height: 15px;
+          font-size: 10px;
+          color: #fff;
+          position: absolute;
+          right: 0;
+          top: 0;
+        }
+      }
+    }
+  }
+  .image-container {
+    width: 80%;
+    background: #fff;
+    margin: auto;
+    border-radius: 12px;
+    position: relative;
+    @media (max-width: 750px) {
+        width: calc(100% - 5%);
+    }
+    &__main {
+      height: 300px;
+      padding: 0 30px;
+      text-align: center;
+      @media (max-width: 550px) {
+        padding: 0 10px;
+      }
+      img {
+        width: auto;
+        max-width: 100%;
+        min-width: 80%;
+      }
+    }
+    .download-icon {
+      position: absolute;
+      text-decoration: none;
+      width: 100px;
+      height: 35px;
+      bottom: 7px;
+      left: 0px;
+      right: 0px;
+      margin: auto;
+      text-align: center;
+      border-radius: 5px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      &:hover {
+        .v-icon {
+          color: var(--v-primary-base);
+        }
+      }
+    }
+  }
+  .points {
+    background: #ffba00;
+    color: #fff;
+    padding: 5px 7px;
+    position: absolute;
+    font-size: 15px;
+    top: -12px;
+    right: -7px;
+    z-index: 3;
+    border-radius: 8px;
+  }
+  .checkout-container {
+    right: 0px;
+    bottom: 0px;
+    position: sticky;
+    float: right;
+    width: 50%;
+  }
+  .resell-container {
+    background: #fff;
+    border-top-right-radius: 24px;
+    border-top-left-radius: 24px;
+    z-index: 2;
+    .v-btn:not(.v-btn--round).v-size--default {
+      height: 45px;
+      min-width: 100%;
+      padding: 0 16px;
+    }
+  }
+  .sellerLink-container {
+    background: #fff;
+    border-top-right-radius: 24px;
+    border-top-left-radius: 24px;
+    z-index: 3;
+    .link {
+      background: #f3f5ff;
+      color: #029b97;
+      text-align: center;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      word-break: break-all;
+      img {
+        margin-right: 10px;
+      }
+      .copy-btn {
+        cursor: pointer;
+        &:hover {
+          color: #03a09b;
+        }
+      }
+      .copy-status {
+        position: absolute;
+        bottom: 100%;
+        background: #e0e7ff;
+        word-break: none;
+        width: 90px;
+        right: 0;
+        border-radius: 8px;
+      }
+    }
+  }
+  .add-btn {
+    border-radius: 50%;
+    background: #029b97;
+    width: 25px;
+    height: 25px;
+    display: flex;
+    align-items: center;
+    color: #fff;
+    justify-content: center;
+    cursor: pointer;
+  }
+  .minus-btn {
+    border-radius: 50%;
+    background: #f3f5ff;
+    width: 25px;
+    height: 25px;
+    display: flex;
+    align-items: center;
+    color: #029b97;
+    justify-content: center;
+    cursor: pointer;
+  }
+  .link-btn-container {
+    .v-btn:not(.v-btn--round).v-size--default {
+      height: 40px;
+      min-width: 48%;
+      padding: 0 16px;
+    }
+  }
+  @media (max-width: 950px) {
+    .checkout-container {
+      width: 100%;
+    }
+    .sellerLink-container,
+    .resell-container {
+      box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+    }
+  }

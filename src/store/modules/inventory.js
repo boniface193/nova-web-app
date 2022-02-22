@@ -1,26 +1,5 @@
 import inventoryHttpClient from "@/services/inventory.service.js";
-
-// set the number of item you want to show on table
-const setItemPerPage = (itemPerPage, per_page, from_page) => {
-    let page = null;
-    if (itemPerPage > per_page) {
-        let range = Math.round(
-            (from_page - 1) / per_page
-        );
-        if (range < 0.5) {
-            page = range + 1;
-            return page;
-        } else {
-            page = range;
-            return page;
-        }
-    } else {
-        page = Math.round(
-            (from_page - 1) / itemPerPage + 1
-        );
-        return page
-    }
-}
+import setItemPerPage from "@/helpers/general.js";
 
 //holds the state properties
 const state = {
@@ -41,6 +20,7 @@ const state = {
     },
     category: '',
     FMCGCategory: '',
+    sellerStoreDetails: {},
     doNothing: null
 };
 
@@ -51,6 +31,7 @@ const getters = {
     productCategories: state => state.productCategories,
     FMCGProductCategories: state => state.FMCGProductCategories,
     getProductForLandingPage: state => state.productForLandingPage,
+    sellerStoreDetails: state => state.sellerStoreDetails
 };
 
 //fetch data 
@@ -162,6 +143,85 @@ const actions = {
                 })
         })
     },
+    setupStore(context, data) {
+        return new Promise((resolve, reject) => {
+            inventoryHttpClient.post(`/seller-store`, data).then(response => {
+                resolve(response);
+            })
+                .catch(error => {
+                    context.commit("doNothing");
+                    reject(error);
+                })
+        })
+    },
+    getSellerStoreDetails(context) {
+        return new Promise((resolve, reject) => {
+            inventoryHttpClient.get("seller-store").then(response => {
+                context.commit("setSellerStoreDetails", response.data.data);
+                resolve(response);
+            })
+                .catch(error => {
+                    context.commit("setSellerStoreDetails", {});
+                    reject(error);
+                })
+        })
+    },
+    addProductToStore(context, data) {
+        return new Promise((resolve, reject) => {
+            inventoryHttpClient.post("catalogue", data).then(response => {
+                resolve(response);
+            })
+                .catch(error => {
+                    context.commit("doNothing");
+                    reject(error);
+                })
+        })
+    },
+    getSellerStoreProducts(context, data) {
+        return new Promise((resolve, reject) => {
+            inventoryHttpClient.get(`catalogue/view?page=${data.page}`).then(response => {
+                resolve(response);
+            })
+                .catch(error => {
+                    context.commit("doNothing");
+                    reject(error);
+                })
+        })
+    },
+    updateStoreName(context, data) {
+        return new Promise((resolve, reject) => {
+            inventoryHttpClient.post("seller-store/update", data).then(response => {
+                context.commit("setSellerStoreDetails", response.data.data);
+                resolve(response);
+            })
+                .catch(error => {
+                    context.commit("doNothing");
+                    reject(error);
+                })
+        });
+    },
+    updateProductProfit(context, data) {
+        return new Promise((resolve, reject) => {
+            inventoryHttpClient.put(`/catalogue/${data.product_id}`, data).then(response => {
+                resolve(response);
+            })
+                .catch(error => {
+                    context.commit("doNothing");
+                    reject(error);
+                })
+        });
+    },
+    deleteBulkProductInStore(context, data) {
+        return new Promise((resolve, reject) => {
+            inventoryHttpClient.delete(`catalogue/removeBulk`, { data }).then(response => {
+                resolve(response);
+            })
+                .catch(error => {
+                    context.commit("doNothing");
+                    reject(error);
+                })
+        });
+    }
 };
 
 //updates the different state properties
@@ -183,6 +243,7 @@ const mutations = {
     setFMCGProductCategories: (state, productCategories) => (state.FMCGProductCategories = productCategories),
     setCategory: (state, category) => (state.category = category),
     setFMCGCategory: (state, category) => (state.FMCGCategory = category),
+    setSellerStoreDetails: (state, data) => (state.sellerStoreDetails = data),
     // commit nothing
     doNothing: (state) => (state.doNothing = null),
 };

@@ -29,11 +29,10 @@ const actions = {
     // get profile informations
     getUserProfile(context) {
         return new Promise((resolve, reject) => {
-            
             onboardingHttpClient.get("profile").then(response => {
                 context.commit("setUserProfile", response.data.data);
                 resolve(response);
-            }).catch((error)=>{
+            }).catch((error) => {
                 reject(error);
             })
         })
@@ -63,7 +62,7 @@ const actions = {
                 })
         });
     },
-    addKYC(context, data){
+    addKYC(context, data) {
         return new Promise((resolve, reject) => {
             onboardingHttpClient.post(`sellers/kyc`, data).then(response => {
                 resolve(response);
@@ -74,7 +73,7 @@ const actions = {
                 })
         })
     },
-    getKYCDetails(context, data){
+    getKYCDetails(context, data) {
         return new Promise((resolve, reject) => {
             onboardingHttpClient.get(`sellers/kyc/${data.seller_id}`).then(response => {
                 resolve(response);
@@ -84,14 +83,14 @@ const actions = {
                     reject(error);
                 })
         })
-    },
+    }
 };
 
 //updates the different state properties
 const mutations = {
     setUserProfile: (state, data) => (state.profile = data),
     setSellerStatus: (state, status) => (state.allowSellerToSell = status),
-    setKycSubmitLoader:(state, status) => (state.kycSubmitLoader = status),
+    setKycSubmitLoader: (state, status) => (state.kycSubmitLoader = status),
     doNothing: (state) => (state.doNothing = null)
 };
 

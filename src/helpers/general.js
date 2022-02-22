@@ -16,3 +16,24 @@ export const search = (nameKey, myArray) => {
         }
     }
 }
+// returns the netx page expected for a specific item per page
+export const setItemPerPage = (itemPerPage, per_page, from_page) => {
+    let page = null;
+    if (itemPerPage > per_page) {
+        let range = Math.round(
+            (from_page - 1) / per_page
+        );
+        if (range < 0.5) {
+            page = range + 1;
+            return page;
+        } else {
+            page = range;
+            return page;
+        }
+    } else {
+        page = Math.round(
+            (from_page - 1) / itemPerPage + 1
+        );
+        return page
+    }
+}

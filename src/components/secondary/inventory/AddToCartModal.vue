@@ -16,7 +16,7 @@
             color="white mr-3"
           ></v-progress-circular>
 
-          <span>Adding {{ productName }} to to cart</span>
+          <span>Adding {{ productName }} to cart</span>
           <v-icon style="cursor: pointer" class="ml-1 error--text"
             >mdi-close</v-icon
           >

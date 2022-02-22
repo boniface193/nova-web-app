@@ -1,26 +1,5 @@
 import axios from "@/services/dashboard.service.js";
-
-// set the number of item you want to show on table
-const setItemPerPage = (itemPerPage, per_page, from_page) => {
-    let page = null;
-    if (itemPerPage > per_page) {
-        let range = Math.round(
-            (from_page - 1) / per_page
-        );
-        if (range < 0.5) {
-            page = range + 1;
-            return page;
-        } else {
-            page = range;
-            return page;
-        }
-    } else {
-        page = Math.round(
-            (from_page - 1) / itemPerPage + 1
-        );
-        return page
-    }
-}
+import setItemPerPage from "@/helpers/general.js";
 
 const state = {
     reward: { data: [] },

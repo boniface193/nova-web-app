@@ -3,11 +3,11 @@ import router from "./index";
 
 // get user profile information and check they meet the conditions
 export const getProfile = (to, from, next) => {
-    store.dispatch("onboarding/getUserProfile").then(response => {
+    store.dispatch("settings/getUserProfile").then(response => {
         const profile = response.data.data;
         if (profile.email_verified) {
             if (profile.status) {
-                localStorage.removeItem("nextRoute")
+                localStorage.removeItem("nextRoute");
                 next()
                 return
             } else {
@@ -21,9 +21,8 @@ export const getProfile = (to, from, next) => {
             });
         }
     }).catch((error) => {
-        if (error.status == 401) {
+        if (error.status == 401)
             logUserOut(next);
-        }
     })
 }
 
@@ -56,7 +55,7 @@ export const ifAuthenticated = (to, from, next) => {
             })
         }
     } else {
-       logUserOut(next);
+        logUserOut(next);
     }
 }
 
@@ -134,7 +133,39 @@ export const allowEditBankAccount = (to, from, next) => {
         next({ name: "WithdrawFund" });
     }
 }
-
+// allow user to access store if profile is setup
+export const allowSellerToAccessStore = (to, from, next) => {
+    if (store.getters["inventory/sellerStoreDetails"].name === undefined) {
+        store.dispatch("inventory/getSellerStoreDetails").then(() => {
+            if (store.getters["inventory/sellerStoreDetails"].name !== undefined){
+                next();
+                return
+            }
+            router.push({ name: "StoreSetup" });
+        }).catch(() => {
+            router.push({ name: "StoreSetup" });
+        })
+    } else {
+        next();
+        return
+    }
+}
+export const allowSellerToAccessStoreSetup = (to, from, next) => {
+    if (store.getters["inventory/sellerStoreDetails"].name === undefined) {
+        store.dispatch("inventory/getSellerStoreDetails").then(() => {
+            if (store.getters["inventory/sellerStoreDetails"].name === undefined){
+                next();
+                return
+            }
+            router.push({ name: "Store" });
+        }).catch(() => {
+            next();
+            return
+        })
+    } else {
+        router.push({ name: "Store" });
+    }
+}
 // logout 
 const logUserOut = (next) => {
     store.commit("onboarding/removeClientID");

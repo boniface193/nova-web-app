@@ -4,6 +4,7 @@ import InventoryLayout from "@/layouts/InventoryLayout.vue";
 import OrderLayout from "@/layouts/OrderLayout.vue";
 import SettingsLayout from "@/layouts/SettingsLayout.vue";
 import OpenSellingLayout from "@/layouts/OpenSellingLayout.vue";
+import StoreLayout from "@/layouts/StoreLayout.vue"
 // inventory pages
 import InventoryHome from "@/views/authenticatedPages/inventory/InventoryHome/InventoryHome.vue";
 import FMCGInventory from "@/views/authenticatedPages/inventory/FMCGInventory/FMCGInventory.vue";
@@ -36,7 +37,10 @@ import Referral from "@/views/authenticatedPages/dashboard/Referral/Referral.vue
 import ReferralEarnings from "@/views/authenticatedPages/dashboard/Referral/ReferralEarnings.vue";
 import ViewReferrals from "@/views/authenticatedPages/dashboard/Referral/ViewReferrals.vue";
 import ReferFriends from "@/views/authenticatedPages/dashboard/Referral/ReferFriends.vue";
-import { ifAuthenticated, allowEditBankAccount } from "./controller.js";
+import { ifAuthenticated, allowEditBankAccount, allowSellerToAccessStore, allowSellerToAccessStoreSetup} from "./controller.js";
+// your store
+import StoreSetup from "@/views/authenticatedPages/yourStore/Setup/Setup.vue";
+import Store from "@/views/authenticatedPages/yourStore/Store/Store.vue";
 //open selling 
 import OpenSellingPage from "@/views/authenticatedPages/openSelling/OpenSellingPage.vue";
 
@@ -213,6 +217,25 @@ export const authenticatedRoutes = {
                     path: "",
                     name: "OpenSellingPage",
                     component: OpenSellingPage
+                }
+            ]
+        },
+        //your store
+        {
+            path: "/your-store",
+            component: StoreLayout,
+            children: [
+                {
+                    path: "",
+                    name: "Store",
+                    component: Store,
+                    beforeEnter: allowSellerToAccessStore
+                },
+                {
+                    path: "setup",
+                    name: "StoreSetup",
+                    component: StoreSetup,
+                    beforeEnter: allowSellerToAccessStoreSetup
                 }
             ]
         },
