@@ -1,0 +1,9 @@
+{
+    "version": 3,
+    "mappings": "AAAA,AAAA,YAAY,AAAC,CACT,KAAK,CAAE,GAAG,CACX,AACD,AAAA,SAAS,AAAC,CACR,QAAQ,CAAE,QAAQ,CAClB,IAAI,CAAE,GAAG,CACT,GAAG,CAAE,CAAC,CACP,AACD,MAAM,EAAE,SAAS,EAAE,KAAK,EACtB,AAAA,YAAY,AAAC,CACX,KAAK,CAAE,IAAI,CACZ,CAEH,MAAM,EAAE,SAAS,EAAE,KAAK,EACtB,AAAA,MAAM,AAAA,IAAK,CAAA,aAAa,CAAC,gBAAgB,AAAC,CACxC,SAAS,CAAE,IAAI,CAChB",
+    "sources": [
+        "../../../../../src/views/authenticatedPages/settings/Privacy/Privacy.scss"
+    ],
+    "names": [],
+    "file": "Privacy.min.css"
+}

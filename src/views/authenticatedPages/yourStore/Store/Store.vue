@@ -4,26 +4,15 @@
     <div class="store-page__header mb-5">
       <a
         class="primary--text"
-        @click="
-          () => {
-            this.editMode = !this.editMode;
-          }
-        "
+        style="text-decoration: underline"
+        @click="() => (this.editMode = !this.editMode)"
         >{{ editMode ? "Done" : "Edit mode" }}</a
       >
       <!-- store name -->
-      <h3 class="store-name">
-        <span v-show="!editMode">{{ storeName }}</span
-        ><input
-          v-show="editMode"
-          @change="updateStoreName()"
-          class="edit-store-name"
-          v-model="storeName"
-          :disabled="!editMode"
-        />
-      </h3>
+      <h3 class="store-name"><span>{{ storeName }}</span></h3>
       <v-btn
-        width="150px"
+        style="font-size: 12px !important; line-height: 18px"
+        height="40px"
         class="secondary--text"
         :class="{ 'primary white--text': copyStatus }"
         v-on:click="copyToClipBoard"
@@ -31,17 +20,25 @@
       >
     </div>
 
-    <div class="d-flex justify-space-between" :class="{ 'mb-8': editMode }">
+    <div
+      class="d-flex justify-space-between flex-wrap"
+      :class="{ 'mb-8': editMode }"
+    >
       <h4>
         Products
-        <span
-          class="ml-5 secondary--text"
-          v-show="editMode"
-          style="font-weight: normal"
-          >{{ selectedProducts.length }}
-          {{
-            selectedProducts.length > 1 ? "items selected" : "item selected"
-          }}</span
+        <span v-if="editMode">
+          <span class="ml-5 secondary--text" style="font-weight: normal"
+            >{{ selectedProducts.length }}
+            {{
+              selectedProducts.length > 1 ? "items selected" : "item selected"
+            }}</span
+          >
+          <a
+            class="primary--text ml-3"
+            style="font-weight: normal; text-decoration: underline"
+            @click="() => (this.editStoreDetails = true)"
+            >Edit store details</a
+          ></span
         >
       </h4>
       <!-- delete btn -->
@@ -116,16 +113,24 @@
     <div class="text-center pt-10 pb-5" v-show="loading">
       <v-progress-circular indeterminate color="primary"></v-progress-circular>
     </div>
+
+    <!-- edit store details modal-->
+    <EditStoreDetails
+      :dialog="editStoreDetails"
+      @closeEditStoreModal="() => (this.editStoreDetails = false)"
+    />
   </div>
 </template>
 <script>
 import StoreProductCard from "@/components/secondary/StoreProductCard.vue";
+import EditStoreDetails from "@/components/secondary/EditStoreDetails.vue";
 export default {
   name: "Store",
-  components: { StoreProductCard },
+  components: { StoreProductCard, EditStoreDetails },
   data: function () {
     return {
       products: [{ product: {} }],
+      editStoreDetails: false,
       loading: false,
       editMode: false,
       selectedProducts: [],
@@ -162,13 +167,6 @@ export default {
         .catch(() => {
           this.loading = false;
         });
-    },
-    updateStoreName() {
-      this.$store
-        .dispatch("inventory/updateStoreName", {
-          name: this.storeName,
-        })
-        .catch(() => {});
     },
     deleteBulkProductInStore() {
       if (this.selectedProducts.length > 0) {

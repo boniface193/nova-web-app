@@ -1,0 +1,9 @@
+{
+    "version": 3,
+    "mappings": "AAAA,AAAA,SAAS,AAAC,CACN,QAAQ,CAAE,QAAQ,CAClB,IAAI,CAAE,GAAG,CACT,GAAG,CAAE,CAAC,CACP",
+    "sources": [
+        "../../../../../src/views/authenticatedPages/inventory/ProductDetails/ProductDetails.scss"
+    ],
+    "names": [],
+    "file": "ProductDetails.min.css"
+}

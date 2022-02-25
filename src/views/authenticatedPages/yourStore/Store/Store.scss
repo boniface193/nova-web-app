@@ -13,6 +13,14 @@
       font-weight: normal;
       left: 0;
       right: 0;
+      max-width: 250px;
+      @media (max-width: 750px) {
+        max-width: 100px;
+      }
+      span{
+        word-break: break-all;
+        text-overflow: ellipsis;
+      }
     }
     a {
       cursor: pointer;
