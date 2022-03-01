@@ -57,9 +57,14 @@
             <a
               class="actions-section__dropdown__item"
               @click.prevent.stop="showAddToStoreModal()"
-              >Add to your store
-              <img class="ml-2" src="@/assets/icons/mini-store-icon.svg"
-            /></a>
+              ><span v-if="!product.in_store"
+                >Add to your store
+                <img class="ml-2" src="@/assets/icons/mini-store-icon.svg" />
+              </span>
+              <span style="cursor:text" v-if="product.in_store" class="primary--text"
+                >Already in store</span
+              >
+            </a>
           </div>
         </div>
       </div>

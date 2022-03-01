@@ -150,6 +150,7 @@ export default {
           this.productIsAddedToStore = true;
           this.addToStoreLoader = false;
           this.closeAddToStoreDialog();
+          this.$emit("setAddToStoreStatus");
           this.dialogMessage= "";
         })
         .catch((error) => {

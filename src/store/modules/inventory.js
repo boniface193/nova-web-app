@@ -244,6 +244,7 @@ const mutations = {
     setCategory: (state, category) => (state.category = category),
     setFMCGCategory: (state, category) => (state.FMCGCategory = category),
     setSellerStoreDetails: (state, data) => (state.sellerStoreDetails = data),
+    changeProductToInStore: (state, index) => (state.products[index].in_store = true),
     // commit nothing
     doNothing: (state) => (state.doNothing = null),
 };

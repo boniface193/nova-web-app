@@ -45,7 +45,7 @@
           :product="product"
           :index="index"
           @addToCart="addToCart"
-          @addToStore="addToStore"
+          @addToStore="addToStore($event, index)"
         />
       </div>
       <!-- pagination -->
@@ -104,7 +104,9 @@
     <AddToStoreModal
       :product="currentProduct"
       :addToStoreDialog="addToStoreDialog"
-      @closeAddToStoreDialog="addToStoreDialog = false"
+      :recentAddedToStoreProductIndex="recentAddedToStoreProductIndex"
+      @closeAddToStoreDialog="closeAddToStoreDialog"
+      @setAddToStoreStatus="setAddToStoreStatus"
     />
   </div>
 </template>
@@ -159,6 +161,7 @@ export default {
         variants: [{}],
         max_profit: 0,
       },
+      recentAddedToStoreProductIndex: null,
       addToCartDialog: false,
       addToStoreDialog: false,
     };
@@ -203,13 +206,22 @@ export default {
     },
   },
   methods: {
+    setAddToStoreStatus(){
+      console.log(this.recentAddedToStoreProductIndex)
+      this.$store.commit("inventory/changeProductToInStore", this.recentAddedToStoreProductIndex);
+    },
     addToCart(product) {
       this.currentProduct = product;
       this.addToCartDialog = true;
     },
-    addToStore(product) {
+    addToStore(product, index) {
+      this.recentAddedToStoreProductIndex = index
       this.currentProduct = product;
       this.addToStoreDialog = true;
+    },
+    closeAddToStoreDialog(){
+      this.recentAddedToStoreProductIndex
+      this.addToStoreDialog = false
     },
     getProducts() {
       // set category

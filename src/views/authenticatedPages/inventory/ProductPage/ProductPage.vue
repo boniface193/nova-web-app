@@ -171,7 +171,7 @@
               <v-btn class="primary" width="300" :disabled="productDetails.is_out_of_stock" @click="addToCart"
                 >Add to cart</v-btn
               >
-              <v-btn class="background mt-3" :disabled="productDetails.is_out_of_stock" width="300" @click="addToStore"
+              <v-btn class="background mt-3" :disabled="productDetails.is_out_of_stock || productDetails.in_store" width="300" @click="addToStore"
                 >Add to store</v-btn
               >
             </div>
