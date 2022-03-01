@@ -85,6 +85,14 @@
     z-index: 3;
     border-radius: 8px;
   }
+  .out-of-stock {
+    color: #d90000;
+    position: absolute;
+    font-size: 18px;
+    top: -10px;
+    left: 0px;
+    z-index: 3;
+  }
   .checkout-container {
     right: 0px;
     bottom: 0px;

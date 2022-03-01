@@ -34,6 +34,7 @@
                   style="height: 100%; width: 100%"
                 />
                 <span class="points">{{ productDetails.points }}pts</span>
+                <p class="out-of-stock" v-show="productDetails.is_out_of_stock">Out of stock</p>
               </div>
               <!-- sliding images -->
               <v-sheet class="mx-auto" max-width="800">
@@ -167,10 +168,10 @@
                 Returns are not allowed for this product
               </p>
 
-              <v-btn class="primary" width="300" @click="addToCart"
+              <v-btn class="primary" width="300" :disabled="productDetails.is_out_of_stock" @click="addToCart"
                 >Add to cart</v-btn
               >
-              <v-btn class="background mt-3" width="300" @click="addToStore"
+              <v-btn class="background mt-3" :disabled="productDetails.is_out_of_stock" width="300" @click="addToStore"
                 >Add to store</v-btn
               >
             </div>
