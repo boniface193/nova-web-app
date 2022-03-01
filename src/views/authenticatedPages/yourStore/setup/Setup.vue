@@ -56,7 +56,7 @@
                 class="mt-2"
               ></v-text-field>
             </div>
-            <div>
+            <div style="position:relative">
               <label for="" class="font-weight-medium">User Name</label>
               <v-text-field
                 outlined
@@ -66,6 +66,7 @@
                 required
                 class="mt-2"
               ></v-text-field>
+              <p class="mb-0 store-url">.kuuzza.store</p>
             </div>
             <div>
               <label for="" class="font-weight-medium">Store Description</label>

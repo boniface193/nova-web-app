@@ -50,6 +50,7 @@
         class="product-select-checkbox mr-1"
       ></v-checkbox>
       <p class="points">{{ product.product.points }}pts</p>
+      <p class="out-of-stock" v-show="product.product.is_out_of_stock">Out of stock</p>
     </a>
   </div>
 </template>
@@ -205,6 +206,14 @@ export default {
     right: 0px;
     z-index: 3;
     border-radius: 8px;
+  }
+  .out-of-stock {
+    color: #d90000;
+    position: absolute;
+    font-size: 12px;
+    top: -8px;
+    left: 0px;
+    z-index: 3;
   }
   .product-select-checkbox {
     position: absolute;

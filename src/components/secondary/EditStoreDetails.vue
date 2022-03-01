@@ -34,7 +34,7 @@
               ></v-text-field>
             </div>
             <div>
-              <label for="" class="font-weight-medium">User Name</label>
+              <label style="position:relative" for="" class="font-weight-medium">User Name</label>
               <v-text-field
                 outlined
                 v-model="username"
@@ -43,6 +43,7 @@
                 required
                 class="mt-2"
               ></v-text-field>
+              <p class="mb-0 store-url">.kuuzza.store</p>
             </div>
             <div>
               <label for="" class="font-weight-medium">Store Description</label>
@@ -231,5 +232,10 @@ export default {
       line-height: 18px;
     }
   }
+}
+.store-url {
+  position: absolute;
+  right: 48px;
+  margin-top: -58px;
 }
 </style>

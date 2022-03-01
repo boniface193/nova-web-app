@@ -40,10 +40,14 @@
         <div class="actions-section">
           <span
             class="primary actions-section__btn"
+            :class="{ 'disabled-color': product.is_out_of_stock }"
             @click.prevent.stop="() => {}"
             >+</span
           >
-          <div class="actions-section__dropdown">
+          <div
+            class="actions-section__dropdown"
+            :class="{ disabled: product.is_out_of_stock }"
+          >
             <a
               class="actions-section__dropdown__item"
               @click.prevent.stop="showAddToCartModal()"
@@ -60,6 +64,7 @@
         </div>
       </div>
       <p class="points">{{ product.points }}pts</p>
+      <p class="out-of-stock" v-show="product.is_out_of_stock">Out of stock</p>
     </router-link>
   </div>
 </template>
@@ -147,6 +152,9 @@ export default {
         font-size: 25px;
         padding: 0 0 2px 0px;
         cursor: pointer;
+        &.disabled-color {
+          background-color: rgba(0, 0, 0, 0.12) !important;
+        }
       }
       &__dropdown {
         box-shadow: 0px 4px 10px rgba(43, 43, 43, 0.25);
@@ -171,6 +179,11 @@ export default {
           visibility: visible;
         }
       }
+      &:hover {
+        .disabled {
+          visibility: hidden;
+        }
+      }
     }
     .product-name {
       height: 22px;
@@ -191,6 +204,14 @@ export default {
     right: 0px;
     z-index: 3;
     border-radius: 8px;
+  }
+  .out-of-stock {
+    color: #d90000;
+    position: absolute;
+    font-size: 12px;
+    top: -8px;
+    left: 0px;
+    z-index: 3;
   }
 }
 @media (max-width: 650px) {

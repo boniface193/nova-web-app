@@ -1,21 +1,26 @@
 .setup-page-page {
-  &__content{
+  &__content {
     display: flex;
     align-items: center;
     justify-content: center;
     text-align: center;
     min-height: 550px;
-    &__description{
+    &__description {
       max-width: 500px;
       margin: 10px auto;
-      color: rgba(43, 43, 43, 0.8);;
+      color: rgba(43, 43, 43, 0.8);
     }
   }
-  &__btn{
+  &__btn {
     border-radius: 4px !important;
-    &.font-small{
+    &.font-small {
       font-size: 12px !important;
       line-height: 18px;
     }
   }
+}
+.store-url {
+  position: absolute;
+  right: 28px;
+  margin-top: -58px;
 }
