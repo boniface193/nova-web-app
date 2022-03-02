@@ -156,7 +156,7 @@ const actions = {
     },
     updateStore(context, data) {
         return new Promise((resolve, reject) => {
-            inventoryHttpClient.put(`/seller-store/update`, data).then(response => {
+            inventoryHttpClient.post(`/seller-store/update`, data).then(response => {
                 resolve(response);
             })
                 .catch(error => {
