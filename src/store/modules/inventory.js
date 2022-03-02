@@ -154,6 +154,17 @@ const actions = {
                 })
         })
     },
+    updateStore(context, data) {
+        return new Promise((resolve, reject) => {
+            inventoryHttpClient.put(`/seller-store/update`, data).then(response => {
+                resolve(response);
+            })
+                .catch(error => {
+                    context.commit("doNothing");
+                    reject(error);
+                })
+        })
+    },
     getSellerStoreDetails(context) {
         return new Promise((resolve, reject) => {
             inventoryHttpClient.get("seller-store").then(response => {

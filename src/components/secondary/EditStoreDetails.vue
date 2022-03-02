@@ -198,11 +198,11 @@ export default {
         this.username !==
         this.$store.getters["inventory/sellerStoreDetails"].username
       ) {
-        data.next_username = this.username;
+        data.username = this.username; 
         //data.username = this.$store.getters["inventory/sellerStoreDetails"].username;
       }
       this.$store
-        .dispatch("inventory/setupStore", data)
+        .dispatch("inventory/updateStore", data)
         .then(() => {
           this.statusImage = true;
           this.responseDialog = true;
@@ -211,6 +211,7 @@ export default {
         })
         .catch((error) => {
           this.setupLoader = false;
+          this.warningDialog = false
           if (error.status === 400) this.dialogMessage = error.data.message;
 
           if (error.status === 422) this.dialogMessage = error.data.message;
