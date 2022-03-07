@@ -211,8 +211,11 @@ export default {
     border-radius: 8px;
   }
   .out-of-stock {
-    color: #d90000;
+    background: #ff8787;
+    color: #fff;
+    border-radius: 8px;
     position: absolute;
+    padding: 2px 5px;
     font-size: 12px;
     top: -8px;
     left: 0px;
