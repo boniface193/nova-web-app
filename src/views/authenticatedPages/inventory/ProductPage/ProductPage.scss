@@ -86,7 +86,10 @@
     border-radius: 8px;
   }
   .out-of-stock {
-    color: #d90000;
+    background: #ff8787;
+    padding: 5px 7px;
+    color: #fff;
+    border-radius: 8px;
     position: absolute;
     font-size: 18px;
     top: -10px;
