@@ -169,10 +169,10 @@
   </div>
 </template>
 <script>
-import ImageUploader from "@/components/secondary/ImageUploader.vue";
+// import ImageUploader from "/components/secondary/ImageUploader.vue";
 export default {
   name: "AddProducts",
-  components: { ImageUploader },
+  // components: { ImageUploader },
   data: function () {
     return {
       items: [

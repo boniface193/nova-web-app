@@ -1,4 +1,4 @@
-<template>
+  <template>
   <div class="pb-5">
     <div class="inventory-header">
       <div class="d-md-flex">

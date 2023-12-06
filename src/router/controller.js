@@ -67,6 +67,7 @@ const setNextRoute = () => {
 
 // redirect when a user is already logged in
 export const alreadyLogin = (to, from, next) => {
+    console.log('logged in')
     if (localStorage.getItem("clientID") &&
         localStorage.getItem("refreshToken") && to.name !== "EmailVerification") {
         next({ name: 'InventoryHome' })
